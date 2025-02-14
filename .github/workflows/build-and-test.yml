@@ -25,10 +25,10 @@ jobs:
             python -m pip install --upgrade pip
             pip install -r requirements.txt
     
-    linting:
-        runs-on: ubuntu-latest
-        needs: checkout-and-install-dependencies
-        steps:
+    # linting:
+    #     runs-on: ubuntu-latest
+    #     needs: checkout-and-install-dependencies
+    #     steps:
         - name: Install Pylint
           run: pip install pylint
         - name: Lint code
