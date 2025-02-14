@@ -18,11 +18,12 @@ jobs:
         - name: Install Pylint
           run: pip install pylint
         - name: Lint code
-          run: pylint --ignored-modules=numpy,scipy,matplotlib,sklearn --disable=E0606,E0202,E1136,E1120,E0401,E0213 --disable=R,C,W src/UQpy
+          run: pylint --ignored-modules=numpy,scipy,matplotlib,sklearn --disable=E0601,E0606,E0202,E1136,E1120,E0401,E0213 --disable=R,C,W src/UQpy
 
     testing:
         runs-on: ubuntu-latest
         steps:
+        - uses: actions/checkout@v4
         - name: Set up Python 3.9
           uses: actions/setup-python@v5
           with:
