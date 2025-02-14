@@ -32,10 +32,7 @@ jobs:
         - name: Install Pylint
           run: pip install pylint
         - name: Lint code
-          run: |
-            echo ${{ github.workspace }}
-            ls ${{ github.workspace }}
-            # PYTHONPATH=src pylint --ignored-modules=numpy,scipy,matplotlib,sklearn --disable=E0202,E1136,E1120,E0401,E0213 --disable=R,C,W src/UQpy
+          run: pylint --ignored-modules=numpy,scipy,matplotlib,sklearn --disable=E0202,E1136,E1120,E0401,E0213 --disable=R,C,W src/UQpy
 
     # testing:
     #     runs-on: ubuntu-latest
