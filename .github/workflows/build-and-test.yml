@@ -39,7 +39,7 @@ jobs:
               pip install -r requirements.txt
               pip install pytest pytest-cov pytest-xdist
         - name: Run tests
-          run: PYTHONPATH=src pytest --cov=src tests/ --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html -n auto
+          run: PYTHONPATH=src pytest --cov=src tests/ --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html -n 4
         
         # - name: Publish test results
         #   if: always()
