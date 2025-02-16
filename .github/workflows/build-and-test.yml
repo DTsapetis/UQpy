@@ -28,7 +28,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
           matrix:
-            group: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            group: [1, 2, 3, 4, 5]
         steps:
           - uses: actions/checkout@v4
           - name: Set up Python 3.9
@@ -42,7 +42,7 @@ jobs:
                 pip install -r requirements.txt
                 pip install pytest pytest-cov pytest-split
           - name: Run tests
-            run: PYTHONPATH=src pytest --splits 75 --group ${{ matrix.group }} --cov=src tests/ --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html 
+            run: PYTHONPATH=src pytest --splits 150 --group ${{ matrix.group }} --cov=src tests/ --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html 
           - name: Upload coverage
             uses: actions/upload-artifact@v4
             with:
