@@ -43,8 +43,6 @@ jobs:
                 pip install pytest pytest-cov pytest-split
           - name: Run tests
             run: PYTHONPATH=src pytest --splits 150 --group ${{ matrix.group }} --cov=src tests/ --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html 
-          - name: Show files
-            run: ls
           - name: Upload coverage
             uses: actions/upload-artifact@v4
             with:
@@ -61,7 +59,11 @@ jobs:
             run: ls
           - name: Run coverage
             run: |
+              pip install coverage
               coverage combine coverage*
+              coverage xml -o coverage.xml
+          - name: Show coverage files
+            run: ls
           - name: Upload to code cov
             uses: codecov/codecov-action@v5
             with:
