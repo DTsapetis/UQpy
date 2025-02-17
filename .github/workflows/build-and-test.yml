@@ -43,40 +43,68 @@ jobs:
                 pip install pytest pytest-cov pytest-split
           - name: Run tests
             run: PYTHONPATH=src pytest --splits 150 --group ${{ matrix.group }} --cov=src tests/ --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html 
-          - name: Upload test results
+          - name: Upload coverage
             uses: actions/upload-artifact@v4
             with:
-              name: test-results${{ matrix.group }}
-              path: junit/test-results.xml
-          - name: Upload coverage reports
-            uses: actions/upload-artifact@v4
-            with:
-              name: coverage-${{ matrix.group }}
-              path: coverage.xml
-    
+              name: coverage${{ matrix.group }}
+              path: .coverage
     coverage:
-        needs: testing
-        runs-on: ubuntu-latest
-        steps: 
-          - name: Download all artifacts
-            uses: actions/download-artifact@v4
-          
-          # - name: Merge JUnit XML reports
-          #   run: |
-          #     pip install junitparser
-          #     python -c "
-          #     from junitparser import JUnitXml
-          #     import glob
+      needs: testing
+      runs-on: ubuntu-latest
+      steps: 
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage1
+          path: coverage1/.coverage
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage2
+          path: coverage2/.coverage
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage3
+          path: coverage3/.coverage
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage4
+          path: coverage4/.coverage
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage5
+          path: coverage5/.coverage
+      - name: Combine coverage
+        run: |
+          coverage combine coverage1/.coverage coverage2/.coverage coverage3/.coverage coverage4/.coverage coverage5/.coverage
+          coverage report
+      - name: Upload combined coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-coverage-report
+          path: coverage.xml
+    # coverage:
+    #     needs: testing
+    #     runs-on: ubuntu-latest
+    #     steps: 
+    #       - name: Download all artifacts
+    #         uses: actions/download-artifact@v4
+    #       - name: Run coverage
+    #         run: |
+    #           coverage combine coverage*/.coverage*
 
-          #     result = JUnitXml()
-          #     for file in glob.glob('reports/test-results-*/test-results.xml'):
-          #         result += JUnitXml.fromfile(file)
-
-          #     result.write('merged-junit.xml')
-          #     "
-
-          - name: Run coverage
-            run: |
-              pip install coverage
-              coverage combine reports/coverage-*/coverage.xml
-              coverage xml -o merged-coverage.xml
+        # - name: Publish test results
+        #   if: always()
+        #   uses: actions/upload-artifact@v4
+        #   with:
+        #     name: test-results
+        
+        # - name: Upload coverage report
+        #   if : always()
+        #   uses: actions/upload-artifact@v4
+        #   with:
+        #     name: coverage-report
+        #     path: junit/test-results.xml
