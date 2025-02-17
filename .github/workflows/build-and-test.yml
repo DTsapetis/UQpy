@@ -50,29 +50,6 @@ jobs:
             with:
               name: coverage${{ matrix.group }}.xml
               path: coverage.xml
-    # coverage:
-    #   needs: testing
-    #   runs-on: ubuntu-latest
-    #   steps: 
-    #   - name: Download all artifacts
-    #     uses: actions/download-artifact@v4
-    #     with:
-    #       name: coverage1
-    #       path: coverage1/.coverage
-    #   - name: Download all artifacts
-    #     uses: actions/download-artifact@v4
-    #     with:
-    #       name: coverage2
-    #       path: coverage2/.coverage
-    #   - name: Combine coverage
-    #     run: |
-    #       coverage combine coverage1/.coverage coverage2/.coverage coverage3/.coverage coverage4/.coverage coverage5/.coverage
-    #       coverage report
-    #   - name: Upload combined coverage report
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #       name: combined-coverage-report
-    #       path: coverage.xml
 
     coverage:
         needs: testing
@@ -82,19 +59,13 @@ jobs:
             uses: actions/download-artifact@v4
           - name: Show coverage files
             run: ls
-    #       - name: Run coverage
-    #         run: |
-    #           coverage combine coverage*/.coverage*
-
-        # - name: Publish test results
-        #   if: always()
-        #   uses: actions/upload-artifact@v4
-        #   with:
-        #     name: test-results
-        
-        # - name: Upload coverage report
-        #   if : always()
-        #   uses: actions/upload-artifact@v4
-        #   with:
-        #     name: coverage-report
-        #     path: junit/test-results.xml
+          - name: Run coverage
+            run: |
+              coverage combine coverage*
+          - name: Upload to code cov
+            uses: codecov/codecov-action@v5
+            with:
+              token: ${{ secrets.CODECOV_TOKEN }}
+              files: coverage.xml
+              name: codecov-test-uqpy
+              fail_ci_if_error: false
