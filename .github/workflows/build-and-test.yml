@@ -60,7 +60,7 @@ jobs:
           - name: Run coverage
             run: |
               pip install coverage
-              coverage combine coverage*
+              coverage combine coverage1.xml coverage2.xml coverage3.xml coverage4.xml coverage5.xml
               coverage xml -o coverage.xml
           - name: Show coverage files
             run: ls
