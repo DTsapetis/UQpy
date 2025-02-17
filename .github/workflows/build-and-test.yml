@@ -43,49 +43,37 @@ jobs:
                 pip install pytest pytest-cov pytest-split
           - name: Run tests
             run: PYTHONPATH=src pytest --splits 150 --group ${{ matrix.group }} --cov=src tests/ --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html 
-          - name: Upload coverage
-            uses: actions/upload-artifact@v4
-            with:
-              name: coverage${{ matrix.group }}
-              path: .coverage
-    coverage:
-      needs: testing
-      runs-on: ubuntu-latest
-      steps: 
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage1
-          path: coverage1/.coverage
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage2
-          path: coverage2/.coverage
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage3
-          path: coverage3/.coverage
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage4
-          path: coverage4/.coverage
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage5
-          path: coverage5/.coverage
-      - name: Combine coverage
-        run: |
-          coverage combine coverage1/.coverage coverage2/.coverage coverage3/.coverage coverage4/.coverage coverage5/.coverage
-          coverage report
-      - name: Upload combined coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: combined-coverage-report
-          path: coverage.xml
+          - name: Show files
+            run: ls
+          # - name: Upload coverage
+          #   uses: actions/upload-artifact@v4
+          #   with:
+          #     name: coverage${{ matrix.group }}
+          #     path: .coverage
+    # coverage:
+    #   needs: testing
+    #   runs-on: ubuntu-latest
+    #   steps: 
+    #   - name: Download all artifacts
+    #     uses: actions/download-artifact@v4
+    #     with:
+    #       name: coverage1
+    #       path: coverage1/.coverage
+    #   - name: Download all artifacts
+    #     uses: actions/download-artifact@v4
+    #     with:
+    #       name: coverage2
+    #       path: coverage2/.coverage
+    #   - name: Combine coverage
+    #     run: |
+    #       coverage combine coverage1/.coverage coverage2/.coverage coverage3/.coverage coverage4/.coverage coverage5/.coverage
+    #       coverage report
+    #   - name: Upload combined coverage report
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #       name: combined-coverage-report
+    #       path: coverage.xml
+
     # coverage:
     #     needs: testing
     #     runs-on: ubuntu-latest
