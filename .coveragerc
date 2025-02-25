@@ -1,9 +1,9 @@
 [run]
+branch = True  # Enables branch coverage
 omit = tests/*
-branch = true  # Enables branch coverage
 
 [report]
-show_missing = true  # Displays missing lines in the coverage report
+show_missing = True  # Displays missing lines in the coverage report
 
 [html]
 directory = coverage_html_report  # The directory for HTML report, if you want to generate one
