@@ -43,7 +43,7 @@ jobs:
                 pip install -r requirements.txt
                 pip install pytest pytest-cov pytest-split
           - name: Run tests
-            run: PYTHONPATH=src pytest --splits 150 --group ${{ matrix.group }} --cov=src tests/ --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html --cov-report=
+            run: PYTHONPATH=src pytest --splits 150 --group ${{ matrix.group }} --cov=src tests/ --junitxml=junit/test-results.xml --cov-report= --cov-report=xml --cov-report=html --cov-report=term
           - name: Show files
             run: ls -R
           - name: Upload coverage
