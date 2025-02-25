@@ -56,9 +56,7 @@ jobs:
           - name: Download all artifacts
             uses: actions/download-artifact@v4
           - name: Show coverage files
-            run: ls
-          - name: Show coverage file contents
-            run: cat coverage1.xml
+            run: ls -R
           - name: Run coverage
             run: |
               pip install coverage
