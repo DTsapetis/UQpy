@@ -37,6 +37,8 @@ jobs:
             with:
               python-version: 3.9
               cache: 'pip'
+          - name: see folder contents
+            run: ls -lah tests/distributions/
           - name: Install dependencies
             run: |
                 python -m pip install --upgrade pip
