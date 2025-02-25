@@ -47,7 +47,7 @@ jobs:
             uses: actions/upload-artifact@v4
             with:
               name: coverage${{ matrix.group }}
-              path: coverage.xml
+              path: .coverage
 
     coverage:
         needs: testing
@@ -59,6 +59,15 @@ jobs:
             run: ls -R
           - name: Run coverage
             run: |
+              mv coverage1/.coverage .coverage.1
+              mv coverage2/.coverage .coverage.2
+              mv coverage3/.coverage .coverage.3
+              mv coverage4/.coverage .coverage.4
+              mv coverage5/.coverage .coverage.5
+              coverage combine .coverage.*
+              coverage report
+              coverage xml -o coverage.xml
+
               pip install coverage
               coverage combine coverage1/coverage.xml coverage2/coverage.xml coverage3/coverage.xml coverage4/coverage.xml coverage5/coverage.xml
               coverage xml -o coverage.xml
