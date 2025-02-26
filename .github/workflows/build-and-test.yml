@@ -55,8 +55,7 @@ jobs:
         steps: 
           - name: Download all artifacts
             uses: actions/download-artifact@v4
-          - name: Show coverage files
-            run: ls -R
+          - uses: actions/checkout@v4
           - name: Run coverage
             run: |
               mv coverage1/.coverage .coverage.1
@@ -72,7 +71,9 @@ jobs:
               coverage combine coverage1/coverage.xml coverage2/coverage.xml coverage3/coverage.xml coverage4/coverage.xml coverage5/coverage.xml
               coverage xml -o coverage.xml
               coverage lcov -o coverage.lcov
-
+              
+          - name: Show coverage files
+            run: ls -R
 
           - name: Upload coverage reports to Codecov
             uses: codecov/codecov-action@v5
