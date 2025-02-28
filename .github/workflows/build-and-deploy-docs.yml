@@ -37,9 +37,12 @@ jobs:
           pip install -r requirements.txt
           python setup.py 1.0.0 develop
           pip install -r docs/requirements.txt
-
-      - name: Build Documentation
-        run: sphinx-build -b html -j auto docs/ docs/_build/html
+      - name: Make the Sphinx Docs
+        run: |
+          make -C docs clean
+          make -C docs html
+      # - name: Build Documentation
+      #   run: sphinx-build -b html -j auto docs/ docs/_build/html
 
       - name: Save Built Docs to Cache
         uses: actions/cache@v3
