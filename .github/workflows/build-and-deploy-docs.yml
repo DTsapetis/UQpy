@@ -22,9 +22,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: docs/build/html
-          key: ${{ runner.os }}-docs-${{ github.sha }}
+          key: ${{ runner.os }}-docs
           restore-keys: |
-            ${{ runner.os }}-docs-
+            ${{ runner.os }}-docs
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -48,9 +48,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: docs/build/html
-          key: ${{ runner.os }}-docs-${{ github.sha }}
+          key: ${{ runner.os }}-docs
           restore-keys: |
-            ${{ runner.os }}-docs-
+            ${{ runner.os }}-docs
 
   deploy-staging:
     needs: build-docs
@@ -65,14 +65,14 @@ jobs:
         uses: actions/cache@v3
         with:
           path: docs/build/html
-          key: ${{ runner.os }}-docs-${{ github.sha }}
+          key: ${{ runner.os }}-docs
 
       - name: Deploy to GitHub Pages (Staging)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages-preview  # Separate branch for previews
-          publish_dir: docs/_build/html
+          publish_dir: docs/build/html
           keep_files: false  # Overwrite previous previews
           force_orphan: true  # Ensure a clean preview branch
 
@@ -94,13 +94,13 @@ jobs:
         uses: actions/cache@v3
         with:
           path: docs/build/html
-          key: ${{ runner.os }}-docs-${{ github.sha }}
+          key: ${{ runner.os }}-docs
 
       - name: Deploy to GitHub Pages (Production)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages  # Main GitHub Pages branch
-          publish_dir: docs/_build/html
+          publish_dir: docs/build/html
           keep_files: false  # Overwrite old site
           force_orphan: true  # Ensure a clean gh-pages branch
