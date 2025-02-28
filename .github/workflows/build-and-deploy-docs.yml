@@ -21,7 +21,7 @@ jobs:
       - name: Cache Built Docs
         uses: actions/cache@v3
         with:
-          path: docs/build/html
+          path: docs/build
           key: ${{ runner.os }}-docs
           restore-keys: |
             ${{ runner.os }}-docs
@@ -47,7 +47,7 @@ jobs:
       - name: Save Built Docs to Cache
         uses: actions/cache@v3
         with:
-          path: docs/build/html
+          path: docs/build
           key: ${{ runner.os }}-docs
           restore-keys: |
             ${{ runner.os }}-docs
@@ -64,7 +64,7 @@ jobs:
       - name: Restore Cached Docs
         uses: actions/cache@v3
         with:
-          path: docs/build/html
+          path: docs/build
           key: ${{ runner.os }}-docs
 
       - name: Deploy to GitHub Pages (Staging)
@@ -93,7 +93,7 @@ jobs:
       - name: Restore Cached Docs
         uses: actions/cache@v3
         with:
-          path: docs/build/html
+          path: docs/build
           key: ${{ runner.os }}-docs
 
       - name: Deploy to GitHub Pages (Production)
