@@ -34,6 +34,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install -r requirements.txt
           python setup.py 1.0.0 develop
           pip install -r docs/requirements.txt
 
