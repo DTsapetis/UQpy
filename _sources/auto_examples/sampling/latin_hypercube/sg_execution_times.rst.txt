@@ -1,0 +1,15 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_sampling_latin_hypercube_sg_execution_times:
+
+
+Computation times
+=================
+**00:00.249** total execution time for **auto_examples_sampling_latin_hypercube** files:
+
++--------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sampling_latin_hypercube_plot_latin_hypercube_simple.py` (``plot_latin_hypercube_simple.py``)                 | 00:00.179 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sampling_latin_hypercube_plot_latin_hypercube_user_criterion.py` (``plot_latin_hypercube_user_criterion.py``) | 00:00.070 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

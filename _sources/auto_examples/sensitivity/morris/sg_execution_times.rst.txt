@@ -1,0 +1,17 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_sensitivity_morris_sg_execution_times:
+
+
+Computation times
+=================
+**00:02.431** total execution time for **auto_examples_sensitivity_morris** files:
+
++--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sensitivity_morris_plot_morris_nonlinearities.py` (``plot_morris_nonlinearities.py``)       | 00:01.092 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sensitivity_morris_plot_12_dimensional_gfunction.py` (``plot_12_dimensional_gfunction.py``) | 00:01.084 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sensitivity_morris_plot_morris_2d_gfunction.py` (``plot_morris_2d_gfunction.py``)           | 00:00.255 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------+-----------+--------+

@@ -1,0 +1,17 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_sampling_true_stratified_sampling_sg_execution_times:
+
+
+Computation times
+=================
+**00:00.598** total execution time for **auto_examples_sampling_true_stratified_sampling** files:
+
++-----------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sampling_true_stratified_sampling_plot_true_stratified_rectangular.py` (``plot_true_stratified_rectangular.py``) | 00:00.378 | 0.0 MB |
++-----------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sampling_true_stratified_sampling_plot_true_stratified_delaunay.py` (``plot_true_stratified_delaunay.py``)       | 00:00.220 | 0.0 MB |
++-----------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sampling_true_stratified_sampling_true_stratified_voronoi.py` (``true_stratified_voronoi.py``)                   | 00:00.000 | 0.0 MB |
++-----------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
