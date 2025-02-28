@@ -35,7 +35,7 @@ jobs:
           make -C docs html
 
       - name: Upload Built Docs as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sphinx-docs
           path: docs/build/html
@@ -51,7 +51,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download Built Docs Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: sphinx-docs
           path: docs/build/html
@@ -80,7 +80,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download Built Docs Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: sphinx-docs
           path: docs/build/html
