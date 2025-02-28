@@ -34,15 +34,12 @@ jobs:
           make -C docs clean
           make -C docs html
 
-      - name: Save Built Docs to Cache
-        uses: actions/cache@v3
+      - name: Upload Built Docs as Artifact
+        uses: actions/upload-artifact@v3
         with:
-          path: |
-            docs/build/doctrees  
-            docs/build/html     
-          key: ${{ runner.os }}-docs
-          restore-keys: |
-            ${{ runner.os }}-docs
+          name: sphinx-docs
+          path: docs/build/html
+          retention-days: 1  # Keep it only for 1 day to avoid unnecessary storage
 
   deploy-staging:
     needs: build-docs
@@ -53,11 +50,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Restore Cached Docs
-        uses: actions/cache@v3
+      - name: Download Built Docs Artifact
+        uses: actions/download-artifact@v3
         with:
-          path: docs/build/html     
-          key: ${{ runner.os }}-docs
+          name: sphinx-docs
+          path: docs/build/html
 
       - name: Deploy to GitHub Pages (Staging)
         uses: peaceiris/actions-gh-pages@v4
@@ -82,11 +79,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Restore Cached Docs
-        uses: actions/cache@v3
+      - name: Download Built Docs Artifact
+        uses: actions/download-artifact@v3
         with:
-          path: docs/build/html     
-          key: ${{ runner.os }}-docs
+          name: sphinx-docs
+          path: docs/build/html
 
       - name: Deploy to GitHub Pages (Production)
         uses: peaceiris/actions-gh-pages@v4
