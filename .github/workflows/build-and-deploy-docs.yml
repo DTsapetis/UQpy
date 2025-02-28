@@ -3,10 +3,10 @@ name: Build & Deploy Sphinx Docs
 on:
   pull_request:
     branches:
-      - main  # Run on PRs to main (for validation & preview deploy)
+      - master  # Run on PRs to main (for validation & preview deploy)
   push:
     branches:
-      - main  # Deploy to production when merged
+      - master  # Deploy to production when merged
 
 permissions:
   contents: write  # Needed for GitHub Pages deployment
