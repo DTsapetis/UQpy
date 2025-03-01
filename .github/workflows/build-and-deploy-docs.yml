@@ -4,9 +4,16 @@ on:
   pull_request:
     branches:
       - master  # Run on PRs to main (for validation & preview deploy)
+    paths:
+      - 'docs/**'
+      - 'src/**'  # Run only if docs or src changes
   push:
     branches:
       - master  # Deploy to production when merged
+    paths:
+      - 'docs/**'
+      - 'src/**'  # Run only if docs or src changes
+  workflow_dispatch:
 
 permissions:
   contents: write  # Needed for GitHub Pages deployment
@@ -18,10 +25,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+            python-version: 3.9
+            cache: 'pip'
 
       - name: Install Dependencies
         run: |
