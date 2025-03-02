@@ -1,0 +1,36 @@
+name: Static code analysis
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'src/**'
+  push:
+    branches:
+      - master 
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+permissions:
+  security-events: write
+  
+jobs:
+  code-ql-analysis:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/init@v2
+
+  sonar-cloud-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarcloud-github-action@v5.0.0
+        with:
+          projectBaseDir: src
+          
+    
+  
+  
