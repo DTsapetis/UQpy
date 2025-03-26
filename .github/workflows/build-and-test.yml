@@ -14,16 +14,7 @@ concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 
-jobs:    
-    linting:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
-        - name: Install Pylint
-          run: pip install pylint
-        - name: Lint code
-          run: pylint --ignored-modules=numpy,scipy,matplotlib,sklearn --disable=E0601,E0606,E0202,E1136,E1120,E0401,E0213 --disable=R,C,W src/UQpy
-
+jobs:
     testing:
         runs-on: ubuntu-latest
         strategy:
@@ -42,10 +33,7 @@ jobs:
                 pip install -r requirements.txt
                 pip install pytest pytest-cov pytest-split
           - name: Run tests
-            # run: PYTHONPATH=src pytest --cov=src tests/unit_tests/distributions/test_distribution_methods.py --cov-report=xml
             run: PYTHONPATH=src pytest --splits 5 --group ${{ matrix.group }} --cov=src tests/ --junitxml=junit/test-results.xml --cov-report= --cov-report=xml --cov-report=html --cov-report=term
-          - name: Show files
-            run: ls -lah
           - name: Upload coverage
             uses: actions/upload-artifact@v4
             with:

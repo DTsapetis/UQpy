@@ -1,0 +1,25 @@
+name: Lint and Format
+
+on:
+    push:
+        branches:
+        - master
+        - develop
+    pull_request:
+        branches:
+        - master
+        - develop
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs: 
+    linting:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Install Pylint
+          run: pip install pylint
+        - name: Lint code
+          run: pylint --ignored-modules=numpy,scipy,matplotlib,sklearn --disable=E0601,E0606,E0202,E1136,E1120,E0401,E0213 --disable=R,C,W src/UQpy
