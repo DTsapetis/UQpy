@@ -8,6 +8,10 @@ from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.rst").read_text()
 
+def read_requirements():
+    with open("requirements.txt") as f:
+        return f.read().splitlines()
+
 setup(
     name='UQpy',
     version=version,
@@ -22,10 +26,7 @@ setup(
     package_dir={"": "src"},
     package_data={"": ["*.pdf"]},
     python_requires='>3.9.0',
-    install_requires=[
-        "numpy==1.26.4", "scipy>=1.6.0", "matplotlib==3.8.4", "scikit-learn==1.4.2", 'fire==0.6.0',
-        "beartype==0.18.5",
-    ],
+    install_requires=read_requirements(),
     extras_require={
         'dev': [
             'pytest == 8.2.0',
