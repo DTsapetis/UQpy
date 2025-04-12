@@ -1,0 +1,17 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_distributions_multivariate_sg_execution_times:
+
+
+Computation times
+=================
+**00:00.545** total execution time for **auto_examples_distributions_multivariate** files:
+
++--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_distributions_multivariate_plot_multivariate_normal.py` (``plot_multivariate_normal.py``)   | 00:00.211 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_distributions_multivariate_plot_multivariate_copulas.py` (``plot_multivariate_copulas.py``) | 00:00.170 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_distributions_multivariate_plot_joint_independent.py` (``plot_joint_independent.py``)       | 00:00.163 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------+-----------+--------+

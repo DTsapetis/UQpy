@@ -1,0 +1,17 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_inference_info_model_selection_sg_execution_times:
+
+
+Computation times
+=================
+**00:00.442** total execution time for **auto_examples_inference_info_model_selection** files:
+
++------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_inference_info_model_selection_plot_selection_distributions.py` (``plot_selection_distributions.py``) | 00:00.442 | 0.0 MB |
++------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_inference_info_model_selection_pfn_models.py` (``pfn_models.py``)                                     | 00:00.000 | 0.0 MB |
++------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_inference_info_model_selection_selection_regression_model.py` (``selection_regression_model.py``)     | 00:00.000 | 0.0 MB |
++------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

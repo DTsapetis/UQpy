@@ -1,0 +1,35 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_surrogates_pce_sg_execution_times:
+
+
+Computation times
+=================
+**00:06.839** total execution time for **auto_examples_surrogates_pce** files:
+
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_plot_pce_wave.py` (``plot_pce_wave.py``)               | 00:02.506 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_plot_pce_camel.py` (``plot_pce_camel.py``)             | 00:01.026 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_plot_pce_friedman.py` (``plot_pce_friedman.py``)       | 00:00.994 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_plot_pce_sphere.py` (``plot_pce_sphere.py``)           | 00:00.714 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_plot_pce_helmholtz.py` (``plot_pce_helmholtz.py``)     | 00:00.521 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_plot_pce_sinusoidal.py` (``plot_pce_sinusoidal.py``)   | 00:00.444 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_plot_pce_exponential.py` (``plot_pce_exponential.py``) | 00:00.337 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_plot_pce_oakley.py` (``plot_pce_oakley.py``)           | 00:00.298 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_pce_euler_UQ.py` (``pce_euler_UQ.py``)                 | 00:00.000 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_pce_ishigami.py` (``pce_ishigami.py``)                 | 00:00.000 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_pce_robot_arm.py` (``pce_robot_arm.py``)               | 00:00.000 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_surrogates_pce_pce_sparsity_lars.py` (``pce_sparsity_lars.py``)       | 00:00.000 | 0.0 MB |
++----------------------------------------------------------------------------------------------------+-----------+--------+

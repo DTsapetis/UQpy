@@ -1,0 +1,15 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_reliability_subset_simulation_sg_execution_times:
+
+
+Computation times
+=================
+**00:06.196** total execution time for **auto_examples_reliability_subset_simulation** files:
+
++-----------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_reliability_subset_simulation_plot_subset_rosenbrock.py` (``plot_subset_rosenbrock.py``) | 00:06.196 | 0.0 MB |
++-----------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_reliability_subset_simulation_subset_resonance.py` (``subset_resonance.py``)             | 00:00.000 | 0.0 MB |
++-----------------------------------------------------------------------------------------------------------------------+-----------+--------+
