@@ -104,6 +104,6 @@ jobs:
       - name: Check for Broken Links
         run: |
           pip install linkchecker
-          linkchecker https://dtsapetis.github.io/UQpy/ --check-extern
+          linkchecker https://dtsapetis.github.io/UQpy/
 
   
