@@ -101,3 +101,9 @@ jobs:
           publish_dir: docs/build/html
           keep_files: false  # Overwrite old site
           force_orphan: true  # Ensure a clean gh-pages branch
+      - name: Check for Broken Links
+        run: |
+          pip install linkchecker
+          linkchecker https://dtsapetis.github.io/UQpy/ --check-extern
+
+  
