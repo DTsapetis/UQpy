@@ -34,7 +34,7 @@ setup(
             'pylint == 3.1.0',
             'pytest-azurepipelines == 1.0.5',
             'pytest-cov == 5.0.0',
-            'wheel == 0.43.0',
+            'wheel == 0.45.1',
             'twine == 5.0.0',
             'sphinx_autodoc_typehints == 1.23.0',
             'sphinx_rtd_theme == 1.2.0',
