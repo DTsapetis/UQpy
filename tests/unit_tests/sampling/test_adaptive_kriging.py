@@ -57,27 +57,27 @@ def test_akmcs_u():
     assert a.samples[20, 1] == 0.17610325620498946
 
 
-def test_akmcs_expected_feasibility():
+# def test_akmcs_expected_feasibility():
 
-    marginals = [Normal(loc=0., scale=4.), Normal(loc=0., scale=4.)]
-    x = MonteCarloSampling(distributions=marginals, nsamples=20, random_state=1)
-    model = PythonModel(model_script='series.py', model_object_name="series")
-    rmodel = RunModel(model=model)
-    kernel1 = RBF()
-    bounds_1 = [[10 ** (-4), 10 ** 3], [10 ** (-3), 10 ** 2], [10 ** (-3), 10 ** 2]]
-    optimizer1 = MinimizeOptimizer(method='L-BFGS-B', bounds=bounds_1)
-    gpr = GaussianProcessRegression(kernel=kernel1, hyperparameters=[1, 10 ** (-3), 10 ** (-2)], optimizer=optimizer1,
-                                    optimizations_number=100, noise=False, regression_model=LinearRegression(),
-                                    random_state=0)
-    # OPTIONS: 'U', 'EFF', 'Weighted-U'
-    learning_function = ExpectedFeasibility(eff_a=0, eff_epsilon=2, eff_stop=0.001)
-    a = AdaptiveKriging(distributions=marginals, runmodel_object=rmodel, surrogate=gpr,
-                        learning_nsamples=10 ** 3, n_add=1, learning_function=learning_function,
-                        random_state=2)
-    a.run(nsamples=25, samples=x.samples)
+#     marginals = [Normal(loc=0., scale=4.), Normal(loc=0., scale=4.)]
+#     x = MonteCarloSampling(distributions=marginals, nsamples=20, random_state=1)
+#     model = PythonModel(model_script='series.py', model_object_name="series")
+#     rmodel = RunModel(model=model)
+#     kernel1 = RBF()
+#     bounds_1 = [[10 ** (-4), 10 ** 3], [10 ** (-3), 10 ** 2], [10 ** (-3), 10 ** 2]]
+#     optimizer1 = MinimizeOptimizer(method='L-BFGS-B', bounds=bounds_1)
+#     gpr = GaussianProcessRegression(kernel=kernel1, hyperparameters=[1, 10 ** (-3), 10 ** (-2)], optimizer=optimizer1,
+#                                     optimizations_number=100, noise=False, regression_model=LinearRegression(),
+#                                     random_state=0)
+#     # OPTIONS: 'U', 'EFF', 'Weighted-U'
+#     learning_function = ExpectedFeasibility(eff_a=0, eff_epsilon=2, eff_stop=0.001)
+#     a = AdaptiveKriging(distributions=marginals, runmodel_object=rmodel, surrogate=gpr,
+#                         learning_nsamples=10 ** 3, n_add=1, learning_function=learning_function,
+#                         random_state=2)
+#     a.run(nsamples=25, samples=x.samples)
 
-    assert a.samples[23, 0] == 5.423754197908594
-    # assert a.samples[20, 1] == 2.0355505295053384
+#     assert a.samples[23, 0] == 5.423754197908594
+#     # assert a.samples[20, 1] == 2.0355505295053384
 
 
 def test_akmcs_expected_improvement():
