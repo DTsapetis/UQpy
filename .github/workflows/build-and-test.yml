@@ -71,8 +71,11 @@ jobs:
               coverage combine .coverage.*
               coverage xml -o coverage.xml
               coverage lcov -o coverage.lcov
-          - name: Show coverage files
-            run: ls -lah
+          - name: Upload coverage report
+            uses: actions/upload-artifact@v4
+            with:
+              name: coverage-report
+              path: coverage.xml
 
           - name: Upload coverage reports to Codecov
             uses: codecov/codecov-action@v5
