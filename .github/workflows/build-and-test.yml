@@ -39,7 +39,7 @@ jobs:
             uses: actions/cache@v4
             with:
               path: .testmondata
-              key: testmon-${{ runner.os }}-${{ github.sha }}
+              key: testmon-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('requirements.txt') }}
               restore-keys: |
                 testmon-${{ runner.os }}-
           - name: Run tests
