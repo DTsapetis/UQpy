@@ -1,5 +1,8 @@
+"""
+Auxiliary file
+==============================================
+"""
 import numpy as np
-
 
 def example4(samples=None):
     g = np.zeros(samples.shape[0])
