@@ -13,11 +13,11 @@
    :target: https://beartype.rtfd.io
    :alt: bear-ified
 
-.. |UQpyV3| image:: https://img.shields.io/badge/J_JOCS-2020_101204-blue
+.. |UQpyV3| image:: https://img.shields.io/badge/DOI-10.1016/j.jocs.2020.101204-blue
    :align: top
    :target: https://doi.org/10.1016/j.jocs.2020.101204
    :alt: UQpy v3
-.. |UQpyV4| image:: https://img.shields.io/badge/SoftwareX-2023_101561-blue
+.. |UQpyV4| image:: https://img.shields.io/badge/DOI-10.1016/j.softx.2023.101561-blue
    :align: top
    :target: https://doi.org/10.1016/j.softx.2023.101561
    :alt: UQpy v4
