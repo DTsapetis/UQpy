@@ -1,4 +1,5 @@
 |AzureDevops| |PyPIdownloads| |PyPI| |CondaPlatforms| |GithubRelease| |Docs| |bear-ified|
+|UQpyV3| |UQpyV4|
 
 .. |Docs| image:: https://img.shields.io/readthedocs/uqpy?style=plastic  :alt: Read the Docs
 .. |CondaPlatforms| image:: https://img.shields.io/conda/pn/SURG_JHU/uqpy?style=plastic   :alt: Conda
@@ -11,6 +12,19 @@
    :align: top
    :target: https://beartype.rtfd.io
    :alt: bear-ified
+
+.. |UQpyV3| image:: https://img.shields.io/badge/J_JOCS-2020_101204-blue
+   :align: top
+   :target: https://doi.org/10.1016/j.jocs.2020.101204
+   :alt: UQpy v3
+.. |UQpyV4| image:: https://img.shields.io/badge/SoftwareX-2023_101561-blue
+   :align: top
+   :target: https://doi.org/10.1016/j.softx.2023.101561
+   :alt: UQpy v4
+
+
+
+
 
 
 **********************************************
