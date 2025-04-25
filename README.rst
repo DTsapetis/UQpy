@@ -1,12 +1,23 @@
 |AzureDevops| |PyPIdownloads| |PyPI| |CondaPlatforms| |GithubRelease| |Docs| |bear-ified|
 |UQpyV3| |UQpyV4|
 
-.. |Docs| image:: https://img.shields.io/readthedocs/uqpy?style=plastic  :alt: Read the Docs
+.. |Docs| image:: https://img.shields.io/readthedocs/uqpy?style=plastic  
+   :align: top
+   :target: https://uqpyproject.readthedocs.io/
+   :alt: Read the Docs
+
 .. |CondaPlatforms| image:: https://img.shields.io/conda/pn/SURG_JHU/uqpy?style=plastic   :alt: Conda
-.. |GithubRelease| image:: https://img.shields.io/github/v/release/SURGroup/UQpy?style=plastic   :alt: GitHub release (latest by date)
+.. |GithubRelease| image:: https://img.shields.io/github/v/release/SURGroup/UQpy?style=plastic   
+   :align:top
+   :target: https://github.com/SURGroup/UQpy/releases
+   :alt: GitHub release (latest by date)
+
 .. |AzureDevops| image:: https://img.shields.io/azure-devops/build/UQpy/5ce1851f-e51f-4e18-9eca-91c3ad9f9900/1?style=plastic   :alt: Azure DevOps builds
 .. |PyPIdownloads| image:: https://img.shields.io/pypi/dm/UQpy?style=plastic   :alt: PyPI - Downloads
-.. |PyPI| image:: https://img.shields.io/pypi/v/UQpy?style=plastic   :alt: PyPI
+.. |PyPI| image:: https://img.shields.io/pypi/v/UQpy?style=plastic   
+   :align: top
+   :alt: PyPI
+   :target: https://pypi.org/project/UQpy/
 
 .. |bear-ified| image:: https://raw.githubusercontent.com/beartype/beartype-assets/main/badge/bear-ified.svg
    :align: top
