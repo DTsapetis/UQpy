@@ -1,0 +1,31 @@
+[tool.ruff]
+# Core settings
+line-length = 100
+target-version = "py39"
+
+#What rules to enable
+select = ["E", "F", "I", "B", "UP", "D", "S"]
+# E = pycodestyle errors
+# F = pyflakes
+# I = isort (import sorting)
+# B = bugbear (best practices)
+# UP = pyupgrade (modernization)
+# D = pydocstyle (docstring rules)
+# S = bandit (security)
+
+ignore = [
+  "E0601", # Used-before-assignment
+  "E0606", # Non-existent operator
+  "E0202", # Method hidden by attribute
+  "E1136", # Value subscriptable issues
+  "E1120", # No value for parameter
+  "E0401", # Import errors
+  "E0213", # Method should have "self" as first argument
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = true
+line-ending = "lf"
+docstring-code-format = true
