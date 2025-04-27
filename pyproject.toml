@@ -1,4 +1,33 @@
 [tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
 # Core settings
 line-length = 100
 target-version = "py39"
@@ -13,15 +42,15 @@ select = ["E", "F", "I", "B", "UP", "D", "S"]
 # D = pydocstyle (docstring rules)
 # S = bandit (security)
 
-ignore = [
-  "E0601", # Used-before-assignment
-  "E0606", # Non-existent operator
-  "E0202", # Method hidden by attribute
-  "E1136", # Value subscriptable issues
-  "E1120", # No value for parameter
-  "E0401", # Import errors
-  "E0213", # Method should have "self" as first argument
-]
+# ignore = [
+#   "E0601", # Used-before-assignment
+#   "E0606", # Non-existent operator
+#   "E0202", # Method hidden by attribute
+#   "E1136", # Value subscriptable issues
+#   "E1120", # No value for parameter
+#   "E0401", # Import errors
+#   "E0213", # Method should have "self" as first argument
+# ]
 
 [tool.ruff.format]
 quote-style = "double"
