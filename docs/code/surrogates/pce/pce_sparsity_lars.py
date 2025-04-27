@@ -16,9 +16,8 @@ algorithm based on Least Angle Regression.
 
 import numpy as np
 
-from UQpy.distributions import Uniform, JointIndependent
+from UQpy.distributions import JointIndependent, Uniform
 from UQpy.surrogates import *
-
 
 # %% md
 #
@@ -93,7 +92,7 @@ polynomial_basis = TotalDegreeBasis(joint, P)
 
 # create training data
 sample_size = 500
-print('Size of experimental design:', sample_size)
+print("Size of experimental design:", sample_size)
 
 # realizations of random inputs
 xx_train = joint.rvs(sample_size)
@@ -128,13 +127,15 @@ pce.fit(xx_train, yy_train)
 # %%
 
 # check the size of the basis
-print('Size of the full set of PCE basis:', polynomial_basis.polynomials_number)
+print("Size of the full set of PCE basis:", polynomial_basis.polynomials_number)
 
 target_error = 1
 CheckOverfitting = True
-pceLAR = polynomial_chaos.regressions.LeastAngleRegression.model_selection(pce, target_error, CheckOverfitting)
+pceLAR = polynomial_chaos.regressions.LeastAngleRegression.model_selection(
+    pce, target_error, CheckOverfitting
+)
 
-print('Size of the LAR PCE basis:', pceLAR.polynomial_basis.polynomials_number)
+print("Size of the LAR PCE basis:", pceLAR.polynomial_basis.polynomials_number)
 
 # %% md
 #
@@ -144,8 +145,8 @@ print('Size of the LAR PCE basis:', pceLAR.polynomial_basis.polynomials_number)
 # %%
 
 mean_est, var_est = pceLAR.get_moments(higher=False)
-print('PCE mean estimate:', mean_est)
-print('PCE variance estimate:', var_est)
+print("PCE mean estimate:", mean_est)
+print("PCE variance estimate:", var_est)
 
 # %% md
 #
@@ -155,10 +156,10 @@ print('PCE variance estimate:', var_est)
 # %%
 
 mean_est, var_est, skew_est, kurt_est = pceLAR.get_moments(True)
-print('PCE mean estimate:', mean_est)
-print('PCE variance estimate:', var_est)
-print('PCE skewness estimate:', skew_est)
-print('PCE kurtosis estimate:', kurt_est)
+print("PCE mean estimate:", mean_est)
+print("PCE variance estimate:", var_est)
+print("PCE skewness estimate:", skew_est)
+print("PCE kurtosis estimate:", kurt_est)
 
 # %% md
 #
@@ -173,9 +174,9 @@ pce_sensitivity = PceSensitivity(pceLAR)
 pce_sensitivity.run()
 sobol_first = pce_sensitivity.first_order_indices
 sobol_total = pce_sensitivity.total_order_indices
-print('First-order Sobol indices:')
+print("First-order Sobol indices:")
 print(sobol_first)
-print('Total-order Sobol indices:')
+print("Total-order Sobol indices:")
 print(sobol_total)
 
 # %% md
@@ -192,10 +193,10 @@ yy_val = np.array([ishigami(x) for x in xx_val])
 
 yy_val_pce = pceLAR.predict(xx_val).flatten()
 errors = np.abs(yy_val.flatten() - yy_val_pce)
-MAE = (np.linalg.norm(errors, 1) / n_samples_val)
+MAE = np.linalg.norm(errors, 1) / n_samples_val
 
-print('Mean absolute error:', MAE)
-print('Leave-one-out cross validation on ED:', pceLAR.leaveoneout_error())
+print("Mean absolute error:", MAE)
+print("Leave-one-out cross validation on ED:", pceLAR.leaveoneout_error())
 
 # %% md
 #
@@ -215,7 +216,9 @@ for degree in range(16):
     # define PCE
     polynomial_basis = TotalDegreeBasis(joint, degree)
     least_squares = LeastSquareRegression()
-    pce_metamodel = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
+    pce_metamodel = PolynomialChaosExpansion(
+        polynomial_basis=polynomial_basis, regression_method=least_squares
+    )
 
     # create training data
     np.random.seed(1)  # fix random seed for reproducibility
@@ -230,10 +233,10 @@ for degree in range(16):
     yy_val_pce = pce_metamodel.predict(xx_val).flatten()
     errors = np.abs(yy_val.flatten() - yy_val_pce)
     mae.append(np.linalg.norm(errors, 1) / n_samples_val)
-    print('Size of ED:', sample_size)
-    print('Polynomial degree:', degree)
-    print('Mean absolute error:', mae[-1])
-    print(' ')
+    print("Size of ED:", sample_size)
+    print("Polynomial degree:", degree)
+    print("Mean absolute error:", mae[-1])
+    print(" ")
 
 # %% md
 #
@@ -247,11 +250,13 @@ for degree in range(16):
 
 # %%
 
-print('Size of the full set of PCE basis:', TotalDegreeBasis(joint, P).polynomials_number)
+print("Size of the full set of PCE basis:", TotalDegreeBasis(joint, P).polynomials_number)
 q = 0.8
 polynomial_basis_hyperbolic = TotalDegreeBasis(joint, P, q)
 # check the size of the basis
-print('Size of the hyperbolic full set of PCE basis:', polynomial_basis_hyperbolic.polynomials_number)
+print(
+    "Size of the hyperbolic full set of PCE basis:", polynomial_basis_hyperbolic.polynomials_number
+)
 
 # %% md
 #
@@ -260,11 +265,13 @@ print('Size of the hyperbolic full set of PCE basis:', polynomial_basis_hyperbol
 
 # %%
 
-pce = PolynomialChaosExpansion(polynomial_basis=polynomial_basis_hyperbolic, regression_method=least_squares)
+pce = PolynomialChaosExpansion(
+    polynomial_basis=polynomial_basis_hyperbolic, regression_method=least_squares
+)
 pce.fit(xx_train, yy_train)
 yy_val_pce = pce.predict(xx_val).flatten()
 errors = np.abs(yy_val.flatten() - yy_val_pce)
-MAE = (np.linalg.norm(errors, 1) / n_samples_val)
+MAE = np.linalg.norm(errors, 1) / n_samples_val
 
-print('Mean absolute error:', MAE)
-print('Leave-one-out cross validation on ED:', pce.leaveoneout_error())
+print("Mean absolute error:", MAE)
+print("Leave-one-out cross validation on ED:", pce.leaveoneout_error())

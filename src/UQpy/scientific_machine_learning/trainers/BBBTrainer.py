@@ -1,15 +1,16 @@
+import logging
+from typing import Union
+
 import torch
 import torch.nn as nn
-import UQpy.scientific_machine_learning as sml
-import logging
 from beartype import beartype
+
+import UQpy.scientific_machine_learning as sml
 from UQpy.utilities.ValidationTypes import PositiveInteger
-from typing import Union
 
 
 @beartype
 class BBBTrainer:
-
     def __init__(
         self,
         model: nn.Module,
@@ -87,19 +88,11 @@ class BBBTrainer:
             )
 
         if train_data:
-            self.history["train_loss"] = torch.full(
-                [epochs], torch.nan, requires_grad=False
-            )
-            self.history["train_divergence"] = torch.full(
-                [epochs], torch.nan, requires_grad=False
-            )
-            self.history["train_nll"] = torch.full(
-                [epochs], torch.nan, requires_grad=False
-            )
+            self.history["train_loss"] = torch.full([epochs], torch.nan, requires_grad=False)
+            self.history["train_divergence"] = torch.full([epochs], torch.nan, requires_grad=False)
+            self.history["train_nll"] = torch.full([epochs], torch.nan, requires_grad=False)
         if test_data:
-            self.history["test_nll"] = torch.full(
-                [epochs], torch.nan, requires_grad=False
-            )
+            self.history["test_nll"] = torch.full([epochs], torch.nan, requires_grad=False)
 
         self.logger.info("UQpy: Scientific Machine Learning: Beginning " + log_note)
         i = 0

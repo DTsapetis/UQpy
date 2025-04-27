@@ -11,7 +11,7 @@ The following methods are tested:
 References
 ----------
 
-.. [1] Graham Glen, Kristin Isaacs, Estimating Sobol sensitivity indices using 
+.. [1] Graham Glen, Kristin Isaacs, Estimating Sobol sensitivity indices using
        correlations, Environmental Modelling & Software, Volume 37, 2012, Pages 157-166,
        ISSN 1364-8152,  https://doi.org/10.1016/j.envsoft.2012.03.014.
 
@@ -38,9 +38,9 @@ diff = |a - b|
 diff <= atol + rtol * abs(b)
 
 -   relative tolerance: rtol * abs(b)
-    It is the maximum allowed difference between a and b, 
-    relative to the absolute value of b. 
-    For example, to set a tolerance of 1%, pass rol=0.01, 
+    It is the maximum allowed difference between a and b,
+    relative to the absolute value of b.
+    For example, to set a tolerance of 1%, pass rol=0.01,
     which assures that the values are within 2 decimal places of each other.
 -   absolute tolerance: atol
     When b is close to zero, the atol value is used.
@@ -51,14 +51,15 @@ import numpy as np
 import pytest
 import scipy
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
 
 # Prepare
 ###############################################################################
+
 
 # Prepare the input distribution
 @pytest.fixture()
@@ -141,7 +142,6 @@ def analytical_ishigami_Sobol_indices():
 
 @pytest.fixture()
 def saltelli_ishigami_Sobol_indices(sobol_object):
-
     SA = sobol_object
 
     np.random.seed(12345)  #! set seed for reproducibility
@@ -163,7 +163,6 @@ def NUM_SAMPLES():
 
 @pytest.fixture()
 def bootstrap_sobol_index_variance(sobol_object, NUM_SAMPLES):
-
     #### SETUP ####
     SA = sobol_object
 
@@ -198,7 +197,6 @@ def bootstrap_sobol_index_variance(sobol_object, NUM_SAMPLES):
 
 @pytest.fixture()
 def model_eval_sobol_index_variance():
-
     """
     For computational efficiency, the variance of the Sobol indices
     is precomputed using model evaluations with
@@ -284,9 +282,7 @@ def sobol_g_function_model_object():
 
 
 @pytest.fixture()
-def sobol_object_g_func(
-    sobol_g_function_input_dist_object, sobol_g_function_model_object
-):
+def sobol_object_g_func(sobol_g_function_input_dist_object, sobol_g_function_model_object):
     """This function creates the Sobol object for the g-function"""
 
     sobol_object = SobolSensitivity(
@@ -328,7 +324,6 @@ def analytical_sobol_g_func_second_order_indices():
 
 @pytest.fixture()
 def saltelli_sobol_g_function(sobol_object_g_func):
-
     SA = sobol_object_g_func
 
     np.random.seed(12345)  #! set seed for reproducibility
@@ -347,7 +342,6 @@ def saltelli_sobol_g_function(sobol_object_g_func):
 def test_pick_and_freeze_estimator(
     analytical_ishigami_Sobol_indices, saltelli_ishigami_Sobol_indices
 ):
-
     """
     Test the Saltelli pick and freeze estimator using 1_000_000 samples.
     """
@@ -367,7 +361,6 @@ def test_pick_and_freeze_estimator(
 def test_bootstrap_variance_computation(
     model_eval_sobol_index_variance, bootstrap_sobol_index_variance
 ):
-
     """Test the bootstrap variance computation."""
 
     # Prepare
@@ -386,7 +379,6 @@ def test_bootstrap_variance_computation(
 def test_second_order_indices(
     analytical_sobol_g_func_second_order_indices, saltelli_sobol_g_function
 ):
-
     """Test the second order indices computation."""
 
     # Prepare

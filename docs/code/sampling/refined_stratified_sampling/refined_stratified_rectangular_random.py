@@ -17,12 +17,13 @@ Voronoi stratification.
 
 # %%
 
-from UQpy.sampling.stratified_sampling.strata import RectangularStrata
-from UQpy.sampling import TrueStratifiedSampling, RefinedStratifiedSampling, RandomRefinement
-from UQpy.distributions import Uniform
-import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import matplotlib.pyplot as plt
 import numpy as np
+
+from UQpy.distributions import Uniform
+from UQpy.sampling import RandomRefinement, RefinedStratifiedSampling, TrueStratifiedSampling
+from UQpy.sampling.stratified_sampling.strata import RectangularStrata
 
 # %% md
 #
@@ -30,7 +31,7 @@ import numpy as np
 
 # %%
 
-marginals = [Uniform(loc=0., scale=1.), Uniform(loc=0., scale=1.)]
+marginals = [Uniform(loc=0.0, scale=1.0), Uniform(loc=0.0, scale=1.0)]
 
 # %% md
 #
@@ -46,7 +47,9 @@ strata = RectangularStrata(strata_number=[4, 4])
 
 # %%
 
-x = TrueStratifiedSampling(distributions=marginals, strata_object=strata, nsamples_per_stratum=1, random_state=1)
+x = TrueStratifiedSampling(
+    distributions=marginals, strata_object=strata, nsamples_per_stratum=1, random_state=1
+)
 
 # %% md
 #
@@ -56,8 +59,13 @@ x = TrueStratifiedSampling(distributions=marginals, strata_object=strata, nsampl
 # %%
 
 refinement = RandomRefinement(strata=strata)
-y = RefinedStratifiedSampling(stratified_sampling=x, refinement_algorithm=refinement,
-                              nsamples=18, samples_per_iteration=2, random_state=2)
+y = RefinedStratifiedSampling(
+    stratified_sampling=x,
+    refinement_algorithm=refinement,
+    nsamples=18,
+    samples_per_iteration=2,
+    random_state=2,
+)
 
 # %% md
 #
@@ -68,7 +76,7 @@ y = RefinedStratifiedSampling(stratified_sampling=x, refinement_algorithm=refine
 # %%
 
 fig1 = strata.plot_2d()
-plt.plot(x.samples[:16, 0], x.samples[:16, 1], 'ro')
+plt.plot(x.samples[:16, 0], x.samples[:16, 1], "ro")
 plt.xlim([0, 1])
 plt.ylim([0, 1])
 plt.show()
@@ -76,8 +84,8 @@ plt.show()
 fig2 = strata.plot_2d()
 plt.xlim([0, 1])
 plt.ylim([0, 1])
-plt.plot(y.samples[:16, 0], y.samples[:16, 1], 'ro')
-plt.plot(y.samples[16:, 0], y.samples[16:, 1], 'yo')
+plt.plot(y.samples[:16, 0], y.samples[:16, 1], "ro")
+plt.plot(y.samples[16:, 0], y.samples[16:, 1], "yo")
 plt.show()
 
 # %% md
@@ -100,6 +108,6 @@ y.run(nsamples=100)
 fig3 = strata.plot_2d()
 plt.xlim([0, 1])
 plt.ylim([0, 1])
-plt.plot(y.samplesU01[:16, 0], y.samplesU01[:16, 1], 'ro')
-plt.plot(y.samplesU01[16:, 0], y.samplesU01[16:, 1], 'go')
+plt.plot(y.samplesU01[:16, 0], y.samplesU01[:16, 1], "ro")
+plt.plot(y.samplesU01[16:, 0], y.samplesU01[16:, 1], "go")
 plt.show()

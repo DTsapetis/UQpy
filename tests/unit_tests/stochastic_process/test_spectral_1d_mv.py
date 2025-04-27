@@ -1,5 +1,6 @@
-from UQpy.stochastic_process import SpectralRepresentation
 import numpy as np
+
+from UQpy.stochastic_process import SpectralRepresentation
 
 np.random.RandomState(1024)
 
@@ -33,7 +34,7 @@ g_list = np.array([g_12, g_13, g_23])
 
 # Assembly of S_jk
 S_sqrt = np.sqrt(S_list)
-S_jk = np.einsum('i...,j...->ij...', S_sqrt, S_sqrt)
+S_jk = np.einsum("i...,j...->ij...", S_sqrt, S_sqrt)
 # Assembly of g_jk
 g_jk = np.zeros_like(S_jk)
 counter = 0
@@ -41,7 +42,7 @@ for i in range(m):
     for j in range(i + 1, m):
         g_jk[i, j] = g_list[counter]
         counter = counter + 1
-g_jk = np.einsum('ij...->ji...', g_jk) + g_jk
+g_jk = np.einsum("ij...->ji...", g_jk) + g_jk
 
 for i in range(m):
     g_jk[i, i] = np.ones_like(S_jk[0, 0])

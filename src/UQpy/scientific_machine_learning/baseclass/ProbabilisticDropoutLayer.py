@@ -1,9 +1,11 @@
-import torch
-from UQpy.scientific_machine_learning.baseclass.Layer import Layer
 from abc import ABC, abstractmethod
+from typing import Annotated
+
+import torch
 from beartype import beartype
 from beartype.vale import Is
-from typing import Annotated
+
+from UQpy.scientific_machine_learning.baseclass.Layer import Layer
 
 
 @beartype
@@ -13,7 +15,7 @@ class ProbabilisticDropoutLayer(Layer, ABC):
         p: Annotated[float, Is[lambda p: 0 <= p <= 1]] = 0.5,
         inplace: bool = False,
         dropping: bool = True,
-        **kwargs
+        **kwargs,
     ):
         """Randomly zero out some elements of a tensor
 

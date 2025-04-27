@@ -1,27 +1,23 @@
 import pytest
 import torch
 import torch.nn as nn
-import UQpy.scientific_machine_learning as sml
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from hypothesis.extra.numpy import array_shapes
+
+import UQpy.scientific_machine_learning as sml
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
 
 
-@given(
-    n=st.integers(min_value=1, max_value=1),
-    m=st.integers(min_value=64, max_value=128),
-)
+@given(n=st.integers(min_value=1, max_value=1), m=st.integers(min_value=64, max_value=128))
 def test_n_m_shape(n, m):
     """Test the output shape with varying batch size (n) and points in the domain (m)"""
     b_in = 1
     t_in = 1
     width = 1
-    deep_o_net = sml.DeepOperatorNetwork(
-        nn.Linear(b_in, width),
-        nn.Linear(t_in, width),
-    )
+    deep_o_net = sml.DeepOperatorNetwork(nn.Linear(b_in, width), nn.Linear(t_in, width))
     f_x = torch.rand(n, b_in)
     x = torch.rand(n, m, t_in)
     g_x = deep_o_net(x, f_x)
@@ -32,9 +28,7 @@ def test_n_m_shape(n, m):
 def test_same_input_shape(shape, out_channels):
     width = 2 * out_channels
     deep_o_net = sml.DeepOperatorNetwork(
-        nn.Linear(shape[-1], width),
-        nn.Linear(shape[-1], width),
-        out_channels=out_channels,
+        nn.Linear(shape[-1], width), nn.Linear(shape[-1], width), out_channels=out_channels
     )
     x = torch.rand(shape)
     f_x = torch.rand(shape)
@@ -69,8 +63,7 @@ def test_no_bias():
     t_in = 1
     width = 16
     deep_o_net = sml.DeepOperatorNetwork(
-        nn.Linear(b_in, width, bias=False),
-        nn.Linear(t_in, width, bias=False),
+        nn.Linear(b_in, width, bias=False), nn.Linear(t_in, width, bias=False)
     )
     f_x = torch.zeros(n, b_in)
     x = torch.rand(n, m, t_in)
@@ -89,11 +82,7 @@ def test_incompatible_shapes():
 
 def test_incompatible_out_channels():
     """Raise RuntimeError if the last dim of trunk and branch outputs are not divisible by out_channels"""
-    deep_o_net = sml.DeepOperatorNetwork(
-        nn.Linear(1, 2),
-        nn.Linear(1, 2),
-        out_channels=3,
-    )
+    deep_o_net = sml.DeepOperatorNetwork(nn.Linear(1, 2), nn.Linear(1, 2), out_channels=3)
     x = torch.tensor([0.0])
     f_x = torch.tensor([0.0])
     with pytest.raises(RuntimeError):

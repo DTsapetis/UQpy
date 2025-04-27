@@ -4,11 +4,11 @@ from typing import Union
 import numpy as np
 from beartype import beartype
 
-from UQpy.distributions.baseclass import Copula
 from UQpy.distributions.baseclass import (
+    Copula,
     DistributionContinuous1D,
-    DistributionND,
     DistributionDiscrete1D,
+    DistributionND,
 )
 
 
@@ -27,12 +27,8 @@ class JointCopula(DistributionND):
         super().__init__()
         self.ordered_parameters = []
         for i, m in enumerate(marginals):
-            self.ordered_parameters.extend(
-                [key + "_" + str(i) for key in m.ordered_parameters]
-            )
-        self.ordered_parameters.extend(
-            [key + "_c" for key in copula.ordered_parameters]
-        )
+            self.ordered_parameters.extend([key + "_" + str(i) for key in m.ordered_parameters])
+        self.ordered_parameters.extend([key + "_c" for key in copula.ordered_parameters])
 
         # Check and save the marginals
         self.marginals = marginals
@@ -72,20 +68,13 @@ class JointCopula(DistributionND):
 
             self.cdf = MethodType(joint_cdf, self)
 
-        if all(hasattr(m, "pdf") for m in self.marginals) and hasattr(
-            self.copula, "evaluate_pdf"
-        ):
+        if all(hasattr(m, "pdf") for m in self.marginals) and hasattr(self.copula, "evaluate_pdf"):
 
             def joint_pdf(dist, x):
                 x = dist.check_x_dimension(x)
                 # Compute pdf of independent marginals
                 pdf_val = np.prod(
-                    np.array(
-                        [
-                            marg.pdf(x[:, ind_m])
-                            for ind_m, marg in enumerate(dist.marginals)
-                        ]
-                    ),
+                    np.array([marg.pdf(x[:, ind_m]) for ind_m, marg in enumerate(dist.marginals)]),
                     axis=0,
                 )
                 # Add copula term
@@ -106,10 +95,7 @@ class JointCopula(DistributionND):
                 # Compute pdf of independent marginals
                 logpdf_val = np.sum(
                     np.array(
-                        [
-                            marg.log_pdf(x[:, ind_m])
-                            for ind_m, marg in enumerate(dist.marginals)
-                        ]
+                        [marg.log_pdf(x[:, ind_m]) for ind_m, marg in enumerate(dist.marginals)]
                     ),
                     axis=0,
                 )

@@ -14,45 +14,52 @@ ranking of input parameters:
 
 """
 
-#%% md
+# %% md
 #
 # Initially we have to import the necessary modules.
 
-#%%
+# %%
 import shutil
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
-from UQpy.distributions import Uniform
-from UQpy.sensitivity import MorrisSensitivity
 import matplotlib.pyplot as plt
 
-#%% md
+from UQpy.distributions import Uniform
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
+from UQpy.sensitivity import MorrisSensitivity
+
+# %% md
 #
 # Set-up problem with g-function.
 
-#%%
+# %%
 
 
-model = PythonModel(model_script='local_pfn.py', model_object_name='fun2_sensitivity', delete_files=True,
-                    var_names=['X{}'.format(i) for i in range(5)])
+model = PythonModel(
+    model_script="local_pfn.py",
+    model_object_name="fun2_sensitivity",
+    delete_files=True,
+    var_names=["X{}".format(i) for i in range(5)],
+)
 runmodel_object = RunModel(model=model)
 
-dist_object = [Uniform(), ] * 5
+dist_object = [Uniform()] * 5
 
 
-sens = MorrisSensitivity(runmodel_object=runmodel_object,
-                         distributions=dist_object,
-                         n_levels=20, maximize_dispersion=True)
+sens = MorrisSensitivity(
+    runmodel_object=runmodel_object,
+    distributions=dist_object,
+    n_levels=20,
+    maximize_dispersion=True,
+)
 sens.run(n_trajectories=10)
 
 
 fig, ax = plt.subplots(figsize=(5, 3.5))
 ax.scatter(sens.mustar_indices, sens.sigma_indices, s=60)
 for i, (mu, sig) in enumerate(zip(sens.mustar_indices, sens.sigma_indices)):
-    ax.text(x=mu + 0.01, y=sig + 0.01, s='X{}'.format(i + 1), fontsize=14)
-ax.set_xlabel(r'$\mu^{\star}$', fontsize=18)
-ax.set_ylabel(r'$\sigma$', fontsize=18)
+    ax.text(x=mu + 0.01, y=sig + 0.01, s="X{}".format(i + 1), fontsize=14)
+ax.set_xlabel(r"$\mu^{\star}$", fontsize=18)
+ax.set_ylabel(r"$\sigma$", fontsize=18)
 # ax.set_title('Morris sensitivity indices', fontsize=16)
 plt.show()
-

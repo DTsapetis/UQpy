@@ -1,2 +1,2 @@
-from UQpy.utilities.kernels.grassmannian_kernels.ProjectionKernel import ProjectionKernel
 from UQpy.utilities.kernels.grassmannian_kernels.BinetCauchyKernel import BinetCauchyKernel
+from UQpy.utilities.kernels.grassmannian_kernels.ProjectionKernel import ProjectionKernel

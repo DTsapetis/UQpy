@@ -1,19 +1,16 @@
+from typing import Union
+
 import torch
 import torch.nn.functional as F
-from torch.nn.modules.utils import _single
-from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer
-from UQpy.utilities.ValidationTypes import (
-    PositiveInteger,
-    NonNegativeInteger,
-    PositiveFloat,
-)
-from typing import Union
 from beartype import beartype
+from torch.nn.modules.utils import _single
+
+from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer
+from UQpy.utilities.ValidationTypes import NonNegativeInteger, PositiveFloat, PositiveInteger
 
 
 @beartype
 class BayesianConv1d(NormalBayesianLayer):
-
     def __init__(
         self,
         in_channels: PositiveInteger,
@@ -131,9 +128,7 @@ class BayesianConv1d(NormalBayesianLayer):
         :return: Tensor of shape :math:`(N, C_\text{out}, L)` or :math:`(C_\text{out}, L)`
         """
         weight, bias = self.get_bayesian_weights()
-        return F.conv1d(
-            x, weight, bias, self.stride, self.padding, self.dilation, self.groups
-        )
+        return F.conv1d(x, weight, bias, self.stride, self.padding, self.dilation, self.groups)
 
     def extra_repr(self) -> str:
         s = "{in_channels}, {out_channels}, kernel_size={kernel_size}"

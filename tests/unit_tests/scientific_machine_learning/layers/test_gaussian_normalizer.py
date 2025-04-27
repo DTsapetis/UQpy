@@ -1,17 +1,17 @@
 import pytest
 import torch
-import UQpy.scientific_machine_learning as sml
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from hypothesis.extra.numpy import array_shapes
+
+import UQpy.scientific_machine_learning as sml
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
 
 
 @given(
-    mean=st.floats(
-        min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
-    ),
+    mean=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False),
     std=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False),
     size=array_shapes(min_dims=1, min_side=10),
 )
@@ -24,9 +24,7 @@ def test_encode(mean, std, size):
 
 
 @given(
-    mean=st.floats(
-        min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
-    ),
+    mean=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False),
     std=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False),
     size=array_shapes(min_dims=1, min_side=10),
 )
@@ -56,17 +54,11 @@ def test_dim_tuple():
     resulting in each index [row, col, :, :] normalized to mean=0, std=1
     """
     dim = (2, 3)
-    x = (
-        10 * torch.randn((3, 4, 100, 200), dtype=torch.float64) + 50
-    )  # test data far outside [0, 1]
+    x = 10 * torch.randn((3, 4, 100, 200), dtype=torch.float64) + 50  # test data far outside [0, 1]
     normalizer = sml.GaussianNormalizer(x, dim=dim)
     y = normalizer(x)
-    assert torch.allclose(
-        torch.mean(y, dim=dim), torch.tensor([0.0], dtype=torch.float64)
-    )
-    assert torch.allclose(
-        torch.std(y, dim=dim), torch.tensor([1.0], dtype=torch.float64)
-    )
+    assert torch.allclose(torch.mean(y, dim=dim), torch.tensor([0.0], dtype=torch.float64))
+    assert torch.allclose(torch.std(y, dim=dim), torch.tensor([1.0], dtype=torch.float64))
 
 
 def test_nan_raises_error():

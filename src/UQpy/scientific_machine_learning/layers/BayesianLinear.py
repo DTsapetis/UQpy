@@ -1,12 +1,13 @@
+from typing import Union
+
 import torch
 import torch.nn.functional as F
-from typing import Union
+
 from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer
-from UQpy.utilities.ValidationTypes import PositiveInteger, PositiveFloat
+from UQpy.utilities.ValidationTypes import PositiveFloat, PositiveInteger
 
 
 class BayesianLinear(NormalBayesianLayer):
-
     def __init__(
         self,
         in_features: PositiveInteger,

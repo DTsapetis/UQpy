@@ -9,8 +9,13 @@ from UQpy.inference.inference_models.baseclass.InferenceModel import *
 
 class DistributionModel(InferenceModel):
     @beartype
-    def __init__(self, distributions: Union[Distribution, list[Distribution]],
-                 n_parameters: PositiveInteger, name: str = "", prior: Distribution = None):
+    def __init__(
+        self,
+        distributions: Union[Distribution, list[Distribution]],
+        n_parameters: PositiveInteger,
+        name: str = "",
+        prior: Distribution = None,
+    ):
         """
         Define a probability distribution model for inference.
 
@@ -26,16 +31,21 @@ class DistributionModel(InferenceModel):
 
         if self.distributions is not None:
             if not isinstance(self.distributions, Distribution):
-                raise TypeError("UQpy: Input dist_object should be an object of class Distribution.")
+                raise TypeError(
+                    "UQpy: Input dist_object should be an object of class Distribution."
+                )
             if not hasattr(self.distributions, "log_pdf"):
                 if not hasattr(self.distributions, "pdf"):
                     raise AttributeError("UQpy: dist_object should have a log_pdf or pdf method.")
                 self.distributions.log_pdf = lambda x: np.log(self.distributions.pdf(x))
             init_params = self.distributions.get_parameters()
             self.list_params = [
-                key for key in self.distributions.ordered_parameters if init_params[key] is None]
+                key for key in self.distributions.ordered_parameters if init_params[key] is None
+            ]
             if len(self.list_params) != self.n_parameters:
-                raise TypeError("UQpy: Incorrect dimensions between nparams and number of inputs set to None.")
+                raise TypeError(
+                    "UQpy: Incorrect dimensions between nparams and number of inputs set to None."
+                )
 
         self.prior = prior
         if self.prior is not None:

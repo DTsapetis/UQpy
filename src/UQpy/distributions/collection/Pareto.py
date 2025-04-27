@@ -20,7 +20,5 @@ class Pareto(DistributionContinuous1D):
         :param loc: location parameter
         :param scale: scale parameter
         """
-        super().__init__(
-            b=b, loc=loc, scale=scale, ordered_parameters=("b", "loc", "scale")
-        )
+        super().__init__(b=b, loc=loc, scale=scale, ordered_parameters=("b", "loc", "scale"))
         self._construct_from_scipy(scipy_name=stats.pareto)

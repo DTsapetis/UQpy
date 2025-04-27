@@ -1,6 +1,7 @@
+from abc import ABC, abstractmethod
+
 import torch
 import torch.nn as nn
-from abc import ABC, abstractmethod
 
 
 class Layer(nn.Module, ABC):

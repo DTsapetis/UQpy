@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+
 import UQpy.scientific_machine_learning as sml
 
 
@@ -9,10 +10,7 @@ def test_device():
     Note if neither cuda nor mps is available, this test will always pass
     """
     cpu = torch.device("cpu")
-    network = nn.Sequential(
-        nn.Linear(1, 1, device=cpu),
-        sml.BayesianLinear(1, 1, device=cpu),
-    )
+    network = nn.Sequential(nn.Linear(1, 1, device=cpu), sml.BayesianLinear(1, 1, device=cpu))
     model = sml.FeedForwardNeuralNetwork(network)
     if torch.cuda.is_available():
         device = torch.device("cuda", 0)
@@ -34,10 +32,7 @@ def test_mismatch_sampling():
     )
     model = sml.FeedForwardNeuralNetwork(network)
     assert model.sampling
-    assert all(
-        (m.sampling if hasattr(m, "sampling") else True)
-        for m in model.network.modules()
-    )
+    assert all((m.sampling if hasattr(m, "sampling") else True) for m in model.network.modules())
 
 
 def test_mismatch_dropping():
@@ -55,10 +50,7 @@ def test_mismatch_dropping():
     )
     model = sml.FeedForwardNeuralNetwork(network)
     assert model.dropping
-    assert all(
-        (m.dropping if hasattr(m, "dropping") else True)
-        for m in model.network.modules()
-    )
+    assert all((m.dropping if hasattr(m, "dropping") else True) for m in model.network.modules())
 
 
 def test_deterministic_output():

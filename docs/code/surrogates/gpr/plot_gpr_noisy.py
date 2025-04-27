@@ -19,17 +19,17 @@ Gaussian Process with noisy output
 
 # %%
 
-import numpy as np
-import matplotlib.pyplot as plt
 import warnings
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 from UQpy.utilities import RBF
 
-warnings.filterwarnings('ignore')
-from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
-from UQpy.surrogates.gaussian_process.regression_models.LinearRegression import LinearRegression
+warnings.filterwarnings("ignore")
 from UQpy.surrogates import GaussianProcessRegression
-
+from UQpy.surrogates.gaussian_process.regression_models.LinearRegression import LinearRegression
+from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
 
 # %% md
 #
@@ -39,8 +39,11 @@ from UQpy.surrogates import GaussianProcessRegression
 
 # %%
 
+
 def funct(x):
-    y = (1 / 100) + (5 / 8) * ((2 * x - 1) ** 4) * (((2 * x - 1) ** 2) + 4 * np.sin(5 * np.pi * x) ** 2)
+    y = (1 / 100) + (5 / 8) * ((2 * x - 1) ** 4) * (
+        ((2 * x - 1) ** 2) + 4 * np.sin(5 * np.pi * x) ** 2
+    )
     return y
 
 
@@ -50,7 +53,9 @@ def funct(x):
 
 # %%
 
-X_train = np.array([0, 0.06, 0.08, 0.26, 0.27, 0.4, 0.52, 0.6, 0.68, 0.81, 0.9, 0.925, 1]).reshape(-1, 1)
+X_train = np.array([0, 0.06, 0.08, 0.26, 0.27, 0.4, 0.52, 0.6, 0.68, 0.81, 0.9, 0.925, 1]).reshape(
+    -1, 1
+)
 y_train = funct(X_train)
 
 # %% md
@@ -84,7 +89,7 @@ kernel2 = RBF()
 
 # %%
 
-bounds_2 = [[10**(-3), 10**3], [10**(-3), 10**2], [10**(-3), 10**(2)]]
+bounds_2 = [[10 ** (-3), 10**3], [10 ** (-3), 10**2], [10 ** (-3), 10 ** (2)]]
 optimizer2 = MinimizeOptimizer(bounds=bounds_2)
 
 
@@ -95,8 +100,14 @@ optimizer2 = MinimizeOptimizer(bounds=bounds_2)
 
 # %%
 
-gpr2 = GaussianProcessRegression(kernel=kernel2, hyperparameters=[1, 1, 0.1], optimizer=optimizer2,
-                                 optimizations_number=10, noise=True, regression_model=LinearRegression())
+gpr2 = GaussianProcessRegression(
+    kernel=kernel2,
+    hyperparameters=[1, 1, 0.1],
+    optimizer=optimizer2,
+    optimizations_number=10,
+    noise=True,
+    regression_model=LinearRegression(),
+)
 
 
 # %% md
@@ -115,9 +126,9 @@ gpr2.fit(X_train, y_train)
 
 print(gpr2.hyperparameters)
 
-print('Length Scale: ', gpr2.hyperparameters[0])
-print('Process Variance: ', gpr2.hyperparameters[1])
-print('Noise Variance: ', gpr2.hyperparameters[2])
+print("Length Scale: ", gpr2.hyperparameters[0])
+print("Process Variance: ", gpr2.hyperparameters[1])
+print("Noise Variance: ", gpr2.hyperparameters[2])
 
 
 # %% md
@@ -137,19 +148,23 @@ y_pred2, y_std2 = gpr2.predict(X_test, return_std=True)
 
 # %%
 
-fig, ax = plt.subplots(figsize=(8.5,7))
-ax.plot(X_test,y_test,'r--',linewidth=2,label='Test Function')
-ax.plot(X_train,y_train,'bo',markerfacecolor='b', markersize=10, label='Training Data')
-ax.plot(X_test,y_pred2,'b-', lw=2, label='GP Prediction')
-ax.plot(X_test, np.zeros((X_test.shape[0],1)))
-ax.fill_between(X_test.flatten(), y_pred2-1.96*y_std2,
-                y_pred2+1.96*y_std2,
-                facecolor='yellow',label='95% CI')
-ax.tick_params(axis='both', which='major', labelsize=12)
-ax.set_xlabel('x', fontsize=15)
-ax.set_ylabel('f(x)', fontsize=15)
-ax.set_ylim([-0.3,1.8])
-plt.title('GP Surrogate (Noise, No Constraints)')
-ax.legend(loc="upper right",prop={'size': 12});
+fig, ax = plt.subplots(figsize=(8.5, 7))
+ax.plot(X_test, y_test, "r--", linewidth=2, label="Test Function")
+ax.plot(X_train, y_train, "bo", markerfacecolor="b", markersize=10, label="Training Data")
+ax.plot(X_test, y_pred2, "b-", lw=2, label="GP Prediction")
+ax.plot(X_test, np.zeros((X_test.shape[0], 1)))
+ax.fill_between(
+    X_test.flatten(),
+    y_pred2 - 1.96 * y_std2,
+    y_pred2 + 1.96 * y_std2,
+    facecolor="yellow",
+    label="95% CI",
+)
+ax.tick_params(axis="both", which="major", labelsize=12)
+ax.set_xlabel("x", fontsize=15)
+ax.set_ylabel("f(x)", fontsize=15)
+ax.set_ylim([-0.3, 1.8])
+plt.title("GP Surrogate (Noise, No Constraints)")
+ax.legend(loc="upper right", prop={"size": 12})
 plt.grid()
 plt.show()

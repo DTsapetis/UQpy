@@ -4,10 +4,7 @@ from typing import Union
 from beartype import beartype
 
 from UQpy.distributions.collection import JointIndependent
-from UQpy.utilities.ValidationTypes import (
-    RandomStateType,
-    PositiveInteger,
-)
+from UQpy.utilities.ValidationTypes import PositiveInteger, RandomStateType
 
 
 @beartype
@@ -16,7 +13,6 @@ def generate_pick_freeze_samples(
     n_samples: PositiveInteger,
     random_state: RandomStateType = None,
 ):
-
     """
     Generate samples to be used in the Pick-and-Freeze algorithm.
 

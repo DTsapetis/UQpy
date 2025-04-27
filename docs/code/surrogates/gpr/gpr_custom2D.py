@@ -22,26 +22,25 @@ Gaussian Process of a custom 2D function
 
 import shutil
 
-from UQpy import PythonModel
-from UQpy.surrogates.gaussian_process.regression_models import ConstantRegression
-from UQpy.sampling import RectangularStrata
-from UQpy.sampling import TrueStratifiedSampling
-from UQpy.run_model.RunModel import RunModel
-from UQpy.distributions import Uniform
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
+from matplotlib.ticker import FormatStrFormatter, LinearLocator
+
+from UQpy import PythonModel
+from UQpy.distributions import Uniform
+from UQpy.run_model.RunModel import RunModel
+from UQpy.sampling import RectangularStrata, TrueStratifiedSampling
 from UQpy.surrogates import GaussianProcessRegression
+from UQpy.surrogates.gaussian_process.regression_models import ConstantRegression
 
 # %% md
 #
 # Create a distribution object.
-
 # %%
 from UQpy.utilities import Matern
 
-marginals = [Uniform(loc=0., scale=1.), Uniform(loc=0., scale=1.)]
+marginals = [Uniform(loc=0.0, scale=1.0), Uniform(loc=0.0, scale=1.0)]
 
 # %% md
 #
@@ -58,8 +57,9 @@ strata = RectangularStrata(strata_number=[10, 10])
 
 # %%
 
-x = TrueStratifiedSampling(distributions=marginals, strata_object=strata,
-                           nsamples_per_stratum=1, random_state=1)
+x = TrueStratifiedSampling(
+    distributions=marginals, strata_object=strata, nsamples_per_stratum=1, random_state=1
+)
 
 # %% md
 #
@@ -68,7 +68,7 @@ x = TrueStratifiedSampling(distributions=marginals, strata_object=strata,
 
 # %%
 
-model = PythonModel(model_script='local_python_model_function.py', model_object_name="y_func")
+model = PythonModel(model_script="local_python_model_function.py", model_object_name="y_func")
 rmodel = RunModel(model=model)
 
 rmodel.run(samples=x.samples)
@@ -86,10 +86,13 @@ kernel = Matern(nu=0.5)
 from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
 
 optimizer = MinimizeOptimizer(method="L-BFGS-B")
-K = GaussianProcessRegression(regression_model=regression_model, optimizer=optimizer,
-                              kernel=kernel,
-                              optimizations_number=20,
-                              hyperparameters=[1, 1, 0.1])
+K = GaussianProcessRegression(
+    regression_model=regression_model,
+    optimizer=optimizer,
+    kernel=kernel,
+    optimizations_number=20,
+    hyperparameters=[1, 1, 0.1],
+)
 K.fit(samples=x.samples, values=rmodel.qoi_list)
 print(K.hyperparameters)
 
@@ -107,17 +110,17 @@ x1g, x2g = np.meshgrid(x1, x2)
 x1gv, x2gv = x1g.reshape(x1g.size, 1), x2g.reshape(x2g.size, 1)
 
 y2 = K.predict(np.concatenate([x1gv, x2gv], 1)).reshape(x1g.shape[0], x1g.shape[1])
-model = PythonModel(model_script='local_python_model_function.py', model_object_name="y_func")
+model = PythonModel(model_script="local_python_model_function.py", model_object_name="y_func")
 r2model = RunModel(model=model)
 r2model.run(samples=np.concatenate([x1gv, x2gv], 1))
 y_act = np.array(r2model.qoi_list).reshape(x1g.shape[0], x1g.shape[1])
 
 fig1 = plt.figure()
-ax = fig1.add_subplot(projection='3d')
+ax = fig1.add_subplot(projection="3d")
 surf = ax.plot_surface(x1g, x2g, y_act, cmap=cm.coolwarm, linewidth=0, antialiased=False)
 ax.set_zlim(-1, 15)
 ax.zaxis.set_major_locator(LinearLocator(10))
-ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+ax.zaxis.set_major_formatter(FormatStrFormatter("%.02f"))
 # Add a color bar which maps values to colors.
 fig1.colorbar(surf, shrink=0.5, aspect=5)
 plt.show()
@@ -130,11 +133,13 @@ plt.show()
 # %%
 
 fig2 = plt.figure()
-ax2 = plt.axes(projection='3d')
+ax2 = plt.axes(projection="3d")
 # Plot for estimated values
-kr = ax2.plot_wireframe(x1g, x2g, y2, color='Green', label='Kriging interpolate')
+kr = ax2.plot_wireframe(x1g, x2g, y2, color="Green", label="Kriging interpolate")
 
 # Plot for scattered data
-ID = ax2.scatter3D(x.samples[:, 0], x.samples[:, 1], np.array(rmodel.qoi_list), color='Red', label='Input data')
+ID = ax2.scatter3D(
+    x.samples[:, 0], x.samples[:, 1], np.array(rmodel.qoi_list), color="Red", label="Input data"
+)
 plt.legend(handles=[kr, ID])
 plt.show()

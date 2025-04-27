@@ -3,9 +3,9 @@ r"""
 Sobol function
 ==============================================
 
-The Sobol function is non-linear function that is commonly used to benchmark uncertainty 
-and senstivity analysis methods. Unlike the ishigami function which has 3 input 
-variables, the Sobol function can have any number of input variables. 
+The Sobol function is non-linear function that is commonly used to benchmark uncertainty
+and senstivity analysis methods. Unlike the ishigami function which has 3 input
+variables, the Sobol function can have any number of input variables.
 
 .. math::
 
@@ -17,8 +17,8 @@ where,
     x_i \sim \mathcal{U}(0, 1), \quad a_i \in \mathbb{R}.
 
 
-The function was also used in the Chatterjee indices section to demonstrate the 
-computation of the Chatterjee indices. We can see clearly that the estimates are 
+The function was also used in the Chatterjee indices section to demonstrate the
+computation of the Chatterjee indices. We can see clearly that the estimates are
 equivalent.
 
 """
@@ -26,10 +26,10 @@ equivalent.
 # %%
 import numpy as np
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.CramerVonMisesSensitivity import CramerVonMisesSensitivity as cvm
 from UQpy.sensitivity.PostProcess import *
 
@@ -40,7 +40,7 @@ np.random.seed(123)
 
 # Create Model object
 num_vars = 6
-a_vals = np.arange(1, num_vars+1, 1)
+a_vals = np.arange(1, num_vars + 1, 1)
 
 model = PythonModel(
     model_script="local_sobol_func.py",
@@ -72,9 +72,7 @@ SA.first_order_CramerVonMises_indices
 
 # **Plot the CVM indices**
 fig1, ax1 = plot_sensitivity_index(
-    SA.first_order_CramerVonMises_indices[:, 0],
-    plot_title="Cramér-von Mises indices",
-    color="C4",
+    SA.first_order_CramerVonMises_indices[:, 0], plot_title="Cramér-von Mises indices", color="C4"
 )
 
 # %% [markdown]
@@ -99,7 +97,5 @@ SA.total_order_sobol_indices
 
 # **Plot the first order Sobol indices**
 fig2, ax2 = plot_sensitivity_index(
-    SA.total_order_sobol_indices[:, 0],
-    plot_title="First order Sobol indices",
-    color="C0",
+    SA.total_order_sobol_indices[:, 0], plot_title="First order Sobol indices", color="C0"
 )

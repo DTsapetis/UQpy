@@ -3,7 +3,7 @@ r"""
 Ishigami function
 ==============================================
 
-The ishigami function is a non-linear, non-monotonic function that is commonly used to 
+The ishigami function is a non-linear, non-monotonic function that is commonly used to
 benchmark uncertainty and sensitivity analysis methods.
 
 .. math::
@@ -17,10 +17,10 @@ benchmark uncertainty and sensitivity analysis methods.
 # %%
 import numpy as np
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.ChatterjeeSensitivity import ChatterjeeSensitivity
 from UQpy.sensitivity.PostProcess import *
 
@@ -50,10 +50,7 @@ dist_object = JointIndependent([Uniform(-np.pi, 2 * np.pi)] * 3)
 SA = ChatterjeeSensitivity(runmodel_obj, dist_object)
 
 SA.run(
-    n_samples=100_000,
-    estimate_sobol_indices=True,
-    n_bootstrap_samples=100,
-    confidence_level=0.95,
+    n_samples=100_000, estimate_sobol_indices=True, n_bootstrap_samples=100, confidence_level=0.95
 )
 
 # %% [markdown]
@@ -92,7 +89,5 @@ SA.first_order_sobol_indices
 
 # **Plot the first order Sobol indices**
 fig2, ax2 = plot_sensitivity_index(
-    SA.first_order_sobol_indices[:, 0],
-    plot_title="First order Sobol indices",
-    color="C0",
+    SA.first_order_sobol_indices[:, 0], plot_title="First order Sobol indices", color="C0"
 )

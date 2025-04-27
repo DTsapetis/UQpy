@@ -14,55 +14,63 @@ regression model.
 
 """
 
-#%% md
+# %% md
 #
 # Initially we have to import the necessary modules.
 
-#%%
+# %%
 import shutil
 
 import numpy as np
 
 from UQpy import PythonModel
-from UQpy.inference import ComputationalModel, MLE
 from UQpy.distributions import Normal
-from UQpy.inference import MinimizeOptimizer
+from UQpy.inference import MLE, ComputationalModel, MinimizeOptimizer
 from UQpy.run_model.RunModel import RunModel
 
-#%% md
+# %% md
 #
 # First we generate synthetic data, and add some noise to it.
 
-#%%
+# %%
 
 # Generate data
 
 param_true = np.array([1.0, 2.0]).reshape((1, -1))
-print('Shape of true parameter vector: {}'.format(param_true.shape))
+print("Shape of true parameter vector: {}".format(param_true.shape))
 
-model = PythonModel(model_script='local_pfn_models.py', model_object_name='model_quadratic', delete_files=True,
-                    var_names=['theta_0', 'theta_1'])
+model = PythonModel(
+    model_script="local_pfn_models.py",
+    model_object_name="model_quadratic",
+    delete_files=True,
+    var_names=["theta_0", "theta_1"],
+)
 h_func = RunModel(model=model)
 h_func.run(samples=param_true)
 
 # Add noise
-error_covariance = 1.
+error_covariance = 1.0
 data_clean = np.array(h_func.qoi_list[0])
-noise = Normal(loc=0., scale=np.sqrt(error_covariance)).rvs(nsamples=50).reshape((50,))
+noise = Normal(loc=0.0, scale=np.sqrt(error_covariance)).rvs(nsamples=50).reshape((50,))
 data_3 = data_clean + noise
-print('Shape of data: {}'.format(data_3.shape))
+print("Shape of data: {}".format(data_3.shape))
 
 
-#%% md
+# %% md
 #
 # Then we create an instance of the Model class, using model_type='python', and we perform maximum likelihood estimation
 # of the two parameters.
 
-#%%
+# %%
 
-candidate_model = ComputationalModel(n_parameters=2, runmodel_object=h_func, error_covariance=error_covariance)
+candidate_model = ComputationalModel(
+    n_parameters=2, runmodel_object=h_func, error_covariance=error_covariance
+)
 
-optimizer = MinimizeOptimizer(method='nelder-mead')
+optimizer = MinimizeOptimizer(method="nelder-mead")
 ml_estimator = MLE(inference_model=candidate_model, data=data_3, n_optimizations=1)
-print('fitted parameters: theta_0={0:.3f} (true=1.), and theta_1={1:.3f} (true=2.)'.format(
-    ml_estimator.mle[0], ml_estimator.mle[1]))
+print(
+    "fitted parameters: theta_0={0:.3f} (true=1.), and theta_1={1:.3f} (true=2.)".format(
+        ml_estimator.mle[0], ml_estimator.mle[1]
+    )
+)

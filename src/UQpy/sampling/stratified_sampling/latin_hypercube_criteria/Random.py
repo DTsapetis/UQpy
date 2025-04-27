@@ -1,5 +1,6 @@
-from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import Criterion
 import numpy as np
+
+from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import Criterion
 
 
 class Random(Criterion):

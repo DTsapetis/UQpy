@@ -1,9 +1,7 @@
 import numpy as np
 from beartype import beartype
 
-from UQpy.utilities.distances.baseclass.GrassmannianDistance import (
-    GrassmannianDistance,
-)
+from UQpy.utilities.distances.baseclass.GrassmannianDistance import GrassmannianDistance
 from UQpy.utilities.GrassmannPoint import GrassmannPoint
 
 
@@ -12,6 +10,7 @@ class AsimovDistance(GrassmannianDistance):
     A class to calculate the Asimov distance between two Grassmann points.
 
     """
+
     @beartype
     def compute_distance(self, xi: GrassmannPoint, xj: GrassmannPoint) -> float:
         """

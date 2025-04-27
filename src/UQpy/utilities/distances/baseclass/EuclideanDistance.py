@@ -4,12 +4,11 @@ from abc import ABC, abstractmethod
 import numpy as np
 from beartype import beartype
 
-from UQpy.utilities.ValidationTypes import NumpyFloatArray
 from UQpy.utilities.distances.baseclass.Distance import Distance
+from UQpy.utilities.ValidationTypes import NumpyFloatArray
 
 
 class EuclideanDistance(Distance, ABC):
-
     @beartype
     def calculate_distance_matrix(self, points: list[NumpyFloatArray]):
         """

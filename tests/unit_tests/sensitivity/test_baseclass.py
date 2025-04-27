@@ -1,11 +1,11 @@
 """
 This module is used to test the functionalities of the baseclass.
 
-- test_pick_and_freeze_sampling: 
+- test_pick_and_freeze_sampling:
     Test the `generate_pick_and_test_samples` function.
-- test_bootstrap_for_vector: 
+- test_bootstrap_for_vector:
     Test the bootstrap sampling for a vector.
-- test_bootstrap_for_matrix: 
+- test_bootstrap_for_matrix:
     Test the bootstrap sampling for a matrix.
 
 """
@@ -13,15 +13,16 @@ This module is used to test the functionalities of the baseclass.
 import numpy as np
 import pytest
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.baseclass.PickFreeze import generate_pick_freeze_samples
+from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
 
 # Prepare
 ###############################################################################
+
 
 # Prepare the input distribution
 @pytest.fixture()
@@ -174,9 +175,7 @@ def manual_bootstrap_samples_f_C_i():
     #                               [1, 3],
     #                               [1, 3]])
 
-    bootstrap_f_C_i = np.array(
-        [[102, 201], [104, 201], [102, 201], [101, 203], [101, 203]]
-    )
+    bootstrap_f_C_i = np.array([[102, 201], [104, 201], [102, 201], [101, 203], [101, 203]])
 
     return bootstrap_f_C_i
 
@@ -185,10 +184,7 @@ def manual_bootstrap_samples_f_C_i():
 ###############################################################################
 
 
-def test_pick_and_freeze_sampling(
-    pick_and_freeze_samples_small, sobol_object_input_samples_small
-):
-
+def test_pick_and_freeze_sampling(pick_and_freeze_samples_small, sobol_object_input_samples_small):
     """Test the `generate_pick_and_test_samples` function."""
 
     # Prepare
@@ -205,7 +201,6 @@ def test_pick_and_freeze_sampling(
 
 
 def test_bootstrap_for_vector(random_f_A, manual_bootstrap_samples_f_A):
-
     """Test the bootstrap sampling for a vector."""
 
     # Prepare
@@ -220,7 +215,6 @@ def test_bootstrap_for_vector(random_f_A, manual_bootstrap_samples_f_A):
 
 
 def test_bootstrap_for_matrix(random_f_C_i, manual_bootstrap_samples_f_C_i):
-
     """Test the bootstrap sampling for a matrix."""
 
     # Prepare

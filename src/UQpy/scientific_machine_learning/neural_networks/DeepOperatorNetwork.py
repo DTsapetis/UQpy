@@ -1,15 +1,13 @@
 import torch
 import torch.nn as nn
+
 from UQpy.scientific_machine_learning.baseclass.NeuralNetwork import NeuralNetwork
 from UQpy.utilities.ValidationTypes import PositiveInteger
 
 
 class DeepOperatorNetwork(NeuralNetwork):
     def __init__(
-        self,
-        branch_network: nn.Module,
-        trunk_network: nn.Module,
-        out_channels: PositiveInteger = 1,
+        self, branch_network: nn.Module, trunk_network: nn.Module, out_channels: PositiveInteger = 1
     ):
         r"""Construct a Deep Operator Network via its branch and trunk networks
 
@@ -43,11 +41,7 @@ class DeepOperatorNetwork(NeuralNetwork):
         """Architecture of the trunk neural network defined by a :py:class:`torch.nn.Module`"""
         self.out_channels = out_channels
 
-    def forward(
-        self,
-        x: torch.Tensor,
-        f_x: torch.Tensor,
-    ) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, f_x: torch.Tensor) -> torch.Tensor:
         """Compute the dot product of branch and trunk outputs
 
         :param x: Input to the :code:`trunk_network`

@@ -1,16 +1,15 @@
-from typing import Union
-from typing import Optional
+import logging
+from typing import Optional, Union
+
+import numpy as np
 from beartype import beartype
 
-from UQpy.utilities.ValidationTypes import RandomStateType, PositiveInteger, NumpyFloatArray
 from UQpy.distributions import *
 from UQpy.utilities.Utilities import process_random_state
-import numpy as np
-import logging
+from UQpy.utilities.ValidationTypes import NumpyFloatArray, PositiveInteger, RandomStateType
 
 
 class MonteCarloSampling:
-
     @beartype
     def __init__(
         self,
@@ -117,7 +116,9 @@ class MonteCarloSampling:
         :param random_state: Random seed used to initialize the pseudo-random number generator.
         """
         # Check if a random_state is provided.
-        self.random_state = (process_random_state(random_state) if random_state is not None else self.random_state)
+        self.random_state = (
+            process_random_state(random_state) if random_state is not None else self.random_state
+        )
 
         self.logger.info("UQpy: Running Monte Carlo Sampling.")
 
@@ -125,7 +126,9 @@ class MonteCarloSampling:
             temp_samples = []
             for i in range(len(self.dist_object)):
                 if hasattr(self.dist_object[i], "rvs"):
-                    temp_samples.append(self.dist_object[i].rvs(nsamples=nsamples, random_state=self.random_state))
+                    temp_samples.append(
+                        self.dist_object[i].rvs(nsamples=nsamples, random_state=self.random_state)
+                    )
                 else:
                     raise ValueError("UQpy: rvs method is missing.")
             self.x = []

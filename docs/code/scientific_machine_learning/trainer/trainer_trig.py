@@ -12,10 +12,12 @@ This example shows how to train a simple neural network using UQpy's Trainer cla
 # %%
 
 import logging
+
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader
-import matplotlib.pyplot as plt
+from torch.utils.data import DataLoader, Dataset
+
 import UQpy.scientific_machine_learning as sml
 
 torch.manual_seed(0)
@@ -105,13 +107,7 @@ with torch.no_grad():
 
 fig, ax = plt.subplots()
 ax.scatter(x_noisy, y_noisy, label="Training Data", color="black")
-ax.plot(
-    x_exact,
-    y_exact,
-    label="Exact",
-    color="black",
-    linestyle="dashed",
-)
+ax.plot(x_exact, y_exact, label="Exact", color="black", linestyle="dashed")
 ax.plot(x_exact, prediction, label="Model $\mu$", color="tab:blue")
 ax.set_title("Neural Network Predictions")
 ax.set(xlabel="x", ylabel="f(x)")

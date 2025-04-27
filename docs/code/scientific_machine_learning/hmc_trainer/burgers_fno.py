@@ -20,10 +20,11 @@ This example is adapted from this Hamiltorch example (https://github.com/AdamCob
 
 # %%
 
-import torch
 import hamiltorch
 import matplotlib.pyplot as plt
+import torch
 import torch.nn as nn
+
 import UQpy.scientific_machine_learning as sml
 
 # %% md
@@ -33,7 +34,6 @@ import UQpy.scientific_machine_learning as sml
 
 
 class FourierNeuralOperator(nn.Module):
-
     def __init__(self):
         """Construct a Bayesian FNO
 
@@ -46,9 +46,7 @@ class FourierNeuralOperator(nn.Module):
         modes = 16
         width = 8
         self.lifting_layers = nn.Sequential(
-            sml.Permutation((0, 2, 1)),
-            nn.Linear(1, width),
-            sml.Permutation((0, 2, 1)),
+            sml.Permutation((0, 2, 1)), nn.Linear(1, width), sml.Permutation((0, 2, 1))
         )
         self.fourier_blocks = nn.Sequential(
             sml.Fourier1d(width, modes),
@@ -60,9 +58,7 @@ class FourierNeuralOperator(nn.Module):
             sml.Fourier1d(width, modes),
         )
         self.projection_layers = nn.Sequential(
-            sml.Permutation((0, 2, 1)),
-            nn.Linear(width, 1),
-            sml.Permutation((0, 2, 1)),
+            sml.Permutation((0, 2, 1)), nn.Linear(width, 1), sml.Permutation((0, 2, 1))
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

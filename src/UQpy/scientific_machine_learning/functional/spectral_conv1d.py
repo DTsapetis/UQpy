@@ -1,7 +1,9 @@
-import torch
 from typing import Annotated
+
+import torch
 from beartype import beartype
 from beartype.vale import Is
+
 from UQpy.utilities.ValidationTypes import PositiveInteger, Torch3DComplexTensor
 
 

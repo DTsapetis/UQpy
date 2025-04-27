@@ -19,13 +19,14 @@ In this example, we train a Bayesian DeepOperatorNetwork to learn the behavior o
 
 # %%
 
-
 import logging
+
 import scipy.io as io
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader, random_split
+from torch.utils.data import DataLoader, Dataset, random_split
+
 import UQpy.scientific_machine_learning as sml
 
 logger = logging.getLogger("UQpy")
@@ -42,6 +43,7 @@ logger.setLevel(logging.INFO)
 # torch activation functions and UQpy layers to define their operations.
 
 # %%
+
 
 class BranchNet(nn.Module):
     def __init__(self, *args, **kwargs):
@@ -105,6 +107,7 @@ model = sml.DeepOperatorNetwork(branch_network, trunk_network, 2)
 
 # %%
 
+
 class ElasticityDataSet(Dataset):
     """Load the Elasticity dataset"""
 
@@ -121,15 +124,13 @@ class ElasticityDataSet(Dataset):
         return self.x, self.f_x[i, :], (self.u_x[i, :, 0], self.u_y[i, :, 0])
 
 
-elastic_data = io.loadmat('linear_elastic_data.mat')
-train_dataset, test_dataset = random_split(ElasticityDataSet(
-    elastic_data['X'], elastic_data['F'], elastic_data['Ux'],
-    elastic_data['Uy']), [0.9, 0.1])
+elastic_data = io.loadmat("linear_elastic_data.mat")
+train_dataset, test_dataset = random_split(
+    ElasticityDataSet(elastic_data["X"], elastic_data["F"], elastic_data["Ux"], elastic_data["Uy"]),
+    [0.9, 0.1],
+)
 
-train_data = DataLoader(train_dataset,
-                        batch_size=20,
-                        shuffle=True,
-                        )
+train_data = DataLoader(train_dataset, batch_size=20, shuffle=True)
 test_data = DataLoader(test_dataset)
 
 # %% md
@@ -148,21 +149,15 @@ class LossFunction(nn.Module):
         self.reduction = reduction
 
     def forward(self, prediction, label):
-        return F.mse_loss(
-            prediction[:, :, 0], label[0], reduction=self.reduction
-        ) + F.mse_loss(prediction[:, :, 1], label[1], reduction=self.reduction)
+        return F.mse_loss(prediction[:, :, 0], label[0], reduction=self.reduction) + F.mse_loss(
+            prediction[:, :, 1], label[1], reduction=self.reduction
+        )
 
 
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
 trainer = sml.BBBTrainer(model, optimizer, loss_function=LossFunction(), scheduler=scheduler)
-trainer.run(
-    train_data=train_data,
-    test_data=test_data,
-    epochs=50,
-    beta=1e-6,
-    num_samples=5,
-)
+trainer.run(train_data=train_data, test_data=test_data, epochs=50, beta=1e-6, num_samples=5)
 
 
 # %% md

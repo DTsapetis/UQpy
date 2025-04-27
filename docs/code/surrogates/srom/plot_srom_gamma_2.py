@@ -15,13 +15,13 @@ random variable.
 
 # %%
 
-from UQpy.surrogates import SROM
-from UQpy.sampling import RectangularStrata
-from UQpy.sampling import TrueStratifiedSampling
-from UQpy.distributions import Gamma
-import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.stats as stats
+
+from UQpy.distributions import Gamma
+from UQpy.sampling import RectangularStrata, TrueStratifiedSampling
+from UQpy.surrogates import SROM
 
 # %% md
 #
@@ -30,7 +30,7 @@ import numpy as np
 
 # %%
 
-marginals = [Gamma(a=2., loc=1., scale=3.), Gamma(a=2., loc=1., scale=3.)]
+marginals = [Gamma(a=2.0, loc=1.0, scale=3.0), Gamma(a=2.0, loc=1.0, scale=3.0)]
 
 # %% md
 #
@@ -47,9 +47,7 @@ strata = RectangularStrata(strata_number=[4, 4])
 
 # %%
 
-x = TrueStratifiedSampling(distributions=marginals,
-                           strata_object=strata,
-                           nsamples_per_stratum=1)
+x = TrueStratifiedSampling(distributions=marginals, strata_object=strata, nsamples_per_stratum=1)
 
 # %% md
 #
@@ -62,8 +60,12 @@ x = TrueStratifiedSampling(distributions=marginals,
 
 # %%
 
-y1 = SROM(samples=x.samples, target_distributions=marginals, moments=[[6., 6.], [54., 54.]],
-          properties=[True, True, True, False])
+y1 = SROM(
+    samples=x.samples,
+    target_distributions=marginals,
+    moments=[[6.0, 6.0], [54.0, 54.0]],
+    properties=[True, True, True, False],
+)
 
 # %% md
 #
@@ -72,13 +74,29 @@ y1 = SROM(samples=x.samples, target_distributions=marginals, moments=[[6., 6.], 
 
 # %%
 
-print('weights_distribution', '\n', y1.weights_distribution, '\n', 'weights_moments', '\n', y1.weights_moments, '\n',
-      'weights_correlation', '\n', y1.weights_correlation)
+print(
+    "weights_distribution",
+    "\n",
+    y1.weights_distribution,
+    "\n",
+    "weights_moments",
+    "\n",
+    y1.weights_moments,
+    "\n",
+    "weights_correlation",
+    "\n",
+    y1.weights_correlation,
+)
 
-y2 = SROM(samples=x.samples, target_distributions=marginals, moments=[[6., 6.], [54., 54.]],
-          properties=[True, True, True, False],
-          weights_distribution=[[0.4, 0.5]], weights_moments=[[0.2, 0.7]],
-          weights_correlation=[[0.3, 0.4], [0.4, 0.6]])
+y2 = SROM(
+    samples=x.samples,
+    target_distributions=marginals,
+    moments=[[6.0, 6.0], [54.0, 54.0]],
+    properties=[True, True, True, False],
+    weights_distribution=[[0.4, 0.5]],
+    weights_moments=[[0.2, 0.7]],
+    weights_correlation=[[0.3, 0.4], [0.4, 0.6]],
+)
 
 # %% md
 #
@@ -88,8 +106,19 @@ y2 = SROM(samples=x.samples, target_distributions=marginals, moments=[[6., 6.], 
 
 # %%
 
-print('weights_distribution', '\n', y2.weights_distribution, '\n', 'weights_moments', '\n', y2.weights_moments, '\n',
-      'weights_correlation', '\n', y2.weights_correlation)
+print(
+    "weights_distribution",
+    "\n",
+    y2.weights_distribution,
+    "\n",
+    "weights_moments",
+    "\n",
+    y2.weights_moments,
+    "\n",
+    "weights_correlation",
+    "\n",
+    y2.weights_correlation,
+)
 
 # %% md
 #
@@ -102,11 +131,11 @@ c1 = np.concatenate((y1.samples, y1.sample_weights.reshape(y1.sample_weights.sha
 d1 = c1[c1[:, 0].argsort()]
 c2 = np.concatenate((y2.samples, y2.sample_weights.reshape(y2.sample_weights.shape[0], 1)), axis=1)
 d2 = c2[c2[:, 0].argsort()]
-plt.plot(d1[:, 0], np.cumsum(d1[:, 2], axis=0), 'x')
-plt.plot(d2[:, 0], np.cumsum(d2[:, 2], axis=0), 'o')
-plt.plot(np.arange(1,15,0.1), stats.gamma.cdf(np.arange(1,15,0.1), 2, loc=1, scale=3))
-plt.legend(['Case 1','Case 2','CDF'])
-plt.title('1st random variable')
+plt.plot(d1[:, 0], np.cumsum(d1[:, 2], axis=0), "x")
+plt.plot(d2[:, 0], np.cumsum(d2[:, 2], axis=0), "o")
+plt.plot(np.arange(1, 15, 0.1), stats.gamma.cdf(np.arange(1, 15, 0.1), 2, loc=1, scale=3))
+plt.legend(["Case 1", "Case 2", "CDF"])
+plt.title("1st random variable")
 plt.show()
 
 # %% md

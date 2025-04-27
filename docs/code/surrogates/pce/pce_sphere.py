@@ -22,13 +22,14 @@ In this example, PCE is used to generate a surrogate model for a given set of 2D
 
 # %%
 
-import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
 from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
+from matplotlib.ticker import FormatStrFormatter, LinearLocator
+from mpl_toolkits.mplot3d import Axes3D
+
+from UQpy.distributions import JointIndependent, Uniform
 from UQpy.surrogates import *
-from UQpy.distributions import Uniform, JointIndependent
 
 # %% md
 #
@@ -36,8 +37,10 @@ from UQpy.distributions import Uniform, JointIndependent
 
 # %%
 
-def function(x,y):
+
+def function(x, y):
     return x**2 + y**2
+
 
 # %% md
 #
@@ -55,7 +58,7 @@ joint = JointIndependent(marginals=marg)
 
 n_samples = 100
 x = joint.rvs(n_samples)
-y = function(x[:,0], x[:,1])
+y = function(x[:, 0], x[:, 1])
 
 # %% md
 #
@@ -63,21 +66,23 @@ y = function(x[:,0], x[:,1])
 
 # %%
 
-xmin, xmax = -6,6
-ymin, ymax = -6,6
+xmin, xmax = -6, 6
+ymin, ymax = -6, 6
 X1 = np.linspace(xmin, xmax, 50)
 X2 = np.linspace(ymin, ymax, 50)
-X1_, X2_ = np.meshgrid(X1, X2) # grid of points
+X1_, X2_ = np.meshgrid(X1, X2)  # grid of points
 f = function(X1_, X2_)
 
-fig = plt.figure(figsize=(10,6))
-ax = fig.add_subplot(projection='3d')
-surf = ax.plot_surface(X1_, X2_, f, rstride=1, cstride=1, cmap='gnuplot2', linewidth=0, antialiased=False)
-ax.set_title('True function')
-ax.set_xlabel('$x_1$', fontsize=15)
-ax.set_ylabel('$x_2$', fontsize=15)
+fig = plt.figure(figsize=(10, 6))
+ax = fig.add_subplot(projection="3d")
+surf = ax.plot_surface(
+    X1_, X2_, f, rstride=1, cstride=1, cmap="gnuplot2", linewidth=0, antialiased=False
+)
+ax.set_title("True function")
+ax.set_xlabel("$x_1$", fontsize=15)
+ax.set_ylabel("$x_2$", fontsize=15)
 ax.zaxis.set_major_locator(LinearLocator(10))
-ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+ax.zaxis.set_major_formatter(FormatStrFormatter("%.02f"))
 ax.view_init(20, 140)
 fig.colorbar(surf, shrink=0.5, aspect=7)
 
@@ -89,16 +94,16 @@ plt.show()
 
 # %%
 
-fig = plt.figure(figsize=(10,6))
-ax = fig.add_subplot(projection='3d')
-ax.scatter(x[:,0], x[:,1], y, s=20, c='r')
+fig = plt.figure(figsize=(10, 6))
+ax = fig.add_subplot(projection="3d")
+ax.scatter(x[:, 0], x[:, 1], y, s=20, c="r")
 
-ax.set_title('Training data')
+ax.set_title("Training data")
 ax.zaxis.set_major_locator(LinearLocator(10))
-ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-ax.view_init(20,140)
-ax.set_xlabel('$x_1$', fontsize=15)
-ax.set_ylabel('$x_2$', fontsize=15)
+ax.zaxis.set_major_formatter(FormatStrFormatter("%.02f"))
+ax.view_init(20, 140)
+ax.set_xlabel("$x_1$", fontsize=15)
+ax.set_ylabel("$x_2$", fontsize=15)
 plt.show()
 
 # %% md
@@ -112,7 +117,7 @@ polynomial_basis = TotalDegreeBasis(joint, max_degree)
 least_squares = LeastSquareRegression()
 pce = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
 
-pce.fit(x,y)
+pce.fit(x, y)
 
 # %% md
 #
@@ -124,7 +129,7 @@ polynomial_basis = TotalDegreeBasis(joint, max_degree)
 lasso = LassoRegression()
 pce2 = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=lasso)
 
-pce2.fit(x,y)
+pce2.fit(x, y)
 
 # %% md
 #
@@ -136,7 +141,7 @@ polynomial_basis = TotalDegreeBasis(joint, max_degree)
 ridge = RidgeRegression()
 pce3 = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=ridge)
 
-pce3.fit(x,y)
+pce3.fit(x, y)
 
 # %% md
 #
@@ -155,18 +160,18 @@ y_test = pce.predict(x_test)
 
 # %%
 
-fig = plt.figure(figsize=(10,6))
-ax = fig.add_subplot(projection='3d')
-ax.scatter(x_test[:,0], x_test[:,1], y_test, s=1)
+fig = plt.figure(figsize=(10, 6))
+ax = fig.add_subplot(projection="3d")
+ax.scatter(x_test[:, 0], x_test[:, 1], y_test, s=1)
 
-ax.set_title('PCE predictor')
+ax.set_title("PCE predictor")
 ax.zaxis.set_major_locator(LinearLocator(10))
-ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-ax.view_init(20,140)
-ax.set_xlim(-6,6)
-ax.set_ylim(-6,6)
-ax.set_xlabel('$x_1$', fontsize=15)
-ax.set_ylabel('$x_2$', fontsize=15)
+ax.zaxis.set_major_formatter(FormatStrFormatter("%.02f"))
+ax.view_init(20, 140)
+ax.set_xlim(-6, 6)
+ax.set_ylim(-6, 6)
+ax.set_xlabel("$x_1$", fontsize=15)
+ax.set_ylabel("$x_2$", fontsize=15)
 plt.show()
 
 # %% md
@@ -179,21 +184,21 @@ plt.show()
 # validation sample
 n_samples = 150
 x_val = joint.rvs(n_samples)
-y_val = function(x_val[:,0], x_val[:,1])
+y_val = function(x_val[:, 0], x_val[:, 1])
 
 # PCE predictions
-y_pce  = pce.predict(x_val).flatten()
+y_pce = pce.predict(x_val).flatten()
 y_pce2 = pce2.predict(x_val).flatten()
 y_pce3 = pce3.predict(x_val).flatten()
 
 # mean relative validation errors
-error = np.sum(np.abs((y_val - y_pce)/y_val))/n_samples
-error2 = np.sum(np.abs((y_val - y_pce2)/y_val))/n_samples
-error3 = np.sum(np.abs((y_val - y_pce3)/y_val))/n_samples
+error = np.sum(np.abs((y_val - y_pce) / y_val)) / n_samples
+error2 = np.sum(np.abs((y_val - y_pce2) / y_val)) / n_samples
+error3 = np.sum(np.abs((y_val - y_pce3) / y_val)) / n_samples
 
-print('Mean rel. error, LSTSQ:', error)
-print('Mean rel. error, LASSO:', error2)
-print('Mean rel. error, Ridge:', error3)
+print("Mean rel. error, LSTSQ:", error)
+print("Mean rel. error, LASSO:", error2)
+print("Mean rel. error, Ridge:", error3)
 
 # %% md
 # Moment Estimation
@@ -204,11 +209,11 @@ print('Mean rel. error, Ridge:', error3)
 
 n_mc = 1000000
 x_mc = joint.rvs(n_mc)
-y_mc = function(x_mc[:,0], x_mc[:,1])
+y_mc = function(x_mc[:, 0], x_mc[:, 1])
 mean_mc = np.mean(y_mc)
 var_mc = np.var(y_mc)
 
-print('Moments from least squares regression :', pce.get_moments())
-print('Moments from LASSO regression :', pce2.get_moments())
-print('Moments from Ridge regression :', pce3.get_moments())
-print('Moments from Monte Carlo integration: ', mean_mc, var_mc)
+print("Moments from least squares regression :", pce.get_moments())
+print("Moments from LASSO regression :", pce2.get_moments())
+print("Moments from Ridge regression :", pce3.get_moments())
+print("Moments from Monte Carlo integration: ", mean_mc, var_mc)

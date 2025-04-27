@@ -1,13 +1,14 @@
+import logging
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import logging
+
 from UQpy.scientific_machine_learning.baseclass.NeuralNetwork import NeuralNetwork
 from UQpy.utilities.ValidationTypes import PositiveInteger
 
 
 class Unet(NeuralNetwork):
-
     def __init__(
         self,
         n_filters: list[PositiveInteger],
@@ -71,9 +72,7 @@ class Unet(NeuralNetwork):
             out_channels = self.n_filters[i]
 
             if i != 1:
-                setattr(
-                    self, f"encoder_maxpool_{i}", nn.MaxPool2d(kernel_size=2, stride=2)
-                )
+                setattr(self, f"encoder_maxpool_{i}", nn.MaxPool2d(kernel_size=2, stride=2))
 
             setattr(
                 self,
@@ -129,9 +128,7 @@ class Unet(NeuralNetwork):
             )
             setattr(self, f"decoder_bn_2_{i}", nn.BatchNorm2d(out_channels))
 
-        self.final_conv = nn.Conv2d(
-            self.n_filters[1], self.out_channels, kernel_size=1, padding=0
-        )
+        self.final_conv = nn.Conv2d(self.n_filters[1], self.out_channels, kernel_size=1, padding=0)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Forward pass through the U-Net model.

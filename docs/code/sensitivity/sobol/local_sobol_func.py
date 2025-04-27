@@ -5,12 +5,12 @@ Auxiliary file
 
 """
 
-import numpy as np
 import copy
+
+import numpy as np
 
 
 def evaluate(X, a_values):
-
     dims = len(a_values)
     g = 1
 
@@ -22,7 +22,6 @@ def evaluate(X, a_values):
 
 
 def sensitivities(a_values):
-
     dims = len(a_values)
 
     Total_order = np.zeros((dims, 1))
@@ -34,7 +33,6 @@ def sensitivities(a_values):
     First_order = V_i / total_variance
 
     for i in range(dims):
-
         rem_First_order = copy.deepcopy(V_i)
         rem_First_order[i] = 0
         Total_order[i] = V_i[i] * np.prod(rem_First_order + 1) / total_variance

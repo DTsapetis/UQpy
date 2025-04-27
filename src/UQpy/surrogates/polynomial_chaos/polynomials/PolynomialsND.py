@@ -4,7 +4,6 @@ from UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials import P
 
 
 class PolynomialsND(Polynomials):
-
     def __init__(self, distributions, multi_index):
         """
         Class for multivariate Wiener-Askey chaos polynomials.
@@ -16,10 +15,14 @@ class PolynomialsND(Polynomials):
         self.distributions = distributions
         marginals = distributions.marginals
         N = len(multi_index)  # dimensions
-        self.polynomials1d = [Polynomials.distribution_to_polynomial[type(marginals[n])]
-                              (distributions=marginals[n], degree=int(multi_index[n])) for n in range(N)]
+        self.polynomials1d = [
+            Polynomials.distribution_to_polynomial[type(marginals[n])](
+                distributions=marginals[n], degree=int(multi_index[n])
+            )
+            for n in range(N)
+        ]
 
-    def evaluate(self, eval_data) ->np.ndarray:
+    def evaluate(self, eval_data) -> np.ndarray:
         """
         Evaluate Nd chaos polynomial on the given data set.
 

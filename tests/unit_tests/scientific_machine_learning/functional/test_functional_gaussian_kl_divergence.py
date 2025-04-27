@@ -1,10 +1,13 @@
 import torch
-import UQpy.scientific_machine_learning.functional as func
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from hypothesis.extra.numpy import array_shapes
+
+import UQpy.scientific_machine_learning.functional as func
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
+
 
 @given(
     mu=st.floats(min_value=-10, max_value=10),
@@ -31,9 +34,7 @@ def test_divergence_one_half():
     assert divergence == 0.5
 
 
-@given(
-    shape=array_shapes(min_dims=1, min_side=1, max_side=100),
-)
+@given(shape=array_shapes(min_dims=1, min_side=1, max_side=100))
 def test_divergence_zero(shape):
     """For any distributions, the KL divergence is non-negative"""
     prior_mu = torch.rand(shape)
@@ -46,9 +47,7 @@ def test_divergence_zero(shape):
     assert divergence >= 0
 
 
-@given(
-    shape=array_shapes(min_dims=1, min_side=1, max_side=100),
-)
+@given(shape=array_shapes(min_dims=1, min_side=1, max_side=100))
 def test_reduction_shape(shape):
     """For mean and sum, the divergence is a scalar.
     For reduction='none', the divergence is a tensor of the same shapes as the input

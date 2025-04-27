@@ -1,7 +1,9 @@
-import torch
 from typing import Annotated
+
+import torch
 from beartype import beartype
 from beartype.vale import Is
+
 from UQpy.utilities.ValidationTypes import PositiveInteger, Torch5DComplexTensor
 
 
@@ -40,12 +42,7 @@ def spectral_conv2d(
     # Fourier transform
     x_ft = torch.fft.rfft2(x, s=(height, width))
     # Linear transform in Fourier space
-    out_shape = (
-        batch_size,
-        out_channels,
-        (height // 2) + 1,
-        (width // 2) + 1,
-    )
+    out_shape = (batch_size, out_channels, (height // 2) + 1, (width // 2) + 1)
     out_ft = torch.zeros(out_shape, dtype=torch.cfloat)
     indices = [
         (slice(None), slice(None), slice(0, modes[0]), slice(0, modes[1])),

@@ -1,14 +1,15 @@
+import logging
+from typing import Union
+
 import torch
 import torch.nn as nn
-import logging
 from beartype import beartype
-from typing import Union
+
 from UQpy.utilities.ValidationTypes import PositiveInteger
 
 
 @beartype
 class Trainer:
-
     def __init__(
         self,
         model: nn.Module,
@@ -74,13 +75,9 @@ class Trainer:
             )
 
         if train_data:
-            self.history["train_loss"] = torch.full(
-                [epochs], torch.nan, requires_grad=False
-            )
+            self.history["train_loss"] = torch.full([epochs], torch.nan, requires_grad=False)
         if test_data:
-            self.history["test_loss"] = torch.full(
-                [epochs], torch.nan, requires_grad=False
-            )
+            self.history["test_loss"] = torch.full([epochs], torch.nan, requires_grad=False)
 
         self.logger.info("UQpy: Scientific Machine Learning: Beginning " + log_note)
         i = 0
@@ -117,12 +114,12 @@ class Trainer:
                     self.history["test_loss"][i] = average_test_loss
                     self.logger.info(
                         f"UQpy: Scientific Machine Learning: "
-                        f"Epoch {i+1:,} / {epochs:,} Train Loss {average_train_loss:.6e} Test Loss {average_test_loss:.6e}"
+                        f"Epoch {i + 1:,} / {epochs:,} Train Loss {average_train_loss:.6e} Test Loss {average_test_loss:.6e}"
                     )
             else:
                 self.logger.info(
                     f"UQpy: Scientific Machine Learning: "
-                    f"Epoch {i+1:,} / {epochs:,} Train Loss {average_train_loss:.6e}"
+                    f"Epoch {i + 1:,} / {epochs:,} Train Loss {average_train_loss:.6e}"
                 )
             i += 1
 

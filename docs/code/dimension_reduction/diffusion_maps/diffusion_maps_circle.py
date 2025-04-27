@@ -13,11 +13,12 @@ This example shows how to use the UQpy DiffusionMaps class to reveal the embedde
 
 # %%
 
+import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
-from UQpy.utilities.kernels.GaussianKernel import GaussianKernel
+
 from UQpy.dimension_reduction.diffusion_maps.DiffusionMaps import DiffusionMaps
+from UQpy.utilities.kernels.GaussianKernel import GaussianKernel
 
 # %% md
 #
@@ -46,9 +47,9 @@ z = z0 + roz * np.random.normal(0, 1, len(z0))
 X = np.array([x, y, z]).transpose()
 
 fig = plt.figure()
-ax = fig.gca(projection='3d')
-ax.scatter(x, y, z, c='b', cmap=plt.cm.Spectral, s=8)
-ax.plot(x0, y0, z0, 'r', label='parametric curve')
+ax = fig.gca(projection="3d")
+ax.scatter(x, y, z, c="b", cmap=plt.cm.Spectral, s=8)
+ax.plot(x0, y0, z0, "r", label="parametric curve")
 plt.show()
 
 # %% md
@@ -58,8 +59,7 @@ plt.show()
 
 # %%
 
-dmaps = DiffusionMaps(data=X, alpha=1, n_eigenvectors=5,
-                      kernel=GaussianKernel(epsilon=0.3))
+dmaps = DiffusionMaps(data=X, alpha=1, n_eigenvectors=5, kernel=GaussianKernel(epsilon=0.3))
 
 # %% md
 #
@@ -68,8 +68,14 @@ dmaps = DiffusionMaps(data=X, alpha=1, n_eigenvectors=5,
 # %%
 
 color = dmaps.eigenvectors[:, 1]
-plt.scatter(dmaps.diffusion_coordinates[:, 1], dmaps.diffusion_coordinates[:, 2], c=color, cmap=plt.cm.Spectral, s=8)
-plt.axis('equal')
+plt.scatter(
+    dmaps.diffusion_coordinates[:, 1],
+    dmaps.diffusion_coordinates[:, 2],
+    c=color,
+    cmap=plt.cm.Spectral,
+    s=8,
+)
+plt.axis("equal")
 plt.show()
 
 # %% md
@@ -79,6 +85,6 @@ plt.show()
 # %%
 
 fig = plt.figure()
-ax = fig.gca(projection='3d')
+ax = fig.gca(projection="3d")
 ax.scatter(x, y, z, c=color, cmap=plt.cm.Spectral, s=8)
 plt.show()

@@ -3,7 +3,7 @@ r"""
 Mechanical oscillator model (multioutput)
 ==============================================
 
-In this example, we consider the mechanical oscillator is governed by the following 
+In this example, we consider the mechanical oscillator is governed by the following
 second-order ODE as demonstrated in [1]_:
 
 .. math::
@@ -17,8 +17,8 @@ The parameteres of the oscillator are modeled as follows:
 .. math::
     m \sim \mathcal{U}(10, 12), c \sim \mathcal{U}(0.4, 0.8), k \sim \mathcal{U}(70, 90), \ell \sim \mathcal{U}(-1, -0.25).
 
-Here, we compute the Sobol indices for each point in time and are called 
-pointwise-in-time Sobol indices. These indices describe the sensitivity of the model 
+Here, we compute the Sobol indices for each point in time and are called
+pointwise-in-time Sobol indices. These indices describe the sensitivity of the model
 parameters at each point in time.
 
 .. [1] Gamboa, F., Janon, A., Klein, T., & Lagnoux, A. (2014). Sensitivity analysis for multidimensional and functional outputs. Electronic Journal of Statistics, 8(1), 575-603.
@@ -26,13 +26,13 @@ parameters at each point in time.
 """
 
 # %%
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
 
 # %% [markdown]

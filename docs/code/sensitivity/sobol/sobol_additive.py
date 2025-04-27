@@ -3,7 +3,7 @@
 Additive function
 ==============================================
 
-We introduce the variance-based Sobol indices using an elementary example. 
+We introduce the variance-based Sobol indices using an elementary example.
 For more details, refer [1]_.
 
 .. math::
@@ -16,12 +16,12 @@ For more details, refer [1]_.
 # %%
 import numpy as np
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Normal
 from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.PostProcess import *
+from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
 
 np.random.seed(123)
 
@@ -34,10 +34,7 @@ a, b = 1, 2
 model = PythonModel(
     model_script="local_additive.py",
     model_object_name="evaluate",
-    var_names=[
-        "X_1",
-        "X_2",
-    ],
+    var_names=["X_1", "X_2"],
     delete_files=True,
     params=[a, b],
 )

@@ -1,15 +1,14 @@
 from typing import Union
+
 import scipy.stats as stats
 from beartype import beartype
+
 from UQpy.distributions.baseclass import DistributionContinuous1D
 
 
 class Normal(DistributionContinuous1D):
-
     @beartype
-    def __init__(
-        self, loc: Union[None, float, int] = 0.0, scale: Union[None, float, int] = 1.0
-    ):
+    def __init__(self, loc: Union[None, float, int] = 0.0, scale: Union[None, float, int] = 1.0):
         """
 
         :param loc: location parameter

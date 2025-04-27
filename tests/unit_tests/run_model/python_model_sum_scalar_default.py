@@ -1,5 +1,6 @@
-import fire
 import os
+
+import fire
 
 
 def python(index):
@@ -14,5 +15,5 @@ def python(index):
     os.system(command4)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     fire.Fire(python)

@@ -14,12 +14,11 @@ Nataf
 
 # %%
 
-from UQpy.transformations import Nataf
-import numpy as np
 import matplotlib.pyplot as plt
-from UQpy.distributions import Normal, Gamma, Lognormal
-from UQpy.transformations import Decorrelate, Correlate
+import numpy as np
 
+from UQpy.distributions import Gamma, Lognormal, Normal
+from UQpy.transformations import Correlate, Decorrelate, Nataf
 
 # %% md
 #
@@ -30,7 +29,7 @@ from UQpy.transformations import Decorrelate, Correlate
 # %%
 
 dist1 = Gamma(4.0, loc=0.0, scale=1.0)
-dist2 = Lognormal(s=2., loc=0., scale=np.exp(1))
+dist2 = Lognormal(s=2.0, loc=0.0, scale=np.exp(1))
 Rx = np.array([[1.0, 0.9], [0.9, 1.0]])
 
 # %% md
@@ -58,11 +57,11 @@ samples_x = nataf_obj.rvs(1000)
 
 
 plt.figure()
-plt.title('non-Gaussian random variables')
+plt.title("non-Gaussian random variables")
 plt.scatter(samples_x[:, 0], samples_x[:, 1])
 plt.grid(True)
-plt.xlabel('$X_1$')
-plt.ylabel('$X_2$')
+plt.xlabel("$X_1$")
+plt.ylabel("$X_2$")
 plt.show()
 
 # %% md
@@ -86,11 +85,11 @@ print(nataf_obj.corr_z)
 
 
 plt.figure()
-plt.title('Correlated standard normal samples')
+plt.title("Correlated standard normal samples")
 plt.scatter(nataf_obj.samples_z[:, 0], nataf_obj.samples_z[:, 1])
 plt.grid(True)
-plt.xlabel('$Z_1$')
-plt.ylabel('$Z_2$')
+plt.xlabel("$Z_1$")
+plt.ylabel("$Z_2$")
 plt.show()
 
 # %% md
@@ -109,11 +108,11 @@ samples_u = Decorrelate(nataf_obj.samples_z, nataf_obj.corr_z).samples_u
 # %%
 
 plt.figure()
-plt.title('Uncorrelated standard normal samples')
+plt.title("Uncorrelated standard normal samples")
 plt.scatter(samples_u[:, 0], samples_u[:, 1])
 plt.grid(True)
-plt.xlabel('$U_1$')
-plt.ylabel('$U_2$')
+plt.xlabel("$U_1$")
+plt.ylabel("$U_2$")
 plt.show()
 
 # %% md
@@ -132,11 +131,11 @@ samples_z = Correlate(samples_u, nataf_obj.corr_z).samples_z
 # %%
 
 plt.figure()
-plt.title('Correlated standard normal samples')
+plt.title("Correlated standard normal samples")
 plt.scatter(samples_z[:, 0], samples_z[:, 1])
 plt.grid(True)
-plt.xlabel('$U_1$')
-plt.ylabel('$U_2$')
+plt.xlabel("$U_1$")
+plt.ylabel("$U_2$")
 plt.show()
 
 
@@ -158,8 +157,8 @@ for i in range(N):
     w3[i] = ww[0, 1]
 
 plt.plot(rho, w3)
-plt.xlabel('rho_X')
-plt.ylabel('rho_Z')
+plt.xlabel("rho_X")
+plt.ylabel("rho_Z")
 plt.show()
 
 

@@ -7,7 +7,6 @@ from UQpy.distributions.baseclass import DistributionContinuous1D
 
 
 class TruncatedNormal(DistributionContinuous1D):
-
     @beartype
     def __init__(
         self,
@@ -24,10 +23,6 @@ class TruncatedNormal(DistributionContinuous1D):
         :param scale: scale parameter
         """
         super().__init__(
-            a=a,
-            b=b,
-            loc=loc,
-            scale=scale,
-            ordered_parameters=("a", "b", "loc", "scale"),
+            a=a, b=b, loc=loc, scale=scale, ordered_parameters=("a", "b", "loc", "scale")
         )
         self._construct_from_scipy(scipy_name=stats.truncnorm)

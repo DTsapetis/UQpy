@@ -1,5 +1,5 @@
 """
-This module is used to post-process the sensitivity analysis results. Currently it 
+This module is used to post-process the sensitivity analysis results. Currently it
 supports plotting the sensitivity results and comparing the sensitivity results
 (such first order index v/s total order index) using the following two methods:
 
@@ -10,13 +10,11 @@ supports plotting the sensitivity results and comparing the sensitivity results
 
 import itertools
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from beartype import beartype
 
-from UQpy.utilities.ValidationTypes import (
-    NumpyFloatArray,
-)
+from UQpy.utilities.ValidationTypes import NumpyFloatArray
 
 
 @beartype
@@ -27,7 +25,6 @@ def plot_sensitivity_index(
     variable_names: list = None,
     **kwargs,
 ):
-
     """
 
     This function plots the sensitivity indices (with confidence intervals)
@@ -112,7 +109,6 @@ def plot_index_comparison(
     variable_names: list = None,
     **kwargs,
 ):
-
     """
 
     This function plots two sensitivity indices (with confidence intervals)
@@ -240,7 +236,6 @@ def plot_second_order_indices(
     variable_names: list = None,
     **kwargs,
 ):
-
     """
 
     This function plots second order indices (with confidence intervals)
@@ -317,11 +312,7 @@ def plot_second_order_indices(
     # generally, there are many second order terms
     # so we need to make sure that the labels are
     # not overlapping. We do this by rotating the labels
-    plt.setp(
-        ax.get_xticklabels(),
-        rotation=30,
-        horizontalalignment="right",
-    )
+    plt.setp(ax.get_xticklabels(), rotation=30, horizontalalignment="right")
     ax.set_xlabel("Model inputs")
     ax.set_ylim(top=1)  # set only upper limit of y to 1
     ax.set_title(plot_title)

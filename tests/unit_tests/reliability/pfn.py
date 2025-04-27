@@ -1,19 +1,9 @@
 import numpy as np
 
 
-
-
-
-
-
-
-
-
-
-
-
 def example2(samples=None):
     import numpy as np
+
     d = 2
     beta = 3.0902
     g = np.zeros(samples.shape[0])
@@ -37,9 +27,7 @@ def example4(samples=None):
 
 
 def RunPythonModel(samples, b_eff, d):
-
     qoi = list()
     for i in range(samples.shape[0]):
         qoi.append(b_eff * np.sqrt(d) - np.sum(samples[i, :]))
     return qoi
-

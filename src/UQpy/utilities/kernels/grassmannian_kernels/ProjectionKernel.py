@@ -1,4 +1,4 @@
-from typing import Union, Tuple
+from typing import Tuple, Union
 
 import numpy as np
 
@@ -6,7 +6,6 @@ from UQpy.utilities.kernels.baseclass.GrassmannianKernel import GrassmannianKern
 
 
 class ProjectionKernel(GrassmannianKernel):
-
     def __init__(self, kernel_parameter: Union[int, float] = None):
         """
         :param kernel_parameter: Number of independent p-planes of each Grassmann point.

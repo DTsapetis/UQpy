@@ -1,7 +1,8 @@
 import torch
-import UQpy.scientific_machine_learning as sml
 from hypothesis import given, settings
 from hypothesis.strategies import integers
+
+import UQpy.scientific_machine_learning as sml
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
@@ -64,6 +65,7 @@ def test_bias_false():
     layer = sml.BayesianFourier3d(1, (32, 64, 128), bias=False)
     y = layer(x)
     assert torch.all(y == torch.zeros_like(y))
+
 
 def test_extra_repr():
     """Customize all input options to test the extra_repr method correctly displays non-default inputs"""

@@ -1,6 +1,7 @@
 import torch
-import UQpy.scientific_machine_learning.functional as func
+
 import UQpy as uq
+import UQpy.scientific_machine_learning.functional as func
 
 
 def test_gaussian_js_equals_gaussian_kl():
@@ -27,14 +28,9 @@ def test_gaussian_js_equals_gaussian_kl():
 def test_non_gaussian_js_equals_mc_kl():
     posterior_distribution = [uq.Uniform(3, 1)]
     prior_distribution = [uq.Uniform(2, 5)]
-    kl_divergence = func.mc_kullback_leibler_divergence(
-        posterior_distribution,
-        prior_distribution,
-    )
+    kl_divergence = func.mc_kullback_leibler_divergence(posterior_distribution, prior_distribution)
     js_divergence = func.generalized_jensen_shannon_divergence(
-        posterior_distribution,
-        prior_distribution,
-        alpha=0.0,
+        posterior_distribution, prior_distribution, alpha=0.0
     )
     assert torch.isclose(kl_divergence, js_divergence, rtol=0.05)
 

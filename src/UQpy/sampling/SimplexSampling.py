@@ -1,7 +1,8 @@
 import scipy.stats as stats
 from beartype import beartype
-from UQpy.utilities.ValidationTypes import *
+
 from UQpy.utilities.Utilities import process_random_state
+from UQpy.utilities.ValidationTypes import *
 
 
 class SimplexSampling:
@@ -66,13 +67,16 @@ class SimplexSampling:
                         ai = self.nodes[k, j] - self.nodes[k - 1, j]
                         b_.append(ai)
                     ad[j] = np.hstack((self.nodes[0, j], b_))
-                    r[j] = stats.uniform.rvs(loc=0, scale=1, random_state=self.random_state) ** (1 / (dimension - j))
+                    r[j] = stats.uniform.rvs(loc=0, scale=1, random_state=self.random_state) ** (
+                        1 / (dimension - j)
+                    )
                 d = np.cumprod(r)
                 r_ = np.hstack((1, d))
                 sample[i, :] = np.dot(ad, r_)
         else:
             a = min(self.nodes)
             b = max(self.nodes)
-            sample = a + (b - a) * stats.uniform.rvs(size=[self.nsamples, dimension], random_state=self.random_state)
+            sample = a + (b - a) * stats.uniform.rvs(
+                size=[self.nsamples, dimension], random_state=self.random_state
+            )
         self.samples: NumpyFloatArray = sample
-

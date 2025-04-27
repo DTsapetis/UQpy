@@ -1,11 +1,14 @@
-import fire
 import os
+
+import fire
 
 
 def matlab(index):
     command1 = "cp ./InputFiles/dummy_model_" + str(index) + ".m ."
-    command2 = "/Applications/MATLAB_R2018a.app/bin/matlab " \
-               "-nosplash -nojvm -nodisplay -nodesktop -r 'run dummy_model_" + str(index) + ".m; exit'"
+    command2 = (
+        "/Applications/MATLAB_R2018a.app/bin/matlab "
+        "-nosplash -nojvm -nodisplay -nodesktop -r 'run dummy_model_" + str(index) + ".m; exit'"
+    )
     command3 = "mv ./OutputFiles/oupt.out ./OutputFiles/oupt_" + str(index) + ".out"
     command4 = "rm dummy_model_" + str(index) + ".m"
     os.system(command1)
@@ -14,5 +17,5 @@ def matlab(index):
     os.system(command4)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     fire.Fire(matlab)

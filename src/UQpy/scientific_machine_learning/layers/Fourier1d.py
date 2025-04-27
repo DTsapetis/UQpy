@@ -1,11 +1,13 @@
+from typing import Union
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 import UQpy.scientific_machine_learning as sml
 import UQpy.scientific_machine_learning.functional as func
 from UQpy.scientific_machine_learning.baseclass import Layer
 from UQpy.utilities.ValidationTypes import PositiveInteger
-from typing import Union
 
 
 class Fourier1d(Layer):
@@ -63,18 +65,14 @@ class Fourier1d(Layer):
         self.bias = bias
 
         self.weight_spectral: nn.Parameter = nn.Parameter(
-            torch.empty(
-                self.width, self.width, self.modes, dtype=torch.float, device=device
-            )
+            torch.empty(self.width, self.width, self.modes, dtype=torch.float, device=device)
         )
         kernel_size = 1
         self.weight_conv: nn.Parameter = nn.Parameter(
             torch.empty(self.width, self.width, kernel_size, device=device)
         )
         if self.bias:
-            self.bias_conv: nn.Parameter = nn.Parameter(
-                torch.empty(self.width, device=device)
-            )
+            self.bias_conv: nn.Parameter = nn.Parameter(torch.empty(self.width, device=device))
         else:
             self.register_parameter("bias_conv", None)
         k = torch.sqrt(1 / torch.tensor(self.width, device=device))

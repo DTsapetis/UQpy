@@ -1,18 +1,18 @@
 import logging
 
+import numpy as np
 from beartype import beartype
 
 from UQpy.utilities.ValidationTypes import *
-import numpy as np
 
 
 class HigherOrderSVD:
     @beartype
     def __init__(
-            self,
-            solution_snapshots: Union[np.ndarray, list],
-            modes: PositiveInteger = 10 ** 10,
-            reconstruction_percentage: Union[PositiveFloat, PositiveInteger] = 10 ** 10,
+        self,
+        solution_snapshots: Union[np.ndarray, list],
+        modes: PositiveInteger = 10**10,
+        reconstruction_percentage: Union[PositiveFloat, PositiveInteger] = 10**10,
     ):
         """
 
@@ -44,8 +44,10 @@ class HigherOrderSVD:
         self.modes = modes
         self.reconstruction_percentage = reconstruction_percentage
 
-        if self.modes != 10 ** 10 and self.reconstruction_percentage != 10 ** 10:
-            raise ValueError("Either a number of modes or a reconstruction percentage must be chosen, not both.")
+        if self.modes != 10**10 and self.reconstruction_percentage != 10**10:
+            raise ValueError(
+                "Either a number of modes or a reconstruction percentage must be chosen, not both."
+            )
 
         if self.solution_snapshots is not None:
             self.factorize(get_error=True)
@@ -69,10 +71,12 @@ class HigherOrderSVD:
         kronecker_product = np.kron(self.u1, self.u2)
         self.s3 = np.array(np.dot(hold, np.linalg.inv(kronecker_product.T)))
 
-        if self.modes == 10 ** 10:
+        if self.modes == 10**10:
             error_ = []
             for i in range(rows):
-                error_.append(np.sqrt(((self.sig_3[i + 1:]) ** 2).sum()) / np.sqrt((self.sig_3 ** 2).sum()))
+                error_.append(
+                    np.sqrt(((self.sig_3[i + 1 :]) ** 2).sum()) / np.sqrt((self.sig_3**2).sum())
+                )
                 if i == rows:
                     error_.append(0)
             error = [i * 100 for i in error_]
@@ -84,19 +88,27 @@ class HigherOrderSVD:
         elif self.modes > rows:
             self.logger.warning(
                 "A number of modes greater than the number of temporal dimensions was given."
-                "Number of temporal dimensions is {}.".format(rows))
+                "Number of temporal dimensions is {}.".format(rows)
+            )
 
         self.reduced_solutions = np.dot(self.u3, sig_3_)
         self.u3hat = np.dot(self.u3[:, : self.modes], sig_3_[: self.modes, : self.modes])
-        self.s3hat = np.dot(np.linalg.inv(sig_3_[: self.modes, : self.modes]), self.s3[: self.modes, :])
+        self.s3hat = np.dot(
+            np.linalg.inv(sig_3_[: self.modes, : self.modes]), self.s3[: self.modes, :]
+        )
 
-        if self.modes == 10 ** 10:
-            self.logger.info("Dataset reconstruction: {0:.3%}".format(self.reconstruction_percentage / 100))
+        if self.modes == 10**10:
+            self.logger.info(
+                "Dataset reconstruction: {0:.3%}".format(self.reconstruction_percentage / 100)
+            )
 
         elif get_error:
-            self.reconstruction_error = np.sqrt(((self.s3hat[self.modes:]) ** 2).sum()) / np.sqrt(
-                (self.sig_3 ** 2).sum())
-            self.logger.warning("Reduced-order reconstruction error: {0:.3%}".format(self.reconstruction_error))
+            self.reconstruction_error = np.sqrt(((self.s3hat[self.modes :]) ** 2).sum()) / np.sqrt(
+                (self.sig_3**2).sum()
+            )
+            self.logger.warning(
+                "Reduced-order reconstruction error: {0:.3%}".format(self.reconstruction_error)
+            )
 
     @staticmethod
     def unfold3d(second_order_tensor: np.ndarray):
@@ -123,20 +135,28 @@ class HigherOrderSVD:
         permuted_tensor2 = np.transpose(second_order_tensor, permutation2)
         permuted_tensor3 = np.transpose(second_order_tensor, permutation3)
 
-        matrix1 = permuted_tensor1.reshape(second_order_tensor.shape[0],
-                                           second_order_tensor.shape[2] * second_order_tensor.shape[1], )
-        matrix2 = permuted_tensor2.reshape(second_order_tensor.shape[1],
-                                           second_order_tensor.shape[2] * second_order_tensor.shape[0], )
-        matrix3 = permuted_tensor3.reshape(second_order_tensor.shape[2],
-                                           second_order_tensor.shape[0] * second_order_tensor.shape[1], )
+        matrix1 = permuted_tensor1.reshape(
+            second_order_tensor.shape[0],
+            second_order_tensor.shape[2] * second_order_tensor.shape[1],
+        )
+        matrix2 = permuted_tensor2.reshape(
+            second_order_tensor.shape[1],
+            second_order_tensor.shape[2] * second_order_tensor.shape[0],
+        )
+        matrix3 = permuted_tensor3.reshape(
+            second_order_tensor.shape[2],
+            second_order_tensor.shape[0] * second_order_tensor.shape[1],
+        )
 
         return matrix1, matrix2, matrix3
 
     @staticmethod
-    def reconstruct(u1: Numpy2DFloatArray,
-                    u2: Numpy2DFloatArray,
-                    u3hat: Numpy2DFloatArray,
-                    s3hat: Numpy2DFloatArray):
+    def reconstruct(
+        u1: Numpy2DFloatArray,
+        u2: Numpy2DFloatArray,
+        u3hat: Numpy2DFloatArray,
+        s3hat: Numpy2DFloatArray,
+    ):
         """
         Reconstructs the approximated solution.
 

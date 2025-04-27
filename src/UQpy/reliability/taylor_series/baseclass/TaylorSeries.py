@@ -7,7 +7,6 @@ from UQpy.transformations import *
 
 
 class TaylorSeries(ABC):
-
     @staticmethod
     def _derivatives(
         point_u,
@@ -57,7 +56,8 @@ class TaylorSeries(ABC):
         y1 = runmodel_object.qoi_list
         logging.getLogger(__name__).info(
             "samples to evaluate the model: {0}".format(array_of_samples)
-            + "model evaluations: {0}".format(runmodel_object.qoi_list))
+            + "model evaluations: {0}".format(runmodel_object.qoi_list)
+        )
 
         if order.lower() == "first":
             gradient = np.zeros(point_u.shape[0])
@@ -84,7 +84,7 @@ class TaylorSeries(ABC):
                 qoi_plus = output_list[2 * jj + 1]
                 qoi_minus = output_list[2 * jj + 2]
 
-                d2y_dj[jj] = (qoi_minus - 2 * qoi[0] + qoi_plus) / (df_step ** 2)
+                d2y_dj[jj] = (qoi_minus - 2 * qoi[0] + qoi_plus) / (df_step**2)
 
             list_of_mixed_points = list()
             import itertools
@@ -138,7 +138,8 @@ class TaylorSeries(ABC):
 
             logging.getLogger(__name__).info(
                 "samples for gradient: {0}".format(array_of_mixed_points[1:])
-                + "model evaluations for the gradient: {0}".format(runmodel_object.qoi_list[1:]))
+                + "model evaluations for the gradient: {0}".format(runmodel_object.qoi_list[1:])
+            )
 
             for j in range(count):
                 qoi_0 = runmodel_object.qoi_list[4 * j]

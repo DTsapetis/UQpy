@@ -1,10 +1,10 @@
-""""
+""" "
 This is the toy example with multiple outputs from [1]_.
 
 References
 ----------
 
-.. [1]  Gamboa F, Janon A, Klein T, Lagnoux A, others. 
+.. [1]  Gamboa F, Janon A, Klein T, Lagnoux A, others.
         Sensitivity analysis for multidimensional and functional outputs.
         Electronic journal of statistics 2014; 8(1): 575-603.
 
@@ -14,7 +14,6 @@ import numpy as np
 
 
 def evaluate(X):
-
     """
 
     * **Input:**

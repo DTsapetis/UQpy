@@ -1,24 +1,29 @@
+import warnings
 from typing import Callable
 
 from beartype import beartype
 
-from UQpy.run_model.RunModel import RunModel
 from UQpy.distributions.baseclass import Distribution
-from UQpy.inference.inference_models.baseclass.InferenceModel import *
-from UQpy.distributions.collection.MultivariateNormal import MultivariateNormal
-from UQpy.utilities.ValidationTypes import *
 from UQpy.distributions.collection import Normal
+from UQpy.distributions.collection.MultivariateNormal import MultivariateNormal
+from UQpy.inference.inference_models.baseclass.InferenceModel import *
+from UQpy.run_model.RunModel import RunModel
+from UQpy.utilities.ValidationTypes import *
 
-import warnings
-
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 
 
 class ComputationalModel(InferenceModel):
     @beartype
-    def __init__(self, n_parameters: PositiveInteger, runmodel_object: RunModel,
-                 error_covariance: Union[np.ndarray, float] = 1.0, name: str = "", prior: Distribution = None,
-                 log_likelihood: Callable = None):
+    def __init__(
+        self,
+        n_parameters: PositiveInteger,
+        runmodel_object: RunModel,
+        error_covariance: Union[np.ndarray, float] = 1.0,
+        name: str = "",
+        prior: Distribution = None,
+        log_likelihood: Callable = None,
+    ):
         """
         Define a (non-)Gaussian error model for inference.
 
@@ -58,20 +63,35 @@ class ComputationalModel(InferenceModel):
             if isinstance(self.error_covariance, (float, int)):
                 norm = Normal(loc=0.0, scale=np.sqrt(self.error_covariance))
                 log_like_values = np.array(
-                    [np.sum([norm.log_pdf(data_i - outpt_i) for data_i, outpt_i in zip(data, output)])
-                     for output in model_outputs])
+                    [
+                        np.sum(
+                            [
+                                norm.log_pdf(data_i - outpt_i)
+                                for data_i, outpt_i in zip(data, output)
+                            ]
+                        )
+                        for output in model_outputs
+                    ]
+                )
             else:
                 multivariate_normal = MultivariateNormal(data, cov=self.error_covariance)
                 log_like_values = np.array(
-                    [multivariate_normal.log_pdf(x=np.array(output).reshape((-1,))) for output in model_outputs])
+                    [
+                        multivariate_normal.log_pdf(x=np.array(output).reshape((-1,)))
+                        for output in model_outputs
+                    ]
+                )
 
         # Case 1.b: likelihood is user-defined
         else:
-            log_like_values = self.log_likelihood(data=data, model_outputs=model_outputs, params=parameters)
+            log_like_values = self.log_likelihood(
+                data=data, model_outputs=model_outputs, params=parameters
+            )
             if not isinstance(log_like_values, np.ndarray):
                 log_like_values = np.array(log_like_values)
             if log_like_values.shape != (parameters.shape[0],):
                 raise ValueError(
                     "UQpy: Likelihood function should output a (nsamples, ) ndarray of likelihood "
-                    "values.")
+                    "values."
+                )
         return log_like_values

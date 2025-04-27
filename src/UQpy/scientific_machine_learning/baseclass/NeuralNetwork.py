@@ -1,7 +1,8 @@
+from abc import ABC, abstractmethod
+
 import torch
 import torch.nn as nn
 import torchinfo
-from abc import ABC, abstractmethod
 
 
 class NeuralNetwork(nn.Module, ABC):

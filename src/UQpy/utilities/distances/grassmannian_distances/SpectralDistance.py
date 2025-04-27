@@ -1,8 +1,6 @@
 import numpy as np
 
-from UQpy.utilities.distances.baseclass.GrassmannianDistance import (
-    GrassmannianDistance,
-)
+from UQpy.utilities.distances.baseclass.GrassmannianDistance import GrassmannianDistance
 from UQpy.utilities.GrassmannPoint import GrassmannPoint
 
 
@@ -11,6 +9,7 @@ class SpectralDistance(GrassmannianDistance):
     A class to calculate the Spectral distance between two Grassmann points.
 
     """
+
     def compute_distance(self, xi: GrassmannPoint, xj: GrassmannPoint) -> float:
         """
         Compute the Spectral distance between two points on the Grassmann manifold.

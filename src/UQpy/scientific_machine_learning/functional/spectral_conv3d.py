@@ -1,7 +1,9 @@
-import torch
 from typing import Annotated
+
+import torch
 from beartype import beartype
 from beartype.vale import Is
+
 from UQpy.utilities.ValidationTypes import PositiveInteger, Torch6DComplexTensor
 
 
@@ -38,9 +40,7 @@ def spectral_conv3d(
             f"UQpy: {modes[2]} is invalid for `modes[2]`. "
             f"`modes[2]` must be less than or equal to (width // 2) + 1 = {(width // 2) + 1}"
         )
-    correct_shape = torch.Size(
-        [4, in_channels, out_channels, modes[0], modes[1], modes[2]]
-    )
+    correct_shape = torch.Size([4, in_channels, out_channels, modes[0], modes[1], modes[2]])
     if weights.shape != correct_shape:
         raise RuntimeError(
             f"UQpy: Invalid weights shape {weights.shape}. "
@@ -50,36 +50,12 @@ def spectral_conv3d(
     # Apply Fourier transform
     x_ft = torch.fft.rfftn(x, s=(depth, height, width))
     # Apply linear transform in Fourier space
-    out_shape = (
-        batch_size,
-        out_channels,
-        (depth // 2) + 1,
-        (height // 2) + 1,
-        (width // 2) + 1,
-    )
+    out_shape = (batch_size, out_channels, (depth // 2) + 1, (height // 2) + 1, (width // 2) + 1)
     out_ft = torch.zeros(out_shape, dtype=torch.cfloat)
     indices = [
-        (
-            slice(None),
-            slice(None),
-            slice(0, modes[0]),
-            slice(0, modes[1]),
-            slice(0, modes[2]),
-        ),
-        (
-            slice(None),
-            slice(None),
-            slice(-modes[0], None),
-            slice(0, modes[1]),
-            slice(0, modes[2]),
-        ),
-        (
-            slice(None),
-            slice(None),
-            slice(0, modes[0]),
-            slice(-modes[1], None),
-            slice(0, modes[2]),
-        ),
+        (slice(None), slice(None), slice(0, modes[0]), slice(0, modes[1]), slice(0, modes[2])),
+        (slice(None), slice(None), slice(-modes[0], None), slice(0, modes[1]), slice(0, modes[2])),
+        (slice(None), slice(None), slice(0, modes[0]), slice(-modes[1], None), slice(0, modes[2])),
         (
             slice(None),
             slice(None),

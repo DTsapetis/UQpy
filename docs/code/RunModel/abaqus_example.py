@@ -10,12 +10,13 @@ Third-party - Abaqus
 
 # %%
 import glob
+import os
 import pickle
 import time
-import os
+
 from UQpy.distributions import Normal, Uniform
-from UQpy.run_model.RunModel import RunModel
 from UQpy.run_model.model_execution.ThirdPartyModel import ThirdPartyModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sampling import MonteCarloSampling
 
 calling_directory = os.getcwd()
@@ -28,7 +29,7 @@ t = time.time()
 
 # %%
 
-var_names = ['qtd', 'fy']
+var_names = ["qtd", "fy"]
 
 # %% md
 #
@@ -36,11 +37,15 @@ var_names = ['qtd', 'fy']
 
 # %%
 
-m = ThirdPartyModel(model_script='abaqus_fire_analysis.py', input_template='abaqus_input.py',
-                    output_script='extract_abaqus_output.py', var_names=var_names,
-                    model_dir='SFE_MCS', )
+m = ThirdPartyModel(
+    model_script="abaqus_fire_analysis.py",
+    input_template="abaqus_input.py",
+    output_script="extract_abaqus_output.py",
+    var_names=var_names,
+    model_dir="SFE_MCS",
+)
 abaqus_sfe_model = RunModel(cores_per_task=1, ntasks=24, model=m)
-print('Example: Created the model object.')
+print("Example: Created the model object.")
 
 # %% md
 #
@@ -80,15 +85,15 @@ qois = abaqus_sfe_model.qoi_list
 # Save the samples and the qois in a dictionary called results with keys 'inputs' and 'outputs'.
 
 # %%
-results = {'inputs': sample_points, 'outputs': qois}
+results = {"inputs": sample_points, "outputs": qois}
 
 # %% md
 #
 # Pickle the results dictionary in the current directory. The basename and extension of the desired pickle file:
 
 # %%
-res_basename = 'MCS_results'
-res_extension = '.pkl'
+res_basename = "MCS_results"
+res_extension = ".pkl"
 
 # %% md
 #
@@ -96,12 +101,12 @@ res_extension = '.pkl'
 # directory.
 
 # %%
-res_file_list = glob.glob(res_basename + '_???' + res_extension)
+res_file_list = glob.glob(res_basename + "_???" + res_extension)
 if len(res_file_list) == 0:
-    res_file_name = res_basename + '_000' + res_extension
+    res_file_name = res_basename + "_000" + res_extension
 else:
-    max_number = max(res_file_list).split('.')[0].split('_')[-1]
-    res_file_name = res_basename + '_%03d' % (int(max_number) + 1) + res_extension
+    max_number = max(res_file_list).split(".")[0].split("_")[-1]
+    res_file_name = res_basename + "_%03d" % (int(max_number) + 1) + res_extension
 
 res_file_name = os.path.join(calling_directory, res_file_name)
 # %% md
@@ -111,9 +116,9 @@ res_file_name = os.path.join(calling_directory, res_file_name)
 
 # %%
 
-with open(res_file_name, 'wb') as f:
+with open(res_file_name, "wb") as f:
     pickle.dump(results, f)
-print('Saved the results to ' + res_file_name)
+print("Saved the results to " + res_file_name)
 
-print('Example: Done!')
-print('Time elapsed: %.2f minutes' % float((time.time() - t) / 60.0))
+print("Example: Done!")
+print("Time elapsed: %.2f minutes" % float((time.time() - t) / 60.0))

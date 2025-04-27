@@ -3,8 +3,9 @@ Data generation fuction for DeepONet examples
 ==============================================
 """
 
-import torch
 import numpy as np
+import torch
+
 from UQpy.stochastic_process import SpectralRepresentation
 
 
@@ -29,8 +30,7 @@ def srm_2d_samples(n_samples: int) -> tuple[torch.Tensor, torch.Tensor]:
     ]
     frequency = np.array(np.meshgrid(*frequency_vectors, indexing="ij"))
     time_vectors = [
-        np.linspace(0, max_time[i] - delta_time[i], num=n_time[i])
-        for i in range(n_dimension)
+        np.linspace(0, max_time[i] - delta_time[i], num=n_time[i]) for i in range(n_dimension)
     ]
     time = np.array(np.meshgrid(*time_vectors, indexing="ij"))
 

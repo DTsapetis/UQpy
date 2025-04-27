@@ -1,5 +1,6 @@
-from UQpy.stochastic_process import SpectralRepresentation
 import numpy as np
+
+from UQpy.stochastic_process import SpectralRepresentation
 
 n_sim = 10  # Number of samples
 n = 2  # Number of Dimensions
@@ -17,7 +18,7 @@ W = np.array([1.5, 2.5])
 dw = W / (nw - 1)
 
 x_list = [np.linspace(dw[i], W[i], nw) for i in range(n)]
-xy_list = np.array(np.meshgrid(*x_list, indexing='ij'))
+xy_list = np.array(np.meshgrid(*x_list, indexing="ij"))
 
 S_11 = 125 / 4 * np.linalg.norm(xy_list, axis=0) ** 2 * np.exp(-5 * np.linalg.norm(xy_list, axis=0))
 S_22 = 125 / 4 * np.linalg.norm(xy_list, axis=0) ** 2 * np.exp(-3 * np.linalg.norm(xy_list, axis=0))
@@ -32,7 +33,7 @@ g_list = np.array([g_12, g_13, g_23])
 
 # Assembly of S_jk
 S_sqrt = np.sqrt(S_list)
-S_jk = np.einsum('i...,j...->ij...', S_sqrt, S_sqrt)
+S_jk = np.einsum("i...,j...->ij...", S_sqrt, S_sqrt)
 # Assembly of g_jk
 g_jk = np.zeros_like(S_jk)
 counter = 0
@@ -40,13 +41,15 @@ for i in range(m):
     for j in range(i + 1, m):
         g_jk[i, j] = g_list[counter]
         counter = counter + 1
-g_jk = np.einsum('ij...->ji...', g_jk) + g_jk
+g_jk = np.einsum("ij...->ji...", g_jk) + g_jk
 
 for i in range(m):
     g_jk[i, i] = np.ones_like(S_jk[0, 0])
 S_nd_mv = S_jk * g_jk
 
-SRM_object = SpectralRepresentation(n_sim, S_nd_mv, [dt, dt], dw, [nt, nt], [nw, nw], random_state=128)
+SRM_object = SpectralRepresentation(
+    n_sim, S_nd_mv, [dt, dt], dw, [nt, nt], [nw, nw], random_state=128
+)
 samples_nd_mv = SRM_object.samples
 
 

@@ -3,9 +3,9 @@ r"""
 Sobol function
 ==============================================
 
-The Sobol function is non-linear function that is commonly used to benchmark uncertainty 
-and senstivity analysis methods. Unlike the Ishigami function which has 3 input 
-variables, the Sobol function can have any number of input variables. 
+The Sobol function is non-linear function that is commonly used to benchmark uncertainty
+and senstivity analysis methods. Unlike the Ishigami function which has 3 input
+variables, the Sobol function can have any number of input variables.
 
 .. math::
 
@@ -26,12 +26,12 @@ order indices are computed.
 # %%
 import numpy as np
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.PostProcess import *
+from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
 
 np.random.seed(123)
 
@@ -87,9 +87,7 @@ SA.first_order_indices
 # %%
 # **Plot the first order sensitivity indices**
 fig1, ax1 = plot_sensitivity_index(
-    SA.first_order_indices[:, 0],
-    plot_title="First order Sobol indices",
-    color="C0",
+    SA.first_order_indices[:, 0], plot_title="First order Sobol indices", color="C0"
 )
 
 # %% [markdown]
@@ -163,7 +161,4 @@ SA.second_order_indices
 
 # %%
 # **Plot the second order sensitivity indices**
-fig3, ax3 = plot_second_order_indices(
-    SA.second_order_indices[:, 0],
-    num_vars=num_vars,
-)
+fig3, ax3 = plot_second_order_indices(SA.second_order_indices[:, 0], num_vars=num_vars)

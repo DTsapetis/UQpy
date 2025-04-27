@@ -1,26 +1,21 @@
+from typing import Union
+
 import torch
 import torch.nn.functional as F
 from torch.nn.modules.utils import _pair
-from typing import Union
+
 from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer
-from UQpy.utilities.ValidationTypes import (
-    PositiveInteger,
-    NonNegativeInteger,
-    PositiveFloat,
-)
+from UQpy.utilities.ValidationTypes import NonNegativeInteger, PositiveFloat, PositiveInteger
 
 
 class BayesianConv2d(NormalBayesianLayer):
-
     def __init__(
         self,
         in_channels: PositiveInteger,
         out_channels: PositiveInteger,
         kernel_size: Union[PositiveInteger, tuple[PositiveInteger, PositiveInteger]],
         stride: Union[PositiveInteger, tuple[PositiveInteger, PositiveInteger]] = 1,
-        padding: Union[
-            str, NonNegativeInteger, tuple[NonNegativeInteger, NonNegativeInteger]
-        ] = 0,
+        padding: Union[str, NonNegativeInteger, tuple[NonNegativeInteger, NonNegativeInteger]] = 0,
         dilation: Union[PositiveInteger, tuple[PositiveInteger, PositiveInteger]] = 1,
         groups: int = 1,
         bias: bool = True,
@@ -97,7 +92,9 @@ class BayesianConv2d(NormalBayesianLayer):
         >>> # non-square kernels and unequal stride and with padding
         >>> layer = sml.BayesianConv2d(16, 33, (3, 5), stride=(2, 1), padding=(4, 2))
         >>> # non-square kernels and unequal stride and with padding and dilation
-        >>> layer = sml.BayesianConv2d(16, 33, (3, 5), stride=(2, 1), padding=(4, 2), dilation=(3, 1))
+        >>> layer = sml.BayesianConv2d(
+        ...     16, 33, (3, 5), stride=(2, 1), padding=(4, 2), dilation=(3, 1)
+        ... )
         >>> input = torch.randn(20, 16, 50, 100)
         >>> layer.sample(False)
         >>> deterministic_output = layer(input)

@@ -6,12 +6,12 @@ User-defined Rosenbrock distribution
 This examples shows the use of the multivariate normal distributions class. In particular:
 """
 
-
-import numpy as np
-from UQpy.distributions import DistributionND
 import matplotlib.pyplot as plt
+import numpy as np
 
-#%% md
+from UQpy.distributions import DistributionND
+
+# %% md
 #
 # Example with a custom distribution
 # ----------------------------------
@@ -25,20 +25,23 @@ import matplotlib.pyplot as plt
 # all arguments names and values required in the custom distribution initializer. In our case, the parameter name
 # :code:`p` and its values are provided to the :code:`super().__init__` method.
 
-#%%
+# %%
 
 
 class Rosenbrock(DistributionND):
-    def __init__(self, p=20.):
+    def __init__(self, p=20.0):
         super().__init__(p=p)
 
     def pdf(self, x):
-        return np.exp(-(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / self.parameters['p'])
+        return np.exp(
+            -(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / self.parameters["p"]
+        )
 
     def log_pdf(self, x):
-        return -(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / self.parameters['p']
+        return -(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / self.parameters["p"]
 
-#%% md
+
+# %% md
 #
 # Initialize custom distribution
 # ----------------------------------
@@ -49,7 +52,7 @@ class Rosenbrock(DistributionND):
 # parameters using the :code:`parameters` attribute and subsequently update them using the :code:`update_parameters`
 # method.
 
-#%%
+# %%
 
 dist = Rosenbrock(p=20)
 print(dist.parameters)
@@ -59,13 +62,13 @@ print(dist.parameters)
 dist = Rosenbrock(p=20)
 print(dist.parameters)
 
-#%% md
+# %% md
 #
 # Plot pdf of the user defined distribution
 # ------------------------------------------
 #
 
-#%%
+# %%
 
 fig, ax = plt.subplots(figsize=(8, 5))
 x = np.arange(-5, 8, 0.1)
@@ -74,22 +77,22 @@ X, Y = np.meshgrid(x, y)
 Z = dist.pdf(x=np.concatenate([X.reshape((-1, 1)), Y.reshape((-1, 1))], axis=1))
 CS = ax.contour(X, Y, Z.reshape(X.shape))
 ax.clabel(CS, inline=1, fontsize=10)
-ax.set_title('Contour plot of custom pdf - Rosenbrock')
+ax.set_title("Contour plot of custom pdf - Rosenbrock")
 plt.show()
 
-#%% md
+# %% md
 #
 # Check if the user-defined distribution has rvs, pdf and update_parameters method
 # ----------------------------------------------------------------------------------
 #
 
-#%%
+# %%
 
-print('Does the rosenbrock distribution have an rvs method?')
-print(hasattr(dist, 'rvs'))
+print("Does the rosenbrock distribution have an rvs method?")
+print(hasattr(dist, "rvs"))
 
-print('Does the rosenbrock distribution have an pdf method?')
-print(hasattr(dist, 'pdf'))
+print("Does the rosenbrock distribution have an pdf method?")
+print(hasattr(dist, "pdf"))
 
-print('Does the rosenbrock distribution have an update_parameters method?')
-print(hasattr(dist, 'update_parameters'))
+print("Does the rosenbrock distribution have an update_parameters method?")
+print(hasattr(dist, "update_parameters"))

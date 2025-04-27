@@ -1,17 +1,18 @@
-from UQpy.utilities import *
 import numpy as np
+
+from UQpy.utilities import *
 
 
 class SpectralRepresentation:
     def __init__(
-            self,
-            n_samples: int,
-            power_spectrum: Union[list, np.ndarray, float],
-            time_interval: Union[list, np.ndarray, float],
-            frequency_interval: Union[list, np.ndarray, float],
-            n_time_intervals: Union[list, np.ndarray, float],
-            n_frequency_intervals: Union[list, np.ndarray, float],
-            random_state: RandomStateType = None,
+        self,
+        n_samples: int,
+        power_spectrum: Union[list, np.ndarray, float],
+        time_interval: Union[list, np.ndarray, float],
+        frequency_interval: Union[list, np.ndarray, float],
+        n_time_intervals: Union[list, np.ndarray, float],
+        n_frequency_intervals: Union[list, np.ndarray, float],
+        random_state: RandomStateType = None,
     ):
         """
         A class to simulate stochastic processes from a given power spectrum density using the Spectral Representation
@@ -46,10 +47,10 @@ class SpectralRepresentation:
         """
         self.power_spectrum = power_spectrum
         if (
-                isinstance(time_interval, float)
-                and isinstance(frequency_interval, float)
-                and isinstance(n_time_intervals, int)
-                and isinstance(n_frequency_intervals, int)
+            isinstance(time_interval, float)
+            and isinstance(frequency_interval, float)
+            and isinstance(n_time_intervals, int)
+            and isinstance(n_frequency_intervals, int)
         ):
             time_interval = [time_interval]
             frequency_interval = [frequency_interval]
@@ -73,7 +74,9 @@ class SpectralRepresentation:
         if isinstance(self.random_state, int):
             np.random.seed(self.random_state)
         elif not isinstance(self.random_state, (type(None), np.random.RandomState)):
-            raise TypeError("UQpy: random_state must be None, an int or an np.random.RandomState object.")
+            raise TypeError(
+                "UQpy: random_state must be None, an int or an np.random.RandomState object."
+            )
 
         self.samples: NumpyFloatArray = None
         """Generated samples.
@@ -126,21 +129,47 @@ class SpectralRepresentation:
         phi = None
 
         if self.case == "uni":
-            self.logger.info("UQpy: Stochastic Process: Starting simulation of uni-variate Stochastic Processes.")
+            self.logger.info(
+                "UQpy: Stochastic Process: Starting simulation of uni-variate Stochastic Processes."
+            )
             self.logger.info("UQpy: The number of dimensions is %i:", self.n_dimensions)
-            phi = (np.random.uniform(size=np.append(self.n_samples, np.ones(self.n_dimensions, dtype=np.int32)
-                                                    * self.number_frequency_intervals, )) * 2 * np.pi)
+            phi = (
+                np.random.uniform(
+                    size=np.append(
+                        self.n_samples,
+                        np.ones(self.n_dimensions, dtype=np.int32)
+                        * self.number_frequency_intervals,
+                    )
+                )
+                * 2
+                * np.pi
+            )
             samples = self._simulate_uni(phi)
 
         elif self.case == "multi":
-            self.logger.info("UQpy: Stochastic Process: Starting simulation of multi-variate Stochastic Processes.")
-            self.logger.info("UQpy: Stochastic Process: The number of variables is %i:", self.n_variables)
-            self.logger.info("UQpy: Stochastic Process: The number of dimensions is  %i:", self.n_dimensions)
-            phi = (np.random.uniform(size=
-                                     np.append(self.n_samples, np.append(np.ones(self.n_dimensions,
-                                                                                 dtype=np.int32)
-                                                                         * self.number_frequency_intervals,
-                                                                         self.n_variables, ), )) * 2 * np.pi)
+            self.logger.info(
+                "UQpy: Stochastic Process: Starting simulation of multi-variate Stochastic Processes."
+            )
+            self.logger.info(
+                "UQpy: Stochastic Process: The number of variables is %i:", self.n_variables
+            )
+            self.logger.info(
+                "UQpy: Stochastic Process: The number of dimensions is  %i:", self.n_dimensions
+            )
+            phi = (
+                np.random.uniform(
+                    size=np.append(
+                        self.n_samples,
+                        np.append(
+                            np.ones(self.n_dimensions, dtype=np.int32)
+                            * self.number_frequency_intervals,
+                            self.n_variables,
+                        ),
+                    )
+                )
+                * 2
+                * np.pi
+            )
             samples = self._simulate_multi(phi)
 
         if self.samples is None:
@@ -154,7 +183,8 @@ class SpectralRepresentation:
 
     def _simulate_uni(self, phi):
         fourier_coefficient = np.exp(phi * 1.0j) * np.sqrt(
-            2 ** (self.n_dimensions + 1) * self.power_spectrum * np.prod(self.frequency_interval))
+            2 ** (self.n_dimensions + 1) * self.power_spectrum * np.prod(self.frequency_interval)
+        )
         samples = np.fft.fftn(fourier_coefficient, s=self.number_time_intervals)
         samples = np.real(samples)
         samples = samples[:, np.newaxis]
@@ -162,13 +192,21 @@ class SpectralRepresentation:
 
     def _simulate_multi(self, phi):
         power_spectrum = np.einsum("ij...->...ij", self.power_spectrum)
-        coefficient = np.sqrt(2 ** (self.n_dimensions + 1)) * np.sqrt(np.prod(self.frequency_interval))
+        coefficient = np.sqrt(2 ** (self.n_dimensions + 1)) * np.sqrt(
+            np.prod(self.frequency_interval)
+        )
         u, s, v = np.linalg.svd(power_spectrum)
         power_spectrum_decomposed = np.einsum("...ij,...j->...ij", u, np.sqrt(s))
         fourier_coefficient = coefficient * np.einsum(
-            "...ij,n...j -> n...i", power_spectrum_decomposed, np.exp(phi * 1.0j))
+            "...ij,n...j -> n...i", power_spectrum_decomposed, np.exp(phi * 1.0j)
+        )
         fourier_coefficient[np.isnan(fourier_coefficient)] = 0
-        samples = np.real(np.fft.fftn(fourier_coefficient, s=self.number_time_intervals,
-                                      axes=tuple(np.arange(1, 1 + self.n_dimensions))))
+        samples = np.real(
+            np.fft.fftn(
+                fourier_coefficient,
+                s=self.number_time_intervals,
+                axes=tuple(np.arange(1, 1 + self.n_dimensions)),
+            )
+        )
         samples = np.einsum("n...m->nm...", samples)
         return samples

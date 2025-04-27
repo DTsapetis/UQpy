@@ -3,17 +3,20 @@ Plotting the U-net example
 ==========================
 
 """
-# %% Imports
-import torch
-import numpy as np
-import matplotlib.pyplot as plt
-import os
-from mpl_toolkits import axes_grid1
-from torch.utils.data import DataLoader, Dataset
-import UQpy.scientific_machine_learning as sml
-from sklearn.metrics import mean_absolute_error
 
-#%% Check if GPU is available and set the device accordingly
+# %% Imports
+import os
+
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+from mpl_toolkits import axes_grid1
+from sklearn.metrics import mean_absolute_error
+from torch.utils.data import DataLoader, Dataset
+
+import UQpy.scientific_machine_learning as sml
+
+# %% Check if GPU is available and set the device accordingly
 if torch.cuda.is_available():
     device = torch.device("cuda")
     print("Using CUDA (NVIDIA GPU)")
@@ -42,10 +45,11 @@ print(f"Selected device: {device}")
 
 def add_colorbar(im, aspect=20, pad_fraction=0.5, **kwargs):
     divider = axes_grid1.make_axes_locatable(im.axes)
-    width = axes_grid1.axes_size.AxesY(im.axes, aspect=1. / aspect)
+    width = axes_grid1.axes_size.AxesY(im.axes, aspect=1.0 / aspect)
     pad = axes_grid1.axes_size.Fraction(pad_fraction, width)
     cax = divider.append_axes("right", size=width, pad=pad)
     return im.axes.figure.colorbar(im, cax=cax, **kwargs)
+
 
 # Visualization of data
 def plot_images(X, Y, title, num_samples):
@@ -54,18 +58,19 @@ def plot_images(X, Y, title, num_samples):
     plt.ion()
     for i in range(num_samples):
         # Adjusted for transposed shape
-        axes[i, 0].imshow(X[i, 0], cmap='viridis')
+        axes[i, 0].imshow(X[i, 0], cmap="viridis")
         axes[i, 0].set_title(f"Input microstructure {i + 1}")
-        axes[i, 0].axis('off')
+        axes[i, 0].axis("off")
 
-        im = axes[i, 1].imshow(Y[i, 0], cmap='viridis')
+        im = axes[i, 1].imshow(Y[i, 0], cmap="viridis")
         add_colorbar(im)
         axes[i, 1].set_title("Ground Truth Mask")
-        axes[i, 1].axis('off')
+        axes[i, 1].axis("off")
 
     plt.tight_layout(rect=[0, 0, 1, 0.96])
     plt.show()
     plt.ioff()
+
 
 # Define dataset with appropriate shape
 class FiberDataset(Dataset):
@@ -84,16 +89,18 @@ class FiberDataset(Dataset):
         return len(self.X)
 
     def __getitem__(self, idx):
-        return torch.tensor(self.X[idx], dtype=torch.float32), torch.tensor(self.Y[idx], dtype=torch.float32)
+        return torch.tensor(self.X[idx], dtype=torch.float32), torch.tensor(
+            self.Y[idx], dtype=torch.float32
+        )
 
 
-#%% Evaluate and plot
-def evaluate_and_plot_predictions(unet_model, test_data, device, num_samples=5, fig_dir='figures'):
+# %% Evaluate and plot
+def evaluate_and_plot_predictions(unet_model, test_data, device, num_samples=5, fig_dir="figures"):
     """
     Function to load model weights, make predictions on test data, and plot results with MAE heatmap.
     """
     # Load saved weights
-    weights_path = os.path.join(fig_dir, 'unet_weights.pth')
+    weights_path = os.path.join(fig_dir, "unet_weights.pth")
     unet_model.load_state_dict(torch.load(weights_path, map_location=device))
     unet_model.eval()
     print("Model weights loaded")
@@ -118,8 +125,10 @@ def evaluate_and_plot_predictions(unet_model, test_data, device, num_samples=5, 
             mae_maps.append(mae_map_batch)
 
             # Calculate MAE per sample in the batch
-            mae_batch = [mean_absolute_error(y_true.flatten(), y_pred.flatten())
-                         for y_true, y_pred in zip(Y_batch.numpy(), Y_pred)]
+            mae_batch = [
+                mean_absolute_error(y_true.flatten(), y_pred.flatten())
+                for y_true, y_pred in zip(Y_batch.numpy(), Y_pred)
+            ]
             mae_scores.extend(mae_batch)
 
     # Concatenate results for consistent shapes
@@ -133,49 +142,49 @@ def evaluate_and_plot_predictions(unet_model, test_data, device, num_samples=5, 
     fig.suptitle("Test Set Predictions with MAE", fontsize=16)
     for i in range(num_samples):
         # Input microstructure
-        axes[i, 0].imshow(X_inputs[i, 0], cmap='viridis')
+        axes[i, 0].imshow(X_inputs[i, 0], cmap="viridis")
         axes[i, 0].set_title(f"Input Microstructure {i + 1}")
-        axes[i, 0].axis('off')
+        axes[i, 0].axis("off")
 
         # Ground truth stress
-        im = axes[i, 1].imshow(Y_trues[i, 0, :, :], cmap='viridis')
+        im = axes[i, 1].imshow(Y_trues[i, 0, :, :], cmap="viridis")
         add_colorbar(im)
         axes[i, 1].set_title("Ground Truth Stress")
-        axes[i, 1].axis('off')
+        axes[i, 1].axis("off")
 
         # Predicted stress
         pred_mask = Y_preds[i, 0, :, :]
-        im = axes[i, 2].imshow(pred_mask, cmap='viridis')
+        im = axes[i, 2].imshow(pred_mask, cmap="viridis")
         add_colorbar(im)
         axes[i, 2].set_title(f"Predicted Stress (MAE: {mae_scores[i]:.4f})")
-        axes[i, 2].axis('off')
+        axes[i, 2].axis("off")
 
         # MAE heatmap
         mae_map = mae_maps[i, 0, :, :]
-        im = axes[i, 3].imshow(mae_map, cmap='hot')
+        im = axes[i, 3].imshow(mae_map, cmap="hot")
         add_colorbar(im)
         axes[i, 3].set_title("MAE")
-        axes[i, 3].axis('off')
+        axes[i, 3].axis("off")
 
     plt.tight_layout(rect=[0, 0, 1, 0.96])
 
     # Save the figure
     os.makedirs(fig_dir, exist_ok=True)
-    fig_path = os.path.join(fig_dir, 'test_set_predictions_with_mae.png')
-    plt.savefig(fig_path, bbox_inches='tight', dpi=100)
+    fig_path = os.path.join(fig_dir, "test_set_predictions_with_mae.png")
+    plt.savefig(fig_path, bbox_inches="tight", dpi=100)
     plt.show()
+
 
 # %% Define U-Net model
 n_filters = [1, 16, 32, 64, 128]
 kernel_size = 3
 out_channels = 1
 unet = sml.Unet(n_filters, kernel_size, out_channels).to(device)
-X_ts = np.load('./data/X_ts.npy')
-Y_ts = np.load('./data/Y_ts.npy')
+X_ts = np.load("./data/X_ts.npy")
+Y_ts = np.load("./data/Y_ts.npy")
 test_dataset = FiberDataset(X_ts, Y_ts)
 
 # %% Run evaluation and plotting
-evaluate_and_plot_predictions(
-    unet, test_dataset, device, num_samples=5, fig_dir='figures')
+evaluate_and_plot_predictions(unet, test_dataset, device, num_samples=5, fig_dir="figures")
 
 # %%

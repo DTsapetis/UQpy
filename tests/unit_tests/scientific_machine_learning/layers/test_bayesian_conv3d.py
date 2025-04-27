@@ -1,36 +1,25 @@
 import torch
-from torch.nn.modules.utils import _triple
-import UQpy.scientific_machine_learning as sml
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from hypothesis.extra.numpy import array_shapes
+from torch.nn.modules.utils import _triple
 
+import UQpy.scientific_machine_learning as sml
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
 
 
 def compute_hwl_out(
-    h_in,
-    w_in,
-    l_in,
-    kernel_size,
-    stride=(1, 1, 1),
-    padding=(0, 0, 0),
-    dilation=(1, 1, 1),
+    h_in, w_in, l_in, kernel_size, stride=(1, 1, 1), padding=(0, 0, 0), dilation=(1, 1, 1)
 ):
     kernel_size = _triple(kernel_size)
     stride = _triple(stride)
     padding = _triple(padding)
     dilation = _triple(dilation)
-    h_out = (
-        (h_in + (2 * padding[0]) - (dilation[0] * (kernel_size[0] - 1)) - 1) / stride[0]
-    ) + 1
-    w_out = (
-        (w_in + (2 * padding[1]) - (dilation[1] * (kernel_size[1] - 1)) - 1) / stride[1]
-    ) + 1
-    l_out = (
-        (l_in + (2 * padding[2]) - (dilation[2] * (kernel_size[2] - 1)) - 1) / stride[2]
-    ) + 1
+    h_out = ((h_in + (2 * padding[0]) - (dilation[0] * (kernel_size[0] - 1)) - 1) / stride[0]) + 1
+    w_out = ((w_in + (2 * padding[1]) - (dilation[1] * (kernel_size[1] - 1)) - 1) / stride[1]) + 1
+    l_out = ((l_in + (2 * padding[2]) - (dilation[2] * (kernel_size[2] - 1)) - 1) / stride[2]) + 1
     return int(h_out), int(w_out), int(l_out)
 
 
@@ -90,12 +79,8 @@ def test_fancy_output_shape(kernel_size, stride, padding, dilation):
     h_in = 64
     w_in = 64
     l_in = 64
-    layer = sml.BayesianConv3d(
-        in_channels, out_channels, kernel_size, stride, padding, dilation
-    )
-    h_out, w_out, l_out = compute_hwl_out(
-        h_in, w_in, l_in, kernel_size, stride, padding, dilation
-    )
+    layer = sml.BayesianConv3d(in_channels, out_channels, kernel_size, stride, padding, dilation)
+    h_out, w_out, l_out = compute_hwl_out(h_in, w_in, l_in, kernel_size, stride, padding, dilation)
     x = torch.rand(size=(n, in_channels, h_in, w_in, l_in))
     y = layer(x)
     assert y.shape == torch.Size([n, out_channels, h_out, w_out, l_out])
@@ -155,7 +140,7 @@ def test_extra_repr():
         "prior_mu": 1.0,
         "prior_sigma": 1.1,
         "posterior_mu_initial": (1.0, 2.0),
-        "posterior_rho_initial": (-4.0, 2.0)
+        "posterior_rho_initial": (-4.0, 2.0),
     }
     kwargs_str = ", ".join(f"{key}={value}" for key, value in kwargs.items())
     correct_extra_repr = f"4, 6, {kwargs_str}"

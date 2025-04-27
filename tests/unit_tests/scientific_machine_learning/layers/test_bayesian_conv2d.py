@@ -4,17 +4,17 @@ Note this does not include tests for numerical accuracy as the convolution is pe
 """
 
 import torch
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from torch.nn.modules.utils import _pair
+
 import UQpy.scientific_machine_learning as sml
-from hypothesis import given, settings, strategies as st
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
 
 
-def compute_h_w_out(
-    h_in, w_in, kernel_size, stride=(1, 1), padding=(0, 0), dilation=(1, 1)
-):
+def compute_h_w_out(h_in, w_in, kernel_size, stride=(1, 1), padding=(0, 0), dilation=(1, 1)):
     r"""Compute the final height and width of the output based on the formula for torch.nn.Conv2d
 
     https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html
@@ -33,12 +33,8 @@ def compute_h_w_out(
     stride = _pair(stride)
     padding = _pair(padding)
     dilation = _pair(dilation)
-    h_out = (
-        (h_in + (2 * padding[0]) - (dilation[0] * (kernel_size[0] - 1)) - 1) / stride[0]
-    ) + 1
-    w_out = (
-        (w_in + (2 * padding[1]) - (dilation[1] * (kernel_size[1] - 1)) - 1) / stride[1]
-    ) + 1
+    h_out = ((h_in + (2 * padding[0]) - (dilation[0] * (kernel_size[0] - 1)) - 1) / stride[0]) + 1
+    w_out = ((w_in + (2 * padding[1]) - (dilation[1] * (kernel_size[1] - 1)) - 1) / stride[1]) + 1
     return int(h_out), int(w_out)
 
 
@@ -61,31 +57,19 @@ def test_default_output_shape(n, height, width, in_channels, out_channels):
 @given(
     kernel_size=st.one_of(
         st.integers(min_value=1, max_value=8),
-        st.tuples(
-            st.integers(min_value=1, max_value=8),
-            st.integers(min_value=1, max_value=8),
-        ),
+        st.tuples(st.integers(min_value=1, max_value=8), st.integers(min_value=1, max_value=8)),
     ),
     stride=st.one_of(
         st.integers(min_value=1, max_value=8),
-        st.tuples(
-            st.integers(min_value=1, max_value=8),
-            st.integers(min_value=1, max_value=8),
-        ),
+        st.tuples(st.integers(min_value=1, max_value=8), st.integers(min_value=1, max_value=8)),
     ),
     padding=st.one_of(
         st.integers(min_value=0, max_value=6),
-        st.tuples(
-            st.integers(min_value=0, max_value=6),
-            st.integers(min_value=0, max_value=6),
-        ),
+        st.tuples(st.integers(min_value=0, max_value=6), st.integers(min_value=0, max_value=6)),
     ),
     dilation=st.one_of(
         st.integers(min_value=1, max_value=4),
-        st.tuples(
-            st.integers(min_value=1, max_value=4),
-            st.integers(min_value=1, max_value=4),
-        ),
+        st.tuples(st.integers(min_value=1, max_value=4), st.integers(min_value=1, max_value=4)),
     ),
 )
 def test_fancy_output_shape(kernel_size, stride, padding, dilation):
@@ -95,9 +79,7 @@ def test_fancy_output_shape(kernel_size, stride, padding, dilation):
     out_channels = 1
     h_in = 512
     w_in = 256
-    layer = sml.BayesianConv2d(
-        in_channels, out_channels, kernel_size, stride, padding, dilation
-    )
+    layer = sml.BayesianConv2d(in_channels, out_channels, kernel_size, stride, padding, dilation)
     x = torch.rand(size=(n, in_channels, h_in, w_in))
     y = layer(x)
     h_out, w_out = compute_h_w_out(h_in, w_in, kernel_size, stride, padding, dilation)

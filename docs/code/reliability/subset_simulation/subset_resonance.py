@@ -29,14 +29,15 @@ threshold, :math:`\epsilon` of the excitation frequency $\omega$. That is, failu
 # %%
 import shutil
 
-from UQpy import PythonModel
-from UQpy.reliability import SubsetSimulation
-from UQpy.run_model.RunModel import RunModel
-from UQpy.sampling import Stretch, ModifiedMetropolisHastings, MonteCarloSampling
+import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as stats
-import matplotlib.pyplot as plt
-from UQpy.distributions import Normal, JointIndependent, MultivariateNormal
+
+from UQpy import PythonModel
+from UQpy.distributions import JointIndependent, MultivariateNormal, Normal
+from UQpy.reliability import SubsetSimulation
+from UQpy.run_model.RunModel import RunModel
+from UQpy.sampling import ModifiedMetropolisHastings, MonteCarloSampling, Stretch
 
 # %% md
 #
@@ -88,31 +89,31 @@ for i in range(len(x)):
 
 fig, ax = plt.subplots()
 CS = ax.contour(X, Y, Z, 15)
-plt.plot(m, k_hi, 'k')
-plt.plot(m, k_lo, 'k')
+plt.plot(m, k_hi, "k")
+plt.plot(m, k_lo, "k")
 # plt.fill_between(m,k_lo,k_hi)
 plt.xlim([mu_m - 3 * sigma_m, mu_m + 3 * sigma_m])
 plt.ylim([mu_k - 3 * sigma_k, mu_k + 3 * sigma_k])
-plt.xlabel(r'Mass ($m$)')
-plt.ylabel(r'Stiffness ($k$)')
+plt.xlabel(r"Mass ($m$)")
+plt.ylabel(r"Stiffness ($k$)")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
 
 fig, ax = plt.subplots()
 CS = ax.contour(X, Y, Z, 15)
-plt.plot(m, k_hi, 'k')
-plt.plot(m, k_lo, 'k')
+plt.plot(m, k_hi, "k")
+plt.plot(m, k_lo, "k")
 # plt.fill_between(m,k_lo,k_hi)
 plt.xlim([3.5, 4.5])
 plt.ylim([130, 150])
-plt.xlabel(r'Mass ($m$)')
-plt.ylabel(r'Stiffness ($k$)')
+plt.xlabel(r"Mass ($m$)")
+plt.ylabel(r"Stiffness ($k$)")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-m = PythonModel(model_script='local_Resonance_pfn.py', model_object_name="RunPythonModel")
+m = PythonModel(model_script="local_Resonance_pfn.py", model_object_name="RunPythonModel")
 model = RunModel(model=m)
 
 # %% md
@@ -139,18 +140,23 @@ m[0] = 5
 m[1] = 125
 C = np.eye(2)
 C[0, 0] = 1
-C[1, 1] = 20 ** 2
+C[1, 1] = 20**2
 
 for i in range(ntrials):
-    m1 = PythonModel(model_script='local_Resonance_pfn.py', model_object_name="RunPythonModel")
+    m1 = PythonModel(model_script="local_Resonance_pfn.py", model_object_name="RunPythonModel")
     model = RunModel(model=m1)
     dist = MultivariateNormal(mean=m, cov=C)
     xx = dist.rvs(nsamples=1000, random_state=123)
     xx1 = dist.rvs(nsamples=100, random_state=123)
 
-    sampling=Stretch(dimension=2, n_chains=100, log_pdf_target=dist.log_pdf)
-    x_ss_stretch = SubsetSimulation(sampling=sampling, runmodel_object=model, conditional_probability=0.1,
-                                    nsamples_per_subset=1000, samples_init=xx, )
+    sampling = Stretch(dimension=2, n_chains=100, log_pdf_target=dist.log_pdf)
+    x_ss_stretch = SubsetSimulation(
+        sampling=sampling,
+        runmodel_object=model,
+        conditional_probability=0.1,
+        nsamples_per_subset=1000,
+        samples_init=xx,
+    )
     pf_stretch[i] = x_ss_stretch.failure_probability
     cov1_stretch[i] = x_ss_stretch.independent_chains_CoV
     cov2_stretch[i] = x_ss_stretch.dependent_chains_CoV
@@ -163,12 +169,12 @@ print(stats.variation(b_stretch))
 
 
 for i in range(len(x_ss_stretch.performance_function_per_level)):
-    plt.scatter(x_ss_stretch.samples[i][:, 0], x_ss_stretch.samples[i][:, 1], marker='o')
+    plt.scatter(x_ss_stretch.samples[i][:, 0], x_ss_stretch.samples[i][:, 1], marker="o")
 
 plt.xlim([mu_m - 3 * sigma_m, mu_m + 3 * sigma_m])
 plt.ylim([mu_k - 3 * sigma_k, mu_k + 3 * sigma_k])
-plt.xlabel(r'Mass ($m$)')
-plt.ylabel(r'Stiffness ($k$)')
+plt.xlabel(r"Mass ($m$)")
+plt.ylabel(r"Stiffness ($k$)")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
@@ -183,18 +189,23 @@ m[0] = 5
 m[1] = 125
 C = np.eye(2)
 C[0, 0] = 1
-C[1, 1] = 20 ** 2
+C[1, 1] = 20**2
 
 for i in range(ntrials):
-    m1 = PythonModel(model_script='local_Resonance_pfn.py', model_object_name="RunPythonModel")
+    m1 = PythonModel(model_script="local_Resonance_pfn.py", model_object_name="RunPythonModel")
     model = RunModel(model=m1)
     dist = MultivariateNormal(mean=m, cov=C)
     xx = dist.rvs(nsamples=1000, random_state=123)
     xx1 = dist.rvs(nsamples=100, random_state=123)
 
     sampling = ModifiedMetropolisHastings(dimension=2, n_chains=100, log_pdf_target=dist.log_pdf)
-    x_ss_mmh = SubsetSimulation(sampling=sampling, runmodel_object=model, conditional_probability=0.1,
-                                nsamples_per_subset=1000, samples_init=xx)
+    x_ss_mmh = SubsetSimulation(
+        sampling=sampling,
+        runmodel_object=model,
+        conditional_probability=0.1,
+        nsamples_per_subset=1000,
+        samples_init=xx,
+    )
 
     pf_mmh[i] = x_ss_mmh.failure_probability
     cov1_mmh[i] = x_ss_mmh.independent_chains_CoV
@@ -208,12 +219,12 @@ print(stats.variation(b_mmh))
 
 
 for i in range(len(x_ss_mmh.performance_function_per_level)):
-    plt.scatter(x_ss_mmh.samples[i][:, 0], x_ss_mmh.samples[i][:, 1], marker='o')
+    plt.scatter(x_ss_mmh.samples[i][:, 0], x_ss_mmh.samples[i][:, 1], marker="o")
 
 plt.xlim([mu_m - 3 * sigma_m, mu_m + 3 * sigma_m])
 plt.ylim([mu_k - 3 * sigma_k, mu_k + 3 * sigma_k])
-plt.xlabel(r'Mass ($m$)')
-plt.ylabel(r'Stiffness ($k$)')
+plt.xlabel(r"Mass ($m$)")
+plt.ylabel(r"Stiffness ($k$)")
 plt.grid(True)
 plt.tight_layout()
 plt.show()

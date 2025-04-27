@@ -1,5 +1,6 @@
-from UQpy.stochastic_process import KarhunenLoeveExpansion
 import numpy as np
+
+from UQpy.stochastic_process import KarhunenLoeveExpansion
 
 n_sim = 100  # Num of samples
 m = 400 + 1
@@ -11,10 +12,11 @@ t = np.linspace(0, T, m)
 R = np.zeros([m, m])
 for i in range(m):
     for j in range(m):
-        R[i, j] = 2 * np.exp(-((t[j] - t[i]) / 281) ** 2)
+        R[i, j] = 2 * np.exp(-(((t[j] - t[i]) / 281) ** 2))
 
-KLE_Object = KarhunenLoeveExpansion(n_samples=n_sim, correlation_function=R,
-                                    time_interval=dt, random_state=128)
+KLE_Object = KarhunenLoeveExpansion(
+    n_samples=n_sim, correlation_function=R, time_interval=dt, random_state=128
+)
 samples = KLE_Object.samples
 
 

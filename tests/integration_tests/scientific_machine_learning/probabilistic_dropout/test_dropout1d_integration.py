@@ -1,6 +1,7 @@
 import pytest
 import torch
 import torch.nn as nn
+
 import UQpy.scientific_machine_learning as sml
 
 

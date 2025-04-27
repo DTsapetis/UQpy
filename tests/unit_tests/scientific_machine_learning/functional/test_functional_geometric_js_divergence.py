@@ -1,8 +1,9 @@
 import torch
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from hypothesis.extra.numpy import array_shapes
-import UQpy.scientific_machine_learning.functional as func
 
+import UQpy.scientific_machine_learning.functional as func
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
@@ -17,12 +18,7 @@ settings.load_profile("fast")
     shape=array_shapes(min_dims=1, min_side=1, max_side=100),
 )
 def test_non_negativity(
-    prior_param_1,
-    prior_param_2,
-    posterior_param_1,
-    posterior_param_2,
-    alpha,
-    shape,
+    prior_param_1, prior_param_2, posterior_param_1, posterior_param_2, alpha, shape
 ):
     """JSG divergence is always non-negative"""
     dtype = torch.float64
@@ -44,13 +40,7 @@ def test_non_negativity(
     posterior_param_2=st.floats(min_value=1e-3, max_value=1),
     shape=array_shapes(min_dims=1, min_side=1, max_side=100),
 )
-def test_kl_equal(
-    prior_param_1,
-    prior_param_2,
-    posterior_param_1,
-    posterior_param_2,
-    shape,
-):
+def test_kl_equal(prior_param_1, prior_param_2, posterior_param_1, posterior_param_2, shape):
     """JSG divergence is equal to KL divergence when alpha = 0"""
     post_mu = torch.full(shape, posterior_param_1)
     post_sigma = torch.full(shape, posterior_param_2)
@@ -59,15 +49,11 @@ def test_kl_equal(
     jsg = func.geometric_jensen_shannon_divergence(
         post_mu, post_sigma, prior_mu, prior_sigma, alpha=0.0
     )
-    kl = func.gaussian_kullback_leibler_divergence(
-        post_mu, post_sigma, prior_mu, prior_sigma
-    )
+    kl = func.gaussian_kullback_leibler_divergence(post_mu, post_sigma, prior_mu, prior_sigma)
     assert torch.allclose(jsg, kl, rtol=1e-4)
 
 
-@given(
-    shape=array_shapes(min_dims=1, min_side=1, max_side=100),
-)
+@given(shape=array_shapes(min_dims=1, min_side=1, max_side=100))
 def test_reduction_shape(shape):
     """For mean and sum, the divergence is a scalar.
     For reduction='none', the divergence is a tensor of the same shapes as the input
@@ -81,20 +67,10 @@ def test_reduction_shape(shape):
     )
     assert divergence.shape == torch.Size()
     divergence = func.geometric_jensen_shannon_divergence(
-        posterior_mu,
-        posterior_sigma,
-        prior_mu,
-        prior_sigma,
-        alpha=0.5,
-        reduction="mean",
+        posterior_mu, posterior_sigma, prior_mu, prior_sigma, alpha=0.5, reduction="mean"
     )
     assert divergence.shape == torch.Size()
     divergence = func.geometric_jensen_shannon_divergence(
-        posterior_mu,
-        posterior_sigma,
-        prior_mu,
-        prior_sigma,
-        alpha=0.5,
-        reduction="none",
+        posterior_mu, posterior_sigma, prior_mu, prior_sigma, alpha=0.5, reduction="none"
     )
     assert divergence.shape == torch.Size(shape)

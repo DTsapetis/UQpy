@@ -36,17 +36,17 @@ generated adaptively, using EIF (Expected Improvement Function) as the learning 
 
 # %%
 import shutil
+import time
 
 import numpy as np
+from local_BraninHoo import function
 from matplotlib import pyplot as plt
 
 from UQpy import PythonModel
-from UQpy.surrogates import GaussianProcessRegression
-from UQpy.sampling import MonteCarloSampling, AdaptiveKriging
-from UQpy.run_model.RunModel import RunModel
 from UQpy.distributions import Uniform
-from local_BraninHoo import function
-import time
+from UQpy.run_model.RunModel import RunModel
+from UQpy.sampling import AdaptiveKriging, MonteCarloSampling
+from UQpy.surrogates import GaussianProcessRegression
 from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
 
 # %% md
@@ -65,7 +65,7 @@ x = MonteCarloSampling(distributions=marginals, nsamples=20)
 
 # %%
 
-model = PythonModel(model_script='local_BraninHoo.py', model_object_name='function')
+model = PythonModel(model_script="local_BraninHoo.py", model_object_name="function")
 rmodel = RunModel(model=model)
 
 # %% md
@@ -74,13 +74,19 @@ rmodel = RunModel(model=model)
 
 # %%
 from UQpy.surrogates.gaussian_process.regression_models import LinearRegression
+
 # /Users/george/Documents/Main_Files/Scripts/UQpy/src/UQpy/utilities/kernels/euclidean_kernels/RBF.py
 from UQpy.utilities.kernels.euclidean_kernels import RBF
 
-bounds = [[10**(-3), 10**3], [10**(-3), 10**2], [10**(-3), 10**2]]
+bounds = [[10 ** (-3), 10**3], [10 ** (-3), 10**2], [10 ** (-3), 10**2]]
 optimizer = MinimizeOptimizer(method="L-BFGS-B", bounds=bounds)
-K = GaussianProcessRegression(regression_model=LinearRegression(), kernel=RBF(), optimizer=optimizer,
-                              hyperparameters=[1, 1, 0.1], optimizations_number=10)
+K = GaussianProcessRegression(
+    regression_model=LinearRegression(),
+    kernel=RBF(),
+    optimizer=optimizer,
+    hyperparameters=[1, 1, 0.1],
+    optimizations_number=10,
+)
 
 # %% md
 #
@@ -98,9 +104,15 @@ from UQpy.sampling.adaptive_kriging_functions.ExpectedImprovement import Expecte
 
 start_time = time.time()
 learning_function = ExpectedImprovement()
-a = AdaptiveKriging(runmodel_object=rmodel, samples=x.samples, surrogate=K,
-                    learning_nsamples=10 ** 3, n_add=1,
-                    learning_function=learning_function, distributions=marginals)
+a = AdaptiveKriging(
+    runmodel_object=rmodel,
+    samples=x.samples,
+    surrogate=K,
+    learning_nsamples=10**3,
+    n_add=1,
+    learning_function=learning_function,
+    distributions=marginals,
+)
 a.run(nsamples=50)
 elapsed_time = time.time() - start_time
 
@@ -124,13 +136,13 @@ for i in range(num):
 
 fig, ax = plt.subplots(1, 1)
 cp = ax.contourf(X, Y, Z, 10)
-plt.xlabel('x1')
-plt.ylabel('x2')
+plt.xlabel("x1")
+plt.ylabel("x2")
 fig.colorbar(cp)
 nd = x.nsamples
-plt.scatter(a.samples[nd:, 0], a.samples[nd:, 1], color='pink', label='New samples')
-plt.scatter(x.samples[:nd, 0], x.samples[:nd, 1], color='Red', label='Initial samples')
-plt.title('Branin-Hoo function');
+plt.scatter(a.samples[nd:, 0], a.samples[nd:, 1], color="pink", label="New samples")
+plt.scatter(x.samples[:nd, 0], x.samples[:nd, 1], color="Red", label="Initial samples")
+plt.title("Branin-Hoo function")
 plt.legend()
 
 # %%

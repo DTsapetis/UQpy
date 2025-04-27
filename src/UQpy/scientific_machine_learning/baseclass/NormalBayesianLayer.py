@@ -1,9 +1,11 @@
-import torch
-import torch.nn as nn
-from UQpy.scientific_machine_learning.baseclass.Layer import Layer
 from abc import ABC, abstractmethod
 from typing import Union
+
+import torch
+import torch.nn as nn
 from beartype import beartype
+
+from UQpy.scientific_machine_learning.baseclass.Layer import Layer
 from UQpy.utilities.ValidationTypes import PositiveFloat
 
 

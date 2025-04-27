@@ -3,36 +3,36 @@
 Additive function
 ==============================================
 
-We use an elementary example to intuitively convey the sensitivities according to 
+We use an elementary example to intuitively convey the sensitivities according to
 different metrics.
 
 .. math::
     f(x) = a \cdot X_1 + b \cdot X_2, \quad X_1, X_2 \sim \mathcal{N}(0, 1), \quad a,b \in \mathbb{R}
 
-In the plot below, we note that the indices provide different sensitivities for the two 
-inputs. The variance-based Sobol indices use variance as a metric to quantify 
-sensitivity, whereas the Chatterjee/Cramér-von Mises indices use the entire probability 
-distribution function (PDF) to quantify the sensitivity. In general, moment-free indices 
-provide a more holistic measure of sensitivity unlike the variance-based indices, which 
+In the plot below, we note that the indices provide different sensitivities for the two
+inputs. The variance-based Sobol indices use variance as a metric to quantify
+sensitivity, whereas the Chatterjee/Cramér-von Mises indices use the entire probability
+distribution function (PDF) to quantify the sensitivity. In general, moment-free indices
+provide a more holistic measure of sensitivity unlike the variance-based indices, which
 are accurate mainly when the output distribution close to a Gaussian (see [1]_ for a
-motivating example).   
+motivating example).
 
 .. [1] Borgonovo, E. (2006). Measuring uncertainty importance: Investigation and comparison of alternative approaches. Risk Analysis, 26(5), 1349-1361.
 
 """
 
 # %%
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Normal
 from UQpy.distributions.collection.JointIndependent import JointIndependent
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.ChatterjeeSensitivity import ChatterjeeSensitivity
 from UQpy.sensitivity.CramerVonMisesSensitivity import CramerVonMisesSensitivity as cvm
-from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
 from UQpy.sensitivity.PostProcess import *
+from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
 
 np.random.seed(123)
 
@@ -45,10 +45,7 @@ a, b = 1, 2
 model = PythonModel(
     model_script="local_additive.py",
     model_object_name="evaluate",
-    var_names=[
-        "X_1",
-        "X_2",
-    ],
+    var_names=["X_1", "X_2"],
     delete_files=True,
     params=[a, b],
 )
@@ -158,4 +155,3 @@ ax.set_ylim(top=1)  # set only upper limit of y to 1
 ax.legend()
 
 plt.show()
-

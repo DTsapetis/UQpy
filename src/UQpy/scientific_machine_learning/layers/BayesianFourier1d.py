@@ -1,9 +1,11 @@
+from typing import Union
+
 import torch
 import torch.nn.functional as F
+
 import UQpy.scientific_machine_learning.functional as func
 from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer
-from UQpy.utilities.ValidationTypes import PositiveInteger, PositiveFloat
-from typing import Union
+from UQpy.utilities.ValidationTypes import PositiveFloat, PositiveInteger
 
 
 class BayesianFourier1d(NormalBayesianLayer):
@@ -115,9 +117,9 @@ class BayesianFourier1d(NormalBayesianLayer):
         """
         weight_spectral, weight_conv, bias_conv = self.get_bayesian_weights()
         weight_spectral = weight_spectral.to(torch.cfloat)
-        return func.spectral_conv1d(
-            x, weight_spectral, self.width, self.modes
-        ) + F.conv1d(x, weight_conv, bias_conv)
+        return func.spectral_conv1d(x, weight_spectral, self.width, self.modes) + F.conv1d(
+            x, weight_conv, bias_conv
+        )
 
     def extra_repr(self):
         s = "width={width}, modes={modes}"

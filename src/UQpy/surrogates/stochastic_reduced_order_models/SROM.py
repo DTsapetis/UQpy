@@ -1,10 +1,11 @@
 import logging
 from typing import Union
+
 import numpy as np
 
+from UQpy.distributions import DistributionContinuous1D
 from UQpy.distributions.baseclass import Distribution
 from UQpy.utilities.ValidationTypes import NumpyFloatArray
-from UQpy.distributions import DistributionContinuous1D
 
 
 class SROM:
@@ -12,7 +13,7 @@ class SROM:
         self,
         samples: Union[list, np.ndarray],
         target_distributions: list[Distribution],
-        moments:list = None,
+        moments: list = None,
         weights_errors: list = None,
         weights_distribution: Union[list, np.ndarray] = None,
         weights_moments: list = None,
@@ -93,12 +94,8 @@ class SROM:
 
         if isinstance(self.target_distributions, list):
             for i in range(len(self.target_distributions)):
-                if not isinstance(
-                    self.target_distributions[i], DistributionContinuous1D
-                ):
-                    raise TypeError(
-                        "UQpy: A DistributionContinuous1D object must be provided."
-                    )
+                if not isinstance(self.target_distributions[i], DistributionContinuous1D):
+                    raise TypeError("UQpy: A DistributionContinuous1D object must be provided.")
 
         if self.properties is not None:
             self.run()
@@ -193,11 +190,7 @@ class SROM:
                 if prop[2] is True:
                     e22 += (
                         wm[1, j]
-                        * (
-                            np.sum(np.array(p0) * (samples[:, j] * samples[:, j]))
-                            - m[1, j]
-                        )
-                        ** 2
+                        * (np.sum(np.array(p0) * (samples[:, j] * samples[:, j])) - m[1, j]) ** 2
                     )
 
                 if prop[3] is True:
@@ -205,16 +198,10 @@ class SROM:
                         if k > j:
                             r = (
                                 correlation[j, k]
-                                * np.sqrt(
-                                    (m[1, j] - m[0, j] ** 2) * (m[1, k] - m[0, k] ** 2)
-                                )
+                                * np.sqrt((m[1, j] - m[0, j] ** 2) * (m[1, k] - m[0, k] ** 2))
                                 + m[0, j] * m[0, k]
                             )
-                            e3 += (
-                                wc[k, j]
-                                * (np.sum(p0 * (samples[:, j] * samples[:, k])) - r)
-                                ** 2
-                            )
+                            e3 += wc[k, j] * (np.sum(p0 * (samples[:, j] * samples[:, k])) - r) ** 2
 
             return alpha[0] * e1 + alpha[1] * (e2 + e22) + alpha[2] * e3
 
@@ -256,11 +243,7 @@ class SROM:
             self.correlation = np.array(self.correlation)
 
         # Check moments and correlation
-        if (
-            self.properties[1] is True
-            or self.properties[2] is True
-            or self.properties[3] is True
-        ):
+        if self.properties[1] is True or self.properties[2] is True or self.properties[3] is True:
             if self.moments is None:
                 raise NotImplementedError("UQpy: 'moments' are required")
         # Both moments are required, if correlation property is required to be match
@@ -270,10 +253,7 @@ class SROM:
             if self.correlation is None:
                 self.correlation = np.identity(self.dimension)
         # moments.shape[0] should be 1 or 2
-        if self.moments.shape != (1, self.dimension) and self.moments.shape != (
-            2,
-            self.dimension,
-        ):
+        if self.moments.shape != (1, self.dimension) and self.moments.shape != (2, self.dimension):
             raise NotImplementedError("UQpy: Shape of 'moments' is not correct")
         # If both the moments are to be included in objective function, then moments.shape[0] should be 2
         if self.properties[1] is True and self.properties[2] is True:
@@ -298,9 +278,7 @@ class SROM:
 
         # Check weights corresponding to distribution
         if self.weights_distribution is None:
-            self.weights_distribution = np.ones(
-                shape=(self.samples.shape[0], self.dimension)
-            )
+            self.weights_distribution = np.ones(shape=(self.samples.shape[0], self.dimension))
         elif isinstance(self.weights_distribution, list):
             self.weights_distribution = np.array(self.weights_distribution)
         elif not isinstance(self.weights_distribution, np.ndarray):
@@ -313,9 +291,7 @@ class SROM:
                 shape=(self.samples.shape[0], self.dimension)
             )
         elif self.weights_distribution.shape != (self.samples.shape[0], self.dimension):
-            raise NotImplementedError(
-                "UQpy: Size of 'weights for distribution' is not correct"
-            )
+            raise NotImplementedError("UQpy: Size of 'weights for distribution' is not correct")
 
         # Check weights corresponding to moments and it's default list
         if self.weights_moments is None:
@@ -328,13 +304,9 @@ class SROM:
             )
 
         if self.weights_moments.shape == (1, self.dimension):
-            self.weights_moments = self.weights_moments * np.ones(
-                shape=(2, self.dimension)
-            )
+            self.weights_moments = self.weights_moments * np.ones(shape=(2, self.dimension))
         elif self.weights_moments.shape != (2, self.dimension):
-            raise NotImplementedError(
-                "UQpy: Size of 'weights for moments' is not correct"
-            )
+            raise NotImplementedError("UQpy: Size of 'weights for moments' is not correct")
 
         # Check weights corresponding to correlation and it's default list
         if self.weights_correlation is None:
@@ -347,6 +319,4 @@ class SROM:
             )
 
         if self.weights_correlation.shape != (self.dimension, self.dimension):
-            raise NotImplementedError(
-                "UQpy: Size of 'weights for correlation' is not correct"
-            )
+            raise NotImplementedError("UQpy: Size of 'weights for correlation' is not correct")

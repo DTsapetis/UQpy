@@ -1,20 +1,18 @@
 import pytest
 import torch
-import UQpy.scientific_machine_learning as sml
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from hypothesis.extra.numpy import array_shapes
+
+import UQpy.scientific_machine_learning as sml
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
 
 
 @given(
-    shift=st.floats(
-        min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
-    ),
-    width=st.floats(
-        min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False
-    ),
+    shift=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False),
+    width=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False),
     size=array_shapes(min_dims=1, min_side=10),
 )
 def test_encode(shift, width, size):
@@ -27,12 +25,8 @@ def test_encode(shift, width, size):
 
 
 @given(
-    shift=st.floats(
-        min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
-    ),
-    width=st.floats(
-        min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False
-    ),
+    shift=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False),
+    width=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False),
     size=array_shapes(min_dims=1, min_side=10),
 )
 def test_encode_decode(shift, width, size):

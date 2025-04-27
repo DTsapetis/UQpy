@@ -6,16 +6,15 @@ from beartype import beartype
 
 from UQpy.distributions.baseclass import (
     DistributionContinuous1D,
-    DistributionND,
     DistributionDiscrete1D,
+    DistributionND,
 )
 
 
 class JointIndependent(DistributionND):
     @beartype
     def __init__(
-            self,
-            marginals: Union[list[DistributionContinuous1D], list[DistributionDiscrete1D]],
+        self, marginals: Union[list[DistributionContinuous1D], list[DistributionDiscrete1D]]
     ):
         """
         :param marginals: list of distribution objects that define the marginals.
@@ -23,12 +22,15 @@ class JointIndependent(DistributionND):
         super().__init__()
         self.ordered_parameters = []
         for i, m in enumerate(marginals):
-            self.ordered_parameters.extend(
-                [key + "_" + str(i) for key in m.ordered_parameters])
+            self.ordered_parameters.extend([key + "_" + str(i) for key in m.ordered_parameters])
 
         # Check and save the marginals
-        if not (isinstance(marginals, list)
-                and all(isinstance(d, (DistributionContinuous1D, DistributionDiscrete1D)) for d in marginals)):
+        if not (
+            isinstance(marginals, list)
+            and all(
+                isinstance(d, (DistributionContinuous1D, DistributionDiscrete1D)) for d in marginals
+            )
+        ):
             raise ValueError("Input marginals must be a list of Distribution1d objects.")
         self.marginals = marginals
 
@@ -70,16 +72,12 @@ class JointIndependent(DistributionND):
                 self.log_pmf = MethodType(joint_log_pdf, self)
 
         if all(hasattr(m, "cdf") for m in self.marginals):
+
             def joint_cdf(dist, x):
                 x = dist.check_x_dimension(x)
                 # Compute cdf of independent marginals
                 cdf_val = np.prod(
-                    np.array(
-                        [
-                            marg.cdf(x[:, ind_m])
-                            for ind_m, marg in enumerate(dist.marginals)
-                        ]
-                    ),
+                    np.array([marg.cdf(x[:, ind_m]) for ind_m, marg in enumerate(dist.marginals)]),
                     axis=0,
                 )
                 return cdf_val
@@ -92,9 +90,9 @@ class JointIndependent(DistributionND):
                 # Go through all marginals
                 rv_s = np.zeros((nsamples, len(dist.marginals)))
                 for ind_m, marg in enumerate(dist.marginals):
-                    rv_s[:, ind_m] = marg.rvs(
-                        nsamples=nsamples, random_state=random_state
-                    ).reshape((-1,))
+                    rv_s[:, ind_m] = marg.rvs(nsamples=nsamples, random_state=random_state).reshape(
+                        (-1,)
+                    )
                 return rv_s
 
             self.rvs = MethodType(joint_rvs, self)
@@ -106,16 +104,11 @@ class JointIndependent(DistributionND):
                 # Compute ml estimates of independent marginal parameters
                 mle_all = {}
                 for ind_m, marg in enumerate(dist.marginals):
-                    if any(
-                            param_value is None
-                            for param_value in marg.get_parameters().values()
-                    ):
+                    if any(param_value is None for param_value in marg.get_parameters().values()):
                         mle_i = marg.fit(data[:, ind_m])
                     else:
                         mle_i = marg.get_parameters().copy()
-                    mle_all.update(
-                        {key + "_" + str(ind_m): val for key, val in mle_i.items()}
-                    )
+                    mle_all.update({key + "_" + str(ind_m): val for key, val in mle_i.items()})
                 return mle_all
 
             self.fit = MethodType(joint_fit, self)
@@ -125,7 +118,9 @@ class JointIndependent(DistributionND):
             def joint_moments(dist, moments2return="mvsk"):
                 # Go through all marginals
                 if len(moments2return) == 1:
-                    return np.array([marg.moments(moments2return=moments2return) for marg in dist.marginals])
+                    return np.array(
+                        [marg.moments(moments2return=moments2return) for marg in dist.marginals]
+                    )
                 moments_ = [np.empty((len(dist.marginals),)) for _ in range(len(moments2return))]
                 for ind_m, marg in enumerate(dist.marginals):
                     moments_i = marg.moments(moments2return=moments2return)

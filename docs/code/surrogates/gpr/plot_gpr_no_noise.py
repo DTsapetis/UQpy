@@ -27,10 +27,9 @@ import numpy as np
 from UQpy.surrogates.gaussian_process.regression_models.LinearRegression import LinearRegression
 from UQpy.utilities import RBF
 
-warnings.filterwarnings('ignore')
-from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
+warnings.filterwarnings("ignore")
 from UQpy.surrogates import GaussianProcessRegression
-
+from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
 
 # %% md
 #
@@ -40,8 +39,11 @@ from UQpy.surrogates import GaussianProcessRegression
 
 # %%
 
+
 def funct(x):
-    y = (1 / 100) + (5 / 8) * ((2 * x - 1) ** 4) * (((2 * x - 1) ** 2) + 4 * np.sin(5 * np.pi * x) ** 2)
+    y = (1 / 100) + (5 / 8) * ((2 * x - 1) ** 4) * (
+        ((2 * x - 1) ** 2) + 4 * np.sin(5 * np.pi * x) ** 2
+    )
     return y
 
 
@@ -51,7 +53,9 @@ def funct(x):
 
 # %%
 
-X_train = np.array([0, 0.06, 0.08, 0.26, 0.27, 0.4, 0.52, 0.6, 0.68, 0.81, 0.9, 0.925, 1]).reshape(-1, 1)
+X_train = np.array([0, 0.06, 0.08, 0.26, 0.27, 0.4, 0.52, 0.6, 0.68, 0.81, 0.9, 0.925, 1]).reshape(
+    -1, 1
+)
 y_train = funct(X_train)
 
 # %% md
@@ -70,14 +74,14 @@ y_test = funct(X_test)
 # %%
 
 fig, ax = plt.subplots(figsize=(8, 6))
-ax.plot(X_test, y_test, 'r--', linewidth=2, label='Test Function')
-ax.plot(X_train, y_train, 'bo', markerfacecolor='b', markersize=10, label='Training Data')
+ax.plot(X_test, y_test, "r--", linewidth=2, label="Test Function")
+ax.plot(X_train, y_train, "bo", markerfacecolor="b", markersize=10, label="Training Data")
 ax.plot(X_test, np.zeros((X_test.shape[0], 1)))
-ax.tick_params(axis='both', which='major', labelsize=12)
-ax.set_xlabel('x', fontsize=15)
-ax.set_ylabel('f(x)', fontsize=15)
+ax.tick_params(axis="both", which="major", labelsize=12)
+ax.set_xlabel("x", fontsize=15)
+ax.set_ylabel("f(x)", fontsize=15)
 ax.set_ylim([-0.3, 1.8])
-ax.legend(loc="upper right", prop={'size': 12});
+ax.legend(loc="upper right", prop={"size": 12})
 plt.grid()
 
 # %% md
@@ -100,8 +104,8 @@ kernel1 = RBF()
 
 # %%
 
-bounds_1 = [[10 ** (-4), 10 ** 3], [10 ** (-3), 10 ** 2]]
-optimizer1 = MinimizeOptimizer(method='L-BFGS-B', bounds=bounds_1)
+bounds_1 = [[10 ** (-4), 10**3], [10 ** (-3), 10**2]]
+optimizer1 = MinimizeOptimizer(method="L-BFGS-B", bounds=bounds_1)
 
 # %% md
 #
@@ -110,8 +114,14 @@ optimizer1 = MinimizeOptimizer(method='L-BFGS-B', bounds=bounds_1)
 
 # %%
 
-gpr1 = GaussianProcessRegression(kernel=kernel1, hyperparameters=[10 ** (-3), 10 ** (-2)], optimizer=optimizer1,
-                                 optimizations_number=10, noise=False, regression_model=LinearRegression())
+gpr1 = GaussianProcessRegression(
+    kernel=kernel1,
+    hyperparameters=[10 ** (-3), 10 ** (-2)],
+    optimizer=optimizer1,
+    optimizations_number=10,
+    noise=False,
+    regression_model=LinearRegression(),
+)
 
 # %% md
 #
@@ -130,8 +140,8 @@ gpr1.fit(X_train, y_train)
 
 gpr1.hyperparameters
 
-print('Length Scale: ', gpr1.hyperparameters[0])
-print('Process Variance: ', gpr1.hyperparameters[1])
+print("Length Scale: ", gpr1.hyperparameters[0])
+print("Process Variance: ", gpr1.hyperparameters[1])
 
 # %% md
 #
@@ -150,18 +160,22 @@ y_pred1, y_std1 = gpr1.predict(X_test, return_std=True)
 
 # %%
 
-fig, ax = plt.subplots(figsize=(8.5,7))
-ax.plot(X_test,y_test,'r--',linewidth=2,label='Test Function')
-ax.plot(X_train,y_train,'bo',markerfacecolor='b', markersize=10, label='Training Data')
-ax.plot(X_test,y_pred1,'b-', lw=2, label='GP Prediction')
-ax.plot(X_test, np.zeros((X_test.shape[0],1)))
-ax.fill_between(X_test.flatten(), y_pred1-1.96*y_std1,
-                y_pred1+1.96*y_std1,
-                facecolor='yellow',label='95% CI')
-ax.tick_params(axis='both', which='major', labelsize=12)
-ax.set_xlabel('x', fontsize=15)
-ax.set_ylabel('f(x)', fontsize=15)
-ax.set_ylim([-0.3,1.8])
-plt.title('GP surrogate (No noise, No Constraints)')
-ax.legend(loc="upper right",prop={'size': 12})
+fig, ax = plt.subplots(figsize=(8.5, 7))
+ax.plot(X_test, y_test, "r--", linewidth=2, label="Test Function")
+ax.plot(X_train, y_train, "bo", markerfacecolor="b", markersize=10, label="Training Data")
+ax.plot(X_test, y_pred1, "b-", lw=2, label="GP Prediction")
+ax.plot(X_test, np.zeros((X_test.shape[0], 1)))
+ax.fill_between(
+    X_test.flatten(),
+    y_pred1 - 1.96 * y_std1,
+    y_pred1 + 1.96 * y_std1,
+    facecolor="yellow",
+    label="95% CI",
+)
+ax.tick_params(axis="both", which="major", labelsize=12)
+ax.set_xlabel("x", fontsize=15)
+ax.set_ylabel("f(x)", fontsize=15)
+ax.set_ylim([-0.3, 1.8])
+plt.title("GP surrogate (No noise, No Constraints)")
+ax.legend(loc="upper right", prop={"size": 12})
 plt.grid()

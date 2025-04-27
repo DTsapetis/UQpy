@@ -1,7 +1,8 @@
 import torch
-import UQpy.scientific_machine_learning as sml
 from hypothesis import given, settings
 from hypothesis.strategies import integers, tuples
+
+import UQpy.scientific_machine_learning as sml
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
@@ -12,10 +13,7 @@ settings.load_profile("fast")
     width=integers(min_value=1, max_value=8),
     w=integers(min_value=64, max_value=128),
     h=integers(min_value=64, max_value=128),
-    modes=tuples(
-        integers(min_value=1, max_value=33),
-        integers(min_value=1, max_value=33),
-    ),
+    modes=tuples(integers(min_value=1, max_value=33), integers(min_value=1, max_value=33)),
 )
 def test_output_shape(batch_size, width, w, h, modes):
     """Fourier layers do not change the shape of the input"""

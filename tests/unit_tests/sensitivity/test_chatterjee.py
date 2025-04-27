@@ -1,8 +1,8 @@
 """
-This is the test module for the Chatterjee sensitivity indices. 
+This is the test module for the Chatterjee sensitivity indices.
 
 Here, we will use the exponential function to test the output, as in
-the test module for Cramer sensitivity indices for the Chatterjee indices and 
+the test module for Cramer sensitivity indices for the Chatterjee indices and
 the ishigami function as in the test module for Sobol sensitivity indices for the
 Sobol indices.
 
@@ -32,9 +32,9 @@ diff = |a - b|
 diff <= atol + rtol * abs(b)
 
 -   relative tolerance: rtol * abs(b)
-    It is the maximum allowed difference between a and b, 
-    relative to the absolute value of b. 
-    For example, to set a tolerance of 1%, pass rol=0.01, 
+    It is the maximum allowed difference between a and b,
+    relative to the absolute value of b.
+    For example, to set a tolerance of 1%, pass rol=0.01,
     which assures that the values are within 2 decimal places of each other.
 
 -   absolute tolerance: atol
@@ -45,15 +45,15 @@ diff <= atol + rtol * abs(b)
 import numpy as np
 import pytest
 
-from UQpy.run_model.RunModel import RunModel
-from UQpy.run_model.model_execution.PythonModel import PythonModel
-from UQpy.distributions import Uniform, Normal
+from UQpy.distributions import Normal, Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.ChatterjeeSensitivity import ChatterjeeSensitivity
-
 
 # Prepare
 ###############################################################################
+
 
 # Prepare the input distribution
 @pytest.fixture()
@@ -74,10 +74,7 @@ def exponential_model_object():
     model = PythonModel(
         model_script="exponential.py",
         model_object_name="evaluate",
-        var_names=[
-            "X_1",
-            "X_2",
-        ],
+        var_names=["X_1", "X_2"],
         delete_files=True,
     )
 
@@ -214,9 +211,7 @@ def analytical_ishigami_Sobol_indices():
 ###############################################################################
 
 
-def test_Chatterjee_estimate(
-    numerical_Chatterjee_indices, analytical_Chatterjee_indices
-):
+def test_Chatterjee_estimate(numerical_Chatterjee_indices, analytical_Chatterjee_indices):
     """This function tests the Chatterjee estimate."""
     assert np.isclose(
         numerical_Chatterjee_indices, analytical_Chatterjee_indices, rtol=0, atol=1e-2

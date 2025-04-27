@@ -33,7 +33,5 @@ def wiener_khinchin_transform(power_spectrum, frequency, time):
     fac = fac * frequency_interval / 3
     correlation_function = np.zeros(len(time))
     for i in range(len(time)):
-        correlation_function[i] = 2 * np.dot(
-            fac, power_spectrum * np.cos(frequency * time[i])
-        )
+        correlation_function[i] = 2 * np.dot(fac, power_spectrum * np.cos(frequency * time[i]))
     return correlation_function

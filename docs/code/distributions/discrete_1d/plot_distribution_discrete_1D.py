@@ -5,24 +5,25 @@ Distribution Discrete 1D example
 
 This examples shows the use of the univariate discrete distributions class. In particular:
 """
-#%% md
+# %% md
 #
 # - How to define one of the univariate discrete distributions supported by UQpy
 # - How to extract the moments of the distribution
 # - How to draw random samples from the distribution
 
-#%%
+# %%
 
-#%% md
+# %% md
 #
 # Import the necessary modules.
 
-#%%
+# %%
 
 import matplotlib.pyplot as plt
+
 from UQpy.distributions.collection.Binomial import Binomial
 
-#%% md
+# %% md
 #
 # Example of a 1D discrete distribution
 # --------------------------------------
@@ -32,26 +33,26 @@ from UQpy.distributions.collection.Binomial import Binomial
 # :class:`DistributionDiscrete1D` baseclass, while in order to define the :class:`Binomial` distribution, two
 # parameters are required, namely, :code:`n` and :code:`p`.
 
-#%%
+# %%
 
 print(Binomial.__bases__)
 dist = Binomial(n=5, p=0.4)
 
 
-#%% md
+# %% md
 #
 # Print the mean, standard deviation, skewness, and kurtosis of the distribution.
 # -------------------------------------------------------------------------------
 # Using the moments method existing in all univariate distributions, the user can retrieve the available
 # moments. The order in which the moments are extracted can be seen in the moments_list variable.
 
-#%%
+# %%
 
-moments_list = ['mean', 'variance', 'skewness', 'kurtosis']
+moments_list = ["mean", "variance", "skewness", "kurtosis"]
 m = dist.moments()
-print('Moments with inherited parameters:')
+print("Moments with inherited parameters:")
 for i, moment in enumerate(moments_list):
-    print(moment + ' = {0:.2f}'.format(m[i]))
+    print(moment + " = {0:.2f}".format(m[i]))
 
 # %% md
 #
@@ -66,15 +67,9 @@ for i, moment in enumerate(moments_list):
 # %%
 
 y1 = dist.rvs(nsamples=5000)
-print('Shape of output provided by rvs is (nsamples, dimension), i.e. here:')
+print("Shape of output provided by rvs is (nsamples, dimension), i.e. here:")
 print(y1.shape)
 plt.hist(y1[:, 0], bins=50)
-plt.xlabel('x')
-plt.ylabel('count')
+plt.xlabel("x")
+plt.ylabel("count")
 plt.show()
-
-
-
-
-
-

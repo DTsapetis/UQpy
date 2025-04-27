@@ -14,11 +14,11 @@ scalar output.
 
 # %%
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from UQpy.distributions import Uniform
 from UQpy.surrogates import *
-
 
 # %% md
 #
@@ -26,8 +26,10 @@ from UQpy.surrogates import *
 
 # %%
 
+
 def sinusoidal_function(x):
     return x * np.sin(x) / 10.0
+
 
 # %% md
 #
@@ -53,9 +55,11 @@ y = sinusoidal_function(x)
 max_degree = 15
 polynomial_basis = TotalDegreeBasis(dist, max_degree)
 least_squares = LeastSquareRegression()
-pce_lstsq = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
+pce_lstsq = PolynomialChaosExpansion(
+    polynomial_basis=polynomial_basis, regression_method=least_squares
+)
 
-pce_lstsq.fit(x,y)
+pce_lstsq.fit(x, y)
 
 # %% md
 #
@@ -68,7 +72,7 @@ polynomial_basis = TotalDegreeBasis(dist, max_degree)
 lasso = LassoRegression()
 pce_lasso = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=lasso)
 
-pce_lasso.fit(x,y)
+pce_lasso.fit(x, y)
 
 # %% md
 #
@@ -81,7 +85,7 @@ polynomial_basis = TotalDegreeBasis(dist, max_degree)
 ridge = RidgeRegression()
 pce_ridge = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=ridge)
 
-pce_ridge.fit(x,y)
+pce_ridge.fit(x, y)
 
 # %% md
 #
@@ -108,13 +112,14 @@ x_ = np.linspace(min(x_test), max(x_test), n_samples_)
 f = sinusoidal_function(x_)
 
 plt.figure()
-plt.plot(x_test, y_test_lstsq, 'g', label='PCE predictor - LSTSQ')
-plt.plot(x_test, y_test_lasso, 'r', label='PCE predictor - LASSO')
-plt.plot(x_test, y_test_ridge, 'b', label='PCE predictor - Ridge')
-plt.scatter(x, y, label='training data')
-plt.plot(x_, f, 'm', label='function')
-plt.title('PCE surrogate - prediction accuracy')
-plt.legend(); plt.show()
+plt.plot(x_test, y_test_lstsq, "g", label="PCE predictor - LSTSQ")
+plt.plot(x_test, y_test_lasso, "r", label="PCE predictor - LASSO")
+plt.plot(x_test, y_test_ridge, "b", label="PCE predictor - Ridge")
+plt.scatter(x, y, label="training data")
+plt.plot(x_, f, "m", label="function")
+plt.title("PCE surrogate - prediction accuracy")
+plt.legend()
+plt.show()
 
 # %% md
 # Error Estimation
@@ -134,23 +139,23 @@ y_pce_lasso = pce_lasso.predict(x_val).flatten()
 y_pce_ridge = pce_ridge.predict(x_val).flatten()
 
 # mean absolute errors
-error_lstsq = np.sum(np.abs(y_val - y_pce_lstsq))/n_samples
-error_lasso = np.sum(np.abs(y_val - y_pce_lasso))/n_samples
-error_ridge = np.sum(np.abs(y_val - y_pce_ridge))/n_samples
+error_lstsq = np.sum(np.abs(y_val - y_pce_lstsq)) / n_samples
+error_lasso = np.sum(np.abs(y_val - y_pce_lasso)) / n_samples
+error_ridge = np.sum(np.abs(y_val - y_pce_ridge)) / n_samples
 
-print('Mean absolute error from least squares regression is: ', error_lstsq)
-print('Mean absolute error from LASSO regression is: ', error_lasso)
-print('Mean absolute error from ridge regression is: ', error_ridge)
-print(' ')
+print("Mean absolute error from least squares regression is: ", error_lstsq)
+print("Mean absolute error from LASSO regression is: ", error_lasso)
+print("Mean absolute error from ridge regression is: ", error_ridge)
+print(" ")
 
 # mean relative errors
-error_lstsq = np.sum( np.abs((y_val - y_pce_lstsq)/y_val) )/n_samples
-error_lasso = np.sum( np.abs((y_val - y_pce_lasso)/y_val) )/n_samples
-error_ridge = np.sum( np.abs((y_val - y_pce_ridge)/y_val) )/n_samples
+error_lstsq = np.sum(np.abs((y_val - y_pce_lstsq) / y_val)) / n_samples
+error_lasso = np.sum(np.abs((y_val - y_pce_lasso) / y_val)) / n_samples
+error_ridge = np.sum(np.abs((y_val - y_pce_ridge) / y_val)) / n_samples
 
-print('Mean relative error from least squares regression is: ', error_lstsq)
-print('Mean relative error from LASSO regression is: ', error_lasso)
-print('Mean relative error from ridge regression is: ', error_ridge)
+print("Mean relative error from least squares regression is: ", error_lstsq)
+print("Mean relative error from LASSO regression is: ", error_lasso)
+print("Mean relative error from ridge regression is: ", error_ridge)
 
 # %% md
 # Moment Estimation
@@ -165,7 +170,7 @@ y_mc = sinusoidal_function(x_mc)
 mean_mc = np.mean(y_mc)
 var_mc = np.var(y_mc)
 
-print('Moments from least squares regression :', pce_lstsq.get_moments())
-print('Moments from LASSO regression :', pce_lasso.get_moments())
-print('Moments from Ridge regression :', pce_ridge.get_moments())
-print('Moments from Monte Carlo integration: ', mean_mc, var_mc)
+print("Moments from least squares regression :", pce_lstsq.get_moments())
+print("Moments from LASSO regression :", pce_lasso.get_moments())
+print("Moments from Ridge regression :", pce_ridge.get_moments())
+print("Moments from Monte Carlo integration: ", mean_mc, var_mc)

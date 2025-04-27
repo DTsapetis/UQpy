@@ -12,6 +12,7 @@ def example1(samples=None):
 
 def example2(samples=None):
     import numpy as np
+
     d = 2
     beta = 3.0902
     g = np.zeros(samples.shape[0])

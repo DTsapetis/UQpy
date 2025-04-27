@@ -4,8 +4,10 @@ Note this does not include tests for numerical accuracy as the convolution is pe
 """
 
 import torch
+from hypothesis import given, settings
+from hypothesis import strategies as st
+
 import UQpy.scientific_machine_learning as sml
-from hypothesis import given, settings, strategies as st
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
@@ -43,9 +45,7 @@ def test_fancy_output_shape(kernel_size, stride, padding, dilation):
     in_channels = 1
     out_channels = 1
     length_in = 256
-    layer = sml.BayesianConv1d(
-        in_channels, out_channels, kernel_size, stride, padding, dilation
-    )
+    layer = sml.BayesianConv1d(in_channels, out_channels, kernel_size, stride, padding, dilation)
     x = torch.rand((n, in_channels, length_in))
     y = layer(x)
     length_out = compute_l_out(length_in, kernel_size, stride, padding, dilation)

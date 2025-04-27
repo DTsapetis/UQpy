@@ -1,8 +1,7 @@
-from UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction import (
-    LearningFunction,
-)
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
+
+from UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction import LearningFunction
 
 
 class ExpectedImprovementGlobalFit(LearningFunction):

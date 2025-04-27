@@ -24,9 +24,11 @@ Dette & Pepelyshev exponential function
 # %%
 
 import math
-import numpy as np
+
 import matplotlib.pyplot as plt
-from UQpy.distributions import Uniform, JointIndependent
+import numpy as np
+
+from UQpy.distributions import JointIndependent, Uniform
 from UQpy.surrogates import *
 
 # %% md
@@ -35,8 +37,14 @@ from UQpy.surrogates import *
 
 # %%
 
+
 def function(x):
-    return 100*(np.exp(-2/(x[:,0]**1.75)) + np.exp(-2/(x[:,1]**1.5)) + np.exp(-2/(x[:,2]**1.25)))
+    return 100 * (
+        np.exp(-2 / (x[:, 0] ** 1.75))
+        + np.exp(-2 / (x[:, 1] ** 1.5))
+        + np.exp(-2 / (x[:, 2] ** 1.25))
+    )
+
 
 # %% md
 #
@@ -46,7 +54,7 @@ def function(x):
 
 # input distributions
 dist = Uniform(loc=0, scale=1)
-marg = [dist]*3
+marg = [dist] * 3
 joint = JointIndependent(marginals=marg)
 
 # %% md
@@ -85,25 +93,27 @@ l2_err = []
 mean_err = []
 var_err = []
 for max_degree in range(1, 10):
-    print(' ')
+    print(" ")
 
     # PCE basis
-    print('Total degree: ', max_degree)
+    print("Total degree: ", max_degree)
     polynomial_basis = TotalDegreeBasis(joint, max_degree)
-    print('Size of basis:', polynomial_basis.polynomials_number)
+    print("Size of basis:", polynomial_basis.polynomials_number)
 
     # generate training data
     sampling_coeff = 5
-    print('Sampling coefficient: ', sampling_coeff)
+    print("Sampling coefficient: ", sampling_coeff)
     np.random.seed(42)
     n_samples = math.ceil(sampling_coeff * polynomial_basis.polynomials_number)
-    print('Training data: ', n_samples)
+    print("Training data: ", n_samples)
     xx_train = joint.rvs(n_samples)
     yy_train = function(xx_train)
 
     # fit model
     least_squares = LeastSquareRegression()
-    pce_metamodel = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
+    pce_metamodel = PolynomialChaosExpansion(
+        polynomial_basis=polynomial_basis, regression_method=least_squares
+    )
     pce_metamodel.fit(xx_train, yy_train)
 
     # validation errors
@@ -111,7 +121,7 @@ for max_degree in range(1, 10):
     errors = np.abs(yy_val - yy_val_pce.flatten())
     error_l2 = np.linalg.norm(errors)
     l2_err.append(error_l2)
-    print('Validation error in the l2 norm:', error_l2)
+    print("Validation error in the l2 norm:", error_l2)
 
     # moment errors
     pce_moments = pce_metamodel.get_moments()
@@ -119,5 +129,5 @@ for max_degree in range(1, 10):
     var_pce = pce_moments[1]
     mean_err.append(np.abs((mean_pce - mean_ref) / mean_ref))
     var_err.append(np.abs((var_pce - var_ref) / var_ref))
-    print('Relative error in the mean:', mean_err[-1])
-    print('Relative error in the variance:', var_err[-1])
+    print("Relative error in the mean:", mean_err[-1])
+    print("Relative error in the variance:", var_err[-1])

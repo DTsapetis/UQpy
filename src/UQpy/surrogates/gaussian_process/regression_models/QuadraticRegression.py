@@ -1,13 +1,12 @@
 import numpy as np
+
 from UQpy.surrogates.gaussian_process.regression_models.baseclass.Regression import Regression
 
 
 class QuadraticRegression(Regression):
     def r(self, s):
         s = np.atleast_2d(s)
-        fx = np.zeros(
-            [np.size(s, 0), int((np.size(s, 1) + 1) * (np.size(s, 1) + 2) / 2)]
-        )
+        fx = np.zeros([np.size(s, 0), int((np.size(s, 1) + 1) * (np.size(s, 1) + 2) / 2)])
         # jf = np.zeros(
         #     [
         #         np.size(s, 0),

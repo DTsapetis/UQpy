@@ -19,11 +19,12 @@ The method illustrates various aspects of the UQpy :class:`.MCMC` class:
 
 # %%
 
-from UQpy.sampling import MetropolisHastings
-import numpy as np
-import matplotlib.pyplot as plt
 import time
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+from UQpy.sampling import MetropolisHastings
 
 # %% md
 #
@@ -42,6 +43,7 @@ import time
 
 # %%
 
+
 def rosenbrock_no_params(x):
     return np.exp(-(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / 20)
 
@@ -50,18 +52,25 @@ def log_rosenbrock_with_param(x, p):
     return -(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / p
 
 
-x = MetropolisHastings(dimension=2, pdf_target=rosenbrock_no_params, burn_length=500, jump=50,
-                       n_chains=1, nsamples=500)
+x = MetropolisHastings(
+    dimension=2, pdf_target=rosenbrock_no_params, burn_length=500, jump=50, n_chains=1, nsamples=500
+)
 print(x.samples.shape)
 plt.figure()
-plt.plot(x.samples[:, 0], x.samples[:, 1], 'o', alpha=0.5)
+plt.plot(x.samples[:, 0], x.samples[:, 1], "o", alpha=0.5)
 plt.show()
 
 plt.figure()
-x = MetropolisHastings(dimension=2, log_pdf_target=log_rosenbrock_with_param, burn_length=500,
-                       jump=50, n_chains=1, args_target=(20,),
-                       nsamples=500)
-plt.plot(x.samples[:, 0], x.samples[:, 1], 'o')
+x = MetropolisHastings(
+    dimension=2,
+    log_pdf_target=log_rosenbrock_with_param,
+    burn_length=500,
+    jump=50,
+    n_chains=1,
+    args_target=(20,),
+    nsamples=500,
+)
+plt.plot(x.samples[:, 0], x.samples[:, 1], "o")
 plt.show()
 
 # %% md
@@ -74,20 +83,23 @@ from UQpy.distributions import DistributionND
 
 
 class Rosenbrock(DistributionND):
-    def __init__(self, p=20.):
+    def __init__(self, p=20.0):
         super().__init__(p=p)
 
     def pdf(self, x):
-        return np.exp(-(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / self.parameters['p'])
+        return np.exp(
+            -(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / self.parameters["p"]
+        )
 
     def log_pdf(self, x):
-        return -(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / self.parameters['p']
+        return -(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / self.parameters["p"]
 
 
-log_pdf_target = Rosenbrock(p=20.).log_pdf
+log_pdf_target = Rosenbrock(p=20.0).log_pdf
 
-x = MetropolisHastings(dimension=2, pdf_target=log_pdf_target, burn_length=500, jump=50,
-                       n_chains=1, nsamples=500)
+x = MetropolisHastings(
+    dimension=2, pdf_target=log_pdf_target, burn_length=500, jump=50, n_chains=1, nsamples=500
+)
 
 # %% md
 #
@@ -95,14 +107,20 @@ x = MetropolisHastings(dimension=2, pdf_target=log_pdf_target, burn_length=500, 
 
 # %%
 
-seed = [[0., -1.], [1., 1.]]
+seed = [[0.0, -1.0], [1.0, 1.0]]
 
-x = MetropolisHastings(dimension=2, log_pdf_target=log_pdf_target, burn_length=0, jump=50,
-                       seed=seed, concatenate_chains=False,
-                       nsamples=500)
+x = MetropolisHastings(
+    dimension=2,
+    log_pdf_target=log_pdf_target,
+    burn_length=0,
+    jump=50,
+    seed=seed,
+    concatenate_chains=False,
+    nsamples=500,
+)
 print(x.samples.shape)
-plt.plot(x.samples[:, 0, 0], x.samples[:, 0, 1], 'o', alpha=0.5)
-plt.plot(x.samples[:, 1, 0], x.samples[:, 1, 1], 'o', alpha=0.5)
+plt.plot(x.samples[:, 0, 0], x.samples[:, 0, 1], "o", alpha=0.5)
+plt.plot(x.samples[:, 1, 0], x.samples[:, 1, 1], "o", alpha=0.5)
 plt.show()
 
 print(seed)
@@ -119,9 +137,11 @@ print(x.samples[0, :, :])
 # Define a few proposals to try out
 from UQpy.distributions import JointIndependent, Normal, Uniform
 
-proposals = [JointIndependent([Normal(), Normal()]),
-             JointIndependent([Uniform(loc=-0.5, scale=1.5), Uniform(loc=-0.5, scale=1.5)]),
-             Normal()]
+proposals = [
+    JointIndependent([Normal(), Normal()]),
+    JointIndependent([Uniform(loc=-0.5, scale=1.5), Uniform(loc=-0.5, scale=1.5)]),
+    Normal(),
+]
 
 proposals_is_symmetric = [True, False, False]
 
@@ -129,14 +149,23 @@ fig, ax = plt.subplots(ncols=3, figsize=(16, 4))
 for i, (proposal, symm) in enumerate(zip(proposals, proposals_is_symmetric)):
     print(i)
     try:
-        x = MetropolisHastings(dimension=2, burn_length=500, jump=100, log_pdf_target=log_pdf_target,
-                               proposal=proposal, proposal_is_symmetric=symm, n_chains=1,
-                               nsamples=1000)
-        ax[i].plot(x.samples[:, 0], x.samples[:, 1], 'o')
+        x = MetropolisHastings(
+            dimension=2,
+            burn_length=500,
+            jump=100,
+            log_pdf_target=log_pdf_target,
+            proposal=proposal,
+            proposal_is_symmetric=symm,
+            n_chains=1,
+            nsamples=1000,
+        )
+        ax[i].plot(x.samples[:, 0], x.samples[:, 1], "o")
     except ValueError as e:
         print(e)
-        print('This last call fails because the proposal is in dimension 1, while the target distribution is'
-              ' in dimension 2')
+        print(
+            "This last call fails because the proposal is in dimension 1, while the target distribution is"
+            " in dimension 2"
+        )
 plt.show()
 
 # %% md
@@ -148,20 +177,32 @@ plt.show()
 
 # %%
 
-x = MetropolisHastings(dimension=2, log_pdf_target=log_pdf_target, jump=1000, burn_length=500,
-                       seed=[[0., 0.], [1., 1.]], concatenate_chains=False,
-                       nsamples=100)
-plt.plot(x.samples[:, 0, 0], x.samples[:, 0, 1], 'o', label='chain 1', alpha=0.5)
-plt.plot(x.samples[:, 1, 0], x.samples[:, 1, 1], 'o', label='chain 2', alpha=0.5)
+x = MetropolisHastings(
+    dimension=2,
+    log_pdf_target=log_pdf_target,
+    jump=1000,
+    burn_length=500,
+    seed=[[0.0, 0.0], [1.0, 1.0]],
+    concatenate_chains=False,
+    nsamples=100,
+)
+plt.plot(x.samples[:, 0, 0], x.samples[:, 0, 1], "o", label="chain 1", alpha=0.5)
+plt.plot(x.samples[:, 1, 0], x.samples[:, 1, 1], "o", label="chain 2", alpha=0.5)
 print(x.samples.shape)
 plt.legend()
 plt.show()
 
-x = MetropolisHastings(dimension=2, log_pdf_target=log_pdf_target, jump=1000, burn_length=500,
-                       seed=[[0., 0.], [1., 1.]], concatenate_chains=False,
-                       nsamples_per_chain=100)
-plt.plot(x.samples[:, 0, 0], x.samples[:, 0, 1], 'o', label='chain 1', alpha=0.5)
-plt.plot(x.samples[:, 1, 0], x.samples[:, 1, 1], 'o', label='chain 2', alpha=0.5)
+x = MetropolisHastings(
+    dimension=2,
+    log_pdf_target=log_pdf_target,
+    jump=1000,
+    burn_length=500,
+    seed=[[0.0, 0.0], [1.0, 1.0]],
+    concatenate_chains=False,
+    nsamples_per_chain=100,
+)
+plt.plot(x.samples[:, 0, 0], x.samples[:, 0, 1], "o", label="chain 1", alpha=0.5)
+plt.plot(x.samples[:, 1, 0], x.samples[:, 1, 1], "o", label="chain 2", alpha=0.5)
 print(x.samples.shape)
 plt.legend()
 plt.show()
@@ -175,18 +216,24 @@ plt.show()
 
 t = time.time()
 
-x = MetropolisHastings(dimension=2, log_pdf_target=log_pdf_target, jump=1000,
-                       burn_length=500, seed=[[0., 0.], [1., 1.]], concatenate_chains=False)
-print('Elapsed time for initialization: {} s'.format(time.time() - t))
+x = MetropolisHastings(
+    dimension=2,
+    log_pdf_target=log_pdf_target,
+    jump=1000,
+    burn_length=500,
+    seed=[[0.0, 0.0], [1.0, 1.0]],
+    concatenate_chains=False,
+)
+print("Elapsed time for initialization: {} s".format(time.time() - t))
 
 t = time.time()
 x.run(nsamples=100)
-print('Elapsed time for running MCMC: {} s'.format(time.time() - t))
-print('nburn, jump at first run: {}, {}'.format(x.burn_length, x.jump))
-print('total nb of samples: {}'.format(x.samples.shape[0]))
+print("Elapsed time for running MCMC: {} s".format(time.time() - t))
+print("nburn, jump at first run: {}, {}".format(x.burn_length, x.jump))
+print("total nb of samples: {}".format(x.samples.shape[0]))
 
-plt.plot(x.samples[:, 0, 0], x.samples[:, 0, 1], 'o', label='chain 1')
-plt.plot(x.samples[:, 1, 0], x.samples[:, 1, 1], 'o', label='chain 2')
+plt.plot(x.samples[:, 0, 0], x.samples[:, 0, 1], "o", label="chain 1")
+plt.plot(x.samples[:, 1, 0], x.samples[:, 1, 1], "o", label="chain 2")
 plt.legend()
 plt.show()
 
@@ -198,15 +245,20 @@ plt.show()
 
 # %%
 
-from UQpy.distributions import Normal, Gumbel, JointCopula, JointIndependent
+from UQpy.distributions import Gumbel, JointCopula, JointIndependent, Normal
 
-dist_true = JointCopula(marginals=[Normal(), Normal()], copula=Gumbel(theta=2.))
+dist_true = JointCopula(marginals=[Normal(), Normal()], copula=Gumbel(theta=2.0))
 proposal = JointIndependent(marginals=[Normal(scale=0.2), Normal(scale=0.2)])
 
-sampler = MetropolisHastings(dimension=2, log_pdf_target=dist_true.log_pdf, proposal=proposal,
-                             seed=[0., 0.], random_state=123,
-                             nsamples=500)
+sampler = MetropolisHastings(
+    dimension=2,
+    log_pdf_target=dist_true.log_pdf,
+    proposal=proposal,
+    seed=[0.0, 0.0],
+    random_state=123,
+    nsamples=500,
+)
 print(sampler.samples.shape)
 print(np.round(sampler.samples[-5:], 4))
 
-plt.plot(sampler.samples[:, 0], sampler.samples[:, 1], linestyle='none', marker='+')
+plt.plot(sampler.samples[:, 0], sampler.samples[:, 1], linestyle="none", marker="+")

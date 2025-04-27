@@ -1,15 +1,15 @@
 from beartype import beartype
 from sklearn.gaussian_process import GaussianProcessRegressor
 
-from UQpy.surrogates.baseclass import Surrogate
-from UQpy.utilities.ValidationTypes import *
 from UQpy.run_model.RunModel import RunModel
 from UQpy.sampling.stratified_sampling.refinement.baseclass.Refinement import *
-from UQpy.utilities.Utilities import gradient
-from UQpy.sampling.stratified_sampling.strata.VoronoiStrata import VoronoiStrata
 from UQpy.sampling.stratified_sampling.strata.baseclass.Strata import Strata
+from UQpy.sampling.stratified_sampling.strata.VoronoiStrata import VoronoiStrata
+from UQpy.surrogates.baseclass import Surrogate
+from UQpy.utilities.Utilities import gradient
+from UQpy.utilities.ValidationTypes import *
 
-CompatibleSurrogate = Annotated[object, Is[lambda x: hasattr(x, "fit") and hasattr(x, 'predict')]]
+CompatibleSurrogate = Annotated[object, Is[lambda x: hasattr(x, "fit") and hasattr(x, "predict")]]
 
 
 class GradientEnhancedRefinement(Refinement):
@@ -46,10 +46,12 @@ class GradientEnhancedRefinement(Refinement):
         self.strata = strata
         self.dy_dx = 0
         if surrogate is not None:
-            if hasattr(surrogate, 'fit') and hasattr(surrogate, 'predict'):
+            if hasattr(surrogate, "fit") and hasattr(surrogate, "predict"):
                 self.surrogate = surrogate
             else:
-                raise NotImplementedError("UQpy Error: surrogate must have 'fit' and 'predict' methods.")
+                raise NotImplementedError(
+                    "UQpy Error: surrogate must have 'fit' and 'predict' methods."
+                )
 
     def update_strata(self, samplesU01):
         if isinstance(self.strata, VoronoiStrata):
@@ -85,17 +87,19 @@ class GradientEnhancedRefinement(Refinement):
         strata_metrics = self.strata.calculate_gradient_strata_metrics(index)
 
         bins2break = self.identify_bins(
-            strata_metrics=strata_metrics,
-            points_to_add=points_to_add,
-            random_state=random_state)
+            strata_metrics=strata_metrics, points_to_add=points_to_add, random_state=random_state
+        )
 
         new_points = self.strata.update_strata_and_generate_samples(
-            dimension, points_to_add, bins2break, samples_u01, random_state)
+            dimension, points_to_add, bins2break, samples_u01, random_state
+        )
 
         return new_points
 
     def finalize(self, samples, samples_per_iteration):
-        self.runmodel_object.run(samples=np.atleast_2d(samples[-samples_per_iteration:]), append_samples=True)
+        self.runmodel_object.run(
+            samples=np.atleast_2d(samples[-samples_per_iteration:]), append_samples=True
+        )
 
     def _convert_qoi_tolist(self):
         qoi = [None] * len(self.runmodel_object.qoi_list)
