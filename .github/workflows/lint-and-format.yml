@@ -5,10 +5,14 @@ on:
         branches:
         - master
         - develop
+        paths:
+        - 'src/**'  
     pull_request:
         branches:
         - master
         - develop
+        paths:
+        - 'src/**'
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,3 +27,21 @@ jobs:
           run: pip install pylint
         - name: Lint code
           run: pylint --ignored-modules=numpy,scipy,matplotlib,sklearn --disable=E0601,E0606,E0202,E1136,E1120,E0401,E0213 --disable=R,C,W src/UQpy
+    ruff-formatting:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: "3.9"
+        - name: Install Ruff
+          run: pip install ruff==0.11.7
+        - name: Lint with Ruff
+          run: |
+            if ["${{github.event_name}}" = "pull_request"]; then
+              echo "CHANGED_FILES=$(git fetch origin ${{ github.base_ref }} && git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.py$' | tr '\n' ' ')" >> $GITHUB_ENV
+              ruff check $CHANGED_FILES
+            else
+              ruff check src/UQpy/
+            fi         
