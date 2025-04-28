@@ -33,7 +33,7 @@ line-length = 100
 target-version = "py39"
 
 #What rules to enable
-select = ["E", "F", "I", "B", "UP", "D", "S"]
+select = ["E", "F", "I", "B", "UP", "S"]
 # E = pycodestyle errors
 # F = pyflakes
 # I = isort (import sorting)
