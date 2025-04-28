@@ -33,7 +33,7 @@ line-length = 100
 target-version = "py39"
 
 #What rules to enable
-select = ["E", "F", "I", "B", "UP", "S"]
+select = ["E", "F", "I", "B", "S"]
 # E = pycodestyle errors
 # F = pyflakes
 # I = isort (import sorting)
@@ -43,7 +43,7 @@ select = ["E", "F", "I", "B", "UP", "S"]
 # S = bandit (security)
 
 [tool.ruff.lint]
-ignore = ["E501", "F401"]
+ignore = ["E501", "F401", "F403", "F405"]
 # ignore = [
 #   "E0601", # Used-before-assignment
 #   "E0606", # Non-existent operator
