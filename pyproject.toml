@@ -43,7 +43,7 @@ select = ["E", "F", "I", "B", "UP", "D", "S"]
 # S = bandit (security)
 
 [tool.ruff.lint]
-ignore = ["E501"]
+ignore = ["E501", "F401"]
 # ignore = [
 #   "E0601", # Used-before-assignment
 #   "E0606", # Non-existent operator
