@@ -47,8 +47,6 @@ jobs:
           -Dsonar.organization=dtsapetis
           -Dsonar.projectKey=DTsapetis_UQpy
           -Dsonar.sources=src/
-          -Dsonar.tests=tests/
-          -Dsonar.test.exclusions=**/example/**, **/tests/**, **/docs/**
           -Dsonar.verbose=true
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -67,8 +65,8 @@ jobs:
     - name: Run Radon
       run: |
           radon cc src -a -s -j -o radon-cc-report.json
-          radon mi src -a -s -j -o radon-mi-report.json
-          radon raw src -j -o radon-raw.json
+          radon mi src -s -j -o radon-mi-report.json
+          radon raw src -s -j -o radon-raw.json
     - name: Upload coverage
       uses: actions/upload-artifact@v4
       with:
