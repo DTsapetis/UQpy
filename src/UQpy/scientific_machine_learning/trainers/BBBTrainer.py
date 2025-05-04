@@ -145,7 +145,7 @@ class BBBTrainer:
             if test_data:
                 total_test_nll = 0
                 with torch.no_grad():
-                    for batch_number, (*x, y) in enumerate(test_data):
+                    for _batch_number, (*x, y) in enumerate(test_data):
                         test_prediction = self.model(*x)
                         test_nll = self.loss_function(test_prediction, y)
                         total_test_nll += test_nll.item()
