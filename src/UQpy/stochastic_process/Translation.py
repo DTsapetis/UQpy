@@ -122,7 +122,7 @@ class Translation:
                 self.distributions, correlation_function_gaussian[i]
             )
         if hasattr(self.distributions, "moments"):
-            non_gaussian_moments = self.distributionsmoments()
+            non_gaussian_moments = self.distributions.moments()
         else:
             raise AttributeError("UQpy: The marginal dist_object needs to have defined moments.")
         scaled_correlation_function_non_gaussian = (

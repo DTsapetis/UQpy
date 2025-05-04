@@ -45,7 +45,7 @@ select = ["E", "F", "I", "B", "S"]
 # S = bandit (security)
 
 #What rules to ignore
-ignore = ["E501", "E722", "E731", "F401", "F403", "F405", "B023", "B024", "B027" "S605", "S301"]
+ignore = ["E501", "E722", "E731", "F401", "F403", "F405", "B023", "B024", "B027", "S605", "S301"]
 
 
 [tool.ruff.format]
