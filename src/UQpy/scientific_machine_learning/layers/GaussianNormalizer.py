@@ -1,11 +1,9 @@
-from typing import Annotated, Union
-
 import torch
+from UQpy.scientific_machine_learning.baseclass import Layer
+from UQpy.utilities.ValidationTypes import PositiveFloat, NonNegativeInteger
+from typing import Union, Annotated
 from beartype import beartype
 from beartype.vale import Is
-
-from UQpy.scientific_machine_learning.baseclass import Layer
-from UQpy.utilities.ValidationTypes import NonNegativeInteger, PositiveFloat
 
 
 @beartype

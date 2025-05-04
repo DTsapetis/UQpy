@@ -19,19 +19,17 @@ Gaussian Process with Noise and Constraints
 
 # %%
 
+import numpy as np
+import matplotlib.pyplot as plt
 import warnings
 
-import matplotlib.pyplot as plt
-import numpy as np
+from UQpy.surrogates.gaussian_process.regression_models.QuadraticRegression import QuadraticRegression
 
-from UQpy.surrogates.gaussian_process.regression_models.QuadraticRegression import (
-    QuadraticRegression,
-)
-
-warnings.filterwarnings("ignore")
-from UQpy.surrogates import RBF, GaussianProcessRegression, NonNegative
-from UQpy.utilities.FminCobyla import FminCobyla
+warnings.filterwarnings('ignore')
 from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
+from UQpy.utilities.FminCobyla import FminCobyla
+from UQpy.surrogates import GaussianProcessRegression, NonNegative, RBF
+
 
 # %% md
 #
@@ -41,11 +39,8 @@ from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
 
 # %%
 
-
 def funct(x):
-    y = (1 / 100) + (5 / 8) * ((2 * x - 1) ** 4) * (
-        ((2 * x - 1) ** 2) + 4 * np.sin(5 * np.pi * x) ** 2
-    )
+    y = (1 / 100) + (5 / 8) * ((2 * x - 1) ** 4) * (((2 * x - 1) ** 2) + 4 * np.sin(5 * np.pi * x) ** 2)
     return y
 
 
@@ -55,9 +50,7 @@ def funct(x):
 
 # %%
 
-X_train = np.array([0, 0.06, 0.08, 0.26, 0.27, 0.4, 0.52, 0.6, 0.68, 0.81, 0.9, 0.925, 1]).reshape(
-    -1, 1
-)
+X_train = np.array([0, 0.06, 0.08, 0.26, 0.27, 0.4, 0.52, 0.6, 0.68, 0.81, 0.9, 0.925, 1]).reshape(-1, 1)
 y_train = funct(X_train)
 
 # %% md
@@ -82,7 +75,7 @@ y_test = funct(X_test)
 
 # %%
 
-X_c = np.linspace(0, 1, 31).reshape(-1, 1)
+X_c = np.linspace(0, 1, 31).reshape(-1,1)
 y_c = funct(X_c)
 
 # %% md
@@ -107,7 +100,7 @@ kernel3 = RBF()
 
 # %%
 
-bounds_3 = [[10 ** (-6), 10 ** (-1)], [10 ** (-5), 10 ** (-1)], [10 ** (-13), 10 ** (-5)]]
+bounds_3 = [[10**(-6), 10**(-1)], [10**(-5), 10**(-1)], [10**(-13), 10**(-5)]]
 optimizer3 = FminCobyla()
 
 # %% md
@@ -125,16 +118,9 @@ cons = NonNegative(constraint_points=X_c, observed_error=0.03, z_value=2)
 
 # %%
 
-gpr3 = GaussianProcessRegression(
-    kernel=kernel3,
-    hyperparameters=[10 ** (-3), 10 ** (-2), 10 ** (-10)],
-    optimizer=optimizer3,
-    optimizations_number=10,
-    optimize_constraints=cons,
-    bounds=bounds_3,
-    noise=True,
-    regression_model=QuadraticRegression(),
-)
+gpr3 = GaussianProcessRegression(kernel=kernel3, hyperparameters=[10**(-3), 10**(-2), 10**(-10)], optimizer=optimizer3,
+                                 optimizations_number=10, optimize_constraints=cons, bounds=bounds_3, noise=True,
+                                 regression_model=QuadraticRegression())
 
 # %% md
 #
@@ -152,9 +138,9 @@ gpr3.fit(X_train, y_train)
 
 print(gpr3.hyperparameters)
 
-print("Length Scale: ", gpr3.hyperparameters[0])
-print("Process Variance: ", gpr3.hyperparameters[1])
-print("Noise Variance: ", gpr3.hyperparameters[2])
+print('Length Scale: ', gpr3.hyperparameters[0])
+print('Process Variance: ', gpr3.hyperparameters[1])
+print('Noise Variance: ', gpr3.hyperparameters[2])
 
 
 # %% md
@@ -173,23 +159,19 @@ y_pred3, y_std3 = gpr3.predict(X_test, return_std=True)
 
 # %%
 
-fig, ax = plt.subplots(figsize=(8.5, 7))
-ax.plot(X_test, y_test, "r--", linewidth=2, label="Test Function")
-ax.plot(X_train, y_train, "bo", markerfacecolor="b", markersize=10, label="Training Data")
-ax.plot(X_test, y_pred3, "b-", lw=2, label="GP Prediction")
-ax.plot(X_test, np.zeros((X_test.shape[0], 1)))
-ax.fill_between(
-    X_test.flatten(),
-    y_pred3 - 1.96 * y_std3,
-    y_pred3 + 1.96 * y_std3,
-    facecolor="yellow",
-    label="95% Credibility Interval",
-)
-ax.tick_params(axis="both", which="major", labelsize=12)
-ax.set_xlabel("x", fontsize=15)
-ax.set_ylabel("f(x)", fontsize=15)
-ax.set_ylim([-0.3, 1.8])
-ax.legend(loc="upper right", prop={"size": 12})
+fig, ax = plt.subplots(figsize=(8.5,7))
+ax.plot(X_test,y_test,'r--',linewidth=2,label='Test Function')
+ax.plot(X_train,y_train,'bo',markerfacecolor='b', markersize=10, label='Training Data')
+ax.plot(X_test,y_pred3,'b-', lw=2, label='GP Prediction')
+ax.plot(X_test, np.zeros((X_test.shape[0],1)))
+ax.fill_between(X_test.flatten(), y_pred3-1.96*y_std3,
+                y_pred3+1.96*y_std3,
+                facecolor='yellow',label='95% Credibility Interval')
+ax.tick_params(axis='both', which='major', labelsize=12)
+ax.set_xlabel('x', fontsize=15)
+ax.set_ylabel('f(x)', fontsize=15)
+ax.set_ylim([-0.3,1.8])
+ax.legend(loc="upper right",prop={'size': 12});
 plt.grid()
 
 
@@ -201,7 +183,7 @@ plt.grid()
 # %%
 
 y_, ys_ = gpr3.predict(X_c, return_std=True)
-y_ - 2 * ys_
+y_ - 2*ys_
 
 # %% md
 #
@@ -210,4 +192,4 @@ y_ - 2 * ys_
 # %%
 
 y_ = gpr3.predict(X_train, return_std=False)
-np.abs(y_train[:, 0] - y_) - 0.03
+np.abs(y_train[:, 0]-y_) - 0.03

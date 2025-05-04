@@ -37,13 +37,11 @@ POD on Diffusion Equation 2D
 
 # %%
 
-import time
-
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+from UQpy.dimension_reduction import DirectPOD, SnapshotPOD, HigherOrderSVD
 from DiffusionEquation import diffusion
-
-from UQpy.dimension_reduction import DirectPOD, HigherOrderSVD, SnapshotPOD
+import time
 
 # %% md
 #
@@ -62,7 +60,7 @@ from UQpy.dimension_reduction import DirectPOD, HigherOrderSVD, SnapshotPOD
 
 # %%
 
-w = h = 5.0
+w = h = 5.
 dx, dy = 0.1, 0.1
 D = 5
 Tcool, Thot = 400, 700
@@ -95,7 +93,7 @@ for n_mode in n_modes:
 
 elapsed_time = time.time() - start_time
 time.strftime("%H:%M:%S", time.gmtime(elapsed_time))
-print("Elapsed time: ", elapsed_time)
+print('Elapsed time: ', elapsed_time)
 
 # %% md
 #
@@ -105,9 +103,9 @@ print("Elapsed time: ", elapsed_time)
 
 # Plot input solution
 plt.figure()
-c = plt.imshow(Data[frame], cmap=plt.get_cmap("coolwarm"), vmin=Tcool, vmax=Thot)
+c = plt.imshow(Data[frame], cmap=plt.get_cmap('coolwarm'), vmin=Tcool, vmax=Thot)
 plt.colorbar(c)
-plt.title("Input solution", fontweight="bold", size=15)
+plt.title('Input solution', fontweight="bold", size=15)
 plt.show()
 
 # Plot reduced solution
@@ -115,13 +113,13 @@ fig = plt.figure(figsize=(10, 7))
 fig.subplots_adjust(hspace=0.5, wspace=0.4)
 for i in range(len(n_modes)):
     ax = fig.add_subplot(2, 3, i + 1)
-    im = ax.imshow(Data_modes[i], cmap=plt.get_cmap("coolwarm"), vmin=Tcool, vmax=Thot)
+    im = ax.imshow(Data_modes[i], cmap=plt.get_cmap('coolwarm'), vmin=Tcool, vmax=Thot)
     ax.set_axis_off()
-    ax.set_title("Mode {}".format(n_modes[i]), size=15)
+    ax.set_title('Mode {}'.format(n_modes[i]), size=15)
 
 fig.subplots_adjust(right=0.85)
 cbar_ax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-cbar_ax.set_xlabel("$T$ / K", labelpad=20)
+cbar_ax.set_xlabel('$T$ / K', labelpad=20)
 fig.colorbar(im, cax=cbar_ax)
-fig.suptitle("Reconstructed solution", fontweight="bold", size=15)
+fig.suptitle('Reconstructed solution', fontweight="bold", size=15)
 plt.show()

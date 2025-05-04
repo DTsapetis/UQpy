@@ -4,6 +4,7 @@ from UQpy.surrogates.polynomial_chaos.polynomials.TotalDegreeBasis import Polyno
 
 
 class Regression(ABC):
+
     @abstractmethod
     def run(self, x, y, polynomial_basis):
         pass

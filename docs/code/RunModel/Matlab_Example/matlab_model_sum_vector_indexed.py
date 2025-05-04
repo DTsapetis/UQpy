@@ -1,17 +1,12 @@
-import os
-
 import fire
+import os
 
 
 def matlab(index):
     command1 = "cp ./InputFiles/sum_vector_indexed_" + str(index) + ".m ."
     # The user will need to modify command2 to point to the Matlab application on their system.
-    command2 = (
-        "/Applications/MATLAB_R2018a.app/bin/matlab "
-        "-nosplash -nojvm -nodisplay -nodesktop -r 'run sum_vector_indexed_"
-        + str(index)
-        + ".m; exit'"
-    )
+    command2 = "/Applications/MATLAB_R2018a.app/bin/matlab " \
+               "-nosplash -nojvm -nodisplay -nodesktop -r 'run sum_vector_indexed_" + str(index) + ".m; exit'"
     command3 = "mv ./OutputFiles/oupt.out ./OutputFiles/oupt_" + str(index) + ".out"
     command4 = "rm sum_vector_indexed_" + str(index) + ".m"
     os.system(command1)
@@ -20,5 +15,5 @@ def matlab(index):
     os.system(command4)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     fire.Fire(matlab)

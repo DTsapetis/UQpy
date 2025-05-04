@@ -1,5 +1,4 @@
 import logging
-
 import numpy as np
 from beartype import beartype
 
@@ -9,7 +8,8 @@ from UQpy.surrogates.polynomial_chaos.regressions.baseclass.Regression import Re
 
 class LassoRegression(Regression):
     @beartype
-    def __init__(self, learning_rate: float = 0.01, iterations: int = 1000, penalty: float = 1):
+    def __init__(self, learning_rate: float = 0.01, iterations: int = 1000,
+                 penalty: float = 1):
         """
         Class to calculate the polynomial_chaos coefficients with the Least Absolute Shrinkage
         and Selection Operator (LASSO) method.

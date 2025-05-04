@@ -1,10 +1,10 @@
-import warnings
 from typing import Callable
 
 import numpy as np
 from beartype import beartype
+import warnings
 
-warnings.filterwarnings("ignore")
+warnings.filterwarnings('ignore')
 
 from UQpy.inference.inference_models.baseclass.InferenceModel import *
 
@@ -29,7 +29,5 @@ class LogLikelihoodModel(InferenceModel):
         if not isinstance(log_like_values, np.ndarray):
             log_like_values = np.array(log_like_values)
         if log_like_values.shape != (parameters.shape[0],):
-            raise ValueError(
-                "UQpy: Likelihood function should output a (nsamples, ) ndarray of likelihood values."
-            )
+            raise ValueError("UQpy: Likelihood function should output a (nsamples, ) ndarray of likelihood values.")
         return log_like_values

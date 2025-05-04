@@ -13,14 +13,16 @@ L. Novák, M. Vořechovský, V. Sadílek, M. D. Shields, *Variance-based adaptiv
 
 # %%
 
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+from UQpy.sampling.ThetaCriterionPCE import *
 
-from UQpy.distributions import JointIndependent, Normal, Uniform
+from UQpy.distributions import Uniform, JointIndependent, Normal
+from UQpy.surrogates import *
+
 from UQpy.sampling import LatinHypercubeSampling
 from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import *
-from UQpy.sampling.ThetaCriterionPCE import *
-from UQpy.surrogates import *
+
 
 # %% md
 # The example involves a :math:`2D` function with mirrored quarter-circle arc line singularities. The form of the function is give by:
@@ -28,8 +30,8 @@ from UQpy.surrogates import *
 # .. math:: f(\mathbf{X})=  \frac{1}{ \lvert 0.3-X_1^2 - X_2^2\rvert + \delta}- \frac{1}{ \lvert 0.3-(1-X_1)^2 - (1-X_2)^2\rvert + \delta}, \quad \mathbf{X} \sim \mathcal{U}[0,1]^2
 #
 # where the strength of the singularities is controlled by the parameter :math:`\delta`, which we set as :math:`\delta=0.01`.
-#
-#
+# 
+# 
 
 # %%
 
@@ -41,11 +43,11 @@ def Model2DComplete(X, delta=0.01):
 
 # %% md
 # In order to show the possibilities of active learning for multiple surrogate models, we split the function into the two parts as follows:
-#
+# 
 # .. math:: f_1(\mathbf{X})= \begin{cases} \frac{1}{ \lvert 0.3-X_1^2 - X_2^2\rvert + \delta}-\frac{1}{ \lvert 0.3-(1-X_1)^2 - (1-X_2)^2\rvert + \delta} \quad \text{for} \quad X_1<X_2\\ 0 \quad \text{otherwise} \end{cases}
-#
+# 
 # and
-#
+# 
 # .. math:: f_2(\mathbf{X})= \begin{cases} \frac{1}{ \lvert 0.3-X_1^2 - X_2^2\rvert + \delta}-\frac{1}{ \lvert 0.3-(1-X_1)^2 - (1-X_2)^2\rvert + \delta} \quad \text{for} \quad X_1>X_2\\ 0 \quad \text{otherwise} \end{cases}
 
 # %%
@@ -54,8 +56,7 @@ def Model2DComplete(X, delta=0.01):
 def Model2D1(X, delta=0.01):
     M = X[:, 0] < X[:, 1]
     Y = 1 / (np.abs(0.3 - X[:, 0] ** 2 - X[:, 1] ** 2) + delta) - 1 / (
-        np.abs(0.3 - (1 - X[:, 0]) ** 2 - (1 - X[:, 1]) ** 2) + delta
-    )
+                np.abs(0.3 - (1 - X[:, 0]) ** 2 - (1 - X[:, 1]) ** 2) + delta)
     Y[M] = 0
     return Y
 
@@ -63,11 +64,9 @@ def Model2D1(X, delta=0.01):
 def Model2D2(X, delta=0.01):
     M = X[:, 0] > X[:, 1]
     Y = 1 / (np.abs(0.3 - X[:, 0] ** 2 - X[:, 1] ** 2) + delta) - 1 / (
-        np.abs(0.3 - (1 - X[:, 0]) ** 2 - (1 - X[:, 1]) ** 2) + delta
-    )
+                np.abs(0.3 - (1 - X[:, 0]) ** 2 - (1 - X[:, 1]) ** 2) + delta)
     Y[M] = 0
     return Y
-
 
 # %% md
 # The mathematical models have independent random inputs, which are uniformly distributed in interval :math:`[0, 1]`.
@@ -144,11 +143,9 @@ pceLAR2 = polynomial_chaos.regressions.LeastAngleRegression.model_selection(pce2
 n_cand = 10000
 
 # MaxiMin LHS samples uniformly covering the whole input random space
-lhs_maximin_cand = LatinHypercubeSampling(
-    distributions=[dist1, dist2],
-    criterion=MaxiMin(metric=DistanceMetric.CHEBYSHEV),
-    nsamples=n_cand,
-)
+lhs_maximin_cand = LatinHypercubeSampling(distributions=[dist1, dist2],
+                                          criterion=MaxiMin(metric=DistanceMetric.CHEBYSHEV),
+                                          nsamples=n_cand)
 
 # candidates for active learning
 Xaptive = lhs_maximin_cand._samples
@@ -194,15 +191,16 @@ for i in range(0, int(naddedsims)):
     pceLAR2 = polynomial_chaos.regressions.LeastAngleRegression.model_selection(pce2)
 
     if i % 10 == 0:
-        print("\nNumber of added simulations:", i)
+        print('\nNumber of added simulations:', i)
 
 # plot final ED
 fig, ax_nstd = plt.subplots(figsize=(6, 6))
-ax_nstd.plot(Xadapted[:, 0], Xadapted[:, 1], "ro", label="Adapted ED")
-ax_nstd.plot(xx_train[:, 0], xx_train[:, 1], "bo", label="Original ED")
-ax_nstd.set_ylabel(r"$X_2$")
-ax_nstd.set_xlabel(r"$X_1$")
-ax_nstd.legend(loc="upper left")
+ax_nstd.plot(Xadapted[:, 0], Xadapted[:, 1], 'ro', label='Adapted ED')
+ax_nstd.plot(xx_train[:, 0], xx_train[:, 1], 'bo', label='Original ED')
+ax_nstd.set_ylabel(r'$X_2$')
+ax_nstd.set_xlabel(r'$X_1$')
+ax_nstd.legend(loc='upper left');
+
 # %% md
 # For a comparison, we construct also a surrogate model of the full original mathematical model and further run active learning similarly as for the previous reduced models. Note that the final ED for this complete mathematical model should be almost identical as in the previous case with the two PCEs approximating reduced models.
 
@@ -213,6 +211,7 @@ yy_train3 = Model2DComplete(xx_train)
 pce3 = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
 pce3.fit(xx_train, yy_train3)
 pceLAR3 = polynomial_chaos.regressions.LeastAngleRegression.model_selection(pce3)
+
 
 
 Xadapted3 = xx_train
@@ -236,12 +235,12 @@ for i in range(0, int(400)):
     pceLAR3 = polynomial_chaos.regressions.LeastAngleRegression.model_selection(pce3)
 
     if i % 10 == 0:
-        print("\nNumber of added simulations:", i)
+        print('\nNumber of added simulations:', i)
 
 # plot final ED
 fig, ax_nstd = plt.subplots(figsize=(6, 6))
-ax_nstd.plot(Xadapted3[:, 0], Xadapted3[:, 1], "ro", label="Adapted ED")
-ax_nstd.plot(xx_train[:, 0], xx_train[:, 1], "bo", label="Original ED")
-ax_nstd.set_ylabel(r"$X_2$")
-ax_nstd.set_xlabel(r"$X_1$")
-ax_nstd.legend(loc="upper left")
+ax_nstd.plot(Xadapted3[:, 0], Xadapted3[:, 1], 'ro', label='Adapted ED')
+ax_nstd.plot(xx_train[:, 0], xx_train[:, 1], 'bo', label='Original ED')
+ax_nstd.set_ylabel(r'$X_2$')
+ax_nstd.set_xlabel(r'$X_1$')
+ax_nstd.legend(loc='upper left');

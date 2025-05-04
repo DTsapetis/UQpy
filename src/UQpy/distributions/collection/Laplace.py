@@ -7,8 +7,11 @@ from UQpy.distributions.baseclass import DistributionContinuous1D
 
 
 class Laplace(DistributionContinuous1D):
+
     @beartype
-    def __init__(self, loc: Union[None, float, int] = 0.0, scale: Union[None, float, int] = 1.0):
+    def __init__(
+        self, loc: Union[None, float, int] = 0.0, scale: Union[None, float, int] = 1.0
+    ):
         """
 
         :param loc: location parameter

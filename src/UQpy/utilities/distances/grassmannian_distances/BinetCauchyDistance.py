@@ -1,6 +1,8 @@
 import numpy as np
 
-from UQpy.utilities.distances.baseclass.GrassmannianDistance import GrassmannianDistance
+from UQpy.utilities.distances.baseclass.GrassmannianDistance import (
+    GrassmannianDistance,
+)
 from UQpy.utilities.GrassmannPoint import GrassmannPoint
 
 

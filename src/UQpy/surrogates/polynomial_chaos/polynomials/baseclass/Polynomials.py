@@ -1,19 +1,20 @@
-import warnings
 from abc import abstractmethod
-from typing import Callable, Union
+from typing import Union, Callable
 
 import numpy as np
 import scipy.integrate as integrate
 from beartype import beartype
 from scipy import stats as stats
-
 from UQpy.distributions.baseclass import Distribution
-from UQpy.distributions.collection import Normal, Uniform
+import warnings
 
-warnings.filterwarnings("ignore")
+from UQpy.distributions.collection import Uniform, Normal
+
+warnings.filterwarnings('ignore')
 
 
 class Polynomials:
+
     @beartype
     def __init__(self, distributions: Union[Distribution, list[Distribution]], degree: int):
         """
@@ -44,17 +45,12 @@ class Polynomials:
 
         for i in range(inputs_number):
             if type(marginals[i]) == Normal:
-                s[:, i] = Polynomials.standardize_normal(
-                    x[:, i],
-                    mean=marginals[i].parameters["loc"],
-                    std=marginals[i].parameters["scale"],
-                )
+                s[:, i] = Polynomials.standardize_normal(x[:, i], mean=marginals[i].parameters['loc'],
+                                                         std=marginals[i].parameters['scale'])
             elif type(marginals[i]) == Uniform:
                 s[:, i] = Polynomials.standardize_uniform(x[:, i], marginals[i])
             else:
-                raise TypeError(
-                    "standarize_sample is defined only for Uniform and Gaussian marginal distributions"
-                )
+                raise TypeError("standarize_sample is defined only for Uniform and Gaussian marginal distributions")
         return s
 
     @staticmethod
@@ -78,13 +74,11 @@ class Polynomials:
 
         for i in range(inputs_number):
             if type(marginals[i]) == Normal:
-                pdf_val *= stats.norm.pdf(s[:, i])
+                pdf_val *= (stats.norm.pdf(s[:, i]))
             elif type(marginals[i]) == Uniform:
-                pdf_val *= stats.uniform.pdf(s[:, i], loc=-1, scale=2)
+                pdf_val *= (stats.uniform.pdf(s[:, i], loc=-1, scale=2))
             else:
-                raise TypeError(
-                    "standardize_pdf is defined only for Uniform and Gaussian marginal distributions"
-                )
+                raise TypeError("standardize_pdf is defined only for Uniform and Gaussian marginal distributions")
         return pdf_val
 
     @staticmethod
@@ -101,8 +95,8 @@ class Polynomials:
 
     @staticmethod
     def standardize_uniform(x, uniform):
-        loc = uniform.get_parameters()["loc"]  # loc = lower bound of uniform distribution
-        scale = uniform.get_parameters()["scale"]
+        loc = uniform.get_parameters()['loc']  # loc = lower bound of uniform distribution
+        scale = uniform.get_parameters()['scale']
         upper = loc + scale  # upper bound = loc + scale
         return (2 * x - loc - upper) / (upper - loc)
 
@@ -124,7 +118,11 @@ class Polynomials:
         for i in range(degree):
             for j in range(degree):
                 int_res = integrate.quad(
-                    lambda k: p[i](k) * p[j](k) * pdf_st(k), a, b, epsabs=1e-15, epsrel=1e-15
+                    lambda k: p[i](k) * p[j](k) * pdf_st(k),
+                    a,
+                    b,
+                    epsabs=1e-15,
+                    epsrel=1e-15,
                 )
                 m[i, j] = int_res[0]
             pol_normed.append(p[i] / np.sqrt(m[i, i]))

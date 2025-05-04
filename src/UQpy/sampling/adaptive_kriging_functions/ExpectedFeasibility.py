@@ -1,12 +1,15 @@
 from typing import Union
 
-import scipy.stats as stats
 from beartype import beartype
 
-from UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction import LearningFunction
+from UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction import (
+    LearningFunction,
+)
+import scipy.stats as stats
 
 
 class ExpectedFeasibility(LearningFunction):
+
     @beartype
     def __init__(
         self,
@@ -25,9 +28,8 @@ class ExpectedFeasibility(LearningFunction):
         self.eff_epsilon = eff_epsilon
         self.eff_stop = eff_stop
 
-    def evaluate_function(
-        self, distributions, n_add, surrogate, population, qoi=None, samples=None
-    ):
+    def evaluate_function(self, distributions, n_add, surrogate, population, qoi=None, samples=None):
+
         g, sig = surrogate.predict(population, True)
 
         # Remove the inconsistency in the shape of 'g' and 'sig' array
@@ -39,7 +41,9 @@ class ExpectedFeasibility(LearningFunction):
         t1 = (a_ - g) / sig
         t2 = (a_ - ep - g) / sig
         t3 = (a_ + ep - g) / sig
-        eff = (g - a_) * (2 * stats.norm.cdf(t1) - stats.norm.cdf(t2) - stats.norm.cdf(t3))
+        eff = (g - a_) * (
+            2 * stats.norm.cdf(t1) - stats.norm.cdf(t2) - stats.norm.cdf(t3)
+        )
         eff += -sig * (2 * stats.norm.pdf(t1) - stats.norm.pdf(t2) - stats.norm.pdf(t3))
         eff += ep * (stats.norm.cdf(t3) - stats.norm.cdf(t2))
         rows = eff[:, 0].argsort()[-n_add:]

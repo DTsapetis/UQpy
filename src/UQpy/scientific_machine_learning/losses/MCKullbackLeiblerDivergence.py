@@ -1,22 +1,26 @@
-from typing import Annotated
-
 import torch
 import torch.nn as nn
+import UQpy.scientific_machine_learning.functional as func
+from UQpy.distributions.baseclass import Distribution
+from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer, Loss
+from UQpy.utilities.ValidationTypes import PositiveInteger
+from typing import Annotated
 from beartype import beartype
 from beartype.vale import Is
 
-import UQpy.scientific_machine_learning.functional as func
-from UQpy.distributions.baseclass import Distribution
-from UQpy.scientific_machine_learning.baseclass import Loss, NormalBayesianLayer
-from UQpy.utilities.ValidationTypes import PositiveInteger
 
 
 @beartype
 class MCKullbackLeiblerDivergence(Loss):
+
     def __init__(
         self,
-        posterior_distribution: Annotated[object, Is[lambda x: issubclass(x, Distribution)]],
-        prior_distribution: Annotated[object, Is[lambda x: issubclass(x, Distribution)]],
+        posterior_distribution: Annotated[
+            object, Is[lambda x: issubclass(x, Distribution)]
+        ],
+        prior_distribution: Annotated[
+            object, Is[lambda x: issubclass(x, Distribution)]
+        ],
         n_samples: PositiveInteger = 1_000,
         reduction: str = "sum",
         device=None,
@@ -81,7 +85,10 @@ class MCKullbackLeiblerDivergence(Loss):
                     mu = getattr(layer, f"{name}_mu")
                     rho = getattr(layer, f"{name}_rho")
                     sigma = torch.log1p(torch.exp(rho))
-                    for mu_i, sigma_i in zip(mu.flatten(), sigma.flatten()):
+                    for mu_i, sigma_i in zip(
+                        mu.flatten(),
+                        sigma.flatten(),
+                    ):
                         posterior_distributions_list.append(
                             self.posterior_distribution(mu_i.item(), sigma_i.item())
                         )

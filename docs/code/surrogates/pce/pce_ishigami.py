@@ -13,11 +13,10 @@ In this example, we approximate the well-known Ishigami function with a total-de
 
 # %%
 
-import math
-
 import numpy as np
-
-from UQpy.distributions import JointIndependent, Uniform
+import math
+import numpy as np
+from UQpy.distributions import Uniform, JointIndependent
 from UQpy.surrogates import *
 
 # %% md
@@ -27,17 +26,15 @@ from UQpy.surrogates import *
 
 # %%
 
-
 # function to be approximated
 def ishigami(xx):
     """Ishigami function"""
     a = 7
     b = 0.1
     term1 = np.sin(xx[0])
-    term2 = a * np.sin(xx[1]) ** 2
-    term3 = b * xx[2] ** 4 * np.sin(xx[0])
+    term2 = a * np.sin(xx[1])**2
+    term3 = b * xx[2]**4 * np.sin(xx[0])
     return term1 + term2 + term3
-
 
 # %% md
 #
@@ -48,9 +45,9 @@ def ishigami(xx):
 # %%
 
 # input distributions
-dist1 = Uniform(loc=-np.pi, scale=2 * np.pi)
-dist2 = Uniform(loc=-np.pi, scale=2 * np.pi)
-dist3 = Uniform(loc=-np.pi, scale=2 * np.pi)
+dist1 = Uniform(loc=-np.pi, scale=2*np.pi)
+dist2 = Uniform(loc=-np.pi, scale=2*np.pi)
+dist3 = Uniform(loc=-np.pi, scale=2*np.pi)
 marg = [dist1, dist2, dist3]
 joint = JointIndependent(marginals=marg)
 
@@ -73,7 +70,7 @@ P = 6
 polynomial_basis = TotalDegreeBasis(joint, P)
 
 # check the size of the basis
-print("Size of PCE basis:", polynomial_basis.polynomials_number)
+print('Size of PCE basis:', polynomial_basis.polynomials_number)
 
 # %% md
 #
@@ -85,8 +82,8 @@ print("Size of PCE basis:", polynomial_basis.polynomials_number)
 # %%
 
 # create training data
-sample_size = int(polynomial_basis.polynomials_number * 5)
-print("Size of experimental design:", sample_size)
+sample_size = int(polynomial_basis.polynomials_number*5)
+print('Size of experimental design:', sample_size)
 
 # realizations of random inputs
 xx_train = joint.rvs(sample_size)
@@ -117,8 +114,8 @@ pce.fit(xx_train, yy_train)
 
 mean_est = pce.get_moments()[0]
 var_est = pce.get_moments()[1]
-print("PCE mean estimate:", mean_est)
-print("PCE variance estimate:", var_est)
+print('PCE mean estimate:', mean_est)
+print('PCE variance estimate:', var_est)
 
 
 # %% md
@@ -129,14 +126,13 @@ print("PCE variance estimate:", var_est)
 # %%
 
 from UQpy.sensitivity import *
-
 pce_sensitivity = PceSensitivity(pce)
 pce_sensitivity.run()
 sobol_first = pce_sensitivity.first_order_indices
 sobol_total = pce_sensitivity.total_order_indices
-print("First-order Sobol indices:")
+print('First-order Sobol indices:')
 print(sobol_first)
-print("Total-order Sobol indices:")
+print('Total-order Sobol indices:')
 print(sobol_total)
 
 # %% md
@@ -158,9 +154,7 @@ for degree in range(16):
     # define PCE
     polynomial_basis = TotalDegreeBasis(joint, degree)
     least_squares = LeastSquareRegression()
-    pce_metamodel = PolynomialChaosExpansion(
-        polynomial_basis=polynomial_basis, regression_method=least_squares
-    )
+    pce_metamodel = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
 
     # create training data
     np.random.seed(1)  # fix random seed for reproducibility
@@ -176,6 +170,8 @@ for degree in range(16):
     errors = np.abs(yy_val.flatten() - yy_val_pce)
     mae.append(np.linalg.norm(errors, 1) / n_samples_val)
 
-    print("Polynomial degree:", degree)
-    print("Mean absolute error:", mae[-1])
-    print(" ")
+    print('Polynomial degree:', degree)
+    print('Mean absolute error:', mae[-1])
+    print(' ')
+
+

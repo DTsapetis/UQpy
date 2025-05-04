@@ -20,10 +20,9 @@ This example shows the use of the Latin Hypercube sampling class. In particular:
 
 # %%
 
-import matplotlib.pyplot as plt
-
-from UQpy.distributions import Uniform
 from UQpy.sampling import LatinHypercubeSampling
+import matplotlib.pyplot as plt
+from UQpy.distributions import Uniform
 from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import *
 
 # %% md
@@ -42,36 +41,26 @@ from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import *
 
 # %%
 
-dist1 = Uniform(loc=0.0, scale=1.0)
-dist2 = Uniform(loc=0.0, scale=1.0)
+dist1 = Uniform(loc=0., scale=1.)
+dist2 = Uniform(loc=0., scale=1.)
 
-lhs_random = LatinHypercubeSampling(
-    distributions=[dist1, dist2],
-    nsamples=5,
-    random_state=np.random.RandomState(789),
-    criterion=Random(),
-)
+lhs_random = LatinHypercubeSampling(distributions=[dist1, dist2], nsamples=5,
+                                    random_state=np.random.RandomState(789),
+                                    criterion=Random())
 
-lhs_centered = LatinHypercubeSampling(
-    distributions=[dist1, dist2],
-    criterion=Centered(),
-    random_state=np.random.RandomState(789),
-    nsamples=5,
-)
+lhs_centered = LatinHypercubeSampling(distributions=[dist1, dist2], criterion=Centered(),
+                                      random_state=np.random.RandomState(789),
+                                      nsamples=5)
 
-lhs_maximin = LatinHypercubeSampling(
-    distributions=[dist1, dist2],
-    random_state=np.random.RandomState(789),
-    criterion=MaxiMin(metric=DistanceMetric.CHEBYSHEV),
-    nsamples=5,
-)
+lhs_maximin = LatinHypercubeSampling(distributions=[dist1, dist2],
+                                     random_state=np.random.RandomState(789),
+                                     criterion=MaxiMin(metric=DistanceMetric.CHEBYSHEV),
+                                     nsamples=5)
 
-lhs_mincorrelate = LatinHypercubeSampling(
-    distributions=[dist1, dist2],
-    random_state=np.random.RandomState(789),
-    criterion=MinCorrelation(iterations=100),
-    nsamples=5,
-)
+lhs_mincorrelate = LatinHypercubeSampling(distributions=[dist1, dist2],
+                                          random_state=np.random.RandomState(789),
+                                          criterion=MinCorrelation(iterations=100),
+                                          nsamples=5)
 
 # %% md
 #
@@ -88,7 +77,7 @@ lhs_mincorrelate = LatinHypercubeSampling(
 # plot the samples
 fig, axs = plt.subplots(2, 2)
 fig.subplots_adjust(hspace=0.5)
-axs[0, 0].set_title("Random-LHS design")
+axs[0, 0].set_title('Random-LHS design')
 axs[0, 0].scatter(lhs_random._samples[:, 0], lhs_random._samples[:, 1])
 axs[0, 0].set_yticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
 axs[0, 0].set_xticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
@@ -96,7 +85,7 @@ axs[0, 0].yaxis.grid(True)
 axs[0, 0].xaxis.grid(True)
 
 
-axs[0, 1].set_title("Centered-LHS design")
+axs[0, 1].set_title('Centered-LHS design')
 axs[0, 1].scatter(lhs_centered._samples[:, 0], lhs_centered._samples[:, 1])
 axs[0, 1].set_yticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
 axs[0, 1].set_xticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
@@ -104,7 +93,7 @@ axs[0, 1].yaxis.grid(True)
 axs[0, 1].xaxis.grid(True)
 
 
-axs[1, 0].set_title("Maximin-LHS design")
+axs[1, 0].set_title('Maximin-LHS design')
 axs[1, 0].scatter(lhs_maximin._samples[:, 0], lhs_maximin._samples[:, 1])
 axs[1, 0].set_yticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
 axs[1, 0].set_xticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
@@ -112,7 +101,7 @@ axs[1, 0].yaxis.grid(True)
 axs[1, 0].xaxis.grid(True)
 
 
-axs[1, 1].set_title("MinCorrelation-LHS design")
+axs[1, 1].set_title('MinCorrelation-LHS design')
 axs[1, 1].scatter(lhs_random._samples[:, 0], lhs_random._samples[:, 1])
 axs[1, 1].set_yticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
 axs[1, 1].set_xticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])

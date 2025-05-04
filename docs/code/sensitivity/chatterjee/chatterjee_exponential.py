@@ -17,10 +17,10 @@ Cramér-von Mises Distance. SIAM/ASA Journal on Uncertainty Quantification, 6(2)
 """
 
 # %%
+from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Normal
 from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.run_model.model_execution.PythonModel import PythonModel
-from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.ChatterjeeSensitivity import ChatterjeeSensitivity
 from UQpy.sensitivity.PostProcess import *
 
@@ -33,7 +33,10 @@ np.random.seed(123)
 model = PythonModel(
     model_script="local_exponential.py",
     model_object_name="evaluate",
-    var_names=["X_1", "X_2"],
+    var_names=[
+        "X_1",
+        "X_2",
+    ],
     delete_files=True,
 )
 
@@ -67,5 +70,7 @@ SA.first_order_chatterjee_indices
 
 # **Plot the Chatterjee indices**
 fig1, ax1 = plot_sensitivity_index(
-    SA.first_order_chatterjee_indices[:, 0], plot_title="Chatterjee indices", color="C2"
+    SA.first_order_chatterjee_indices[:, 0],
+    plot_title="Chatterjee indices",
+    color="C2",
 )

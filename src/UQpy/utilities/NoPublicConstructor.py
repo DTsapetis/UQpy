@@ -1,6 +1,6 @@
 "Code retrieved from: https://stackoverflow.com/a/64682734/5647511"
+from typing import Type, Any, TypeVar
 
-from typing import Any, Type, TypeVar
 
 T = TypeVar("T")
 

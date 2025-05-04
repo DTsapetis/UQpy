@@ -1,12 +1,10 @@
 import logging
-
-import scipy.stats as stats
 from beartype import beartype
-
+from UQpy.utilities.ValidationTypes import *
 from UQpy.sampling.stratified_sampling.strata.baseclass.Strata import Strata
 from UQpy.sampling.stratified_sampling.strata.SamplingCriterion import SamplingCriterion
 from UQpy.utilities.Utilities import calculate_gradient
-from UQpy.utilities.ValidationTypes import *
+import scipy.stats as stats
 
 
 class RectangularStrata(Strata):
@@ -70,8 +68,7 @@ class RectangularStrata(Strata):
                 if self.widths is None or self.seeds is None:
                     raise RuntimeError(
                         "UQpy: The strata are not fully defined. Must provide `strata_number`, `input_file`, "
-                        "or `seeds` and `widths`."
-                    )
+                        "or `seeds` and `widths`.")
 
             else:
                 # Read the strata from the specified input file
@@ -143,8 +140,8 @@ class RectangularStrata(Strata):
         This is an instance method of the :class:`.Rectangular` class that can be called to plot the boundaries of a
         two-dimensional :class:`.Rectangular` object on :math:`[0, 1]^2`.
         """
-        import matplotlib.patches as patches
         import matplotlib.pyplot as plt
+        import matplotlib.patches as patches
 
         fig = plt.figure()
         ax = fig.gca()
@@ -166,7 +163,9 @@ class RectangularStrata(Strata):
     def sample_strata(self, nsamples_per_stratum, random_state):
         samples_in_strata, weights = [], []
         for i in range(self.seeds.shape[0]):
-            samples_temp = np.zeros([int(nsamples_per_stratum[i]), self.seeds.shape[1]])
+            samples_temp = np.zeros(
+                [int(nsamples_per_stratum[i]), self.seeds.shape[1]]
+            )
             for j in range(self.seeds.shape[1]):
                 if self.sampling_criterion == SamplingCriterion.RANDOM:
                     samples_temp[:, j] = stats.uniform.rvs(
@@ -190,11 +189,12 @@ class RectangularStrata(Strata):
 
     def calculate_gradient_strata_metrics(self, index):
         dy_dx1 = self._gradients[:index]
-        stratum_variance = (1 / 12) * self.widths**2
+        stratum_variance = (1 / 12) * self.widths ** 2
         s = np.zeros(index)
         for i in range(index):
             s[i] = (
-                np.sum(dy_dx1[i, :] * stratum_variance[i, :] * dy_dx1[i, :]) * self.volume[i] ** 2
+                np.sum(dy_dx1[i, :] * stratum_variance[i, :] * dy_dx1[i, :])
+                * self.volume[i] ** 2
             )
         return s
 
@@ -231,7 +231,9 @@ class RectangularStrata(Strata):
 
             knn = NearestNeighbors(n_neighbors=max_train_size)
             knn.fit(np.atleast_2d(training_points))
-            neighbors = knn.kneighbors(np.atleast_2d(training_points[-1]), return_distance=False)
+            neighbors = knn.kneighbors(
+                np.atleast_2d(training_points[-1]), return_distance=False
+            )
 
             # Recompute the gradient only at the nearest neighbor points.
             self._gradients[neighbors] = calculate_gradient(
@@ -255,7 +257,9 @@ class RectangularStrata(Strata):
     def _update_stratum_and_generate_sample(self, bin_, samples_u01, random_state):
         # Cut the stratum in the direction of maximum length
         cut_dir_temp = self.widths[bin_, :]
-        dir2break = np.random.choice(np.argwhere(cut_dir_temp == np.amax(cut_dir_temp))[0])
+        dir2break = np.random.choice(
+            np.argwhere(cut_dir_temp == np.amax(cut_dir_temp))[0]
+        )
 
         # Divide the stratum bin2break in the direction dir2break
         self.widths[bin_, dir2break] = self.widths[bin_, dir2break] / 2
@@ -265,9 +269,13 @@ class RectangularStrata(Strata):
             samples_u01[bin_, dir2break]
             < self.seeds[bin_, dir2break] + self.widths[bin_, dir2break]
         ):
-            self.seeds[-1, dir2break] = self.seeds[bin_, dir2break] + self.widths[bin_, dir2break]
+            self.seeds[-1, dir2break] = (
+                self.seeds[bin_, dir2break] + self.widths[bin_, dir2break]
+            )
         else:
-            self.seeds[bin_, dir2break] = self.seeds[bin_, dir2break] + self.widths[bin_, dir2break]
+            self.seeds[bin_, dir2break] = (
+                self.seeds[bin_, dir2break] + self.widths[bin_, dir2break]
+            )
 
         self.volume[bin_] = self.volume[bin_] / 2
         self.volume = np.append(self.volume, self.volume[bin_])
@@ -282,10 +290,7 @@ class RectangularStrata(Strata):
     def check_centered(self, samples_number):
         if samples_number is None:
             return
-        if (self.sampling_criterion == SamplingCriterion.CENTERED) and samples_number != len(
-            self.seeds
-        ):
-            raise ValueError(
-                "In case of centered stratification, the number of samples must be equal to the number "
-                "of strata"
-            )
+        if (self.sampling_criterion == SamplingCriterion.CENTERED) and \
+                samples_number != len(self.seeds):
+            raise ValueError("In case of centered stratification, the number of samples must be equal to the number "
+                             "of strata")

@@ -1,9 +1,7 @@
-from abc import ABC
-
 import numpy as np
 import scipy.stats as stats
-
 from UQpy.distributions.baseclass.Distribution import Distribution
+from abc import ABC
 
 
 class Distribution1D(Distribution, ABC):
@@ -26,9 +24,6 @@ class Distribution1D(Distribution, ABC):
         else:
             self.cdf = lambda x: scipy_name.cdf(k=self.check_x_dimension(x), **self.parameters)
         self.icdf = lambda x: scipy_name.ppf(q=self.check_x_dimension(x), **self.parameters)
-        self.moments = lambda moments2return="mvsk": scipy_name.stats(
-            moments=moments2return, **self.parameters
-        )
+        self.moments = lambda moments2return="mvsk": scipy_name.stats(moments=moments2return, **self.parameters)
         self.rvs = lambda nsamples=1, random_state=None: scipy_name.rvs(
-            size=nsamples, random_state=random_state, **self.parameters
-        ).reshape((nsamples, 1))
+            size=nsamples, random_state=random_state, **self.parameters).reshape((nsamples, 1))

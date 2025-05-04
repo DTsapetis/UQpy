@@ -9,7 +9,10 @@ from UQpy.distributions.baseclass import DistributionDiscrete1D
 class Binomial(DistributionDiscrete1D):
     @beartype
     def __init__(
-        self, n: Union[None, int], p: Union[None, float, int], loc: Union[None, float, int] = 0.0
+        self,
+        n: Union[None, int],
+        p: Union[None, float, int],
+        loc: Union[None, float, int] = 0.0,
     ):
         """
 

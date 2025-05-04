@@ -20,11 +20,11 @@ In this example, we train a Deep Operator Network to learn the operator :math:`\
 # %%
 
 # Default imports
-import matplotlib.pyplot as plt
-import numpy as np
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import Dataset, DataLoader
+import numpy as np
+import matplotlib.pyplot as plt
 
 plt.style.use("ggplot")
 
@@ -173,7 +173,12 @@ for i in range(3):
         color=colors[i],
         linestyle="dashed",
     )
-    ax.plot(x_plot, prediction.detach().numpy(), label=f"DoN $\hat{{g}}_{i}$", color=colors[i])
+    ax.plot(
+        x_plot,
+        prediction.detach().numpy(),
+        label=f"DoN $\hat{{g}}_{i}$",
+        color=colors[i],
+    )
 ax.set_title("Deep Operator Network Predictions")
 ax.legend()
 

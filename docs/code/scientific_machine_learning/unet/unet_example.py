@@ -19,12 +19,10 @@ Learning a Stress Field with U-Nets
 # %%
 
 import logging
-
 import matplotlib.pyplot as plt
-import torch
 from matplotlib import colors
+import torch
 from torch.utils.data import DataLoader, Dataset, random_split
-
 import UQpy.scientific_machine_learning as sml
 
 logger = logging.getLogger("UQpy")
@@ -41,7 +39,9 @@ logger.setLevel(logging.INFO)
 
 class FiberDataset(Dataset):
     def __init__(
-        self, microstructure_filename: str = "microstructure.pt", mask_filename: str = "masks.pt"
+        self,
+        microstructure_filename: str = "microstructure.pt",
+        mask_filename: str = "masks.pt",
     ):
         """Construct a Dataset to train a U-net
 
@@ -109,8 +109,8 @@ ax.legend()
 fig.tight_layout()
 
 i = train_dataset.indices[0]
-x = dataset.x[i : i + 1]
-y = dataset.y[i : i + 1].squeeze()
+x = dataset.x[i:i+1]
+y = dataset.y[i:i+1].squeeze()
 with torch.no_grad():
     prediction = unet(x).squeeze()
 error = prediction - y

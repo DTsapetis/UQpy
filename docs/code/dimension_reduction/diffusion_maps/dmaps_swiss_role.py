@@ -8,12 +8,11 @@ This example shows how to use the :class:`.DiffusionMaps` class to reveal the em
 
 # %%
 
-import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.datasets import make_s_curve, make_swiss_roll
-
-from UQpy.dimension_reduction.diffusion_maps.DiffusionMaps import DiffusionMaps
+import matplotlib.pyplot as plt
 from UQpy.utilities.kernels.GaussianKernel import GaussianKernel
+from UQpy.dimension_reduction.diffusion_maps.DiffusionMaps import DiffusionMaps
+from sklearn.datasets import make_swiss_roll, make_s_curve
 
 # %% md
 #
@@ -44,9 +43,10 @@ ax.view_init(10, 70)
 kernel = GaussianKernel(epsilon=0.65)
 
 
-dmaps_object = DiffusionMaps(
-    data=X, alpha=1.0, n_eigenvectors=9, is_sparse=True, n_neighbors=100, kernel=kernel
-)
+dmaps_object = DiffusionMaps(data=X,
+                             alpha=1.0, n_eigenvectors=9,
+                             is_sparse=True, n_neighbors=100,
+                             kernel=kernel)
 
 
 # %% md
@@ -56,16 +56,12 @@ dmaps_object = DiffusionMaps(
 
 dmaps_object.parsimonious(dim=2)
 
-print("most informative eigenvectors:", dmaps_object.parsimonious_indices)
+print('most informative eigenvectors:', dmaps_object.parsimonious_indices)
 
 # %% md
 #
 # Plot the diffusion coordinates
 
-DiffusionMaps._plot_eigen_pairs(
-    dmaps_object.eigenvectors,
-    pair_indices=dmaps_object.parsimonious_indices,
-    color=X_color,
-    figure_size=[12, 12],
-)
+DiffusionMaps._plot_eigen_pairs(dmaps_object.eigenvectors, pair_indices=dmaps_object.parsimonious_indices,
+                                color=X_color, figure_size=[12, 12])
 plt.show()

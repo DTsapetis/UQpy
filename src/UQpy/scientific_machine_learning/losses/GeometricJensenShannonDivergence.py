@@ -1,16 +1,16 @@
-from typing import Annotated
-
 import torch
 import torch.nn as nn
+import UQpy.scientific_machine_learning.functional as func
+from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer, Loss
+
+from typing import Annotated
 from beartype import beartype
 from beartype.vale import Is
-
-import UQpy.scientific_machine_learning.functional as func
-from UQpy.scientific_machine_learning.baseclass import Loss, NormalBayesianLayer
 
 
 @beartype
 class GeometricJensenShannonDivergence(Loss):
+
     def __init__(
         self,
         alpha: Annotated[float, Is[lambda x: 0 <= x <= 1]] = 0.5,

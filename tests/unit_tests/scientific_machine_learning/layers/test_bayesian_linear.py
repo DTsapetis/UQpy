@@ -2,14 +2,16 @@ import torch
 import torch.nn
 from hypothesis import given, settings
 from hypothesis.strategies import integers
-
 import UQpy.scientific_machine_learning as sml
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
 
 
-@given(integers(min_value=1, max_value=1_000), integers(min_value=1, max_value=1_000))
+@given(
+    integers(min_value=1, max_value=1_000),
+    integers(min_value=1, max_value=1_000),
+)
 def test_output_shape(in_features, out_features):
     layer = sml.BayesianLinear(in_features, out_features)
     x = torch.ones((in_features,))

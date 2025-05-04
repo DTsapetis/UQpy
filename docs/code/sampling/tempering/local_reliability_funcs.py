@@ -4,7 +4,6 @@ Correlated gaussian model for tempering examples
 ====================================================================
 
 """
-
 import numpy as np
 
 

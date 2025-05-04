@@ -1,11 +1,9 @@
-import abc
 from typing import Union
-
 import numpy as np
+import abc
 from beartype import beartype
-
+from UQpy.utilities.ValidationTypes import RandomStateType, NumpyFloatArray
 from UQpy.sampling.stratified_sampling.strata.SamplingCriterion import SamplingCriterion
-from UQpy.utilities.ValidationTypes import NumpyFloatArray, RandomStateType
 
 
 class Strata:
@@ -28,9 +26,7 @@ class Strata:
         if isinstance(self.random_state, int):
             self.random_state = np.random.RandomState(self.random_state)
         elif not isinstance(self.random_state, (type(None), np.random.RandomState)):
-            raise TypeError(
-                "UQpy: random_state must be None, an int or an np.random.Generator object."
-            )
+            raise TypeError('UQpy: random_state must be None, an int or an np.random.Generator object.')
 
     @abc.abstractmethod
     def stratify(self):
@@ -71,9 +67,7 @@ class Strata:
 
     def extend_weights(self, samples_per_stratum_number, index, weights):
         if int(samples_per_stratum_number[index]) != 0:
-            weights.extend(
-                [self.volume[index] / samples_per_stratum_number[index]]
-                * int(samples_per_stratum_number[index])
-            )
+            weights.extend([self.volume[index] / samples_per_stratum_number[index]]
+                           * int(samples_per_stratum_number[index]))
         else:
             weights.extend([0] * int(samples_per_stratum_number[index]))

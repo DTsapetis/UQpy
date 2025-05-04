@@ -17,15 +17,15 @@ identified using :class:`.SROM`.
 # %%
 import shutil
 
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy.stats import gamma
-
 from UQpy import PythonModel
+from UQpy.sampling import MonteCarloSampling, TrueStratifiedSampling
+from UQpy.sampling import RectangularStrata
 from UQpy.distributions import Gamma
-from UQpy.run_model.RunModel import RunModel
-from UQpy.sampling import MonteCarloSampling, RectangularStrata, TrueStratifiedSampling
 from UQpy.surrogates import SROM
+from UQpy.run_model.RunModel import RunModel
+from scipy.stats import gamma
+import numpy as np
+import matplotlib.pyplot as plt
 
 # %% md
 #
@@ -34,11 +34,7 @@ from UQpy.surrogates import SROM
 
 # %%
 
-marginals = [
-    Gamma(a=2.0, loc=1.0, scale=3.0),
-    Gamma(a=2.0, loc=1.0, scale=3.0),
-    Gamma(a=2.0, loc=1.0, scale=3.0),
-]
+marginals = [Gamma(a=2., loc=1., scale=3.), Gamma(a=2., loc=1., scale=3.), Gamma(a=2., loc=1., scale=3.)]
 
 # %% md
 #
@@ -64,13 +60,8 @@ x = TrueStratifiedSampling(distributions=marginals, strata_object=strata, nsampl
 
 # %%
 
-y = SROM(
-    samples=x.samples,
-    target_distributions=marginals,
-    moments=[[6, 6, 6], [54, 54, 54]],
-    weights_errors=[1, 1, 0],
-    properties=[True, True, True, False],
-)
+y = SROM(samples=x.samples, target_distributions=marginals, moments=[[6, 6, 6], [54, 54, 54]],
+         weights_errors=[1, 1, 0], properties=[True, True, True, False])
 
 # %% md
 #
@@ -87,12 +78,10 @@ a0 = np.array(np.cumsum(a))
 # Plot the SROM approximation and compare with actual gamma distribution
 l = 3
 fig = plt.figure()
-plt.rcParams.update({"font.size": 12})
+plt.rcParams.update({'font.size': 12})
 plt.plot(s[0], a0[0], linewidth=l)
-plt.plot(
-    np.arange(3, 12, 0.05), gamma.cdf(np.arange(3, 12, 0.05), a=2, loc=3, scale=1), linewidth=l
-)
-plt.legend(["SROM Approximation", "Gamma CDF"], loc=5, prop={"size": 12}, bbox_to_anchor=(1, 0.75))
+plt.plot(np.arange(3, 12, 0.05), gamma.cdf(np.arange(3, 12, 0.05), a=2, loc=3, scale=1), linewidth=l)
+plt.legend(['SROM Approximation', 'Gamma CDF'], loc=5, prop={'size': 12}, bbox_to_anchor=(1, 0.75))
 plt.show()
 
 # %% md
@@ -102,7 +91,7 @@ plt.show()
 
 # %%
 
-m = PythonModel(model_script="local_eigenvalue_model.py", model_object_name="RunPythonModel")
+m = PythonModel(model_script='local_eigenvalue_model.py',model_object_name="RunPythonModel" )
 model = RunModel(model=m)
 # model = RunModel(model_script='local_eigenvalue_model.py')
 model.run(samples=y.samples)
@@ -133,7 +122,7 @@ r_mcs = model.qoi_list
 # %%
 
 # Plot SROM and MCS approximation for first eigenvalue
-r = np.array([x[:, 0] for x in r_srom])
+r = np.array([x[:,0] for x in r_srom])
 r_mcs = np.squeeze(np.array(r_mcs))
 com = np.append(np.atleast_2d(r), np.transpose(np.matrix(y.sample_weights)), 1)
 srt = com[np.argsort(com[:, 0].flatten())]
@@ -143,13 +132,13 @@ a0 = np.array(np.cumsum(a))
 fig1 = plt.figure()
 plt.plot(s[0], a0[0], linewidth=l)
 r_mcs0 = r_mcs[np.argsort(r_mcs[:, 0].flatten())]
-plt.plot(r_mcs0[:, 0], np.cumsum(0.001 * np.ones([1, 1000])), linewidth=l)
-plt.title("Eigenvalue, $\lambda_1$")
-plt.legend(["SROM", "MCS"], loc=1, prop={"size": 12}, bbox_to_anchor=(1, 0.92))
+plt.plot(r_mcs0[:, 0], np.cumsum(0.001*np.ones([1, 1000])), linewidth=l)
+plt.title('Eigenvalue, $\lambda_1$')
+plt.legend(['SROM', 'MCS'], loc=1, prop={'size': 12}, bbox_to_anchor=(1, 0.92))
 plt.show()
 
 # Plot SROM and MCS approximation for second eigenvalue
-r = np.array([x[:, 1] for x in r_srom])
+r = np.array([x[:,1] for x in r_srom])
 com = np.append(np.atleast_2d(r), np.transpose(np.matrix(y.sample_weights)), 1)
 srt = com[np.argsort(com[:, 0].flatten())]
 s = np.array(srt[0, :, 0])
@@ -158,13 +147,13 @@ a0 = np.array(np.cumsum(a))
 fig2 = plt.figure()
 plt.plot(s[0], a0[0], linewidth=l)
 r_mcs0 = r_mcs[np.argsort(r_mcs[:, 1].flatten())]
-plt.plot(r_mcs0[:, 1], np.cumsum(0.001 * np.ones([1, 1000])), linewidth=l)
-plt.title("Eigenvalue, $\lambda_2$")
-plt.legend(["SROM", "MCS"], loc=1, prop={"size": 12}, bbox_to_anchor=(1, 0.92))
+plt.plot(r_mcs0[:, 1], np.cumsum(0.001*np.ones([1, 1000])), linewidth=l)
+plt.title('Eigenvalue, $\lambda_2$')
+plt.legend(['SROM', 'MCS'], loc=1, prop={'size': 12}, bbox_to_anchor=(1, 0.92))
 plt.show()
 
 # Plot SROM and MCS approximation for third eigenvalue
-r = np.array([x[:, 2] for x in r_srom])
+r = np.array([x[:,2] for x in r_srom])
 com = np.append(np.atleast_2d(r), np.transpose(np.matrix(y.sample_weights)), 1)
 srt = com[np.argsort(com[:, 0].flatten())]
 s = np.array(srt[0, :, 0])
@@ -173,9 +162,9 @@ a0 = np.array(np.cumsum(a))
 fig3 = plt.figure()
 plt.plot(s[0], a0[0], linewidth=l)
 r_mcs0 = r_mcs[np.argsort(r_mcs[:, 2].flatten())]
-plt.plot(r_mcs0[:, 2], np.cumsum(0.001 * np.ones([1, 1000])), linewidth=l)
-plt.title("Eigenvalue, $\lambda_3$")
-plt.legend(["SROM", "MCS"], loc=1, prop={"size": 12}, bbox_to_anchor=(1, 0.92))
+plt.plot(r_mcs0[:, 2], np.cumsum(0.001*np.ones([1, 1000])), linewidth=l)
+plt.title('Eigenvalue, $\lambda_3$')
+plt.legend(['SROM', 'MCS'], loc=1, prop={'size': 12}, bbox_to_anchor=(1, 0.92))
 plt.show()
 
 # %% md

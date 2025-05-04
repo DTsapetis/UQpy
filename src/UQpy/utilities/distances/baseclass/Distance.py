@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod, ABC
 from typing import Union
 
 import numpy as np
@@ -10,7 +10,6 @@ class Distance(ABC):
 
     This serves as a blueprint to show the methods for distances implemented in the :py:mod:`.distances` module .
     """
-
     def __init__(self):
         self.distance_matrix: np.ndarray = None
         """Distance matrix defining the pairwise distances between the points"""

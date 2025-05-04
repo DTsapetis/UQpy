@@ -9,28 +9,25 @@ compare the statistics of the generated stochastic processes with the expected v
 
 """
 
-# %% md
+#%% md
 #
 # Import the necessary libraries. Here we import standard libraries such as numpy and matplotlib, but also need to
 # import the :class:`.BispectralRepresentation` class from the :py:mod:`stochastic_processes` module of UQpy.
 
-# %%
-
-from copy import deepcopy
-
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy.stats import skew
+#%%
 
 from UQpy.stochastic_process import BispectralRepresentation
+import numpy as np
+from scipy.stats import skew
+import matplotlib.pyplot as plt
+from copy import deepcopy
+plt.style.use('seaborn')
 
-plt.style.use("seaborn")
-
-# %% md
+#%% md
 #
 # The input parameters necessary for the generation of the stochastic processes are given below:
 
-# %%
+#%%
 
 n_sim = 1000  # Num of samples
 dim = 2
@@ -48,11 +45,11 @@ df = F / nf
 f = np.linspace(0, F - df, nf)
 
 f_list = [f for _ in range(dim)]
-F_P = np.array(np.meshgrid(*f_list, indexing="ij"))
-P = 20 / np.sqrt(2 * np.pi) * np.exp(-1 / 2 * np.linalg.norm(F_P, axis=0) ** 2)
+F_P = np.array(np.meshgrid(*f_list, indexing='ij'))
+P = 20 / np.sqrt(2 * np.pi) * np.exp(-1/2 * np.linalg.norm(F_P, axis=0) ** 2)
 
 F_B = np.meshgrid(*[*f_list, *f_list])
-b = 40 / (2 * np.pi) * np.exp(2 * (-1 / 2 * np.linalg.norm(F_B, axis=0) ** 2))
+b = 40 / (2 * np.pi) * np.exp(2 * (-1/2 * np.linalg.norm(F_B, axis=0) ** 2))
 B_Real = deepcopy(b)
 B_Imag = deepcopy(b)
 
@@ -68,49 +65,39 @@ B_Imag[:, :, :, 0] = 0
 B_Complex = B_Real + 1j * B_Imag
 
 
-# %% md
+#%% md
 #
 # Make sure that the input parameters are in order to prevent aliasing.
 
-# %%
+#%%
 
-t_u = 2 * np.pi / 2 / F
+t_u = 2*np.pi/2/F
 
-if dt > t_u:
-    print("Error")
+if dt>t_u:
+    print('Error')
 
-# %% md
+#%% md
 #
 # Defining the Power Spectral Density Function.
 
-# %%
+#%%
 
 BSRM_object = BispectralRepresentation(n_sim, P, B_Complex, [dt, dt], [df, df], [nt, nt], [nf, nf])
 samples = BSRM_object.samples
 
 from pylab import *
-
 t_list = [t for _ in range(dim)]
-T = np.array(np.meshgrid(*t_list, indexing="ij"))
+T = np.array(np.meshgrid(*t_list, indexing='ij'))
 
 fig1 = plt.figure()
-plt.title("2d random field with a prescribed Power Spectrum and Bispectrum")
-pcm = pcolor(T[0], T[1], samples[0, 0], cmap="RdBu_r", vmin=-30, vmax=30)
-plt.colorbar(pcm, extend="both", orientation="vertical")
-plt.xlabel("$X_{1}$")
-plt.ylabel("$X_{2}$")
+plt.title('2d random field with a prescribed Power Spectrum and Bispectrum')
+pcm = pcolor(T[0], T[1], samples[0, 0], cmap='RdBu_r', vmin=-30, vmax=30)
+plt.colorbar(pcm, extend='both', orientation='vertical')
+plt.xlabel('$X_{1}$')
+plt.ylabel('$X_{2}$')
 plt.show()
 
-print("The mean of the samples is ", np.mean(samples), "whereas the expected mean is 0.000")
-print(
-    "The variance of the samples is ",
-    np.var(samples),
-    "whereas the expected variance is ",
-    np.sum(P) * df * 2,
-)
-print(
-    "The skewness of the samples is ",
-    np.mean(skew(samples, axis=0)),
-    "whereas the expected skewness is ",
-    np.sum(B_Real) * df**2 * 6 / (np.sum(P) * df * 2) ** (3 / 2),
-)
+print('The mean of the samples is ', np.mean(samples), 'whereas the expected mean is 0.000')
+print('The variance of the samples is ', np.var(samples), 'whereas the expected variance is ', np.sum(P)*df*2)
+print('The skewness of the samples is ', np.mean(skew(samples, axis=0)), 'whereas the expected skewness is ',
+      np.sum(B_Real)*df**2*6/(np.sum(P)*df*2)**(3/2))

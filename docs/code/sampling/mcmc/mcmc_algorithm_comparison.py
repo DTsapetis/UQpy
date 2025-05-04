@@ -26,9 +26,9 @@ import time
 
 import matplotlib.pyplot as plt
 import numpy as np
+from UQpy.distributions import Normal, Gumbel, JointCopula, JointIndependent, Uniform
+from UQpy.sampling import MetropolisHastings, Stretch, ModifiedMetropolisHastings, DREAM, DRAM
 
-from UQpy.distributions import Gumbel, JointCopula, JointIndependent, Normal, Uniform
-from UQpy.sampling import DRAM, DREAM, MetropolisHastings, ModifiedMetropolisHastings, Stretch
 
 # %% md
 # Affine invariant with Stretch moves
@@ -38,31 +38,23 @@ from UQpy.sampling import DRAM, DREAM, MetropolisHastings, ModifiedMetropolisHas
 
 # %%
 
-
 def log_Rosenbrock(x):
-    return -(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / 20
+    return (-(100 * (x[:, 1] - x[:, 0] ** 2) ** 2 + (1 - x[:, 0]) ** 2) / 20)
 
 
-x = MetropolisHastings(
-    dimension=2, burn_length=0, jump=10, n_chains=1, log_pdf_target=log_Rosenbrock, nsamples=5000
-)
+x = MetropolisHastings(dimension=2, burn_length=0, jump=10, n_chains=1, log_pdf_target=log_Rosenbrock,
+                       nsamples=5000)
 print(x.samples.shape)
 plt.figure()
-plt.plot(x.samples[:, 0], x.samples[:, 1], "o")
+plt.plot(x.samples[:, 0], x.samples[:, 1], 'o')
 plt.show()
 
-x = Stretch(
-    burn_length=0,
-    jump=10,
-    log_pdf_target=log_Rosenbrock,
-    seed=x.samples[:10].tolist(),
-    scale=2.0,
-    nsamples=5000,
-)
+x = Stretch(burn_length=0, jump=10, log_pdf_target=log_Rosenbrock, seed=x.samples[:10].tolist(), scale=2.,
+            nsamples=5000)
 print(x.samples.shape)
 
 plt.figure()
-plt.plot(x.samples[:, 0], x.samples[:, 1], "o")
+plt.plot(x.samples[:, 0], x.samples[:, 1], 'o')
 plt.show()
 
 # %% md
@@ -73,31 +65,18 @@ plt.show()
 
 # Define a function to sample seed uniformly distributed in the 2d space ([-20, 20], [-4, 4])
 prior_sample = lambda nsamples: np.array([[-2, -2]]) + np.array([[4, 4]]) * JointIndependent(
-    [Uniform(), Uniform()]
-).rvs(nsamples=nsamples)
+    [Uniform(), Uniform()]).rvs(nsamples=nsamples)
 
 fig, ax = plt.subplots(ncols=2, figsize=(12, 4))
 seed = prior_sample(nsamples=7)
 
-x = MetropolisHastings(
-    dimension=2,
-    burn_length=500,
-    jump=50,
-    seed=seed.tolist(),
-    log_pdf_target=log_Rosenbrock,
-    nsamples=1000,
-)
-ax[0].plot(x.samples[:, 0], x.samples[:, 1], "o")
+x = MetropolisHastings(dimension=2, burn_length=500, jump=50, seed=seed.tolist(),
+                       log_pdf_target=log_Rosenbrock, nsamples=1000)
+ax[0].plot(x.samples[:, 0], x.samples[:, 1], 'o')
 
-x = DREAM(
-    dimension=2,
-    burn_length=500,
-    jump=50,
-    seed=seed.tolist(),
-    log_pdf_target=log_Rosenbrock,
-    nsamples=1000,
-)
-ax[1].plot(x.samples[:, 0], x.samples[:, 1], "o")
+x = DREAM(dimension=2, burn_length=500, jump=50, seed=seed.tolist(), log_pdf_target=log_Rosenbrock,
+          nsamples=1000)
+ax[1].plot(x.samples[:, 0], x.samples[:, 1], 'o')
 
 plt.show()
 
@@ -111,36 +90,23 @@ fig, ax = plt.subplots(ncols=2, figsize=(12, 4))
 t = time.time()
 seed = prior_sample(nsamples=1)
 
-x = MetropolisHastings(
-    dimension=2,
-    burn_length=500,
-    jump=10,
-    seed=seed.tolist(),
-    log_pdf_target=log_Rosenbrock,
-    nsamples=1000,
-)
+x = MetropolisHastings(dimension=2, burn_length=500, jump=10, seed=seed.tolist(), log_pdf_target=log_Rosenbrock,
+                       nsamples=1000)
 
-ax[0].plot(x.samples[:, 0], x.samples[:, 1], "o")
-ax[0].set_xlabel("x1")
-ax[0].set_ylabel("x2")
-ax[0].set_title("algorithm: MH")
-print("time to run MH" + ": {}s".format(time.time() - t))
+ax[0].plot(x.samples[:, 0], x.samples[:, 1], 'o')
+ax[0].set_xlabel('x1')
+ax[0].set_ylabel('x2')
+ax[0].set_title('algorithm: MH')
+print('time to run MH' + ': {}s'.format(time.time() - t))
 
-x = DRAM(
-    dimension=2,
-    burn_length=500,
-    jump=10,
-    seed=seed.tolist(),
-    log_pdf_target=log_Rosenbrock,
-    save_covariance=True,
-    nsamples=1000,
-)
+x = DRAM(dimension=2, burn_length=500, jump=10, seed=seed.tolist(), log_pdf_target=log_Rosenbrock,
+         save_covariance=True, nsamples=1000)
 
-ax[1].plot(x.samples[:, 0], x.samples[:, 1], "o")
-ax[1].set_xlabel("x1")
-ax[1].set_ylabel("x2")
-ax[1].set_title("algorithm: DRAM")
-print("time to run DRAM" + ": {}s".format(time.time() - t))
+ax[1].plot(x.samples[:, 0], x.samples[:, 1], 'o')
+ax[1].set_xlabel('x1')
+ax[1].set_ylabel('x2')
+ax[1].set_title('algorithm: DRAM')
+print('time to run DRAM' + ': {}s'.format(time.time() - t))
 
 plt.show()
 
@@ -148,8 +114,8 @@ plt.show()
 fig, ax = plt.subplots()
 adaptive_covariance = np.array(x.adaptive_covariance)
 for i in range(2):
-    ax.plot(np.sqrt(adaptive_covariance[:, 0, i, i]), label="dimension {}".format(i))
-ax.set_title("Adaptive proposal std. dev. in both dimensions")
+    ax.plot(np.sqrt(adaptive_covariance[:, 0, i, i]), label='dimension {}'.format(i))
+ax.set_title('Adaptive proposal std. dev. in both dimensions')
 ax.legend()
 plt.show()
 
@@ -165,19 +131,12 @@ from UQpy.distributions import Normal
 proposal = [Normal(), Normal()]
 proposal_is_symmetric = [False, False]
 
-x = ModifiedMetropolisHastings(
-    dimension=2,
-    burn_length=500,
-    jump=50,
-    log_pdf_target=log_Rosenbrock,
-    proposal=proposal,
-    proposal_is_symmetric=proposal_is_symmetric,
-    n_chains=1,
-    nsamples=500,
-)
+x = ModifiedMetropolisHastings(dimension=2, burn_length=500, jump=50, log_pdf_target=log_Rosenbrock,
+                               proposal=proposal, proposal_is_symmetric=proposal_is_symmetric, n_chains=1,
+                               nsamples=500)
 
 fig, ax = plt.subplots()
-ax.plot(x.samples[:, 0], x.samples[:, 1], linestyle="none", marker=".")
+ax.plot(x.samples[:, 0], x.samples[:, 1], linestyle='none', marker='.')
 
 # %% md
 # MMH: target pdf is given as a couple of independent marginals
@@ -185,24 +144,17 @@ ax.plot(x.samples[:, 0], x.samples[:, 1], linestyle="none", marker=".")
 
 # %%
 
-log_pdf_target = [Normal(loc=0.0, scale=5.0).log_pdf, Normal(loc=0.0, scale=20.0).log_pdf]
+log_pdf_target = [Normal(loc=0., scale=5.).log_pdf, Normal(loc=0., scale=20.).log_pdf]
 
 proposal = [Normal(), Normal()]
 proposal_is_symmetric = [True, True]
 
-x = ModifiedMetropolisHastings(
-    dimension=2,
-    burn_length=100,
-    jump=10,
-    log_pdf_target=log_pdf_target,
-    proposal=proposal,
-    proposal_is_symmetric=proposal_is_symmetric,
-    n_chains=1,
-    nsamples=1000,
-)
+x = ModifiedMetropolisHastings(dimension=2, burn_length=100, jump=10, log_pdf_target=log_pdf_target,
+                               proposal=proposal, proposal_is_symmetric=proposal_is_symmetric, n_chains=1,
+                               nsamples=1000)
 
 fig, ax = plt.subplots()
-ax.plot(x.samples[:, 0], x.samples[:, 1], linestyle="none", marker=".")
+ax.plot(x.samples[:, 0], x.samples[:, 1], linestyle='none', marker='.')
 plt.show()
 print(x.samples.shape)
 
@@ -213,18 +165,13 @@ print(x.samples.shape)
 # %%
 
 seed = Uniform().rvs(nsamples=2 * 10).reshape((10, 2))
-dist_true = JointCopula(marginals=[Normal(), Normal()], copula=Gumbel(theta=2.0))
+dist_true = JointCopula(marginals=[Normal(), Normal()], copula=Gumbel(theta=2.))
 proposal = JointIndependent(marginals=[Normal(scale=0.2), Normal(scale=0.2)])
 
 for _ in range(3):
-    sampler = ModifiedMetropolisHastings(
-        log_pdf_target=dist_true.log_pdf,
-        proposal=proposal,
-        seed=[0.0, 0.0],
-        random_state=123,
-        nsamples=500,
-    )
+    sampler = ModifiedMetropolisHastings(log_pdf_target=dist_true.log_pdf, proposal=proposal, seed=[0., 0.],
+                                         random_state=123, nsamples=500)
     print(sampler.samples.shape)
     print(np.round(sampler.samples[-5:], 4))
 
-plt.plot(sampler.samples[:, 0], sampler.samples[:, 1], linestyle="none", marker="+")
+plt.plot(sampler.samples[:, 0], sampler.samples[:, 1], linestyle='none', marker='+')

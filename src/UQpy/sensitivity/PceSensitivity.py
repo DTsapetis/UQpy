@@ -9,6 +9,7 @@ FittedPce = Annotated[PolynomialChaosExpansion, Is[lambda pce: pce.coefficients 
 
 
 class PceSensitivity:
+
     def __init__(self, pce_object: FittedPce):
         """
         Compute Sobol sensitivity indices based on a PCE surrogate approximation of the QoI.
@@ -94,7 +95,7 @@ class PceSensitivity:
         """
         inputs_number = self.pce_object.inputs_number
         if inputs_number == 1:
-            raise ValueError("Not applicable for scalar model outputs.")
+            raise ValueError('Not applicable for scalar model outputs.')
 
         variance = self.pce_object.get_moments()[1]
         first_order_indices = self.calculate_first_order_indices()
@@ -116,7 +117,7 @@ class PceSensitivity:
         inputs_number = self.pce_object.inputs_number
 
         if inputs_number == 1:
-            raise ValueError("Not applicable for scalar model outputs.")
+            raise ValueError('Not applicable for scalar model outputs.')
 
         variance = self.pce_object.get_moments()[1]
         total_order_indices = self.calculate_total_order_indices()

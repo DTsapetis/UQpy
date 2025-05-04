@@ -1,6 +1,6 @@
+from UQpy.stochastic_process import SpectralRepresentation
 import numpy as np
 
-from UQpy.stochastic_process import SpectralRepresentation
 
 n_sim = 100  # Num of samples
 n = 1  # Num of dimensions
@@ -17,7 +17,7 @@ dw = F / nw
 w = np.linspace(0, F - dw, nw)
 t_u = 2 * np.pi / 2 / F
 
-S_1d_1v = 125 / 4 * w**2 * np.exp(-5 * w)
+S_1d_1v = 125 / 4 * w ** 2 * np.exp(-5 * w)
 SRM_object = SpectralRepresentation(n_sim, S_1d_1v, dt, dw, nt, nw, random_state=128)
 samples_1d_1v = SRM_object.samples
 

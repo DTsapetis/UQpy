@@ -13,11 +13,10 @@ In this example, we train a Bayesian neural network to learn the function :math:
 # %%
 
 # Default imports
-import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset
-
+from torch.utils.data import Dataset, DataLoader
+import matplotlib.pyplot as plt
 import UQpy.scientific_machine_learning as sml
 
 # %% md
@@ -113,7 +112,13 @@ ax.plot(
     label="Final Prediction",
     color="tab:orange",
 )
-ax.plot(x.detach().numpy(), y.detach().numpy(), label="Exact", color="black", linestyle="dashed")
+ax.plot(
+    x.detach().numpy(),
+    y.detach().numpy(),
+    label="Exact",
+    color="black",
+    linestyle="dashed",
+)
 ax.set_title("Initial and Final NN Predictions")
 ax.set(xlabel="x", ylabel="f(x)")
 ax.legend()
@@ -157,7 +162,9 @@ sigma = standard_deviation.squeeze().detach().numpy()
 fig, ax = plt.subplots()
 ax.plot(x_plot, mu, label="$\mu$")
 ax.plot(x_plot, y.detach().numpy(), label="Exact", color="black", linestyle="dashed")
-ax.fill_between(x_plot, mu - (3 * sigma), mu + (3 * sigma), label="$\mu \pm 3\sigma$,", alpha=0.3)
+ax.fill_between(
+    x_plot, mu - (3 * sigma), mu + (3 * sigma), label="$\mu \pm 3\sigma$,", alpha=0.3
+)
 ax.set_title("Bayesian Neural Network $\mu \pm 3\sigma$")
 ax.set(xlabel="x", ylabel="f(x)")
 ax.legend()

@@ -4,7 +4,6 @@ Auxiliary file
 ==============================================
 
 """
-
 import numpy as np
 
 
@@ -19,7 +18,6 @@ def example1(samples=None):
 
 def example2(samples=None):
     import numpy as np
-
     d = 2
     beta = 3.0902
     g = np.zeros(samples.shape[0])
@@ -33,3 +31,6 @@ def example3(samples=None):
     for i in range(samples.shape[0]):
         g[i] = 6.2 * samples[i, 0] - samples[i, 1] * samples[i, 2] ** 2
     return g
+
+
+

@@ -1,9 +1,8 @@
 # Test the Correlation module
 
+from UQpy.transformations import Correlate
 import numpy as np
 import pytest
-
-from UQpy.transformations import Correlate
 
 
 def test_samples():
@@ -23,3 +22,4 @@ def test_corr_z():
     rz = np.array([[1.0, 0.0], [0.0, 1.0]])
     with pytest.raises(Exception):
         assert Correlate(corr_z=rz)
+

@@ -1,22 +1,26 @@
-from typing import Annotated
-
 import torch
 import torch.nn as nn
+import UQpy.scientific_machine_learning.functional as func
+from UQpy.scientific_machine_learning.baseclass import Loss, NormalBayesianLayer
+
+from typing import Annotated
 from beartype import beartype
 from beartype.vale import Is
-
-import UQpy.scientific_machine_learning.functional as func
 from UQpy.distributions.baseclass import Distribution
-from UQpy.scientific_machine_learning.baseclass import Loss, NormalBayesianLayer
 from UQpy.utilities.ValidationTypes import PositiveInteger
 
 
 @beartype
 class GeneralizedJensenShannonDivergence(Loss):
+
     def __init__(
         self,
-        posterior_distribution: Annotated[object, Is[lambda x: issubclass(x, Distribution)]],
-        prior_distribution: Annotated[object, Is[lambda x: issubclass(x, Distribution)]],
+        posterior_distribution: Annotated[
+            object, Is[lambda x: issubclass(x, Distribution)]
+        ],
+        prior_distribution: Annotated[
+            object, Is[lambda x: issubclass(x, Distribution)]
+        ],
         alpha: Annotated[float, Is[lambda x: 0 <= x <= 1]] = 0.5,
         n_samples: PositiveInteger = 1_000,
         reduction: str = "sum",

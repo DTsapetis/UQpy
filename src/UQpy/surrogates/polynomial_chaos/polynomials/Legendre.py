@@ -1,17 +1,18 @@
-import math
 from typing import Union
 
 import numpy as np
 import scipy.special as special
 from beartype import beartype
-from scipy.special import eval_legendre
 
 from UQpy.distributions import Uniform
 from UQpy.distributions.baseclass import Distribution
 from UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials import Polynomials
+from scipy.special import eval_legendre
+import math
 
 
 class Legendre(Polynomials):
+
     @beartype
     def __init__(self, degree: int, distributions: Union[Distribution, list[Distribution]]):
         """
@@ -51,6 +52,7 @@ class Legendre(Polynomials):
 
     @staticmethod
     def legendre_triple_product(k, l, m):
+
         normk = 1 / ((2 * k) + 1)
         norml = 1 / ((2 * l) + 1)
         normm = 1 / ((2 * m) + 1)
@@ -60,20 +62,17 @@ class Legendre(Polynomials):
 
     @staticmethod
     def wigner_3j_PCE(j_1, j_2, j_3):
+
         cond1 = j_1 + j_2 - j_3
         cond2 = j_1 - j_2 + j_3
         cond3 = -j_1 + j_2 + j_3
         if cond1 < 0 or cond2 < 0 or cond3 < 0:
             return 0
         else:
-            factarg = (
-                math.factorial(j_1 + j_2 - j_3)
-                * math.factorial(j_1 - j_2 + j_3)
-                * math.factorial(-j_1 + j_2 + j_3)
-                * math.factorial(j_1) ** 2
-                * math.factorial(j_2) ** 2
-                * math.factorial(j_3) ** 2
-            ) / math.factorial(j_1 + j_2 + j_3 + 1)
+
+            factarg = (math.factorial(j_1 + j_2 - j_3) * math.factorial(j_1 - j_2 + j_3) *
+                       math.factorial(-j_1 + j_2 + j_3) * math.factorial(j_1) ** 2 * math.factorial(j_2) ** 2 *
+                       math.factorial(j_3) ** 2) / math.factorial(j_1 + j_2 + j_3 + 1)
 
             factfinal = np.sqrt(factarg)
 
@@ -82,19 +81,16 @@ class Legendre(Polynomials):
             summfinal = 0
 
             for i in range(imin, imax + 1):
-                sumfact = (
-                    math.factorial(i)
-                    * math.factorial(i + j_3 - j_1)
-                    * math.factorial(j_2 - i)
-                    * math.factorial(j_1 - i)
-                    * math.factorial(i + j_3 - j_2)
-                    * math.factorial(j_1 + j_2 - j_3 - i)
-                )
+                sumfact = math.factorial(i) * \
+                          math.factorial(i + j_3 - j_1) * \
+                          math.factorial(j_2 - i) * \
+                          math.factorial(j_1 - i) * \
+                          math.factorial(i + j_3 - j_2) * \
+                          math.factorial(j_1 + j_2 - j_3 - i)
                 summfinal = summfinal + int((-1) ** i) / sumfact
 
             const1 = int((-1) ** int(j_1 - j_2))
 
             return factfinal * summfinal * const1
-
 
 Polynomials.distribution_to_polynomial[Uniform] = Legendre

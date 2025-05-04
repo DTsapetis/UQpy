@@ -1,6 +1,5 @@
-import numpy as np
-
 from UQpy.stochastic_process.KarhunenLoeveExpansion2D import KarhunenLoeveExpansion2D
+import numpy as np
 
 n_samples = 100_000  # Num of samples
 nx, nt = 20, 10
@@ -8,18 +7,13 @@ dx, dt = 0.05, 0.1
 
 x = np.linspace(0, (nx - 1) * dx, nx)
 t = np.linspace(0, (nt - 1) * dt, nt)
-xt_list = np.meshgrid(x, x, t, t, indexing="ij")  # R(t_1, t_2, x_1, x_2)
+xt_list = np.meshgrid(x, x, t, t, indexing='ij')  # R(t_1, t_2, x_1, x_2)
 
-R = np.exp(-((xt_list[0] - xt_list[1]) ** 2) - (xt_list[2] - xt_list[3]) ** 2)
+R = np.exp(-(xt_list[0] - xt_list[1]) ** 2 - (xt_list[2] - xt_list[3]) ** 2)
 # R(x_1, x_2, t_1, t_2) = exp(-(x_1 - x_2) ** 2 -(t_1 - t_2) ** 2)
 
-KLE_Object = KarhunenLoeveExpansion2D(
-    n_samples=n_samples,
-    correlation_function=R,
-    time_intervals=np.array([dt, dx]),
-    thresholds=[4, 5],
-    random_state=128,
-)
+KLE_Object = KarhunenLoeveExpansion2D(n_samples=n_samples, correlation_function=R,
+                                      time_intervals=np.array([dt, dx]), thresholds=[4, 5], random_state=128)
 samples = KLE_Object.samples
 
 
@@ -40,6 +34,4 @@ def test_run_method():
 
 def test_empirical_correlation():
     assert np.isclose(np.mean(samples[:, 0, 5, 6] * samples[:, 0, 3, 2]), R[5, 3, 6, 2], rtol=0.01)
-    assert np.isclose(
-        np.mean(samples[:, 0, 13, 3] * samples[:, 0, 8, 4]), R[13, 8, 3, 4], rtol=0.01
-    )
+    assert np.isclose(np.mean(samples[:, 0, 13, 3] * samples[:, 0, 8, 4]), R[13, 8, 3, 4], rtol=0.01)

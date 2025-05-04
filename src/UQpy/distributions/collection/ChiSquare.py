@@ -20,5 +20,7 @@ class ChiSquare(DistributionContinuous1D):
         :param loc: location parameter
         :param scale: scale parameter
         """
-        super().__init__(df=df, loc=loc, scale=scale, ordered_parameters=("df", "loc", "scale"))
+        super().__init__(
+            df=df, loc=loc, scale=scale, ordered_parameters=("df", "loc", "scale")
+        )
         self._construct_from_scipy(scipy_name=stats.chi2)

@@ -1,9 +1,9 @@
 import numpy as np
 from sklearn.neighbors import KernelDensity  # for the plots
 
-from UQpy.distributions.collection import JointIndependent, Lognormal, Normal, Uniform
-from UQpy.inference.BayesParameterEstimation import BayesParameterEstimation
+from UQpy.distributions.collection import JointIndependent, Uniform, Lognormal, Normal
 from UQpy.inference.inference_models.DistributionModel import DistributionModel
+from UQpy.inference.BayesParameterEstimation import BayesParameterEstimation
 from UQpy.sampling.ImportanceSampling import ImportanceSampling
 from UQpy.sampling.mcmc.MetropolisHastings import MetropolisHastings
 
@@ -24,20 +24,20 @@ def test_probability_model_importance_sampling():
     np.random.seed(1)
     data = np.random.normal(mu, sigma, 100).reshape((-1, 1))
 
-    p0 = Uniform(loc=0.0, scale=15)
-    p1 = Lognormal(s=1.0, loc=0.0, scale=1.0)
+    p0 = Uniform(loc=0., scale=15)
+    p1 = Lognormal(s=1., loc=0., scale=1.)
     prior = JointIndependent(marginals=[p0, p1])
 
     # create an instance of class Model
-    candidate_model = DistributionModel(
-        distributions=Normal(loc=None, scale=None), n_parameters=2, prior=prior
-    )
+    candidate_model = DistributionModel(distributions=Normal(loc=None, scale=None),
+                                        n_parameters=2, prior=prior)
 
     sampling = ImportanceSampling(random_state=1)
 
-    bayes_estimator = BayesParameterEstimation(
-        sampling_class=sampling, inference_model=candidate_model, data=data, nsamples=10000
-    )
+    bayes_estimator = BayesParameterEstimation(sampling_class=sampling,
+                                               inference_model=candidate_model,
+                                               data=data,
+                                               nsamples=10000)
     bayes_estimator.sampler.resample()
     s_posterior = bayes_estimator.sampler.unweighted_samples
 
@@ -51,19 +51,19 @@ def test_probability_model_mcmc():
     np.random.seed(1)
     data = np.random.normal(mu, sigma, 100).reshape((-1, 1))
 
-    p0 = Uniform(loc=0.0, scale=15)
-    p1 = Lognormal(s=1.0, loc=0.0, scale=1.0)
+    p0 = Uniform(loc=0., scale=15)
+    p1 = Lognormal(s=1., loc=0., scale=1.)
     prior = JointIndependent(marginals=[p0, p1])
 
     # create an instance of class Model
-    candidate_model = DistributionModel(
-        distributions=Normal(loc=None, scale=None), n_parameters=2, prior=prior
-    )
+    candidate_model = DistributionModel(distributions=Normal(loc=None, scale=None),
+                                        n_parameters=2, prior=prior)
 
     sampling = MetropolisHastings(jump=10, burn_length=10, seed=[1.0, 0.2], random_state=1)
-    bayes_estimator = BayesParameterEstimation(
-        sampling_class=sampling, inference_model=candidate_model, data=data, nsamples=5
-    )
+    bayes_estimator = BayesParameterEstimation(sampling_class=sampling,
+                                               inference_model=candidate_model,
+                                               data=data,
+                                               nsamples=5)
     s = bayes_estimator.sampler.samples
 
     assert s[0, 1] == 3.5196936384257835

@@ -34,7 +34,9 @@ def inverse_wiener_khinchin_transform(correlation_function, frequency, time):
     power_spectrum = np.zeros(len(frequency))
     for i in range(len(frequency)):
         power_spectrum[i] = (
-            2 / (2 * np.pi) * np.dot(fac, correlation_function * np.cos(time * frequency[i]))
+            2
+            / (2 * np.pi)
+            * np.dot(fac, correlation_function * np.cos(time * frequency[i]))
         )
     power_spectrum[power_spectrum < 0] = 0
     return power_spectrum

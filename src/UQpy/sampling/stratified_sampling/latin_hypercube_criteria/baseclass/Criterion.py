@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 import numpy as np
 import scipy.stats as stats
 from beartype import beartype
@@ -18,7 +17,7 @@ class Criterion(ABC):
         samples_number = samples.shape[0]
         cut = np.linspace(0, 1, samples_number + 1)
         self.a = cut[:samples_number]
-        self.b = cut[1 : samples_number + 1]
+        self.b = cut[1: samples_number + 1]
 
         u = np.zeros(shape=(samples.shape[0], samples.shape[1]))
         self.samples = np.zeros_like(u)

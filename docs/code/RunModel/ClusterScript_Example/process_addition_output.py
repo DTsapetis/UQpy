@@ -1,9 +1,9 @@
-from pathlib import Path
-
 import numpy as np
+from pathlib import Path
 
 
 class OutputProcessor:
+
     def __init__(self, index):
         filePath = Path("./OutputFiles/qoiFile_" + str(index) + ".txt")
         self.numberOfColumns = 0

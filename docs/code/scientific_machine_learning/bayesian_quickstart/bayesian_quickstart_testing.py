@@ -19,12 +19,11 @@ Bayesian Quickstart Testing
 # dictionary saved in ``bayesian_model.pth``.
 
 # %%
-import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 from torchvision import datasets
 from torchvision.transforms import ToTensor
-
+import matplotlib.pyplot as plt
 import UQpy.scientific_machine_learning as sml
 
 plt.style.use("ggplot")
@@ -59,7 +58,12 @@ class BayesianNeuralNetwork(nn.Module):
 # %%
 
 # Download test data from open datasets.
-test_data = datasets.FashionMNIST(root="data", train=False, download=False, transform=ToTensor())
+test_data = datasets.FashionMNIST(
+    root="data",
+    train=False,
+    download=False,
+    transform=ToTensor(),
+)
 
 device = "cpu"
 network = BayesianNeuralNetwork().to(device)
@@ -181,8 +185,8 @@ fig.tight_layout()
 # %%
 
 # Use pandas and seaborn for easy pair plots
-import pandas as pd
 import seaborn
+import pandas as pd
 
 df = pd.DataFrame({classes[i]: softmax_logits[:, i] for i in (5, 7, 8, 9)})
 seaborn.pairplot(df, corner=True, plot_kws={"alpha": 0.2, "edgecolor": None})

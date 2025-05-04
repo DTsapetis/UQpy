@@ -1,21 +1,20 @@
-import os
-import subprocess
-
 import fire
+import os
 import numpy as np
+import subprocess
 
 
 def extract_disp_temp_output(index):
     # index = int(index)
-    output_script_path = os.path.join(os.getcwd(), "abaqus_output_script.py")
+    output_script_path = os.path.join(os.getcwd(), 'abaqus_output_script.py')
     command = "abaqus cae nogui=" + output_script_path
     try:
         out = os.system(command)
-        print("Out: ", out)
+        print('Out: ', out)
         if out == 0:
-            print("Example: Successful output extraction.")
-            outfilename = "time_temp_disp_data.csv"
-            data = np.genfromtxt(outfilename, delimiter=",")
+            print('Example: Successful output extraction.')
+            outfilename = 'time_temp_disp_data.csv'
+            data = np.genfromtxt(outfilename, delimiter=',')
 
             # Delete the odb file after extracting output
             dir_name = os.getcwd()
@@ -27,7 +26,7 @@ def extract_disp_temp_output(index):
             # Compute the maximum allowable displacement
             length_of_beam = 1  # in m
             depth_of_beam = 0.035  # in m
-            max_allowable_disp = length_of_beam**2 / (400 * depth_of_beam)
+            max_allowable_disp = length_of_beam ** 2 / (400 * depth_of_beam)
 
             # Obtain the maximum midpoint displacement
             midpoint_disps = data[:, 2]
@@ -42,5 +41,5 @@ def extract_disp_temp_output(index):
         return np.array([100, 100, 10000])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     fire.Fire(extract_disp_temp_output)

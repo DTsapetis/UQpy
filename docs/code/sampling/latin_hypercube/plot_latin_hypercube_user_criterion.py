@@ -21,12 +21,12 @@ This example illustrates use of user-defined latin hypercube design criteria. In
 
 # %%
 
-import matplotlib.pyplot as plt
-
-from UQpy.distributions import Uniform
 from UQpy.sampling import LatinHypercubeSampling
+import matplotlib.pyplot as plt
+from UQpy.distributions import Uniform
 from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import *
 from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import Criterion
+
 
 # %% md
 #
@@ -68,12 +68,11 @@ class UserCriterion(Criterion):
 
 # %%
 
-dist1 = Uniform(loc=0.0, scale=1.0)
-dist2 = Uniform(loc=0.0, scale=1.0)
+dist1 = Uniform(loc=0., scale=1.)
+dist2 = Uniform(loc=0., scale=1.)
 
-lhs_user_defined = LatinHypercubeSampling(
-    distributions=[dist1, dist2], nsamples=5, criterion=UserCriterion()
-)
+lhs_user_defined = LatinHypercubeSampling(distributions=[dist1, dist2], nsamples=5,
+                                          criterion=UserCriterion())
 print(lhs_user_defined._samples)
 
 # %% md
@@ -88,8 +87,8 @@ print(lhs_user_defined._samples)
 
 # plot the samples
 fig, ax = plt.subplots()
-plt.title("LHS sampling - User Criterion")
-plt.scatter(lhs_user_defined._samples[:, 0], lhs_user_defined._samples[:, 1], marker="o")
+plt.title('LHS sampling - User Criterion')
+plt.scatter(lhs_user_defined._samples[:, 0], lhs_user_defined._samples[:, 1], marker='o')
 ax.yaxis.grid(True)
 ax.xaxis.grid(True)
 plt.ylim(0, 1)

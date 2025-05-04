@@ -1,10 +1,9 @@
-from UQpy.dimension_reduction.diffusion_maps.DiffusionMaps import DiffusionMaps
 from UQpy.utilities.kernels.GaussianKernel import GaussianKernel
+from UQpy.dimension_reduction.diffusion_maps.DiffusionMaps import DiffusionMaps
 
 
 def test_dmaps_swiss_roll():
     import numpy as np
-
     from UQpy.dimension_reduction.diffusion_maps.DiffusionMaps import DiffusionMaps
 
     # set parameters
@@ -18,18 +17,12 @@ def test_dmaps_swiss_roll():
     phi = length_phi * np.random.rand(m)
     xi = np.random.rand(m)
     Z0 = length_Z * np.random.rand(m)
-    X0 = 1.0 / 6 * (phi + sigma * xi) * np.sin(phi)
-    Y0 = 1.0 / 6 * (phi + sigma * xi) * np.cos(phi)
+    X0 = 1. / 6 * (phi + sigma * xi) * np.sin(phi)
+    Y0 = 1. / 6 * (phi + sigma * xi) * np.cos(phi)
 
     swiss_roll = np.array([X0, Y0, Z0]).transpose()
-    dmaps = DiffusionMaps(
-        data=swiss_roll,
-        kernel=GaussianKernel(kernel_parameter=0.5),
-        alpha=0.5,
-        n_eigenvectors=3,
-        is_sparse=True,
-        n_neighbors=100,
-    )
+    dmaps = DiffusionMaps(data=swiss_roll, kernel=GaussianKernel(kernel_parameter=0.5),
+                          alpha=0.5, n_eigenvectors=3, is_sparse=True, n_neighbors=100)
 
     evals = dmaps.eigenvalues
     assert round(evals[0], 9) == 1.0
@@ -39,7 +32,6 @@ def test_dmaps_swiss_roll():
 
 def test_dmaps_circular():
     import numpy as np
-
     np.random.seed(1111)
     a = 6
     b = 1
@@ -61,9 +53,8 @@ def test_dmaps_circular():
 
     X = np.array([x, y, z]).transpose()
 
-    dmaps = DiffusionMaps(
-        data=X, alpha=1, n_eigenvectors=3, kernel=GaussianKernel(kernel_parameter=0.3)
-    )
+    dmaps = DiffusionMaps(data=X, alpha=1, n_eigenvectors=3,
+                          kernel=GaussianKernel(kernel_parameter=0.3))
 
     evals = dmaps.eigenvalues
     assert np.round(evals[0], 5) == 1.0

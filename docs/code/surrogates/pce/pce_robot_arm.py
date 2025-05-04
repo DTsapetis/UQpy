@@ -28,10 +28,9 @@ and :math:`[0,2\pi]` for the :math:`θ_i` inputs.
 
 # %%
 
-import matplotlib.pyplot as plt
 import numpy as np
-
-from UQpy.distributions import JointIndependent, Uniform
+import matplotlib.pyplot as plt
+from UQpy.distributions import Uniform, JointIndependent
 from UQpy.surrogates import *
 
 # %% md
@@ -40,39 +39,23 @@ from UQpy.surrogates import *
 
 # %%
 
-
 def function(x):
     # without square root
     u1 = x[:, 4] * np.cos(x[:, 0])
     u2 = x[:, 4] * np.cos(x[:, 0]) + x[:, 5] * np.cos(np.sum(x[:, :2], axis=1))
-    u3 = (
-        x[:, 4] * np.cos(x[:, 0])
-        + x[:, 5] * np.cos(np.sum(x[:, :2], axis=1))
-        + x[:, 6] * np.cos(np.sum(x[:, :3], axis=1))
-    )
-    u4 = (
-        x[:, 4] * np.cos(x[:, 0])
-        + x[:, 5] * np.cos(np.sum(x[:, :2], axis=1))
-        + x[:, 6] * np.cos(np.sum(x[:, :3], axis=1))
-        + x[:, 7] * np.cos(np.sum(x[:, :4], axis=1))
-    )
+    u3 = x[:, 4] * np.cos(x[:, 0]) + x[:, 5] * np.cos(np.sum(x[:, :2], axis=1)) + x[:, 6] * np.cos(
+        np.sum(x[:, :3], axis=1))
+    u4 = x[:, 4] * np.cos(x[:, 0]) + x[:, 5] * np.cos(np.sum(x[:, :2], axis=1)) + x[:, 6] * np.cos(
+        np.sum(x[:, :3], axis=1)) + x[:, 7] * np.cos(np.sum(x[:, :4], axis=1))
 
     v1 = x[:, 4] * np.sin(x[:, 0])
     v2 = x[:, 4] * np.sin(x[:, 0]) + x[:, 5] * np.sin(np.sum(x[:, :2], axis=1))
-    v3 = (
-        x[:, 4] * np.sin(x[:, 0])
-        + x[:, 5] * np.sin(np.sum(x[:, :2], axis=1))
-        + x[:, 6] * np.sin(np.sum(x[:, :3], axis=1))
-    )
-    v4 = (
-        x[:, 4] * np.sin(x[:, 0])
-        + x[:, 5] * np.sin(np.sum(x[:, :2], axis=1))
-        + x[:, 6] * np.sin(np.sum(x[:, :3], axis=1))
-        + x[:, 7] * np.sin(np.sum(x[:, :4], axis=1))
-    )
+    v3 = x[:, 4] * np.sin(x[:, 0]) + x[:, 5] * np.sin(np.sum(x[:, :2], axis=1)) + x[:, 6] * np.sin(
+        np.sum(x[:, :3], axis=1))
+    v4 = x[:, 4] * np.sin(x[:, 0]) + x[:, 5] * np.sin(np.sum(x[:, :2], axis=1)) + x[:, 6] * np.sin(
+        np.sum(x[:, :3], axis=1)) + x[:, 7] * np.sin(np.sum(x[:, :4], axis=1))
 
     return (u1 + u2 + u3 + u4) ** 2 + (v1 + v2 + v3 + v4) ** 2
-
 
 # %% md
 #
@@ -82,11 +65,11 @@ def function(x):
 
 np.random.seed(1)
 
-dist_1 = Uniform(loc=0, scale=2 * np.pi)
+dist_1 = Uniform(loc=0, scale=2*np.pi)
 dist_2 = Uniform(loc=0, scale=1)
 
-marg = [dist_1] * 4
-marg_1 = [dist_2] * 4
+marg = [dist_1]*4
+marg_1 = [dist_2]*4
 marg.extend(marg_1)
 
 joint = JointIndependent(marginals=marg)
@@ -106,7 +89,7 @@ polynomial_basis = TotalDegreeBasis(joint, max_degree)
 least_squares = LeastSquareRegression()
 pce = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
 
-pce.fit(x, y)
+pce.fit(x,y)
 
 # %% md
 #
@@ -118,7 +101,7 @@ polynomial_basis = PolynomialBasis.create_total_degree_basis(joint, max_degree)
 lasso = LassoRegression()
 pce2 = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=lasso)
 
-pce2.fit(x, y)
+pce2.fit(x,y)
 
 # %% md
 #
@@ -130,7 +113,7 @@ polynomial_basis = TotalDegreeBasis(joint, max_degree)
 ridge = RidgeRegression()
 pce3 = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=ridge)
 
-pce3.fit(x, y)
+pce3.fit(x,y)
 
 # %% md
 # Error Estimation
@@ -147,13 +130,13 @@ y_pce = pce.predict(x_val).flatten()
 y_pce2 = pce2.predict(x_val).flatten()
 y_pce3 = pce3.predict(x_val).flatten()
 
-error = np.sum(np.abs(y_pce - y_val) / np.abs(y_val)) / n_samples
-error2 = np.sum(np.abs(y_pce2 - y_val) / np.abs(y_val)) / n_samples
-error3 = np.sum(np.abs(y_pce3 - y_val) / np.abs(y_val)) / n_samples
+error = np.sum(np.abs(y_pce - y_val)/np.abs(y_val))/n_samples
+error2 = np.sum(np.abs(y_pce2 - y_val)/np.abs(y_val))/n_samples
+error3 = np.sum(np.abs(y_pce3 - y_val)/np.abs(y_val))/n_samples
 
-print("Validation error, LSTSQ-PCE:", error)
-print("Validation error, LASSO-PCE:", error2)
-print("Validation error, Ridge-PCE:", error3)
+print('Validation error, LSTSQ-PCE:', error)
+print('Validation error, LASSO-PCE:', error2)
+print('Validation error, Ridge-PCE:', error3)
 
 # %% md
 # Moment Estimation
@@ -168,7 +151,7 @@ y_mc = function(x_mc)
 mean_mc = np.mean(y_mc)
 var_mc = np.var(y_mc)
 
-print("Moments from least squares regression :", pce.get_moments())
-print("Moments from LASSO regression :", pce2.get_moments())
-print("Moments from Ridge regression :", pce3.get_moments())
-print("Moments from MC integration: ", mean_mc, var_mc)
+print('Moments from least squares regression :', pce.get_moments())
+print('Moments from LASSO regression :', pce2.get_moments())
+print('Moments from Ridge regression :', pce3.get_moments())
+print('Moments from MC integration: ', mean_mc, var_mc)

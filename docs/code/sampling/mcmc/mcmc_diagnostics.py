@@ -13,11 +13,10 @@ parameters of a regression model via Bayesian inference.
 
 # %%
 
-import matplotlib.pyplot as plt
-import numpy as np
-
-from UQpy.distributions import JointIndependent, Normal
 from UQpy.sampling import MetropolisHastings
+from UQpy.distributions import Normal, JointIndependent
+import numpy as np
+import matplotlib.pyplot as plt
 
 # %% md
 # Example setup
@@ -26,9 +25,9 @@ from UQpy.sampling import MetropolisHastings
 
 # %%
 
-param_true = [1.0, 2.0]
+param_true = [1., 2.]
 domain = np.linspace(0, 10, 50)
-data_clean = param_true[0] * domain + param_true[1] * domain**2
+data_clean = param_true[0] * domain + param_true[1] * domain ** 2
 rstate = np.random.RandomState(123)
 data_noisy = data_clean + rstate.randn(*data_clean.shape)
 
@@ -38,29 +37,22 @@ from scipy.stats import norm
 def log_target(x, data, x_domain):
     log_target_value = np.zeros(x.shape[0])
     for i, xx in enumerate(x):
-        h_xx = xx[0] * x_domain + xx[1] * x_domain**2
+        h_xx = xx[0] * x_domain + xx[1] * x_domain ** 2
         log_target_value[i] = np.sum([norm.logpdf(hxi - datai) for hxi, datai in zip(h_xx, data)])
     return log_target_value
 
 
 proposal = JointIndependent([Normal(scale=0.1), Normal(scale=0.05)])
 
-sampler = MetropolisHastings(
-    nsamples=500,
-    dimension=2,
-    log_pdf_target=log_target,
-    burn_length=10,
-    jump=10,
-    n_chains=1,
-    args_target=(data_noisy, domain),
-    proposal=proposal,
-)
+sampler = MetropolisHastings(nsamples=500, dimension=2, log_pdf_target=log_target,
+                             burn_length=10, jump=10, n_chains=1,
+                             args_target=(data_noisy, domain), proposal=proposal)
 
 print(sampler.samples.shape)
 samples = sampler.samples
 
-plt.plot(samples[:, 0], samples[:, 1], "o", alpha=0.5)
-plt.plot(1.0, 2.0, marker="x", color="orange")
+plt.plot(samples[:, 0], samples[:, 1], 'o', alpha=0.5)
+plt.plot(1., 2., marker='x', color='orange')
 plt.show()
 
 # %% md
@@ -87,13 +79,11 @@ print(sampler.acceptance_rate)
 fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(15, 7))
 for j in range(samples.shape[1]):
     ax[j, 0].plot(np.arange(samples.shape[0]), samples[:, j])
-    ax[j, 0].set_title("chain - parameter # {}".format(j + 1))
-    ax[j, 1].plot(
-        np.arange(samples.shape[0]), np.cumsum(samples[:, j]) / np.arange(samples.shape[0])
-    )
-    ax[j, 1].set_title("parameter convergence")
+    ax[j, 0].set_title('chain - parameter # {}'.format(j + 1))
+    ax[j, 1].plot(np.arange(samples.shape[0]), np.cumsum(samples[:, j]) / np.arange(samples.shape[0]))
+    ax[j, 1].set_title('parameter convergence')
     ax[j, 2].acorr(samples[:, j] - np.mean(samples[:, j]), maxlags=40, normed=True)
-    ax[j, 2].set_title("correlation between samples")
+    ax[j, 2].set_title('correlation between samples')
 plt.show()
 
 
@@ -114,7 +104,6 @@ plt.show()
 
 # %%
 
-
 def compute_marginal_ESS(samples, eps_ESS=0.05, alpha_ESS=0.05):
     # Computation of ESS and min ESS, look at each marginal distribution separately
     nsamples, dim = samples.shape
@@ -134,7 +123,7 @@ def compute_marginal_ESS(samples, eps_ESS=0.05, alpha_ESS=0.05):
     min_marginal_ESS = np.empty((dim,))
     for j in range(dim):
         marginal_ESS[j] = nsamples * Omega[j, j] / Sigma[j, j]
-        min_marginal_ESS[j] = 4 * norm.ppf(alpha_ESS / 2) ** 2 / eps_ESS**2
+        min_marginal_ESS[j] = 4 * norm.ppf(alpha_ESS / 2) ** 2 / eps_ESS ** 2
 
     return marginal_ESS, min_marginal_ESS
 
@@ -154,32 +143,27 @@ def compute_joint_ESS(samples, eps_ESS=0.05, alpha_ESS=0.05):
     Omega = np.cov(samples.T)
     Sigma = np.cov(means_subdivisions.T)
 
-    from scipy.special import gamma
     from scipy.stats import chi2
-
+    from scipy.special import gamma
     joint_ESS = nsamples * np.linalg.det(Omega) ** (1 / dim) / np.linalg.det(Sigma) ** (1 / dim)
     chi2_value = chi2.ppf(1 - alpha_ESS, df=dim)
-    min_joint_ESS = (
-        2 ** (2 / dim) * np.pi / (dim * gamma(dim / 2)) ** (2 / dim) * chi2_value / eps_ESS**2
-    )
+    min_joint_ESS = 2 ** (2 / dim) * np.pi / (dim * gamma(dim / 2)) ** (
+            2 / dim) * chi2_value / eps_ESS ** 2
 
     return joint_ESS, min_joint_ESS
 
 
 marginal_ESS, min_marginal_ESS = compute_marginal_ESS(samples, eps_ESS=0.05, alpha_ESS=0.05)
 
-print("Univariate Effective Sample Size in each dimension:")
+print('Univariate Effective Sample Size in each dimension:')
 for j in range(2):
-    print(
-        "Dimension {}: ESS = {}, minimum ESS recommended = {}".format(
-            j + 1, marginal_ESS[j], min_marginal_ESS[j]
-        )
-    )
+    print('Dimension {}: ESS = {}, minimum ESS recommended = {}'.
+          format(j + 1, marginal_ESS[j], min_marginal_ESS[j]))
 
     joint_ESS, min_joint_ESS = compute_joint_ESS(samples, eps_ESS=0.05, alpha_ESS=0.05)
 
-    print("\nMultivariate Effective Sample Size:")
-    print("Multivariate ESS = {}, minimum ESS recommended = {}".format(joint_ESS, min_joint_ESS))
+    print('\nMultivariate Effective Sample Size:')
+    print('Multivariate ESS = {}, minimum ESS recommended = {}'.format(joint_ESS, min_joint_ESS))
 
 # %% md
 # Results above show that the chains should probably be run for a longer amount of time in order to obtain reliable

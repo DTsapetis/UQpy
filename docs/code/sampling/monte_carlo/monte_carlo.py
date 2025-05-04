@@ -13,7 +13,9 @@ Monte Carlo sampling with UQpy
 
 # %%
 
+from UQpy.sampling import MonteCarloSampling
 import matplotlib.pyplot as plt
+
 from numpy.random import RandomState
 
 # %% md
@@ -21,9 +23,9 @@ from numpy.random import RandomState
 # Step-by-step: continuous univariate distribution
 # -------------------------------------------------
 # First, we import UQpy's normal distribution class.
+
 # %%
 from UQpy.distributions import Normal
-from UQpy.sampling import MonteCarloSampling
 
 # %% md
 #
@@ -43,7 +45,9 @@ normal1 = normal2 = Normal()
 
 # %%
 
-mc = MonteCarloSampling(distributions=[normal1, normal2], nsamples=5, random_state=RandomState(123))
+mc = MonteCarloSampling(distributions=[normal1, normal2],
+                        nsamples=5,
+                        random_state=RandomState(123))
 
 mc.samples
 
@@ -77,9 +81,11 @@ mc.samplesU01
 # %%
 
 fig, ax = plt.subplots()
-plt.title("Samples")
+plt.title('Samples')
 
-plt.scatter(x=mc.samples[:, 0], y=mc.samples[:, 1], marker="o")
+plt.scatter(x=mc.samples[:, 0],
+            y=mc.samples[:, 1],
+            marker='o')
 
 plt.setp(ax, xlim=(-1.7, 1.7), ylim=(-2.6, 2.6))
 ax.yaxis.grid(True)
@@ -94,12 +100,13 @@ ax.xaxis.grid(True)
 fig, ax = plt.subplots(1, 2)
 
 for i in (0, 1):
-    ax[i].set_title("Distribution " + str(i + 1))
+    ax[i].set_title('Distribution ' + str(i + 1))
     ax[i].hist(mc.samples[:, i])
     ax[i].yaxis.grid(True)
     ax[i].xaxis.grid(True)
 
-plt.setp(ax, xlim=(-3, 3), ylim=(0, 2))
+plt.setp(ax, xlim=(-3, 3), ylim=(0, 2));
+
 # %% md
 #
 # Additional Examples
@@ -119,7 +126,9 @@ from UQpy.distributions import MultivariateNormal
 
 # %%
 
-mvnormal = MultivariateNormal(mean=[1, 2], cov=[[4, -0.9], [-0.9, 1]])
+mvnormal = MultivariateNormal(mean=[1, 2],
+                              cov=[[4, -0.9],
+                                   [-0.9, 1]])
 
 # %% md
 #
@@ -128,7 +137,9 @@ mvnormal = MultivariateNormal(mean=[1, 2], cov=[[4, -0.9], [-0.9, 1]])
 
 # %%
 
-mvmc = MonteCarloSampling(distributions=mvnormal, nsamples=5, random_state=RandomState(456))
+mvmc = MonteCarloSampling(distributions=mvnormal,
+                          nsamples=5,
+                          random_state=RandomState(456))
 
 mvmc.samples
 
@@ -141,9 +152,9 @@ mvmc.samples
 
 # %%
 
-mixedmc = MonteCarloSampling(
-    distributions=[normal1, mvnormal], nsamples=5, random_state=RandomState(789)
-)
+mixedmc = MonteCarloSampling(distributions=[normal1, mvnormal],
+                             nsamples=5,
+                             random_state=RandomState(789))
 
 mixedmc.samples
 
@@ -174,8 +185,8 @@ binomial = Binomial(n=5, p=0.4)
 
 # %%
 
-cdmv = MonteCarloSampling(
-    distributions=[binomial, normal1], nsamples=5, random_state=RandomState(333)
-)
+cdmv = MonteCarloSampling(distributions=[binomial, normal1],
+                          nsamples=5,
+                          random_state=RandomState(333))
 
 cdmv.samples

@@ -1,11 +1,9 @@
-from typing import Annotated
-
 import torch
 import torch.nn.functional as F
+from UQpy.scientific_machine_learning.baseclass import ProbabilisticDropoutLayer
+from typing import Annotated
 from beartype import beartype
 from beartype.vale import Is
-
-from UQpy.scientific_machine_learning.baseclass import ProbabilisticDropoutLayer
 
 
 @beartype
@@ -15,7 +13,7 @@ class ProbabilisticDropout(ProbabilisticDropoutLayer):
         p: Annotated[float, Is[lambda p: 0 <= p <= 1]] = 0.5,
         inplace: bool = False,
         dropping: bool = True,
-        **kwargs,
+        **kwargs
     ):
         """Randomly zero out some elements of the input tensor with probability :math:`p`
 

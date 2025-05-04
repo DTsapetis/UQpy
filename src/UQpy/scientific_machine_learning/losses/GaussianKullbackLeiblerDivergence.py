@@ -1,13 +1,13 @@
 import torch
 import torch.nn as nn
-from beartype import beartype
-
 import UQpy.scientific_machine_learning.functional as func
-from UQpy.scientific_machine_learning.baseclass import Loss, NormalBayesianLayer
+from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer, Loss
+from beartype import beartype
 
 
 @beartype
 class GaussianKullbackLeiblerDivergence(Loss):
+
     def __init__(self, reduction: str = "sum", device=None):
         r"""Analytic form for Gaussian KL divergence for all Bayesian layers in a module
 

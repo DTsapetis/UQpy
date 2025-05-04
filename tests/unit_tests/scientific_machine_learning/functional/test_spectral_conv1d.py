@@ -1,9 +1,8 @@
 import pytest
 import torch
-from hypothesis import given, settings
-from hypothesis import strategies as st
-
 import UQpy.scientific_machine_learning.functional as func
+from hypothesis import given, settings, strategies as st
+
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
@@ -61,7 +60,9 @@ def test_cosine_1mode():
     out_channels = 1
     length = 10_000
     modes = 1
-    x = torch.linspace(0, 2 * torch.pi, length, requires_grad=False).reshape(1, in_channels, length)
+    x = torch.linspace(0, 2 * torch.pi, length, requires_grad=False).reshape(
+        1, in_channels, length
+    )
     y = torch.cos(x)
     weights = torch.ones(in_channels, out_channels, modes, dtype=torch.cfloat)
     f = func.spectral_conv1d(y, weights, out_channels, modes)

@@ -20,6 +20,7 @@ class UQpyLoggingFormatter(logging.Formatter):
         }
 
     def format(self, record):
+
         # Save the original format configured by the user
         # when the logger formatter was instantiated
         format_orig = self._style._fmt

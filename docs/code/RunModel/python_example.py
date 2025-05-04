@@ -5,6 +5,10 @@ Python
 """
 
 
+
+
+
+
 # %% md
 #
 # The RunModel class is capable of passing input in different formats into a single computational model. This means that
@@ -64,14 +68,13 @@ Python
 
 # %%
 
+from UQpy.sampling import MonteCarloSampling
+from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.distributions import Normal
 import time
-
 import numpy as np
 
-from UQpy.distributions import Normal
-from UQpy.run_model.model_execution.PythonModel import PythonModel
-from UQpy.run_model.RunModel import RunModel
-from UQpy.sampling import MonteCarloSampling
 
 # %%
 
@@ -88,7 +91,7 @@ from UQpy.sampling import MonteCarloSampling
 
 # %%
 
-pick_model = "all"
+pick_model = 'all'
 
 
 # %% md
@@ -103,26 +106,26 @@ pick_model = "all"
 
 # %%
 
-if pick_model in {"scalar", "vector", "all"}:
+if pick_model in {'scalar', 'vector', 'all'}:
     d = Normal(loc=0, scale=1)
     x_mcs = MonteCarloSampling(distributions=[d, d, d], nsamples=5, random_state=987979)
-    names = ["var1", "var11", "var111"]
+    names = ['var1', 'var11', 'var111']
 
     # UQpy returns samples as an ndarray. Convert them to a list for part 1.2
     x_mcs_list = list(x_mcs.samples)
     print("Monte Carlo samples of three random variables from a standard normal distribution.")
-    print("Samples stored as an array:")
-    print("Data type:", type(x_mcs.samples))
-    print("Number of samples:", len(x_mcs.samples))
-    print("Dimensions of samples:", np.shape(x_mcs.samples))
-    print("Samples")
+    print('Samples stored as an array:')
+    print('Data type:', type(x_mcs.samples))
+    print('Number of samples:', len(x_mcs.samples))
+    print('Dimensions of samples:', np.shape(x_mcs.samples))
+    print('Samples')
     print(x_mcs.samples)
     print()
-    print("Samples stored as a list:")
-    print("Data type:", type(x_mcs_list))
-    print("Number of samples:", len(x_mcs_list))
-    print("Dimensions of samples:", np.shape(x_mcs_list))
-    print("Samples:")
+    print('Samples stored as a list:')
+    print('Data type:', type(x_mcs_list))
+    print('Number of samples:', len(x_mcs_list))
+    print('Dimensions of samples:', np.shape(x_mcs_list))
+    print('Samples:')
     print(x_mcs_list)
 
 # %% md
@@ -134,12 +137,12 @@ if pick_model in {"scalar", "vector", "all"}:
 
 # %%
 
-if pick_model in {"scalar", "all"}:
+if pick_model in {'scalar', 'all'}:
     # Call to RunModel - Here we run the model while instantiating the RunModel object.
     t = time.time()
-    m = PythonModel(model_script="python_model.py", model_object_name="SumRVs")
-    m11 = RunModel(model=m, ntasks=1)
-    m11.run(samples=x_mcs.samples)
+    m = PythonModel(model_script='python_model.py', model_object_name='SumRVs')
+    m11 = RunModel(model=m, ntasks=1 )
+    m11.run(samples=x_mcs.samples,)
     t_ser_python = time.time() - t
     print("\nTime for serial execution:")
     print(t_ser_python)
@@ -156,10 +159,10 @@ if pick_model in {"scalar", "all"}:
 
 # %%
 
-if pick_model in {"scalar", "all"}:
+if pick_model in {'scalar', 'all'}:
     # Call to RunModel - Here we run the model while instantiating the RunModel object.
     t = time.time()
-    m = PythonModel(model_script="python_model.py", model_object_name="sum_rvs")
+    m = PythonModel(model_script='python_model.py', model_object_name='sum_rvs')
     m12 = RunModel(model=m, samples=x_mcs_list, ntasks=2)
     t_par_python = time.time() - t
     print("\nTime for parallel execution:")
@@ -190,23 +193,23 @@ if pick_model in {"scalar", "all"}:
 
 # %%
 
-if pick_model in {"vector", "all"}:
+if pick_model in {'vector', 'all'}:
     x_mcs_tri = x_mcs.samples.reshape(5, 1, 3)
     x_mcs_tri_list = list(x_mcs_tri)
 
     print("Monte Carlo samples of three random variables from a standard normal distribution.")
-    print("Samples stored as an array:")
-    print("Data type:", type(x_mcs_tri))
-    print("Number of samples:", len(x_mcs_tri))
-    print("Dimensions of samples:", np.shape(x_mcs_tri))
-    print("Samples")
+    print('Samples stored as an array:')
+    print('Data type:', type(x_mcs_tri))
+    print('Number of samples:', len(x_mcs_tri))
+    print('Dimensions of samples:', np.shape(x_mcs_tri))
+    print('Samples')
     print(x_mcs_tri)
     print()
-    print("Samples stored as a list:")
-    print("Data type:", type(x_mcs_tri_list))
-    print("Number of samples:", len(x_mcs_tri_list))
-    print("Dimensions of samples:", np.shape(x_mcs_tri_list))
-    print("Samples:")
+    print('Samples stored as a list:')
+    print('Data type:', type(x_mcs_tri_list))
+    print('Number of samples:', len(x_mcs_tri_list))
+    print('Dimensions of samples:', np.shape(x_mcs_tri_list))
+    print('Samples:')
     print(x_mcs_tri_list)
 
 # %% md
@@ -218,11 +221,11 @@ if pick_model in {"vector", "all"}:
 
 # %%
 
-if pick_model in {"vector", "all"}:
+if pick_model in {'vector', 'all'}:
     # Call to RunModel - Here we run the model while instantiating the RunModel object.
     t = time.time()
-    m = PythonModel(model_script="python_model.py", model_object_name="sum_rvs_vec")
-    m21 = RunModel(samples=x_mcs_tri, ntasks=1, model=m)
+    m=PythonModel(model_script='python_model.py', model_object_name='sum_rvs_vec')
+    m21 = RunModel(samples=x_mcs_tri, ntasks=1,  model=m)
     t_ser_python = time.time() - t
     print("\nTime for serial execution:")
     print(t_ser_python)
@@ -239,10 +242,10 @@ if pick_model in {"vector", "all"}:
 
 # %%
 
-if pick_model == "vector" or pick_model == "all":
+if pick_model == 'vector' or pick_model == 'all':
     # Call to RunModel - Here we run the model while instantiating the RunModel object.
     t = time.time()
-    m = PythonModel(model_script="python_model.py", model_object_name="SumRVs")
+    m=PythonModel(model_script='python_model.py', model_object_name='SumRVs')
     m22 = RunModel(samples=x_mcs_tri_list, ntasks=2, model=m)
     t_par_python = time.time() - t
     print("\nTime for parallel execution:")
@@ -262,7 +265,7 @@ if pick_model == "vector" or pick_model == "all":
 
 # %%
 
-if pick_model == "mixed" or pick_model == "vector" or pick_model == "all":
+if pick_model == 'mixed' or pick_model == 'vector' or pick_model == 'all':
     # Call MCS to generate samples
     # THIS WILL NEED TO BE REWRITTEN WITH DISTRIBUTION AND MCS UPDATES --------------------------------------------
     # First generate the scalar random variable
@@ -279,19 +282,19 @@ if pick_model == "mixed" or pick_model == "vector" or pick_model == "all":
     x_mcs_array = x_mcs2.samples.reshape((5, 3, 3))
 
     print("Monte Carlo samples of a single random variable from a standard normal distribution.")
-    print("Samples stored as an array:")
-    print("Data type:", type(x_mcs1.samples))
-    print("Number of samples:", len(x_mcs1.samples))
-    print("Dimensions of samples:", np.shape(x_mcs1.samples))
-    print("Samples")
+    print('Samples stored as an array:')
+    print('Data type:', type(x_mcs1.samples))
+    print('Number of samples:', len(x_mcs1.samples))
+    print('Dimensions of samples:', np.shape(x_mcs1.samples))
+    print('Samples')
     print(x_mcs1.samples)
     print()
     print("Monte Carlo samples of a 3x3 matrix of standard normal random variables.")
-    print("Samples stored as an array:")
-    print("Data type:", type(x_mcs_array))
-    print("Number of samples:", len(x_mcs_array))
-    print("Dimensions of samples:", np.shape(x_mcs_array))
-    print("Samples")
+    print('Samples stored as an array:')
+    print('Data type:', type(x_mcs_array))
+    print('Number of samples:', len(x_mcs_array))
+    print('Dimensions of samples:', np.shape(x_mcs_array))
+    print('Samples')
     print(x_mcs_array)
     print()
 
@@ -303,21 +306,21 @@ if pick_model == "mixed" or pick_model == "vector" or pick_model == "all":
         x_mixed.append([x_mcs1.samples[i], x_mcs_array[i]])
 
     print("Combined samples with a scalar and a 3x3 matrix of standard normal random variables.")
-    print("Samples stored as a list:")
-    print("Data type:", type(x_mixed))
-    print("Number of samples:", len(x_mixed))
-    print("Dimensions of samples:", np.shape(x_mixed))
-    print("Samples")
+    print('Samples stored as a list:')
+    print('Data type:', type(x_mixed))
+    print('Number of samples:', len(x_mixed))
+    print('Dimensions of samples:', np.shape(x_mixed))
+    print('Samples')
     print(x_mixed)
     print()
 
     x_mixed_array = np.atleast_2d(np.asarray(x_mixed))
     print("Combined samples with a scalar and a 3x3 matrix of standard normal random variables.")
-    print("Samples stored as ndarray:")
-    print("Data type:", type(x_mixed_array))
-    print("Number of samples:", len(x_mixed_array))
-    print("Dimensions of samples:", np.shape(x_mixed_array))
-    print("Samples")
+    print('Samples stored as ndarray:')
+    print('Data type:', type(x_mixed_array))
+    print('Number of samples:', len(x_mixed_array))
+    print('Dimensions of samples:', np.shape(x_mixed_array))
+    print('Samples')
     print(x_mixed_array)
     print()
 
@@ -333,10 +336,10 @@ if pick_model == "mixed" or pick_model == "vector" or pick_model == "all":
 
 # %%
 
-if pick_model == "mixed" or pick_model == "all":
+if pick_model == 'mixed' or pick_model == 'all':
     # Call to RunModel - Here we run the model while instantiating the RunModel object.
     t = time.time()
-    m = PythonModel(model_script="python_model.py", model_object_name="DetRVs")
+    m=PythonModel(model_script='python_model.py', model_object_name='DetRVs')
     m31 = RunModel(samples=x_mixed_array, ntasks=1, model=m)
     t_ser_python = time.time() - t
     print("\nTime for serial execution:")
@@ -354,11 +357,11 @@ if pick_model == "mixed" or pick_model == "all":
 
 # %%
 
-if pick_model == "mixed" or pick_model == "all":
+if pick_model == 'mixed' or pick_model == 'all':
     # Call to RunModel - Here we run the model while instantiating the RunModel object.
     # Note that the parallel model_object handles only one sample at a time.
     t = time.time()
-    m = PythonModel(model_script="python_model.py", model_object_name="det_rvs_par")
+    m=PythonModel(model_script='python_model.py', model_object_name='det_rvs_par')
     m32 = RunModel(samples=x_mixed, ntasks=1, model=m)
     t_par_python = time.time() - t
     print("\nTime for parallel execution:")
@@ -378,30 +381,30 @@ if pick_model == "mixed" or pick_model == "all":
 
 # %%
 
-if pick_model == "mixed" or pick_model == "all":
+if pick_model == 'mixed' or pick_model == 'all':
     x = 2.5
 
-    print("Constant Coefficient:")
+    print('Constant Coefficient:')
     print(x)
     print()
 
     print("Monte Carlo samples of a 3x3 matrix of standard normal random variables.")
-    print("Samples stored as an array:")
-    print("Data type:", type(x_mcs_array))
-    print("Number of samples:", len(x_mcs_array))
-    print("Dimensions of samples:", np.shape(x_mcs_array))
-    print("Samples")
+    print('Samples stored as an array:')
+    print('Data type:', type(x_mcs_array))
+    print('Number of samples:', len(x_mcs_array))
+    print('Dimensions of samples:', np.shape(x_mcs_array))
+    print('Samples')
     print(x_mcs_array)
     print()
 
     x_mcs_list = list(x_mcs_array)
 
     print("3x3 matrix of standard normal random variables.")
-    print("Samples stored as ndarray:")
-    print("Data type:", type(x_mcs_list))
-    print("Number of samples:", len(x_mcs_list))
-    print("Dimensions of samples:", np.shape(x_mcs_list))
-    print("Samples")
+    print('Samples stored as ndarray:')
+    print('Data type:', type(x_mcs_list))
+    print('Number of samples:', len(x_mcs_list))
+    print('Dimensions of samples:', np.shape(x_mcs_list))
+    print('Samples')
     print(x_mcs_list)
     print()
 
@@ -415,10 +418,10 @@ if pick_model == "mixed" or pick_model == "all":
 # This examples uses the following files:
 # - model_script = python_model.py
 
-if pick_model == "mixed" or pick_model == "all":
+if pick_model == 'mixed' or pick_model == 'all':
     # Call to RunModel - Here we run the model while instantiating the RunModel object.
     t = time.time()
-    m = PythonModel(model_script="python_model.py", model_object_name="det_rvs_fixed")
+    m=PythonModel(model_script='python_model.py', model_object_name='det_rvs_fixed')
     m41 = RunModel(samples=x_mcs_array, ntasks=1, model=m, coeff=x)
     t_ser_python = time.time() - t
     print("\nTime for serial execution:")
@@ -434,10 +437,10 @@ if pick_model == "mixed" or pick_model == "all":
 # This examples uses the following files:
 # - model_script = python_model.py
 
-if pick_model == "mixed" or pick_model == "all":
+if pick_model == 'mixed' or pick_model == 'all':
     # Call to RunModel - Here we run the model while instantiating the RunModel object.
     t = time.time()
-    m = PythonModel(model_script="python_model.py", model_object_name="det_rvs_fixed")
+    m=PythonModel(model_script='python_model.py', model_object_name='det_rvs_fixed')
     m42 = RunModel(samples=x_mcs_list, ntasks=1, model=m, coeff=x)
     t_ser_python = time.time() - t
     print("\nTime for serial execution:")

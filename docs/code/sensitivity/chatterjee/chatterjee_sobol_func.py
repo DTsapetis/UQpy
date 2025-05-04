@@ -3,13 +3,13 @@ r"""
 Sobol function
 ==============================================
 
-The Sobol function is non-linear function that is commonly used to benchmark uncertainty
-and senstivity analysis methods. Unlike the ishigami function which has 3 input
-variables, the Sobol function can have any number of input variables.
+The Sobol function is non-linear function that is commonly used to benchmark uncertainty 
+and senstivity analysis methods. Unlike the ishigami function which has 3 input 
+variables, the Sobol function can have any number of input variables. 
 
-This function was used in [1]_ to compare the Pick and Freeze approach and the rank
-statistics approach to estimating Sobol indices. The rank statistics approach was
-observed to be more accurate than the Pick and Freeze approach and it also provides
+This function was used in [1]_ to compare the Pick and Freeze approach and the rank 
+statistics approach to estimating Sobol indices. The rank statistics approach was 
+observed to be more accurate than the Pick and Freeze approach and it also provides 
 better estimates when only a small number of model evaluations are available.
 
 .. math::
@@ -31,13 +31,13 @@ rank statistics approach as in [1]_.
 # %%
 import numpy as np
 
+from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.run_model.model_execution.PythonModel import PythonModel
-from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.ChatterjeeSensitivity import ChatterjeeSensitivity
-from UQpy.sensitivity.PostProcess import *
 from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
+from UQpy.sensitivity.PostProcess import *
 
 np.random.seed(123)
 
@@ -46,7 +46,7 @@ np.random.seed(123)
 
 # Create Model object
 num_vars = 6
-a_vals = np.arange(1, num_vars + 1, 1)
+a_vals = np.arange(1, num_vars+1, 1)
 
 model = PythonModel(
     model_script="local_sobol_func.py",
@@ -78,7 +78,9 @@ SA.first_order_chatterjee_indices
 
 # **Plot the Chatterjee indices**
 fig1, ax1 = plot_sensitivity_index(
-    SA.first_order_chatterjee_indices[:, 0], plot_title="Chatterjee indices", color="C2"
+    SA.first_order_chatterjee_indices[:, 0],
+    plot_title="Chatterjee indices",
+    color="C2",
 )
 
 # %% [markdown]
@@ -103,24 +105,31 @@ SA.first_order_sobol_indices
 
 # **Plot the first order Sobol indices**
 fig2, ax2 = plot_sensitivity_index(
-    SA.first_order_sobol_indices[:, 0], plot_title="First order Sobol indices", color="C0"
+    SA.first_order_sobol_indices[:, 0],
+    plot_title="First order Sobol indices",
+    color="C0",
 )
 
 # %% [markdown]
 # **Comparing convergence rate of rank statistics and the Pick and Freeze approach**
 #
-# In the Pick-Freeze estimations, several sizes of sample N have been considered:
-# N = 100, 500, 1000, 5000, 10000, 50000, and 100000.
-# The Pick-Freeze procedure requires (p + 1) samples of size N.
-# To have a fair comparison, the sample sizes considered in the estimation using
-# rank statistics are n = (p+1)N = 7N.
+# In the Pick-Freeze estimations, several sizes of sample N have been considered: 
+# N = 100, 500, 1000, 5000, 10000, 50000, and 100000. 
+# The Pick-Freeze procedure requires (p + 1) samples of size N. 
+# To have a fair comparison, the sample sizes considered in the estimation using 
+# rank statistics are n = (p+1)N = 7N. 
 # We observe that both methods converge and give precise results for large sample sizes.
 
 # %%
 
 # Compute indices values for equal number of model evaluations
 
-true_values = np.array([0.46067666, 0.20474518, 0.11516917, 0.07370827, 0.0511863, 0.03760626])
+true_values = np.array([0.46067666, 
+                        0.20474518, 
+                        0.11516917, 
+                        0.07370827, 
+                        0.0511863 ,
+                        0.03760626])
 
 sample_sizes = [100, 500, 1_000, 5_000, 10_000, 50_000, 100_000]
 num_studies = len(sample_sizes)
@@ -132,8 +141,9 @@ SA_chatterjee = ChatterjeeSensitivity(runmodel_obj, dist_object)
 SA_sobol = SobolSensitivity(runmodel_obj, dist_object)
 
 for i, sample_size in enumerate(sample_sizes):
+
     # Estimate using rank statistics
-    SA_chatterjee.run(n_samples=sample_size * 7, estimate_sobol_indices=True)
+    SA_chatterjee.run(n_samples=sample_size*7, estimate_sobol_indices=True)
     store_rank_stats[:, i] = SA_chatterjee.first_order_sobol_indices.ravel()
 
     # Estimate using Pick and Freeze approach
@@ -147,15 +157,14 @@ for i, sample_size in enumerate(sample_sizes):
 fix, ax = plt.subplots(2, 3, figsize=(30, 15))
 
 for k in range(num_vars):
-    i, j = divmod(k, 3)  # (built-in) divmod(a, b) returns a tuple (a // b, a % b)
 
-    ax[i][j].semilogx(sample_sizes, store_rank_stats[k, :], "ro-", label="Chatterjee estimate")
-    ax[i][j].semilogx(
-        sample_sizes, store_pick_freeze[k, :], "bx-", label="Pick and Freeze estimate"
-    )
-    ax[i][j].hlines(true_values[k], 0, sample_sizes[-1], "k", label="True indices")
-    ax[i][j].set_title(r"$S^" + str(k + 1) + "$ = " + str(np.round(true_values[k], 4)))
+    i, j = divmod(k, 3) # (built-in) divmod(a, b) returns a tuple (a // b, a % b)
 
-plt.suptitle("Comparing convergence of the Chatterjee estimate and the Pick and Freeze approach")
+    ax[i][j].semilogx(sample_sizes, store_rank_stats[k, :], 'ro-', label='Chatterjee estimate')
+    ax[i][j].semilogx(sample_sizes, store_pick_freeze[k, :], 'bx-', label='Pick and Freeze estimate')
+    ax[i][j].hlines(true_values[k], 0, sample_sizes[-1], 'k', label='True indices')
+    ax[i][j].set_title(r'$S^' + str(k+1) + '$ = ' + str(np.round(true_values[k], 4)))
+
+plt.suptitle('Comparing convergence of the Chatterjee estimate and the Pick and Freeze approach')
 plt.legend()
 plt.show()

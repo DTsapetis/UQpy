@@ -1,7 +1,6 @@
-import json
-import os
 import sys
-
+import os
+import json
 import numpy as np
 
 
@@ -13,16 +12,16 @@ def addNumbers():
     with open(inputPath, "r") as jsonFile:
         data = json.load(jsonFile)
 
-    # Read generated numbers
+    # Read generated numbers 
     number1 = data["number1"]
     number2 = data["number2"]
 
     randomAddition = number1 + number2
 
     # Write addition to file
-    with open(outputPath, "w") as outputFile:
-        outputFile.write("{}\n".format(randomAddition))
+    with open(outputPath, 'w') as outputFile:
+        outputFile.write('{}\n'.format(randomAddition))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     addNumbers()

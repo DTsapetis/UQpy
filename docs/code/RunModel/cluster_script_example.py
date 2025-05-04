@@ -16,15 +16,13 @@ Cluster Script Example for Third-party
 # Import the necessary libraries
 
 # %%
-import csv
-import time
-
-import numpy as np
-
-from UQpy.distributions import Uniform
-from UQpy.run_model.model_execution.ThirdPartyModel import ThirdPartyModel
-from UQpy.run_model.RunModel import RunModel
 from UQpy.sampling import LatinHypercubeSampling
+from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.ThirdPartyModel import ThirdPartyModel
+from UQpy.distributions import Uniform
+import numpy as np
+import time
+import csv
 
 # %% md
 #
@@ -32,7 +30,7 @@ from UQpy.sampling import LatinHypercubeSampling
 
 # %%
 
-var_names = ["var_1", "var_2"]
+var_names=["var_1", "var_2"]        
 distributions = [Uniform(250.0, 40.0), Uniform(66.0, 24.0)]
 
 # %% md
@@ -49,26 +47,14 @@ x_lhs = LatinHypercubeSampling(distributions, nsamples=64)
 
 # %%
 
-model = ThirdPartyModel(
-    var_names=var_names,
-    input_template="inputRealization.json",
-    model_script="addition_run.py",
-    output_script="process_addition_output.py",
-    output_object_name="OutputProcessor",
-    model_dir="AdditionRuns",
-)
+model = ThirdPartyModel(var_names=var_names, input_template='inputRealization.json', model_script='addition_run.py',
+                        output_script='process_addition_output.py', output_object_name='OutputProcessor',
+                        model_dir='AdditionRuns')
 
 t = time.time()
-modelRunner = RunModel(
-    model=model,
-    samples=x_lhs.samples,
-    ntasks=1,
-    cores_per_task=2,
-    nodes=1,
-    resume=False,
-    run_type="CLUSTER",
-    cluster_script="./run_script.sh",
-)
+modelRunner = RunModel(model=model, samples=x_lhs.samples, ntasks=1,
+                       cores_per_task=2, nodes=1, resume=False,
+                       run_type='CLUSTER', cluster_script='./run_script.sh')
 
 t_total = time.time() - t
 print("\nTotal time for all experiments:")

@@ -1,5 +1,4 @@
 from typing import Union
-
 import numpy as np
 import scipy.stats as stats
 from beartype import beartype
@@ -8,6 +7,7 @@ from UQpy.distributions.baseclass import DistributionND
 
 
 class Multinomial(DistributionND):
+
     @beartype
     def __init__(self, n: Union[None, int], p: Union[list[float], np.ndarray]):
         """
@@ -40,11 +40,19 @@ class Multinomial(DistributionND):
             mean = n * np.array(p)
             return mean
         elif moments2return == "v":
-            cov = -n * np.tile(p[np.newaxis, :], [d, 1]) * np.tile(p[:, np.newaxis], [1, d])
+            cov = (
+                -n
+                * np.tile(p[np.newaxis, :], [d, 1])
+                * np.tile(p[:, np.newaxis], [1, d])
+            )
             np.fill_diagonal(cov, n * p * (1.0 - p))
             return cov
         elif moments2return == "mv":
-            cov = -n * np.tile(p[np.newaxis, :], [d, 1]) * np.tile(p[:, np.newaxis], [1, d])
+            cov = (
+                -n
+                * np.tile(p[np.newaxis, :], [d, 1])
+                * np.tile(p[:, np.newaxis], [1, d])
+            )
             np.fill_diagonal(cov, n * p * (1.0 - p))
             mean = n * np.array(p)
             return mean, cov

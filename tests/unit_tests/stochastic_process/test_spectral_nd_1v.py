@@ -1,6 +1,5 @@
-import numpy as np
-
 from UQpy.stochastic_process import SpectralRepresentation
+import numpy as np
 
 n_sim = 10  # Num of samples
 n = 2  # Num of dimensions
@@ -14,14 +13,10 @@ W = np.array([1.0, 1.5])
 nw = 100
 dw = W / nw
 x_list = [np.linspace(0, W[i] - dw[i], nw) for i in range(n)]
-xy_list = np.array(np.meshgrid(*x_list, indexing="ij"))
+xy_list = np.array(np.meshgrid(*x_list, indexing='ij'))
 
-S_nd_1v = (
-    125 / 4 * np.linalg.norm(xy_list, axis=0) ** 2 * np.exp(-5 * np.linalg.norm(xy_list, axis=0))
-)
-SRM_object = SpectralRepresentation(
-    n_sim, S_nd_1v, [dt, dt], dw, [nt, nt], [nw, nw], random_state=128
-)
+S_nd_1v = 125 / 4 * np.linalg.norm(xy_list, axis=0) ** 2 * np.exp(-5 * np.linalg.norm(xy_list, axis=0))
+SRM_object = SpectralRepresentation(n_sim, S_nd_1v, [dt, dt], dw, [nt, nt], [nw, nw], random_state=128)
 samples_nd_1v = SRM_object.samples
 
 

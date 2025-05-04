@@ -100,8 +100,8 @@ sphinx_gallery_conf = {
         "../code/sensitivity/generalised_sobol",
         "../code/sensitivity/comparison",
         "../code/stochastic_processes/bispectral",
-        "../code/stochastic_processes/karhunen_loeve_1d",
-        "../code/stochastic_processes/karhunen_loeve_2d",
+        '../code/stochastic_processes/karhunen_loeve_1d',
+        '../code/stochastic_processes/karhunen_loeve_2d',
         "../code/stochastic_processes/spectral",
         "../code/stochastic_processes/translation",
         "../code/reliability/form",
@@ -144,8 +144,8 @@ sphinx_gallery_conf = {
         "auto_examples/sensitivity/generalised_sobol",
         "auto_examples/sensitivity/comparison",
         "auto_examples/stochastic_processes/bispectral",
-        "auto_examples/stochastic_processes/karhunen_loeve_1d",
-        "auto_examples/stochastic_processes/karhunen_loeve_2d",
+        'auto_examples/stochastic_processes/karhunen_loeve_1d',
+        'auto_examples/stochastic_processes/karhunen_loeve_2d',
         "auto_examples/stochastic_processes/spectral",
         "auto_examples/stochastic_processes/translation",
         "auto_examples/reliability/form",
@@ -166,7 +166,7 @@ sphinx_gallery_conf = {
         # Any URL of a binderhub deployment. Must be full URL (e.g. https://mybinder.org).
         "dependencies": "./binder/requirements.txt",
         "notebooks_dir": "notebooks",
-        "use_jupyter_lab": True,
+        "use_jupyter_lab": True
         # Jupyter notebooks for Binder will be copied to this directory (relative to built documentation root).
     },
     "ignore_pattern": "/local_",
@@ -196,7 +196,14 @@ html_logo = "_static/logo.png"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-html_sidebars = {"**": ["about.html", "navigation.html", "relations.html", "searchbox.html"]}
+html_sidebars = {
+    "**": [
+        "about.html",
+        "navigation.html",
+        "relations.html",
+        "searchbox.html",
+    ]
+}
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:

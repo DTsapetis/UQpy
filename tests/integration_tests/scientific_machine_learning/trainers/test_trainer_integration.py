@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset, random_split
-
+from torch.utils.data import Dataset, DataLoader, random_split
 import UQpy.scientific_machine_learning as sml
 
 torch.manual_seed(0)
@@ -39,3 +38,4 @@ class TestTrainer:
         assert len(self.trainer.history["train_loss"]) == self.epochs
         contains_nan = any(torch.isnan(self.trainer.history["train_loss"]))
         assert not contains_nan
+

@@ -9,23 +9,22 @@ statistics of the generated stochastic processes with the expected values.
 
 """
 
-# %% md
+#%% md
 #
 # Import the necessary libraries. Here we import standard libraries such as numpy and matplotlib, but also need to
 # import the :class:`.KarhunenLoeveExpansion` class from the :py:mod:`stochastic_processes` module of UQpy.
 
-# %%
-
-import matplotlib.pyplot as plt
-import numpy as np
+#%%
 
 from UQpy.stochastic_process import KarhunenLoeveExpansion
+import numpy as np
+import matplotlib.pyplot as plt
 
-# %% md
+#%% md
 #
 # The input parameters necessary for the generation of the stochastic processes are given below:
 
-# %%
+#%%
 
 n_sim = 10000  # Num of samples
 
@@ -34,27 +33,27 @@ T = 1000
 dt = T / (m - 1)
 t = np.linspace(0, T, m)
 
-# %% md
+#%% md
 #
 # Defining the Autocorrelation Function.
 
-# %%
+#%%
 
 # Target Covariance(ACF)
 R = np.zeros([m, m])
 for i in range(m):
     for j in range(m):
-        R[i, j] = 2 * np.exp(-(((t[j] - t[i]) / 281) ** 2))  # var = 2
+        R[i, j] = 2 * np.exp(-((t[j] - t[i]) / 281) ** 2)  # var = 2
 
 KLE_Object = KarhunenLoeveExpansion(n_samples=n_sim, correlation_function=R, time_interval=dt)
 samples = KLE_Object.samples
 
 fig, ax = plt.subplots()
-plt.title("Realisation of the Karhunen Loeve Expansion")
+plt.title('Realisation of the Karhunen Loeve Expansion')
 plt.plot(t, samples[0, 0])
 ax.yaxis.grid(True)
 ax.xaxis.grid(True)
 plt.show()
 
-print("The mean of the samples is ", np.mean(samples), "whereas the expected mean is 0.000")
-print("The variance of the samples is ", np.var(samples), "whereas the expected variance is 2.000")
+print('The mean of the samples is ', np.mean(samples), 'whereas the expected mean is 0.000')
+print('The variance of the samples is ', np.var(samples), 'whereas the expected variance is 2.000')

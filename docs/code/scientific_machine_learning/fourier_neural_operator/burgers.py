@@ -18,12 +18,10 @@ where :math:`y(x,t)` is the solution to the Burgers' equation given by
 # %%
 
 import logging
-
-import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset
-
+from torch.utils.data import Dataset, DataLoader
+import matplotlib.pyplot as plt
 import UQpy.scientific_machine_learning as sml
 
 torch.manual_seed(123)
@@ -40,6 +38,7 @@ logger.setLevel(logging.INFO)
 
 
 class BurgersDataset(Dataset):
+
     def __init__(self, filename_initial_condition: str, filename_solution: str):
         r"""Construct a dataset for training a FNO to learn the Burgers' operator :math:`\mathcal{B}:y(x,0) \to y(x, t^*)`
 
@@ -61,6 +60,7 @@ class BurgersDataset(Dataset):
 
 
 class FourierNeuralOperator(nn.Module):
+
     def __init__(self):
         """Construct a Bayesian FNO
 
@@ -73,7 +73,9 @@ class FourierNeuralOperator(nn.Module):
         modes = 16
         width = 8
         self.lifting_layers = nn.Sequential(
-            sml.Permutation((0, 2, 1)), nn.Linear(1, width), sml.Permutation((0, 2, 1))
+            sml.Permutation((0, 2, 1)),
+            nn.Linear(1, width),
+            sml.Permutation((0, 2, 1)),
         )
         self.fourier_blocks = nn.Sequential(
             sml.Fourier1d(width, modes),
@@ -85,7 +87,9 @@ class FourierNeuralOperator(nn.Module):
             sml.Fourier1d(width, modes),
         )
         self.projection_layers = nn.Sequential(
-            sml.Permutation((0, 2, 1)), nn.Linear(width, 1), sml.Permutation((0, 2, 1))
+            sml.Permutation((0, 2, 1)),
+            nn.Linear(width, 1),
+            sml.Permutation((0, 2, 1)),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -107,8 +111,14 @@ class FourierNeuralOperator(nn.Module):
 
 # %%
 
-train_dataset = BurgersDataset("initial_conditions_train.pt", "burgers_solutions_train.pt")
-test_dataset = BurgersDataset("initial_conditions_test.pt", "burgers_solutions_test.pt")
+train_dataset = BurgersDataset(
+    "initial_conditions_train.pt",
+    "burgers_solutions_train.pt",
+)
+test_dataset = BurgersDataset(
+    "initial_conditions_test.pt",
+    "burgers_solutions_test.pt",
+)
 train_data = DataLoader(train_dataset, batch_size=100, shuffle=True)
 test_data = DataLoader(test_dataset)
 
@@ -159,7 +169,12 @@ initial_condition = initial_condition.squeeze()
 burgers_solution = burgers_solution.squeeze()
 prediction = prediction.squeeze()
 ax.plot(x, initial_condition, label="$y(x,0)$", color="black", linestyle="dashed")
-ax.plot(x, burgers_solution, label="$y(x, 0.5)$", color="black")
+ax.plot(
+    x,
+    burgers_solution,
+    label="$y(x, 0.5)$",
+    color="black",
+)
 ax.plot(x, prediction, label="FNO $\hat{y}(x, 0.5)$", color="tab:blue")
 ax.set_title("Deterministic FNO on Training Data", loc="left")
 ax.set(ylabel="$y(x, t)$", xlabel="Time $t$")
