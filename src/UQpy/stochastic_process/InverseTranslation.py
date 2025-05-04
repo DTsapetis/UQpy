@@ -97,7 +97,7 @@ class InverseTranslation:
             raise AttributeError(
                 "UQpy: The marginal dist_object needs to have an inverse cdf defined."
             )
-        non_gaussian_cdf = getattr(self.distributions, "cdf")
+        non_gaussian_cdf = self.distributions.cdf
         samples_cdf = non_gaussian_cdf(self.samples_non_gaussian)
         return Normal(loc=0.0, scale=1.0).icdf(samples_cdf)
 
@@ -111,7 +111,7 @@ class InverseTranslation:
         R_ng_iterate = np.zeros_like(R_g_iterate)
         r_ng_iterate = np.zeros_like(R_g_iterate)
         S_ng_iterate = np.zeros_like(S_g_iterate)
-        non_gaussian_moments = getattr(self.distributions, "moments")()
+        non_gaussian_moments = self.distributions.moments()
 
         for _ in range(max_iter):
             R_g_iterate = wiener_khinchin_transform(S_g_iterate, self.frequency, self.time)

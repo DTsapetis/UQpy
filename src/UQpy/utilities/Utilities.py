@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.stats as stats
+import ast
 
 from UQpy.run_model.RunModel import RunModel
 from UQpy.utilities.ValidationTypes import RandomStateType
@@ -69,7 +70,7 @@ def nearest_psd(input_matrix, iterations=10):
     # the algorithm should work for any diagonal W
     delta_s = 0
     psd_matrix = input_matrix.copy()
-    for k in range(iterations):
+    for _k in range(iterations):
         r_k = psd_matrix - delta_s
         x_k = _get_ps(r_k, w=w)
         delta_s = x_k - r_k
@@ -123,9 +124,9 @@ def run_parallel_python(model_script, model_object_name, sample, dict_kwargs=Non
     exec("from " + model_script[:-3] + " import " + model_object_name)
 
     if dict_kwargs is None:
-        par_res = eval(model_object_name + "(sample)")
+        par_res = ast.literal_eval(model_object_name + "(sample)")
     else:
-        par_res = eval(model_object_name + "(sample, **dict_kwargs)")
+        par_res = ast.literal_eval(model_object_name + "(sample, **dict_kwargs)")
 
     return par_res
 

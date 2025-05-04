@@ -147,10 +147,8 @@ class ReducedPCE:
         :param unique_beta: vector of reduced PCE coefficients
         :return: first order conditional variances associated to each input random variable
         """
-
-        variance = np.sum(unique_beta[1:] ** 2)
         multi_index_set = self.unique_basis
-        terms, inputs_number = multi_index_set.shape
+        _, inputs_number = multi_index_set.shape
         variances = np.zeros(inputs_number)
         # take all multi-indices except 0-index
         idx_no_0 = np.delete(multi_index_set, 0, axis=0)

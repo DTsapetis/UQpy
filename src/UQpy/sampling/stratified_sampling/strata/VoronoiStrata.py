@@ -81,7 +81,7 @@ class VoronoiStrata(Strata):
             cent, vol = self.create_volume(initial_seeds)
             self.volume = np.asarray(vol)
         else:
-            for i in range(self.decomposition_iterations):
+            for _i in range(self.decomposition_iterations):
                 cent, vol = self.create_volume(initial_seeds)
                 initial_seeds = np.asarray(cent)
                 self.volume = np.asarray(vol)
@@ -183,7 +183,7 @@ class VoronoiStrata(Strata):
 
             temp_prob = np.array(volume) / sum(volume)
             a = list(range(len(delaunay_obj.simplices)))
-            for k in range(int(nsamples_per_stratum[j])):
+            for _k in range(int(nsamples_per_stratum[j])):
                 simplex = random_state.choice(a, p=temp_prob)
 
                 new_samples = SimplexSampling(
@@ -247,7 +247,7 @@ class VoronoiStrata(Strata):
         self.mesh = Delaunay(
             self.mesh_vertices, furthest_site=False, incremental=True, qhull_options=None
         )
-        self.points = getattr(self.mesh, "points")
+        self.points = self.mesh.points
 
     def calculate_strata_metrics(self, index):
         self.compute_centroids()
@@ -406,7 +406,7 @@ class VoronoiStrata(Strata):
 
         # Update the Delaunay triangulation mesh to include the new point.
         self.mesh.add_points(new_point)
-        self.points = getattr(self.mesh, "points")
+        self.points = self.mesh.points
         self.mesh_vertices = np.vstack([self.mesh_vertices, new_point])
 
         # Compute the strata weights.

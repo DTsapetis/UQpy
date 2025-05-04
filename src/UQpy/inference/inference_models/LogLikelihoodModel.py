@@ -3,11 +3,9 @@ from typing import Callable
 
 import numpy as np
 from beartype import beartype
-
-warnings.filterwarnings("ignore")
-
 from UQpy.inference.inference_models.baseclass.InferenceModel import *
 
+warnings.filterwarnings("ignore")
 
 class LogLikelihoodModel(InferenceModel):
     @beartype

@@ -239,14 +239,14 @@ class PolynomialChaosExpansion(Surrogate):
 
                     for m in range(0, inputs_number):
                         if i < (P - 1) ** 3:
-                            if type(marginals[m]) == Normal:
+                            if type(marginals[m]) is Normal:
                                 tripleproduct_1D = Hermite.hermite_triple_product(
                                     multindex[index[0], m],
                                     multindex[index[1], m],
                                     multindex[index[2], m],
                                 )
 
-                            if type(marginals[m]) == Uniform:
+                            if type(marginals[m]) is Uniform:
                                 tripleproduct_1D = Legendre.legendre_triple_product(
                                     multindex[index[0], m],
                                     multindex[index[1], m],
@@ -261,7 +261,7 @@ class PolynomialChaosExpansion(Surrogate):
                         quadproduct_1D = 0
 
                         for n in range(0, multindex[index[0], m] + multindex[index[1], m] + 1):
-                            if type(marginals[m]) == Normal:
+                            if type(marginals[m]) is Normal:
                                 tripproduct1 = Hermite.hermite_triple_product(
                                     multindex[index[0], m], multindex[index[1], m], n
                                 )
@@ -269,7 +269,7 @@ class PolynomialChaosExpansion(Surrogate):
                                     multindex[index[2], m], multindex[index[3], m], n
                                 )
 
-                            if type(marginals[m]) == Uniform:
+                            if type(marginals[m]) is Uniform:
                                 tripproduct1 = Legendre.legendre_triple_product(
                                     multindex[index[0], m], multindex[index[1], m], n
                                 )

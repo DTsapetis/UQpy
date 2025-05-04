@@ -108,7 +108,7 @@ class Translation:
             raise AttributeError(
                 "UQpy: The marginal dist_object needs to have an inverse cdf defined."
             )
-        non_gaussian_icdf = getattr(self.distributions, "icdf")
+        non_gaussian_icdf = self.distributions.icdf
         return non_gaussian_icdf(samples_cdf)
 
     def _autocorrelation_distortion(self):
@@ -122,7 +122,7 @@ class Translation:
                 self.distributions, correlation_function_gaussian[i]
             )
         if hasattr(self.distributions, "moments"):
-            non_gaussian_moments = getattr(self.distributions, "moments")()
+            non_gaussian_moments = self.distributionsmoments()
         else:
             raise AttributeError("UQpy: The marginal dist_object needs to have defined moments.")
         scaled_correlation_function_non_gaussian = (

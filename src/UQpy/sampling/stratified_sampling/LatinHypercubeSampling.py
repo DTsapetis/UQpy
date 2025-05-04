@@ -19,7 +19,7 @@ class LatinHypercubeSampling(StratifiedSampling):
         self,
         distributions: Union[Distribution, list[Distribution]],
         nsamples: PositiveInteger,
-        criterion: Criterion = Random(),
+        criterion: Criterion,
         random_state: RandomStateType = None,
     ):
         """
@@ -47,6 +47,8 @@ class LatinHypercubeSampling(StratifiedSampling):
          4. :class:`.MinCorrelation` - minimizing the correlation between the points. \n
          5. User-defined criterion class, by providing an implementation of the abstract class :class:`Criterion`
         """
+        if criterion is None:
+            criterion = Random()
         self.random_state = process_random_state(random_state)
         self.distributions = distributions
         self.criterion = criterion

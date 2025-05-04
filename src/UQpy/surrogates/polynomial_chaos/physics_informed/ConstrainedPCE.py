@@ -117,10 +117,10 @@ class ConstrainedPCE:
         lar_index = []
         lar_error = []
 
-        if virtual_niters == True and min_basis_functions == 1:
+        if virtual_niters and min_basis_functions == 1:
             min_basis_functions = self.pde_data.nconstraints + 1
 
-        if min_basis_functions > steps - 2 or no_iterations == True:
+        if min_basis_functions > steps - 2 or no_iterations:
             min_basis_functions = steps - 3
 
         logger.info(

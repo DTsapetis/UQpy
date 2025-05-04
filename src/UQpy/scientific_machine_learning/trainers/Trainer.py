@@ -14,7 +14,7 @@ class Trainer:
         self,
         model: nn.Module,
         optimizer: torch.optim.Optimizer,
-        loss_function: nn.Module = nn.MSELoss(),
+        loss_function: nn.Module,
         scheduler: Union[torch.optim.lr_scheduler.LRScheduler, list] = None,
     ):
         """Prepare to train a neural network
@@ -25,6 +25,8 @@ class Trainer:
         :param scheduler: Scheduler used to adjust the learning rate of the ``optimizer``.
          Schedulers may be chained together by creating a list of schedulers
         """
+        if loss_function is None:
+            loss_function = nn.MSELoss()
         self.model = model
         self.optimizer = optimizer
         self.loss_function = loss_function
@@ -86,7 +88,7 @@ class Trainer:
             if train_data:
                 self.model.train(True)
                 total_train_loss = 0
-                for batch_number, (*x, y) in enumerate(train_data):
+                for _batch_number, (*x, y) in enumerate(train_data):
                     prediction = self.model(*x)
                     train_loss = self.loss_function(prediction, y)
                     train_loss.backward()
@@ -106,7 +108,7 @@ class Trainer:
             if test_data:
                 total_test_loss = 0
                 with torch.no_grad():
-                    for batch_number, (*x, y) in enumerate(test_data):
+                    for _batch_number, (*x, y) in enumerate(test_data):
                         test_prediction = self.model(*x)
                         test_loss = self.loss_function(test_prediction, y)
                         total_test_loss += test_loss.item()
@@ -123,4 +125,4 @@ class Trainer:
                 )
             i += 1
 
-        self.logger.info(f"UQpy: Scientific Machine Learning: Completed " + log_note)
+        self.logger.info("UQpy: Scientific Machine Learning: Completed " + log_note)

@@ -19,8 +19,8 @@ class BayesModelSelection:
     def __init__(
         self,
         parameter_estimators: list[BayesParameterEstimation],
+        evidence_method: EvidenceMethod,
         prior_probabilities=None,
-        evidence_method: EvidenceMethod = HarmonicMean(),
         nsamples: list[PositiveInteger] = None,
     ):
         """
@@ -36,6 +36,8 @@ class BayesModelSelection:
         :param evidence_method: as of v3, only the harmonic mean method is supported
         :param nsamples: Number of samples used in :class:`.MCMC`/:class:`.ImportanceSampling`, for each model
         """
+        if evidence_method is None:
+            evidence_method = HarmonicMean()
         self.bayes_estimators: list[BayesParameterEstimation] = parameter_estimators
         """Results of the Bayesian parameter estimation."""
         self.candidate_models: list[InferenceModel] = [
@@ -68,7 +70,7 @@ class BayesModelSelection:
             self.run(nsamples=nsamples)
 
     def _update_bayes_estimators(self):
-        for i, estimator in enumerate(self.bayes_estimators):
+        for _i, estimator in enumerate(self.bayes_estimators):
             if not isinstance(estimator.sampler, ImportanceSampling):
                 estimator.sampler.save_log_pdf = True
                 estimator.sampler.concatenate_chains = True

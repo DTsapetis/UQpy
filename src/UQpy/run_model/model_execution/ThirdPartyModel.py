@@ -7,6 +7,7 @@ import platform
 import re
 import shutil
 import subprocess
+import ast
 
 import numpy as np
 
@@ -222,9 +223,10 @@ class ThirdPartyModel:
                     "\nUQpy: var_names must have the same length as the number of variables (i.e. "
                     "len(var_names) = len(samples[0]).\n"
                 )
-        assert os.path.isfile(self.input_template) and os.access(self.input_template, os.R_OK), (
-            "\nUQpy: File {} doesn't exist or isn't readable".format(self.input_template)
-        )
+        # Check if the input template file exists and is readable
+        if os.path.isfile(self.input_template) and os.access(self.input_template, os.R_OK):
+            raise ValueError("\nUQpy: The input template file {} doesn't exist or isn't readable".format(self.input_template))
+        
         # Read in the text from the template files
         with open(self.input_template, "r") as f:
             self.template_text = str(f.read())
@@ -332,10 +334,10 @@ class ThirdPartyModel:
                 if pattern_check.fullmatch(temp_check):
                     temp = string[1:-1].replace(var_names[j], "sample[" + str(j) + "]")
                     try:
-                        temp = eval(temp)
+                        temp = ast.literal_eval(temp)
                     except IndexError as err:
                         print("\nUQpy: Index Error: {0}\n".format(err))
-                        raise IndexError("{0}".format(err))
+                        raise
 
                     if isinstance(temp, collections.abc.Iterable):
                         # If it is iterable, flatten and write as text file with designated separator

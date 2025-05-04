@@ -102,8 +102,8 @@ def construct_basis(
     else:
         marginals = joint_distribution.marginals
 
-    mask_herm = [type(marg) == Normal for marg in marginals]
-    mask_lege = [type(marg) == Uniform for marg in marginals]
+    mask_herm = [type(marg) is Normal for marg in marginals]
+    mask_lege = [type(marg) is Uniform for marg in marginals]
     if derivative_order >= 0:
         ns = multindex[:, leading_variable]
         polysd = []

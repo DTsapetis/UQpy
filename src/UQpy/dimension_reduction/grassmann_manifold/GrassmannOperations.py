@@ -16,10 +16,10 @@ class GrassmannOperations:
     def __init__(
         self,
         grassmann_points: Union[list[Numpy2DFloatArrayOrthonormal], list[GrassmannPoint]],
-        kernel: GrassmannianKernel = ProjectionKernel(),
+        kernel: GrassmannianKernel,
+        distance: GrassmannianDistance,
         p: Union[int, str] = "max",
         optimization_method: str = "GradientDescent",
-        distance: GrassmannianDistance = GeodesicDistance(),
     ):
         """
         The :class:`.GrassmannOperations` class can used in two ways. In the first case, the user can invoke the
@@ -37,6 +37,11 @@ class GrassmannOperations:
         :param distance: Distance measure to be used for the optimization in computation of the Karcher mean and Frechet
             variance.
         """
+        if kernel is None:
+            kernel = ProjectionKernel()
+        if distance is None:
+            distance = GeodesicDistance()
+
         self.grassmann_points = grassmann_points
         self.p = p
         self.kernel_matrix = kernel.calculate_kernel_matrix(self.grassmann_points)
@@ -51,8 +56,10 @@ class GrassmannOperations:
     @staticmethod
     def calculate_kernel_matrix(
         grassmann_points: Union[list[Numpy2DFloatArrayOrthonormal], list[GrassmannPoint]],
-        kernel: GrassmannianKernel = ProjectionKernel(),
+        kernel: GrassmannianKernel,
     ):
+        if kernel is None:
+            kernel = ProjectionKernel()
         return kernel.calculate_kernel_matrix(grassmann_points)
 
     @staticmethod
@@ -210,8 +217,6 @@ class GrassmannOperations:
 
         # =========================================
         alpha = 0.5
-        rnk = [min(np.shape(data_points[i].data)) for i in range(n_mat)]
-        max_rank = max(rnk)
         fmean = [
             GrassmannOperations.frechet_variance(data_points, data_points[i], distance_fun)
             for i in range(n_mat)
@@ -224,7 +229,7 @@ class GrassmannOperations:
 
         itera = 0
 
-        l = 0
+        l_vector = 0
         avg = []
         _gamma = []
         if acc:
@@ -254,11 +259,11 @@ class GrassmannOperations:
             # Nesterov: Accelerated Gradient Descent
             if acc:
                 avg.append(avg_gamma)
-                l0 = l
-                l1 = 0.5 * (1 + np.sqrt(1 + 4 * l * l))
+                l0 = l_vector
+                l1 = 0.5 * (1 + np.sqrt(1 + 4 * l_vector * l_vector))
                 ls = (1 - l0) / l1
                 step = (1 - ls) * avg[itera + 1] + ls * avg[itera]
-                l = copy.copy(l1)
+                l_vector = copy.copy(l1)
             else:
                 step = alpha * avg_gamma
 
@@ -284,9 +289,6 @@ class GrassmannOperations:
         tol = tolerance
         maxiter = maximum_iterations
         n_mat = len(data_points)
-
-        rnk = [min(np.shape(data_points[i].data)) for i in range(n_mat)]
-        max_rank = max(rnk)
 
         fmean = [
             GrassmannOperations.frechet_variance(data_points, data_points[i], distance_fun)

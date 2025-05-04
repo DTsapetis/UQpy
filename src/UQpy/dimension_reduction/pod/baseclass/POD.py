@@ -65,7 +65,7 @@ class POD(ABC):
             self.run(solution_snapshots)
 
     def check_input(self):
-        if type(self.solution_snapshots) == list:
+        if type(self.solution_snapshots) is list:
             rows = self.solution_snapshots[0].shape[0]
             columns = self.solution_snapshots[0].shape[1]
             snapshot_number = len(self.solution_snapshots)

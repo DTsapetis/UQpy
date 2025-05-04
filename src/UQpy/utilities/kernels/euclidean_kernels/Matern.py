@@ -19,8 +19,8 @@ class Matern(EuclideanKernel):
         self.nu = nu
 
     def calculate_kernel_matrix(self, x, s):
-        l = self.kernel_parameter
-        stack = cdist(x / l, s / l, metric="euclidean")
+        kernel_parameter = self.kernel_parameter
+        stack = cdist(x / kernel_parameter, s / kernel_parameter, metric="euclidean")
         if np.isclose(self.nu, 0.5):
             self.kernel_matrix = np.exp(-np.abs(stack))
         elif np.isclose(self.nu, 1.5):

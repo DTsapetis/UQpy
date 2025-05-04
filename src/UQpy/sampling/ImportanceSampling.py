@@ -101,7 +101,7 @@ class ImportanceSampling:
         # Sample from proposal
         new_samples = self.proposal.rvs(nsamples=nsamples, random_state=self.random_state)
         # Compute un-scaled weights of new samples
-        a = self.evaluate_log_target(x=new_samples)
+        self.evaluate_log_target(x=new_samples)
         new_log_weights = self.evaluate_log_target(x=new_samples) - self.proposal.log_pdf(
             x=new_samples
         )

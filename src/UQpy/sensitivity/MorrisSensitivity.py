@@ -160,7 +160,7 @@ class MorrisSensitivity:
         trajectories_unit_hypercube = []
         perms_indices = []
         ntrajectories_all = 10 * n_trajectories if maximize_dispersion else 1 * n_trajectories
-        for r in range(ntrajectories_all):
+        for _r in range(ntrajectories_all):
             if self.random_state is None:
                 perms = np.random.permutation(self.dimension)
             else:

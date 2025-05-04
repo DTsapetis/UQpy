@@ -33,7 +33,10 @@ class KarhunenLoeveExpansion2D:
 
         self.n_samples = n_samples
         self.correlation_function = correlation_function
-        assert len(self.correlation_function.shape) == 4
+        if len(self.correlation_function.shape) != 4:
+            raise ValueError(
+                "UQpy: correlation_function must be a 4D array of shape (n_time_intervals_dim1, n_time_intervals_dim1, n_time_intervals_dim2, n_time_intervals_dim2)."
+            )
         self.time_intervals = time_intervals
         self.thresholds = thresholds
         self.random_state = random_state
@@ -106,7 +109,10 @@ class KarhunenLoeveExpansion2D:
                 size=[self.thresholds[1], self.thresholds[0], n_samples]
             )
         else:
-            assert random_variables.shape == (self.thresholds[1], self.thresholds[0], n_samples)
+            if random_variables.shape == (self.thresholds[1], self.thresholds[0], n_samples):
+                raise ValueError(
+                    "UQpy: The shape of random_variables must be (n_eigenvalues, n_time_intervals, n_samples)."
+                )
         for i in range(self.one_dimensional_correlation_function.shape[0]):
             if self.thresholds is not None:
                 samples += np.einsum(
