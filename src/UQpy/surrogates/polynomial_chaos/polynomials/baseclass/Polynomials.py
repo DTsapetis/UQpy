@@ -43,13 +43,13 @@ class Polynomials:
             marginals = joint_distribution.marginals
 
         for i in range(inputs_number):
-            if type(marginals[i]) is Normal:
+            if type(marginals[i]) == Normal:
                 s[:, i] = Polynomials.standardize_normal(
                     x[:, i],
                     mean=marginals[i].parameters["loc"],
                     std=marginals[i].parameters["scale"],
                 )
-            elif type(marginals[i]) is Uniform:
+            elif type(marginals[i]) == Uniform:
                 s[:, i] = Polynomials.standardize_uniform(x[:, i], marginals[i])
             else:
                 raise TypeError(
@@ -77,9 +77,9 @@ class Polynomials:
             marginals = joint_distribution.marginals
 
         for i in range(inputs_number):
-            if type(marginals[i]) is Normal:
+            if type(marginals[i]) == Normal:
                 pdf_val *= stats.norm.pdf(s[:, i])
-            elif type(marginals[i]) is Uniform:
+            elif type(marginals[i]) == Uniform:
                 pdf_val *= stats.uniform.pdf(s[:, i], loc=-1, scale=2)
             else:
                 raise TypeError(

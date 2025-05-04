@@ -75,7 +75,7 @@ class ThetaCriterionPCE:
             lengths = cdist(s_candidate, S)
             closest_s_position = np.argmin(lengths, axis=1)
             closest_value_x = existing_samples[closest_s_position]
-            l_min = np.nanmin(lengths, axis=1)
+            l = np.nanmin(lengths, axis=1)
             variance_candidate = 0
             variance_closest = 0
 
@@ -92,7 +92,7 @@ class ThetaCriterionPCE:
                 variance_closest = variance_closest + variance_closesti * pce_weights[i]
 
             criterium_v = np.sqrt(variance_candidate * variance_closest)
-            criterium_l = l_min**nvar
+            criterium_l = l**nvar
             criterium = criterium_v * criterium_l
             pos.append(np.argmax(criterium))
             existing_samples = np.append(existing_samples, candidate_samples[pos, :], axis=0)

@@ -1,5 +1,9 @@
 import logging
 import warnings
+from typing import Callable, List, Tuple
+
+warnings.filterwarnings("ignore")
+
 from abc import ABC, abstractmethod
 from typing import Callable, List, Tuple
 
@@ -10,7 +14,6 @@ from UQpy.distributions import Distribution
 from UQpy.utilities.Utilities import process_random_state
 from UQpy.utilities.ValidationTypes import *
 
-warnings.filterwarnings("ignore")
 
 
 class MCMC(ABC):

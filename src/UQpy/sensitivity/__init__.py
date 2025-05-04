@@ -4,3 +4,12 @@ from UQpy.sensitivity.GeneralisedSobolSensitivity import GeneralisedSobolSensiti
 from UQpy.sensitivity.MorrisSensitivity import MorrisSensitivity
 from UQpy.sensitivity.PceSensitivity import PceSensitivity
 from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
+
+from . import (
+    ChatterjeeSensitivity,
+    CramerVonMisesSensitivity,
+    GeneralisedSobolSensitivity,
+    MorrisSensitivity,
+    PceSensitivity,
+    SobolSensitivity,
+)

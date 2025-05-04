@@ -229,7 +229,7 @@ class ParallelTemperingMCMC(TemperingMCMC):
 
         # Concatenate chains maybe
         if self.mcmc_samplers[-1].concatenate_chains:
-            for _t, mcmc_sampler in enumerate(self.mcmc_samplers):
+            for t, mcmc_sampler in enumerate(self.mcmc_samplers):
                 mcmc_sampler._concatenate_chains()
 
         # Samples connect to posterior samples, i.e. the chain with beta=1.
@@ -265,7 +265,7 @@ class ParallelTemperingMCMC(TemperingMCMC):
             raise ValueError("UQpy: input log_Z0 or nsamples_from_p0 should be provided.")
         # compute average of log_target for the target at various temperatures
         log_pdf_averages = []
-        for _i, (temper_param, sampler) in enumerate(
+        for i, (temper_param, sampler) in enumerate(
             zip(self.tempering_parameters, self.mcmc_samplers)
         ):
             log_factor_values = sampler.log_pdf_values - self.evaluate_log_reference(

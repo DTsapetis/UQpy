@@ -70,7 +70,7 @@ class DelaunayStrata(Strata):
         self.delaunay = Delaunay(initial_seeds)
         self.centroids = np.zeros([0, self.dimension])
         self.volume = np.zeros([0])
-        for _count, sim in enumerate(
+        for count, sim in enumerate(
             self.delaunay.simplices
         ):  # extract simplices from Delaunay triangulation
             # pylint: disable=E1136

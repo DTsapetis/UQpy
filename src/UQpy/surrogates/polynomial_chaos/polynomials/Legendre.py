@@ -39,24 +39,24 @@ class Legendre(Polynomials):
 
         # evaluate standard Legendre polynomial, i.e. orthogonal in [-1,1] with
         # PDF = 1 (NOT 1/2!!!)
-        legendre = eval_legendre(self.degree, x_normed)
+        l = eval_legendre(self.degree, x_normed)
 
         # normalization constant
         st_lege_norm = np.sqrt(2 / (2 * self.degree + 1))
 
         # multiply by sqrt(2) to take into account the pdf 1/2
-        legendre = np.sqrt(2) * legendre / st_lege_norm
+        l = np.sqrt(2) * l / st_lege_norm
 
-        return legendre
+        return l
 
     @staticmethod
-    def legendre_triple_product(k, l_vector, m):
+    def legendre_triple_product(k, l, m):
         normk = 1 / ((2 * k) + 1)
-        norml = 1 / ((2 * l_vector) + 1)
+        norml = 1 / ((2 * l) + 1)
         normm = 1 / ((2 * m) + 1)
         norm = np.sqrt(normm / (normk * norml))
 
-        return norm * (2 * m + 1) * Legendre.wigner_3j_PCE(k, l_vector, m) ** 2
+        return norm * (2 * m + 1) * Legendre.wigner_3j_PCE(k, l, m) ** 2
 
     @staticmethod
     def wigner_3j_PCE(j_1, j_2, j_3):

@@ -66,12 +66,12 @@ class Hermite(Polynomials):
         return h
 
     @staticmethod
-    def hermite_triple_product(k, l_vector, m):
+    def hermite_triple_product(k, l, m):
         tripleproduct = 0
-        g = (k + l_vector + m) / 2
-        if ((k + l_vector + m) % 2) == 0 and m <= (k + l_vector) and m >= abs(k - l_vector):
+        g = (k + l + m) / 2
+        if ((k + l + m) % 2) == 0 and m <= (k + l) and m >= abs(k - l):
             tripleproduct = np.sqrt(
-                special.comb(k, g - m) * special.comb(l_vector, g - m) * special.comb(m, g - k)
+                special.comb(k, g - m) * special.comb(l, g - m) * special.comb(m, g - k)
             )
         else:
             tripleproduct = 0

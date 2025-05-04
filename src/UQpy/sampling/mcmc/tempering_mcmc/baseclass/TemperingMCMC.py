@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 from UQpy.sampling.mcmc.baseclass.MCMC import *
 

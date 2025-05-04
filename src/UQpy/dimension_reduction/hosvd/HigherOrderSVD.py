@@ -117,7 +117,7 @@ class HigherOrderSVD:
         :param second_order_tensor: A three-dimensional :class:`ndarray` which contains the data to be unfolded.
         :returns: Three unfolded matrices in the form of two-dimensional :class:`ndarray`.
         """
-        if type(second_order_tensor) is list:
+        if type(second_order_tensor) == list:
             rows = second_order_tensor[0].shape[0]
             columns = second_order_tensor[0].shape[1]
             number_of_data = len(second_order_tensor)

@@ -2,6 +2,8 @@ import logging
 import warnings
 from typing import Callable
 
+warnings.filterwarnings("ignore")
+
 import numpy as np
 from beartype import beartype
 
@@ -9,7 +11,6 @@ from UQpy.distributions import *
 from UQpy.sampling.mcmc.baseclass.MCMC import MCMC
 from UQpy.utilities.ValidationTypes import *
 
-warnings.filterwarnings("ignore")
 
 
 class ModifiedMetropolisHastings(MCMC):

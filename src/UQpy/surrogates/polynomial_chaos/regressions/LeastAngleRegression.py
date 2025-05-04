@@ -45,6 +45,9 @@ class LeastAngleRegression(Regression):
         :param design_matrix: matrix containing the evaluation of the polynomials at the input points **x**.
         :return: Beta (polynomial_chaos coefficients)
         """
+        polynomialbasis = design_matrix
+        P = polynomialbasis.shape[1]
+        n_samples, inputs_number = x.shape
 
         reg = regresion.Lars(
             fit_intercept=self.fit_intercept,
@@ -86,13 +89,15 @@ class LeastAngleRegression(Regression):
         pce.fit(x, y)
 
         LarsBeta = pce.regression_method.Beta_path
-        _, steps = LarsBeta.shape
+        P, steps = LarsBeta.shape
 
+        polynomialbasis = pce.design_matrix
         multindex = pce.multi_index_set
 
         pce.regression_method = LeastSquareRegression()
 
         larsbasis = []
+        OLSBetaList = []
         larsindex = []
 
         LarsError = []
@@ -104,7 +109,7 @@ class LeastAngleRegression(Regression):
         if steps < 3:
             raise Exception("LAR identified constant function! Check your data.")
 
-        while BestLarsError < target_error and step < steps - 2 and not overfitting:
+        while BestLarsError < target_error and step < steps - 2 and overfitting == False:
             mask = LarsBeta[:, step + 2] != 0
             mask[0] = True
 
@@ -116,6 +121,8 @@ class LeastAngleRegression(Regression):
             pce.multi_index_set = larsindex[step]
 
             pce.fit(x, y)
+            coefficients = pce.coefficients
+
             LarsError.append(float(1 - pce.leaveoneout_error()))
 
             error = LarsError[step]
@@ -131,7 +138,7 @@ class LeastAngleRegression(Regression):
                     BestLarsBasis = larsbasis[step]
                     BestLarsError = LarsError[step]
 
-            if step > 3 and check_overfitting:
+            if (step > 3) and (check_overfitting == True):
                 if (
                     (BestLarsError > 0.6)
                     and (error < LarsError[step - 1])

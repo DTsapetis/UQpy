@@ -16,7 +16,7 @@ class InformationModelSelection:
     def __init__(
         self,
         parameter_estimators: list[MLE],
-        criterion: InformationCriterion,
+        criterion: InformationCriterion = AIC(),
         n_optimizations: list[int] = None,
         initial_parameters: list[np.ndarray] = None,
     ):
@@ -36,8 +36,6 @@ class InformationModelSelection:
          initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the
          optimizer.
         """
-        if criterion is None:
-            criterion = AIC()
         self.candidate_models = [mle.inference_model for mle in parameter_estimators]
         self.models_number = len(parameter_estimators)
         self.criterion: InformationCriterion = criterion

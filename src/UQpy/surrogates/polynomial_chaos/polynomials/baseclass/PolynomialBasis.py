@@ -163,6 +163,7 @@ class PolynomialBasis(ABC):
     @staticmethod
     def construct_arbitrary_basis(inputs_number, distributions, multi_index_set):
         # populate polynomial basis
+        poly_basis = []
         if inputs_number == 1:
             return [
                 Polynomials.distribution_to_polynomial[type(distributions)](

@@ -18,9 +18,9 @@ class MLE:
         self,
         inference_model: InferenceModel,
         data: Union[list, np.ndarray],
-        optimizer,
         n_optimizations: Union[None, int] = 1,
         initial_parameters: Union[list, np.ndarray, None] = None,
+        optimizer=MinimizeOptimizer(),
         random_state: RandomStateType = None,
     ):
         """
@@ -44,9 +44,6 @@ class MLE:
          Default is the :class:`.Minimize` which utilizes the :class:`scipy.optimize.minimize` method.
         :param random_state: Random seed used to initialize the pseudo-random number generator. Default is :any:`None`.
         """
-        if optimizer is None:
-            optimizer = MinimizeOptimizer()
-
         # Initialize variables
         self.inference_model = inference_model
         self.data = data
