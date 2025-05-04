@@ -42,11 +42,6 @@ select = ["E", "F", "I", "B", "S"]
 # D = pydocstyle (docstring rules)
 # S = bandit (security)
 
-<<<<<<< HEAD
-#What rules to ignore
-ignore = ["E501", "E722", "E731", "F401", "F403", "F405", "B023", "B024", "B027", "S102", "S605", "S301"]
-
-=======
 [tool.ruff.lint]
 ignore = ["E501", "F401", "F403", "F405"]
 # ignore = [
@@ -58,7 +53,6 @@ ignore = ["E501", "F401", "F403", "F405"]
 #   "E0401", # Import errors
 #   "E0213", # Method should have "self" as first argument
 # ]
->>>>>>> parent of 63958cd5 (Ruff fixes)
 
 [tool.ruff.format]
 quote-style = "double"
