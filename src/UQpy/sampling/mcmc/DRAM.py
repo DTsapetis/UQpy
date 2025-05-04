@@ -11,6 +11,7 @@ from UQpy.utilities.ValidationTypes import *
 
 warnings.filterwarnings("ignore")
 
+
 class DRAM(MCMC):
     @beartype
     def __init__(

@@ -10,6 +10,7 @@ from UQpy.utilities.ValidationTypes import *
 
 warnings.filterwarnings("ignore")
 
+
 class Stretch(MCMC):
     @beartype
     def __init__(

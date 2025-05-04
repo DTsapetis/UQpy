@@ -1,3 +1,4 @@
+import ast
 import collections
 import datetime
 import logging
@@ -7,7 +8,6 @@ import platform
 import re
 import shutil
 import subprocess
-import ast
 
 import numpy as np
 
@@ -225,8 +225,12 @@ class ThirdPartyModel:
                 )
         # Check if the input template file exists and is readable
         if os.path.isfile(self.input_template) and os.access(self.input_template, os.R_OK):
-            raise ValueError("\nUQpy: The input template file {} doesn't exist or isn't readable".format(self.input_template))
-        
+            raise ValueError(
+                "\nUQpy: The input template file {} doesn't exist or isn't readable".format(
+                    self.input_template
+                )
+            )
+
         # Read in the text from the template files
         with open(self.input_template, "r") as f:
             self.template_text = str(f.read())

@@ -46,7 +46,7 @@ class MLE:
         """
         if optimizer is None:
             optimizer = MinimizeOptimizer()
-        
+
         # Initialize variables
         self.inference_model = inference_model
         self.data = data

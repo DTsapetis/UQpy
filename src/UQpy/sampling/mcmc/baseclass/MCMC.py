@@ -1,8 +1,7 @@
 import logging
 import warnings
-from typing import Callable, List, Tuple
-
 from abc import ABC, abstractmethod
+from typing import Callable, List, Tuple
 
 import numpy as np
 from beartype import beartype
@@ -12,6 +11,7 @@ from UQpy.utilities.Utilities import process_random_state
 from UQpy.utilities.ValidationTypes import *
 
 warnings.filterwarnings("ignore")
+
 
 class MCMC(ABC):
     @beartype

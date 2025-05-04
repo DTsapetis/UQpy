@@ -1,6 +1,7 @@
+import ast
+
 import numpy as np
 import scipy.stats as stats
-import ast
 
 from UQpy.run_model.RunModel import RunModel
 from UQpy.utilities.ValidationTypes import RandomStateType
