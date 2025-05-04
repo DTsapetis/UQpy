@@ -1,0 +1,13 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_sampling_simplex_sg_execution_times:
+
+
+Computation times
+=================
+**00:00.072** total execution time for **auto_examples_sampling_simplex** files:
+
++--------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_sampling_simplex_plot_simplex.py` (``plot_simplex.py``) | 00:00.072 | 0.0 MB |
++--------------------------------------------------------------------------------------+-----------+--------+

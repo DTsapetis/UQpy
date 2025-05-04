@@ -1,0 +1,19 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_inference_bayes_parameter_estimation_sg_execution_times:
+
+
+Computation times
+=================
+**00:13.137** total execution time for **auto_examples_inference_bayes_parameter_estimation** files:
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_inference_bayes_parameter_estimation_plot_bayes_parameter_IS_probability.py` (``plot_bayes_parameter_IS_probability.py``)     | 00:10.393 | 0.0 MB |
++------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_inference_bayes_parameter_estimation_plot_bayes_parameter_MCMC_probability.py` (``plot_bayes_parameter_MCMC_probability.py``) | 00:02.744 | 0.0 MB |
++------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_inference_bayes_parameter_estimation_bayes_parameter_IS_regression.py` (``bayes_parameter_IS_regression.py``)                 | 00:00.000 | 0.0 MB |
++------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_inference_bayes_parameter_estimation_bayes_parameter_MCMC_regression.py` (``bayes_parameter_MCMC_regression.py``)             | 00:00.000 | 0.0 MB |
++------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

@@ -1,0 +1,13 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_stochastic_processes_karhunen_loeve_1d_sg_execution_times:
+
+
+Computation times
+=================
+**00:00.923** total execution time for **auto_examples_stochastic_processes_karhunen_loeve_1d** files:
+
++--------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_stochastic_processes_karhunen_loeve_1d_plot_karhunen_loeve_1d.py` (``plot_karhunen_loeve_1d.py``) | 00:00.923 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
