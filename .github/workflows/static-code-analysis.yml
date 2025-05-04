@@ -44,10 +44,13 @@ jobs:
       with:
         projectBaseDir: src
         args: >
+          -Dsonar.organization=dtsapetis
+          -Dsonar.projectKey=DTsapetis_UQpy
           -Dsonar.sources=src/
           -Dsonar.verbose=true
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: https://sonarcloud.io
   
   code-complexity:
     runs-on: ubuntu-latest
@@ -62,8 +65,8 @@ jobs:
     - name: Run Radon
       run: |
           radon cc src -a -s
-          radon mi src -s -j
-          radon raw src -s
+          radon mi src -s
+          radon raw src -s -j
     
   
   
