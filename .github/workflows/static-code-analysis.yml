@@ -44,13 +44,10 @@ jobs:
       with:
         projectBaseDir: src
         args: >
-          -Dsonar.organization=dtsapetis
-          -Dsonar.projectKey=DTsapetis_UQpy
           -Dsonar.sources=src/
           -Dsonar.verbose=true
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: https://sonarcloud.io
   
   code-complexity:
     runs-on: ubuntu-latest
@@ -64,17 +61,9 @@ jobs:
       run: pip install radon
     - name: Run Radon
       run: |
-          radon cc src -a -s -j -o radon-cc-report.json
-          radon mi src -s -j -o radon-mi-report.json
-          radon raw src -s -j -o radon-raw.json
-    - name: Upload coverage
-      uses: actions/upload-artifact@v4
-      with:
-        name: radon-reports
-        path: |
-          radon-cc-report.json
-          radon-mi-report.json
-          radon-raw.json
+          radon cc src -a -s
+          radon mi src -s -j
+          radon raw src -s
     
   
   
