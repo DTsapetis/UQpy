@@ -3,6 +3,7 @@ name: Environment and Compatibility Tests
 on:
     schedule:
         - cron: '0 0 * * 4'
+    workflow_dispatch:
 
 jobs:
     test-matrix:
