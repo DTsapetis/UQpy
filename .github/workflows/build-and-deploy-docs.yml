@@ -3,16 +3,17 @@ name: Build & Deploy Sphinx Docs
 on:
   pull_request:
     branches:
-      - master  # Run on PRs to main (for validation & preview deploy)
-    paths:
-      - 'docs/**'
-      - 'src/**'  # Run only if docs or src changes
+      - master  
+      - dependabot/*      
+    # paths:
+    #   - 'docs/**'
+    #   - 'src/**'  # Run only if docs or src changes
   push:
     branches:
       - master  # Deploy to production when merged
-    paths:
-      - 'docs/**'
-      - 'src/**'  # Run only if docs or src changes
+    # paths:
+    #   - 'docs/**'
+    #   - 'src/**'  # Run only if docs or src changes
   workflow_dispatch:
 
 permissions:
