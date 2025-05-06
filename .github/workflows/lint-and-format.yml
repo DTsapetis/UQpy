@@ -11,6 +11,7 @@ on:
         branches:
         - master
         - develop
+        - dependabot/*
         paths:
         - 'src/**'
     workflow_dispatch:
