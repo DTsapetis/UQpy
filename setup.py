@@ -39,7 +39,7 @@ setup(
             'sphinx_autodoc_typehints == 1.23.0',
             'sphinx_rtd_theme == 1.2.0',
             'sphinx_gallery == 0.13.0',
-            'sphinxcontrib_bibtex == 2.5.0',
+            'sphinxcontrib_bibtex == 2.6.3',
             'Sphinx==6.1.3',
         ]
     },
