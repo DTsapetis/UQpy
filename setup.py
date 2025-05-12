@@ -30,10 +30,10 @@ setup(
     extras_require={
         'dev': [
             'pytest == 8.2.0',
-            'pytest-cov == 5.0.0',
+            'pytest-cov == 6.1.1',
             'pylint == 3.3.7',
             'pytest-azurepipelines == 1.0.5',
-            'pytest-cov == 5.0.0',
+            'pytest-cov == 6.1.1',
             'wheel == 0.45.1',
             'twine == 5.0.0',
             'sphinx_autodoc_typehints == 1.23.0',
