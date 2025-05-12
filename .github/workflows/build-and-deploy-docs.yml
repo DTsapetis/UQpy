@@ -17,8 +17,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # Needed for GitHub Pages deployment
-
+  pull-requests: write
+ 
 jobs:
   build-docs:
     runs-on: ubuntu-latest
