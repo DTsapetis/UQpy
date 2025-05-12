@@ -74,10 +74,17 @@ jobs:
           keep_files: false  # Overwrite previous previews
           force_orphan: true  # Ensure a clean preview branch
 
-      - name: Comment PR with Preview Link
-        uses: mshick/add-pr-comment@v2
-        with:
-          message: "📖 **Docs Preview:** [Staging Docs](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)"
+      - name: Comment on PR using REST API
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          curl -s -H "Authorization: token $GITHUB_TOKEN" \
+               -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"body\": \"📖 **Docs Preview:** [Staging Docs](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)\"}" \
+               "https://api.github.com/repos/$REPO/issues/$PR_NUMBER/comments"
 
   deploy-production:
     needs: build-docs
