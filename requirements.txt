@@ -1,18 +1,18 @@
-numpy ==1.26.4
-scipy == 1.6.0
-matplotlib == 3.9.4
-scikit-learn == 1.4.2
-fire == 0.7.0
-pytest == 8.2.0
-coverage == 7.5.0
-pytest-cov == 6.1.1
-pylint == 3.3.7
-wheel == 0.45.1
-pytest-azurepipelines == 1.0.5
-twine == 5.0.0
-pathlib~=1.0.1
-beartype == 0.20.2
-setuptools~=65.5.1
-torch ~= 2.2.2
-torchinfo ~= 1.8.0
-pre-commit ~= 4.2.0
+numpy >=1.26.4
+scipy >= 1.6.0
+matplotlib >= 3.9.4
+scikit-learn >= 1.4.2
+fire >= 0.7.0
+pytest >= 8.2.0
+coverage >= 7.5.0
+pytest-cov >= 6.1.1
+pylint >= 3.3.7
+wheel >= 0.45.1
+pytest-azurepipelines >= 1.0.5
+twine >= 5.0.0
+pathlib>=1.0.1
+beartype >= 0.20.2
+setuptools>=65.5.1
+torch >= 2.2.2
+torchinfo >= 1.8.0
+pre-commit >= 4.2.0
