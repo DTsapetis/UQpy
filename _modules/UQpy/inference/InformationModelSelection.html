@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.inference.InformationModelSelection &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.inference.InformationModelSelection</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.inference.InformationModelSelection</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.information_criteria</span><span class="w"> </span><span class="kn">import</span> <span class="n">AIC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.information_criteria.baseclass.InformationCriterion</span><span class="w"> </span><span class="kn">import</span> <span class="n">InformationCriterion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.MLE</span><span class="w"> </span><span class="kn">import</span> <span class="n">MLE</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="InformationModelSelection">
+<a class="viewcode-back" href="../../../inference/info_model_selection.html#UQpy.inference.InformationModelSelection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InformationModelSelection</span><span class="p">:</span>
+
+    <span class="c1"># Authors: Audrey Olivier, Dimitris Giovanis</span>
+    <span class="c1"># Last Modified: 12/19 by Audrey Olivier</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">parameter_estimators</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">MLE</span><span class="p">],</span>
+            <span class="n">criterion</span><span class="p">:</span> <span class="n">InformationCriterion</span> <span class="o">=</span> <span class="n">AIC</span><span class="p">(),</span>
+            <span class="n">n_optimizations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">initial_parameters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform model selection using information theoretic criteria.</span>
+
+<span class="sd">        Supported criteria are :class:`.BIC`, :class:`.AIC` (default), :class:`.AICc`. This class leverages the</span>
+<span class="sd">        :class:`.MLE` class for maximum likelihood estimation, thus inputs to :class:`.MLE` can also be provided to</span>
+<span class="sd">        :class:`InformationModelSelection`, as lists of length equal to the number of models.</span>
+
+<span class="sd">        :param parameter_estimators: A list containing a maximum-likelihood estimator (:class:`.MLE`) for each one of the</span>
+<span class="sd">         models to be compared.</span>
+<span class="sd">        :param criterion: Criterion to be used (:class:`.AIC`, :class:`.BIC`, :class:`.AICc)`. Default is :class:`.AIC`</span>
+<span class="sd">        :param initial_parameters: Initial guess(es) for optimization, :class:`numpy.ndarray` of shape</span>
+<span class="sd">         :code:`(nstarts, n_parameters)` or :code:`(n_parameters, )`, where :code:`nstarts` is the number of times the</span>
+<span class="sd">         optimizer will be called. Alternatively, the user can provide input `n_optimizations` to randomly sample</span>
+<span class="sd">         initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the</span>
+<span class="sd">         optimizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">mle</span><span class="o">.</span><span class="n">inference_model</span> <span class="k">for</span> <span class="n">mle</span> <span class="ow">in</span> <span class="n">parameter_estimators</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models_number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameter_estimators</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="p">:</span> <span class="n">InformationCriterion</span> <span class="o">=</span> <span class="n">criterion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_optimizations</span> <span class="o">=</span> <span class="n">n_optimizations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_parameters</span><span class="o">=</span> <span class="n">initial_parameters</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_estimators</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">parameter_estimators</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`.MLE` results for each model (contains e.g. fitted parameters)&quot;&quot;&quot;</span>
+
+        <span class="c1"># Initialize the outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">criterion_values</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">models_number</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Value of the criterion for all models.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penalty_terms</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">models_number</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Value of the penalty term for all models. Data fit term is then criterion_value - penalty_term.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">models_number</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Value of the model probabilities, computed as</span>
+<span class="sd">        </span>
+<span class="sd">        .. math:: P(M_i|d) = \dfrac{\exp(-\Delta_i/2)}{\sum_i \exp(-\Delta_i/2)}</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`\Delta_i = criterion_i - min_i(criterion)`&quot;&quot;&quot;</span>
+
+        <span class="c1"># Run the model selection procedure</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_optimizations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_optimizations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_parameters</span><span class="p">)</span>
+
+<div class="viewcode-block" id="InformationModelSelection.run">
+<a class="viewcode-back" href="../../../inference/info_model_selection.html#UQpy.inference.InformationModelSelection.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_optimizations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">initial_parameters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the model selection procedure, i.e. compute criterion value for all models.</span>
+
+<span class="sd">        This function calls the :meth:`run` method of the :class:`.MLE` object for each model to compute the maximum</span>
+<span class="sd">        log-likelihood, then computes the criterion value and probability for each model. If `data` are given when</span>
+<span class="sd">        creating the :class:`.MLE` object, this method is called automatically when the object is created.</span>
+
+<span class="sd">        :param n_optimizations: Number of iterations that the optimization is run, starting at random initial</span>
+<span class="sd">         guesses. It is only used if `initial_parameters` is not provided. Default is :math:`1`.</span>
+<span class="sd">         The random initial guesses are sampled uniformly between :math:`0` and :math:`1`, or uniformly between</span>
+<span class="sd">         user-defined bounds if an input bounds is provided as a keyword argument to the `optimizer` input parameter.</span>
+<span class="sd">        :param initial_parameters: Initial guess(es) for optimization, :class:`numpy.ndarray` of shape</span>
+<span class="sd">         :code:`(nstarts, n_parameters)` or :code:`(n_parameters, )`, where :code:`nstarts` is the number of times the</span>
+<span class="sd">         optimizer will be called. Alternatively, the user can provide input `n_optimizations` to randomly sample</span>
+<span class="sd">         initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the</span>
+<span class="sd">         optimizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n_optimizations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n_optimizations</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_estimators</span><span class="p">)))</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="n">initial_parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">initial_parameters</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_estimators</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The length of n_optimizations and initial_parameters should be equal to the number of &quot;</span>
+                             <span class="s2">&quot;parameter estimators&quot;</span><span class="p">)</span>
+        <span class="c1"># Loop over all the models</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">parameter_estimator</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_estimators</span><span class="p">):</span>
+            <span class="c1"># First evaluate ML estimate for all models, do several iterations if demanded</span>
+            <span class="n">parameters</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">initial_parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">parameters</span> <span class="o">=</span> <span class="n">initial_parameters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="n">optimizations</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">n_optimizations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">optimizations</span> <span class="o">=</span> <span class="n">n_optimizations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="n">parameter_estimator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">n_optimizations</span><span class="o">=</span><span class="n">optimizations</span><span class="p">,</span> <span class="n">initial_parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+
+            <span class="c1"># Then minimize the criterion</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">criterion_values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_terms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="o">.</span><span class="n">minimize_criterion</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">parameter_estimator</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                                                  <span class="n">parameter_estimator</span><span class="o">=</span><span class="n">parameter_estimator</span><span class="p">,</span>
+                                                  <span class="n">return_penalty</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Compute probabilities from criterion values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_probabilities</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">criterion_values</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InformationModelSelection.sort_models">
+<a class="viewcode-back" href="../../../inference/info_model_selection.html#UQpy.inference.InformationModelSelection.sort_models">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sort_models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sort models in descending order of model probability (increasing order of `criterion` value).</span>
+
+<span class="sd">        This function sorts - in place - the attribute lists :py:attr:`.candidate_models`, :py:attr:`.ml_estimators`,</span>
+<span class="sd">        :py:attr:`criterion_values`, :py:attr:`penalty_terms` and :py:attr:`probabilities` so that they are sorted from</span>
+<span class="sd">        most probable to least probable model. It is a stand-alone function that is provided to help the user to easily</span>
+<span class="sd">        visualize which model is the best.</span>
+
+<span class="sd">        No inputs/outputs.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sort_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">criterion_values</span><span class="p">)))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_estimators</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_estimators</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">criterion_values</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">criterion_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penalty_terms</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">penalty_terms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_probabilities</span><span class="p">(</span><span class="n">criterion_values</span><span class="p">):</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">criterion_values</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">criterion_values</span><span class="p">)</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">delta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">prob</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

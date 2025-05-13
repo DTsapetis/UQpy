@@ -1,0 +1,257 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.scientific_machine_learning.layers.GaussianNormalizer &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.scientific_machine_learning.layers.GaussianNormalizer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.scientific_machine_learning.layers.GaussianNormalizer</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.scientific_machine_learning.baseclass</span><span class="w"> </span><span class="kn">import</span> <span class="n">Layer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">PositiveFloat</span><span class="p">,</span> <span class="n">NonNegativeInteger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Annotated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype.vale</span><span class="w"> </span><span class="kn">import</span> <span class="n">Is</span>
+
+
+<div class="viewcode-block" id="GaussianNormalizer">
+<a class="viewcode-back" href="../../../../scientific_machine_learning/layers/normalizers.html#UQpy.scientific_machine_learning.GaussianNormalizer">[docs]</a>
+<span class="nd">@beartype</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GaussianNormalizer</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="n">PositiveFloat</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span>
+        <span class="n">dim</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">NonNegativeInteger</span><span class="p">,</span>
+            <span class="n">Annotated</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">Is</span><span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">all</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])]],</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Normalize a tensor to have mean of zero and standard deviation of one.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Due to machine percision, mean and standard deviation may have errors on the order of :math:`10^{-8}`.</span>
+<span class="sd">            Using different data types may affect percision of results.</span>
+
+<span class="sd">        :param x: Tensor of any shape</span>
+<span class="sd">        :param encoding: If ``True``, scale and shift a tensor to have mean of zero and standard deviation of one.</span>
+<span class="sd">         If ``False``, scale and shift from a mean of zero and std of one to the original mean and std of ``x``.</span>
+<span class="sd">         Default: ``True``</span>
+<span class="sd">        :param epsilon: Small positive value added to standard deviation for numerical stability</span>
+<span class="sd">        :param dim: Dimensions to be reduced in :math:`\text{mean}(x), \text{std}(x)`.</span>
+<span class="sd">         If :code:`None`, reduce all dimensions for scalar min and max. Default: None</span>
+
+<span class="sd">        :raises RuntimeError: If ``torch.mean(x)`` or ``torch.std(x)`` contains infinite (:code:`inf`)</span>
+<span class="sd">         or not-a-number (:code:`nan`) over a dimension to be reduced</span>
+
+<span class="sd">        Shape:</span>
+
+<span class="sd">        - Input: Any shape</span>
+<span class="sd">        - Output: Any shape (same shape as input)</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; # use one instance and change mode</span>
+<span class="sd">        &gt;&gt;&gt; torch.manual_seed(0)  # for reproducibility</span>
+<span class="sd">        &gt;&gt;&gt; x = torch.rand(100, 100)</span>
+<span class="sd">        &gt;&gt;&gt; normalizer = sml.GaussianNormalizer(x)</span>
+<span class="sd">        &gt;&gt;&gt; y = normalizer(x)</span>
+<span class="sd">        &gt;&gt;&gt; normalizer.decode()  # equivalent to normalizer.encode(False)</span>
+<span class="sd">        &gt;&gt;&gt; x_reconstruction = normalizer(y)</span>
+<span class="sd">        &gt;&gt;&gt; print(x.mean(), y.mean(), x_reconstruction.mean())</span>
+<span class="sd">        &gt;&gt;&gt; print(x.std(), y.std(), x_reconstruction.std())</span>
+<span class="sd">        tensor(0.5003) tensor(-6.5804e-09) tensor(0.5003)</span>
+<span class="sd">        tensor(0.2879) tensor(1.) tensor(0.2879)</span>
+
+<span class="sd">        &gt;&gt;&gt; # use two instances with different modes</span>
+<span class="sd">        &gt;&gt;&gt; torch.manual_seed(0)  # for reproducibility</span>
+<span class="sd">        &gt;&gt;&gt; x = torch.rand(100, 100)</span>
+<span class="sd">        &gt;&gt;&gt; encoder = sml.GaussianNormalizer(x)</span>
+<span class="sd">        &gt;&gt;&gt; decoder = sml.GaussianNormalizer(x, encoding=False)</span>
+<span class="sd">        &gt;&gt;&gt; y = encoder(x)</span>
+<span class="sd">        &gt;&gt;&gt; x_reconstruction = decoder(y)</span>
+<span class="sd">        &gt;&gt;&gt; print(x.mean(), y.mean(), x_reconstruction.mean())</span>
+<span class="sd">        &gt;&gt;&gt; print(x.std(), y.std(), x_reconstruction.std())</span>
+<span class="sd">        tensor(0.5003) tensor(-6.5804e-09) tensor(0.5003)</span>
+<span class="sd">        tensor(0.2879) tensor(1.) tensor(0.2879)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Original mean of the initialization tensor&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Original standard deviation of the initialization tensor&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">))</span> <span class="ow">or</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;UQpy: Invalid value for mean(x) in dimension to be reduced. The mean cannot be `nan` or `inf`.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">))</span> <span class="ow">or</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;UQpy: Invalid value for std(x) in dimension to be reduced. The std cannot be `nan` or `inf`.&quot;</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="GaussianNormalizer.forward">
+<a class="viewcode-back" href="../../../../scientific_machine_learning/layers/normalizers.html#UQpy.scientific_machine_learning.GaussianNormalizer.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scale ``x`` to have a new mean and standard deviation.</span>
+
+<span class="sd">        If :code:`self.encoding` is :code:`True`, return :math:`\frac{x - \text{mean}}{\text{std} + \epsilon}`.</span>
+<span class="sd">        If :code:`self.encoding` is :code:`False`, return :math:`(x \times (\text{std} + \epsilon)) + \text{mean}`</span>
+
+<span class="sd">        :param x: Tensor of any shape</span>
+<span class="sd">        :return: Tensor of same shape as ``x``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span></div>
+
+
+<div class="viewcode-block" id="GaussianNormalizer.encode">
+<a class="viewcode-back" href="../../../../scientific_machine_learning/layers/normalizers.html#UQpy.scientific_machine_learning.GaussianNormalizer.encode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the Normalizer to scale a tensor a mean of zero and standard deviation of one</span>
+
+<span class="sd">        :param mode: If :code:`True`, set ``self.encoding`` to :code:`True`. Default: :code:`True`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">mode</span></div>
+
+
+<div class="viewcode-block" id="GaussianNormalizer.decode">
+<a class="viewcode-back" href="../../../../scientific_machine_learning/layers/normalizers.html#UQpy.scientific_machine_learning.GaussianNormalizer.decode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the normalizer to restore a tensor to its original mean and standard deviation</span>
+
+<span class="sd">        :param mode: If :code:`True`, set ``self.encoding`` to :code:`False`. Default: :code:`True`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">mode</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;encoding=</span><span class="si">{encoding}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">!=</span> <span class="mf">1e-8</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;, epsilon=</span><span class="si">{epsilon}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;, dim=</span><span class="si">{dim}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

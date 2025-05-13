@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumpyFloatArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.baseclass.Surrogate</span><span class="w"> </span><span class="kn">import</span> <span class="n">Surrogate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.regressions.baseclass.Regression</span><span class="w"> </span><span class="kn">import</span> <span class="n">Regression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.polynomials.TotalDegreeBasis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PolynomialBasis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uniform</span><span class="p">,</span> <span class="n">Normal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.polynomials</span><span class="w"> </span><span class="kn">import</span> <span class="n">Legendre</span><span class="p">,</span> <span class="n">Hermite</span>
+
+
+<div class="viewcode-block" id="PolynomialChaosExpansion">
+<a class="viewcode-back" href="../../../../surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PolynomialChaosExpansion</span><span class="p">(</span><span class="n">Surrogate</span><span class="p">):</span>
+
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polynomial_basis</span><span class="p">:</span> <span class="n">PolynomialBasis</span><span class="p">,</span> <span class="n">regression_method</span><span class="p">:</span> <span class="n">Regression</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs a surrogate model based on the Polynomial Chaos Expansion (polynomial_chaos) method.</span>
+
+<span class="sd">        :param regression_method: object for the method used for the calculation of the polynomial_chaos coefficients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="p">:</span> <span class="n">PolynomialBasis</span> <span class="o">=</span> <span class="n">polynomial_basis</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Contains the 1D or ND chaos polynomials that form the PCE basis&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">multi_index_set</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="n">polynomial_basis</span><span class="o">.</span><span class="n">multi_index_set</span>
+        <span class="s2">&quot;Multi-index-set&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regression_method</span> <span class="o">=</span> <span class="n">regression_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Polynomial Chaos Expansion Coefficient&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Bias term in case LASSO or ridge regression are employed to estimate </span>
+<span class="sd">        the PCE coefficients&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dimensions of the quantities of interest&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design_matrix</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Matrix containing the evaluations of the PCE basis on the experimental </span>
+<span class="sd">        design that has been used to fit the PCE coefficients&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">experimental_design_input</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Realizations of the random parameter in the experimental design that </span>
+<span class="sd">        has been used to fit the PCE coefficients&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">experimental_design_output</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Model outputs for the random parameter realizations of the </span>
+<span class="sd">        experimental design that has been used to fit the PCE coefficients&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">polynomials_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inputs_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">inputs_number</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the experimental design of the surrogate model.</span>
+
+<span class="sd">        :param x: containing the training points.</span>
+<span class="sd">        :param y: containing the model evaluations at the training points.</span>
+
+<span class="sd">        The :meth:`set_data` method has no returns and it creates an :class:`numpy.ndarray` with the design matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">experimental_design_input</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">experimental_design_output</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">evaluate_basis</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PolynomialChaosExpansion.fit">
+<a class="viewcode-back" href="../../../../surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.fit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit the surrogate model using the training samples and the corresponding model values. This method calls the</span>
+<span class="sd">        :py:meth:`run` method of the input method class.</span>
+
+<span class="sd">        :param x: containing the training points.</span>
+<span class="sd">        :param y: containing the model evaluations at the training points.</span>
+
+<span class="sd">        The :meth:`fit` method has no returns and it creates an :class:`numpy.ndarray` with the</span>
+<span class="sd">        polynomial_chaos coefficients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Running polynomial_chaos.fit&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs_number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression_method</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">design_matrix</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: polynomial_chaos fit complete.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PolynomialChaosExpansion.predict">
+<a class="viewcode-back" href="../../../../surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.predict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predict the model response at new points.</span>
+<span class="sd">        This method evaluates the polynomial_chaos model at new sample points.</span>
+
+<span class="sd">        :param points: Points at which to predict the model response.</span>
+<span class="sd">        :return: Predicted values at the new points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">evaluate_basis</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span>
+        <span class="k">return</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="PolynomialChaosExpansion.leaveoneout_error">
+<a class="viewcode-back" href="../../../../surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.leaveoneout_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">leaveoneout_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the cross validation error (leave-one-out) based on experimental design.</span>
+
+<span class="sd">        The :meth:`.PolynomialChaosExpansion.leaveoneout_error` method can be used to estimate the accuracy of the PCE</span>
+<span class="sd">        predictor without additional simulations. Leave-one-out error :math:`Q^2` is calculated from differences between the original mathematical model and approximation :math:`\Delta_i= \mathcal{M} (x^{(i)}) - \mathcal{M}^{PCE}(x^{(i)})` as follows:</span>
+<span class="sd">        </span>
+<span class="sd">        .. math:: Q^2 = \mathbb{E}[(\Delta_i/(1-h_i))^2]/\sigma_Y^2</span>
+<span class="sd">        </span>
+
+<span class="sd">        where :math:`\sigma_Y^2` is a variance of model response and :math:`h_i` represents the :math:`i` th diagonal term of matrix :math:`\mathbf{H}= \Psi ( \Psi^T \Psi )^{-1} \Psi^T` obtained from design matrix :math:`\Psi` without additional simulations  :cite:`BLATMANLARS`.</span>
+
+<span class="sd">        :return: Cross validation error of experimental design.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_design_input</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_design_output</span>
+
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mu_yval</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n_samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">y_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">polynomialbasis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">design_matrix</span>
+
+        <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">polynomialbasis</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">polynomialbasis</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">polynomialbasis</span><span class="p">)))</span>
+        <span class="n">H</span> <span class="o">*=</span> <span class="n">polynomialbasis</span>
+        <span class="n">Hdiag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">eps_val</span> <span class="o">=</span> <span class="p">((</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(((</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_val</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Hdiag</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">mu_yval</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">eps_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">eps_val</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">eps_val</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PolynomialChaosExpansion.validation_error">
+<a class="viewcode-back" href="../../../../surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.validation_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validation_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the validation error.</span>
+
+<span class="sd">        The :meth:`.PolynomialChaosExpansion.validation_error` method can be used to estimate the accuracy of the PCE</span>
+<span class="sd">        predictor.</span>
+<span class="sd">        Here, we compute the generalization error  in the form of the relative mean squared error normalized by the</span>
+<span class="sd">        model variance.</span>
+<span class="sd">        The user must create an independent validation dataset :math:`[x_{val}, y_{val} = M(x_{val})]`</span>
+<span class="sd">        (i.e. a set of inputs and outputs of the computational model).</span>
+
+<span class="sd">        In case where the computational model is very expensive, the use of an alternative error measure is recommended,</span>
+<span class="sd">        for example the cross-validation error which partitions the existing training dataset into subsets and computes</span>
+<span class="sd">        the error as the average of the individual errors of each subset.</span>
+
+<span class="sd">        :param x: :class:`numpy.ndarray` containing the samples of the validation dataset.</span>
+<span class="sd">        :param y: :class:`numpy.ndarray` containing model evaluations for the validation dataset.</span>
+<span class="sd">        :return: Validation error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">y_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">)</span>
+
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mu_yval</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n_samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">eps_val</span> <span class="o">=</span> <span class="p">((</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span>
+                   <span class="o">*</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_val</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+                      <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">mu_yval</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))))</span>
+
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">eps_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">eps_val</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">eps_val</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PolynomialChaosExpansion.get_moments">
+<a class="viewcode-back" href="../../../../surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.get_moments">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">higher</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the first four moments of the polynomial_chaos surrogate which are directly</span>
+<span class="sd">        estimated from the polynomial_chaos coefficients.</span>
+
+<span class="sd">        The :meth:`.PolynomialChaosExpansion.get_moments` method can be used for the calculation of the first two moments of the PCE model directly from the PCE coefficients. This is possible due to the orthonormality of the polynomial basis.</span>
+
+<span class="sd">        The first moment (mean value) is calculated as</span>
+
+<span class="sd">        .. math:: \mu_{PCE} = \mathbb{E} [ \mathcal{M}^{PCE}(x)] = y_{0}</span>
+
+<span class="sd">        where :math:`y_{0}` is the first PCE coefficient associated with the constant term.</span>
+
+<span class="sd">        The second moment (variance) is calculated as</span>
+
+<span class="sd">        .. math:: \sigma^{2}_{PCE} = \mathbb{E} [( \mathcal{M}^{PCE}(x) - \mu_{PCE} )^{2} ] = \sum_{i=1}^{p} y_{i}</span>
+
+<span class="sd">        where :math:`p` is the number of polynomials (first PCE coefficient is excluded).</span>
+<span class="sd">        </span>
+<span class="sd">        The third moment (skewness) and the fourth moment (kurtosis) are generally obtained from third and fourth order products obtained by integration, which are extremely computationally demanding. Therefore here we use analytical solution of standard linearization problem for Hermite (based on normalized Feldheim&#39;s formula ) and Legendre polynomials (based on normalized Neumann-Adams formula), though it might be still computationally demanding for high number of input random variables.</span>
+<span class="sd">        </span>
+<span class="sd">        :param higher: True corresponds to calculation of skewness and kurtosis (computationaly expensive for large basis set).</span>
+<span class="sd">        :return: Returns the mean and variance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="n">variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">variance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">higher</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">variance</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">multindex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">multi_index_set</span>
+            <span class="n">P</span><span class="p">,</span> <span class="n">inputs_number</span> <span class="o">=</span> <span class="n">multindex</span><span class="o">.</span><span class="n">shape</span>
+
+            <span class="k">if</span> <span class="n">inputs_number</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">marginals</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">distributions</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">marginals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">marginals</span>
+
+            <span class="n">skewness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputs_number</span><span class="p">)</span>
+            <span class="n">kurtosis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputs_number</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs_number</span><span class="p">):</span>
+
+                <span class="n">Beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[:,</span> <span class="n">ii</span><span class="p">]</span>
+                <span class="n">third_moment</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">fourth_moment</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">P</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">P</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">P</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">P</span><span class="p">)))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+                    <span class="n">tripleproduct_ND</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">quadproduct_ND</span> <span class="o">=</span> <span class="mi">1</span>
+
+                    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inputs_number</span><span class="p">):</span>
+
+                        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">P</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span><span class="p">:</span>
+
+                            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">marginals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">==</span> <span class="n">Normal</span><span class="p">:</span>
+                                <span class="n">tripleproduct_1D</span> <span class="o">=</span> <span class="n">Hermite</span><span class="o">.</span><span class="n">hermite_triple_product</span><span class="p">(</span><span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span>
+                                                                                  <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span>
+                                                                                  <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">])</span>
+
+                            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">marginals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">==</span> <span class="n">Uniform</span><span class="p">:</span>
+                                <span class="n">tripleproduct_1D</span> <span class="o">=</span> <span class="n">Legendre</span><span class="o">.</span><span class="n">legendre_triple_product</span><span class="p">(</span><span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span>
+                                                                                    <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span>
+                                                                                    <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">])</span>
+
+                            <span class="n">tripleproduct_ND</span> <span class="o">=</span> <span class="n">tripleproduct_ND</span> <span class="o">*</span> <span class="n">tripleproduct_1D</span>
+
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">tripleproduct_ND</span> <span class="o">=</span> <span class="mi">0</span>
+
+                        <span class="n">quadproduct_1D</span> <span class="o">=</span> <span class="mi">0</span>
+
+                        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">]</span> <span class="o">+</span> <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+
+                            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">marginals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">==</span> <span class="n">Normal</span><span class="p">:</span>
+                                <span class="n">tripproduct1</span> <span class="o">=</span> <span class="n">Hermite</span><span class="o">.</span><span class="n">hermite_triple_product</span><span class="p">(</span><span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span>
+                                                                              <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+                                <span class="n">tripproduct2</span> <span class="o">=</span> <span class="n">Hermite</span><span class="o">.</span><span class="n">hermite_triple_product</span><span class="p">(</span><span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span>
+                                                                              <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+
+                            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">marginals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">==</span> <span class="n">Uniform</span><span class="p">:</span>
+                                <span class="n">tripproduct1</span> <span class="o">=</span> <span class="n">Legendre</span><span class="o">.</span><span class="n">legendre_triple_product</span><span class="p">(</span><span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span>
+                                                                                <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+                                <span class="n">tripproduct2</span> <span class="o">=</span> <span class="n">Legendre</span><span class="o">.</span><span class="n">legendre_triple_product</span><span class="p">(</span><span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span>
+                                                                                <span class="n">multindex</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">m</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+
+                            <span class="n">quadproduct_1D</span> <span class="o">=</span> <span class="n">quadproduct_1D</span> <span class="o">+</span> <span class="n">tripproduct1</span> <span class="o">*</span> <span class="n">tripproduct2</span>
+
+                        <span class="n">quadproduct_ND</span> <span class="o">=</span> <span class="n">quadproduct_ND</span> <span class="o">*</span> <span class="n">quadproduct_1D</span>
+
+                    <span class="n">third_moment</span> <span class="o">+=</span> <span class="n">tripleproduct_ND</span> <span class="o">*</span> <span class="n">Beta</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Beta</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Beta</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+                    <span class="n">fourth_moment</span> <span class="o">+=</span> <span class="n">quadproduct_ND</span> <span class="o">*</span> <span class="n">Beta</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Beta</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Beta</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Beta</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">skewness</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">third_moment</span>
+                <span class="n">kurtosis</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">variance</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fourth_moment</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">skewness</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">skewness</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">kurtosis</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">kurtosis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">variance</span><span class="p">,</span> <span class="n">skewness</span><span class="p">,</span> <span class="n">kurtosis</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

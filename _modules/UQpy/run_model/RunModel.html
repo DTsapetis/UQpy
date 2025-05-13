@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.run_model.RunModel &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.run_model.RunModel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.run_model.RunModel</h1><div class="highlight"><pre>
+<span></span><span class="c1"># UQpy is distributed under the MIT license.</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2018  -- Michael D. Shields</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated</span>
+<span class="c1"># documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the</span>
+<span class="c1"># rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit</span>
+<span class="c1"># persons to whom the Software is furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in all copies or substantial portions of the</span>
+<span class="c1"># Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE</span>
+<span class="c1"># WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR</span>
+<span class="c1"># COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR</span>
+<span class="c1"># OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumpyFloatArray</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RunType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">LOCAL</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">CLUSTER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="RunModel">
+<a class="viewcode-back" href="../../../runmodel_doc.html#UQpy.run_model.RunModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RunModel</span><span class="p">:</span>
+    <span class="c1"># Authors:</span>
+    <span class="c1"># B.S. Aakash, Lohit Vandanapu, Michael D.Shields, Michael H. Gardner</span>
+    <span class="c1">#</span>
+    <span class="c1"># Last</span>
+    <span class="c1"># modified: 8 / 31 / 2022 by Michael H. Gardner</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">model</span><span class="p">,</span>
+            <span class="n">samples</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">NumpyFloatArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">ntasks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">cores_per_task</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">nodes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">resume</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">run_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;LOCAL&#39;</span><span class="p">,</span>
+            <span class="n">cluster_script</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a computational model at specified sample points.</span>
+
+<span class="sd">        This class is the interface between :py:mod:`UQpy` and computational models. The model is called in a Python script whose</span>
+<span class="sd">        name must be passed as one the arguments to the :class:`.RunModel` call. If the model is in Python, :py:mod:`UQpy` import the</span>
+<span class="sd">        model and executes it directly. If the model is not in Python, :class:`.RunModel` must be provided the name of a template</span>
+<span class="sd">        input file, the name of the Python script that runs the model, and an (optional) output Python script.</span>
+
+
+<span class="sd">        :param samples: Samples to be passed as inputs to the model.</span>
+<span class="sd">         Regardless of data type, the first dimension of ``samples`` must be equal to the number of samples at which</span>
+<span class="sd">         to execute the model. That is, ``len(samples) = nsamples``.</span>
+
+<span class="sd">         Regardless of data type, the second dimension of ``samples`` must be equal to the number of variables to</span>
+<span class="sd">         to pass for each model evaluation. That is, ``len(samples[0]) = n_vars``. Each variable need not be a scalar.</span>
+<span class="sd">         Variables may be scalar, vector, matrix, or tensor type (i.e. `float`, `list`, or `ndarray`).</span>
+
+<span class="sd">         If `samples` are not passed, a :class:`.RunModel` object will be instantiated that can be used later, with the</span>
+<span class="sd">         :meth:`run` method, to evaluate the model.</span>
+
+<span class="sd">         Used in both python and third-party model execution.</span>
+
+<span class="sd">        :param ntasks: Number of tasks to be run in parallel. By default, ``ntasks = 1`` and the models are executed</span>
+<span class="sd">         serially.</span>
+
+<span class="sd">         Setting ntasks equal to a positive integer greater than 1 will trigger the parallel workflow.</span>
+
+<span class="sd">         `ntasks` is used for both the Python and third-party model workflows. :class:`.RunModel` uses `GNU parallel` to</span>
+<span class="sd">         execute third-party models in parallel and the multiprocessing module to execute Python models in parallel.</span>
+
+<span class="sd">        :param cores_per_task: Number of cores to be used by each task. In cases where a third-party model runs across</span>
+<span class="sd">         multiple CPUs, this optional attribute allocates the necessary resources to each model evaluation.</span>
+
+<span class="sd">         `cores_per_task` is not used in the Python model workflow.</span>
+
+<span class="sd">        :param nodes: Number of nodes across which to distribute individual tasks on an HPC cluster in the third-party</span>
+<span class="sd">         model workflow. If more than one compute node is necessary to execute individual runs in parallel, `nodes` must</span>
+<span class="sd">         be specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="c1"># Save option for resuming parallel execution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resume</span> <span class="o">=</span> <span class="n">resume</span>
+        <span class="c1"># Set location for model runs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_type</span> <span class="o">=</span> <span class="n">RunType</span><span class="p">[</span><span class="n">run_type</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_script</span> <span class="o">=</span> <span class="n">cluster_script</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="n">nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ntasks</span> <span class="o">=</span> <span class="n">ntasks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cores_per_task</span> <span class="o">=</span> <span class="n">cores_per_task</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_serial</span> <span class="o">=</span> <span class="n">ntasks</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">cores_per_task</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">nodes</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+
+        <span class="c1"># Initialize sample related variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internally, :class:`.RunModel` converts the input `samples` into a numpy `ndarray` with at least two </span>
+<span class="sd">        dimension where the first dimension of the :class:`numpy.ndarray` corresponds to a single sample to be executed </span>
+<span class="sd">        by the model.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A list containing the output quantities of interest</span>
+
+<span class="sd">        In the third-party model workflow, these output quantities of interest are extracted from the model output files</span>
+<span class="sd">        by `output_script`.</span>
+
+<span class="sd">        In the Python model workflow, the returned quantity of interest from the model evaluations is stored as</span>
+<span class="sd">        :py:attr:`qoi_list`.</span>
+
+<span class="sd">        This attribute is commonly used for adaptive algorithms that employ learning functions based on previous model</span>
+<span class="sd">        evaluations.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_existing_simulations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of pre-existing model evaluations, prior to a new :meth:`run` method call.</span>
+
+<span class="sd">        If the :meth:`run` methods has previously been called and model evaluations performed, subsequent calls to the</span>
+<span class="sd">        :meth:`run` method will be appended to the :class:`RunModel` object. :py:attr:`nexist` stores the number of </span>
+<span class="sd">        previously existing model evaluations.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_new_simulations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of model evaluations to be performed, ``nsim = len(samples)``.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if samples are provided.</span>
+        <span class="k">if</span> <span class="n">samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">UQpy: No samples are provided. Creating the object and building the model directory.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">UQpy: samples must be passed as a list or numpy ndarray</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RunModel.run">
+<a class="viewcode-back" href="../../../runmodel_doc.html#UQpy.run_model.RunModel.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">append_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute a computational model at given sample values.</span>
+
+<span class="sd">        If `samples` are passed when defining the :class:`.RunModel` object, the :meth:`run` method is called automatically.</span>
+
+<span class="sd">        The :meth:`run` method may also be called directly after defining the :meth:`RunModel` object.</span>
+
+<span class="sd">        :param list samples: Samples to be passed as inputs to the model defined by the :class:`.RunModel` object.</span>
+
+<span class="sd">         Regardless of data type, the first dimension of ``samples`` must be equal to the number of samples at which</span>
+<span class="sd">         to execute the model. That is, ``len(samples) = nsamples``.</span>
+
+<span class="sd">         Regardless of data type, the second dimension of ``samples`` must be equal to the number of variables to</span>
+<span class="sd">         to pass for each model evaluation. That is, ``len(samples[0]) = n_vars``. Each variable need not be a</span>
+<span class="sd">         scalar. Variables may be scalar, vector, matrix, or tensor type (i.e. `float`, `list`, or `ndarray`).</span>
+
+<span class="sd">         Used in both python and third-party model execution.</span>
+<span class="sd">        :param bool append_samples: Append over overwrite existing samples and model evaluations.</span>
+
+<span class="sd">         If ``append_samples = False``, all previous samples and the corresponding quantities of interest from their</span>
+<span class="sd">         model evaluations are deleted.</span>
+
+<span class="sd">         If ``append_samples = True``, samples and their resulting quantities of interest are appended to the</span>
+<span class="sd">         existing ones.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure the input samples have the correct structure</span>
+        <span class="c1"># --&gt; If a list is provided, convert to at least 2d ndarray. dim1 = nsim, dim2 = n_vars</span>
+        <span class="c1"># --&gt; If 1D array/list is provided, convert it to a 2d array. dim1 = 1, dim2 = n_vars</span>
+        <span class="c1"># --&gt; If samples cannot be converted to an array, this will fail.</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+        <span class="c1"># Number of simulations to be performed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_new_simulations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+        <span class="c1"># If append_samples is False, a new set of samples is created, the previous ones are deleted!</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">append_samples</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qoi_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Check if samples already exist, if yes append new samples to old ones</span>
+        <span class="c1"># if not self.samples:  # There are currently no samples</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_existing_simulations</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Samples already exist in the RunModel object, append new ones</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_existing_simulations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">samples</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">qoi_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serial_execution</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_serial</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_execution</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parallel_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO: Check if files with the names used below already exist and raise error</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;model.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">filehandle</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">filehandle</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;samples.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">filehandle</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">filehandle</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_type</span> <span class="ow">is</span> <span class="n">RunType</span><span class="o">.</span><span class="n">LOCAL</span><span class="p">:</span>        
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mpirun python -m &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;UQpy.run_model.model_execution.ParallelExecution </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_existing_simulations</span><span class="si">}</span><span class="s2"> &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_new_simulations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_type</span> <span class="ow">is</span> <span class="n">RunType</span><span class="o">.</span><span class="n">CLUSTER</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_script</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">UQpy: User-provided slurm script not input, please provide this input</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;python -m UQpy.run_model.model_execution.ClusterExecution </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cores_per_task</span><span class="si">}</span><span class="s2"> &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_new_simulations</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_existing_simulations</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster_script</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">UQpy: RunType is not in currently supported list of cluster types</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>            
+        
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;qoi.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">filehandle</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filehandle</span><span class="p">)</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;model.pkl&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;samples.pkl&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;qoi.pkl&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">UQpy: Parallel execution of the python model complete.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serial_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_existing_simulations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_existing_simulations</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_new_simulations</span><span class="p">):</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">preprocess_single_sample</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+            <span class="n">execution_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">execute_single_sample</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
+
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">postprocess_single_file</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">execution_output</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">UQpy: Serial execution of the python model complete.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

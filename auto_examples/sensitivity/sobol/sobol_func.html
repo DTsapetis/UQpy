@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobol function &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Ishigami function" href="sobol_ishigami.html" />
+    <link rel="prev" title="Auxiliary file" href="local_mechanical_oscillator_ODE.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/chatterjee.html"> Chatterjee Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/cramer_von_mises.html"> Cramér-von Mises Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/generalised_sobol.html"> Generalised Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/morris.html"> Morris Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/pce.html"> Polynomial Chaos Sensitivity</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sensitivity/sobol.html"> Sobol Sensitivity</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../sensitivity/sobol.html#sobol-class">Sobol Class</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../sensitivity/sobol.html#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sensitivity/sobol.html#attributes">Attributes</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../sensitivity/sobol.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../sensitivity/index.html">Sensitivity</a></li>
+          <li class="breadcrumb-item"><a href="../../../sensitivity/sobol.html">Sobol indices</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sobol Sensitivity indices</a></li>
+      <li class="breadcrumb-item active">Sobol function</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/sensitivity/sobol/sobol_func.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-sensitivity-sobol-sobol-func-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="sobol-function">
+<span id="sphx-glr-auto-examples-sensitivity-sobol-sobol-func-py"></span><h1>Sobol function<a class="headerlink" href="#sobol-function" title="Link to this heading"></a></h1>
+<p>The Sobol function is non-linear function that is commonly used to benchmark uncertainty
+and senstivity analysis methods. Unlike the Ishigami function which has 3 input
+variables, the Sobol function can have any number of input variables.</p>
+<div class="math notranslate nohighlight">
+\[g(x_1, x_2, \ldots, x_D) := \prod_{i=1}^{D} \frac{|4x_i - 2| + a_i}{1 + a_i},\]</div>
+<p>where,</p>
+<div class="math notranslate nohighlight">
+\[x_i \sim \mathcal{U}(0, 1), \quad a_i \in \mathbb{R}.\]</div>
+<p>This is an example from <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, where first order, total order and additionally the second
+order indices are computed.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Glen, G., &amp; Isaacs, K. (2012). Estimating Sobol sensitivity indices using correlations. Environmental Modelling and Software, 37, 157–166.</p>
+</aside>
+</aside>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.RunModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.model_execution.PythonModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uniform</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.collection.JointIndependent</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointIndependent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.SobolSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobolSensitivity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.PostProcess</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.seed.html#numpy.random.seed" title="numpy.random.seed" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Define the model and input distributions</strong></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Model object</span>
+<span class="n">num_vars</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">a_vals</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">99.0</span><span class="p">,</span> <span class="mf">99.0</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">PythonModel</span><span class="p">(</span>
+    <span class="n">model_script</span><span class="o">=</span><span class="s2">&quot;local_sobol_func.py&quot;</span><span class="p">,</span>
+    <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;evaluate&quot;</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;X_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">)],</span>
+    <span class="n">delete_files</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">a_values</span><span class="o">=</span><span class="n">a_vals</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">runmodel_obj</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># Define distribution object</span>
+<span class="n">dist_object</span> <span class="o">=</span> <span class="n">JointIndependent</span><span class="p">([</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="n">num_vars</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Compute Sobol indices</strong></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">SA</span> <span class="o">=</span> <span class="n">SobolSensitivity</span><span class="p">(</span><span class="n">runmodel_obj</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">)</span>
+
+<span class="c1"># Compute Sobol indices using the pick and freeze algorithm</span>
+<span class="n">SA</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">50_000</span><span class="p">,</span> <span class="n">estimate_second_order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>First order Sobol indices</strong></p>
+<p>Expected first order Sobol indices:</p>
+<p><span class="math notranslate nohighlight">\(S_1\)</span> = 5.86781190e-01</p>
+<p><span class="math notranslate nohighlight">\(S_2\)</span> = 2.60791640e-01</p>
+<p><span class="math notranslate nohighlight">\(S_3\)</span> = 3.66738244e-02</p>
+<p><span class="math notranslate nohighlight">\(S_4\)</span> = 5.86781190e-03</p>
+<p><span class="math notranslate nohighlight">\(S_5\)</span> = 5.86781190e-05</p>
+<p><span class="math notranslate nohighlight">\(S_6\)</span> = 5.86781190e-05</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">SA</span><span class="o">.</span><span class="n">first_order_indices</span>
+</pre></div>
+</div>
+<p><strong>Plot the first order sensitivity indices</strong></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig1</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plot_sensitivity_index</span><span class="p">(</span>
+    <span class="n">SA</span><span class="o">.</span><span class="n">first_order_indices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;First order Sobol indices&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Total order Sobol indices</strong></p>
+<p>Expected total order Sobol indices:</p>
+<p><span class="math notranslate nohighlight">\(S_{T_1}\)</span> = 6.90085892e-01</p>
+<p><span class="math notranslate nohighlight">\(S_{T_2}\)</span> = 3.56173364e-01</p>
+<p><span class="math notranslate nohighlight">\(S_{T_3}\)</span> = 5.63335422e-02</p>
+<p><span class="math notranslate nohighlight">\(S_{T_4}\)</span> = 9.17057664e-03</p>
+<p><span class="math notranslate nohighlight">\(S_{T_5}\)</span> = 9.20083854e-05</p>
+<p><span class="math notranslate nohighlight">\(S_{T_6}\)</span> = 9.20083854e-05</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">SA</span><span class="o">.</span><span class="n">total_order_indices</span>
+</pre></div>
+</div>
+<p><strong>Plot the first and total order sensitivity indices</strong></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig2</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span> <span class="n">plot_index_comparison</span><span class="p">(</span>
+    <span class="n">SA</span><span class="o">.</span><span class="n">first_order_indices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">SA</span><span class="o">.</span><span class="n">total_order_indices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">label_1</span><span class="o">=</span><span class="s2">&quot;First order Sobol indices&quot;</span><span class="p">,</span>
+    <span class="n">label_2</span><span class="o">=</span><span class="s2">&quot;Total order Sobol indices&quot;</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;First and Total order Sobol indices&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Second order Sobol indices</strong></p>
+<p>Expected second order Sobol indices:</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{12}}\)</span> = 0.0869305</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{13}}\)</span> = 0.0122246</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{14}}\)</span> = 0.00195594</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{15}}\)</span> = 0.00001956</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{16}}\)</span> = 0.00001956</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{23}}\)</span> = 0.00543316</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{24}}\)</span> = 0.00086931</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{25}}\)</span> = 0.00000869</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{26}}\)</span> = 0.00000869</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{34}}\)</span> = 0.00012225</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{35}}\)</span> = 0.00000122</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{36}}\)</span> = 0.00000122</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{45}}\)</span> = 0.00000020</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{46}}\)</span> = 0.00000020</p>
+<p><span class="math notranslate nohighlight">\(S_{T_{56}}\)</span> = 2.0e-9</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">SA</span><span class="o">.</span><span class="n">second_order_indices</span>
+</pre></div>
+</div>
+<p><strong>Plot the second order sensitivity indices</strong></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig3</span><span class="p">,</span> <span class="n">ax3</span> <span class="o">=</span> <span class="n">plot_second_order_indices</span><span class="p">(</span>
+    <span class="n">SA</span><span class="o">.</span><span class="n">second_order_indices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">num_vars</span><span class="o">=</span><span class="n">num_vars</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-sensitivity-sobol-sobol-func-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/sensitivity/sobol/sobol_func.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo39.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/4480b3a99a9680abd39c366437192009/sobol_func.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">sobol_func.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/a6fb4befbb072948b9c7688a9bca081a/sobol_func.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">sobol_func.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/a754aaf1b574712b7d3288ba4a3599e8/sobol_func.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">sobol_func.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="local_mechanical_oscillator_ODE.html" class="btn btn-neutral float-left" title="Auxiliary file" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sobol_ishigami.html" class="btn btn-neutral float-right" title="Ishigami function" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

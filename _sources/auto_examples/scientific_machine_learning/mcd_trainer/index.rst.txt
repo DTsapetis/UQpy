@@ -1,0 +1,43 @@
+
+
+.. _sphx_glr_auto_examples_scientific_machine_learning_mcd_trainer:
+
+Monte Carlo Dropout Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a probabilistic neural network using UQpy&#x27;s ProbabilisticDropout layers.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/mcd_trainer/images/thumb/sphx_glr_NeuralNetwork_MCD_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_mcd_trainer_NeuralNetwork_MCD.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Probabilisitc Models with Monte Carlo Dropout</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/scientific_machine_learning/mcd_trainer/NeuralNetwork_MCD
+

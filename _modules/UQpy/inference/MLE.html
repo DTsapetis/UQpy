@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.inference.MLE &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.inference.MLE</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.inference.MLE</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.MinimizeOptimizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinimizeOptimizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.inference_models.baseclass.InferenceModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.Utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_random_state</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">RandomStateType</span>
+
+
+<div class="viewcode-block" id="MLE">
+<a class="viewcode-back" href="../../../inference/mle.html#UQpy.inference.MLE">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MLE</span><span class="p">:</span>
+    <span class="c1"># Authors: Audrey Olivier, Dimitris Giovanis</span>
+    <span class="c1"># Last Modified: 12/19 by Audrey Olivier</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">inference_model</span><span class="p">:</span> <span class="n">InferenceModel</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+            <span class="n">n_optimizations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">initial_parameters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">optimizer</span><span class="o">=</span><span class="n">MinimizeOptimizer</span><span class="p">(),</span>
+            <span class="n">random_state</span><span class="p">:</span> <span class="n">RandomStateType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate the maximum likelihood parameters of a model given some data.</span>
+
+<span class="sd">        :param inference_model: The inference model that defines the likelihood function.</span>
+<span class="sd">        :param data: Available data, :class:`numpy.ndarray` of shape consistent with log likelihood function in</span>
+<span class="sd">         :class:`.InferenceModel`. If this parameter is provided at :class:`.InformationModelSelection` object</span>
+<span class="sd">         initialization, the maximum likelihood estimation algorithm will be automatically performed. Alternatively,</span>
+<span class="sd">         the user must execute the :meth:`.run` method.</span>
+<span class="sd">        :param n_optimizations: Number of iterations that the optimization is run, starting at random initial</span>
+<span class="sd">         guesses. It is only used if `initial_parameters` is not provided. Default is :math:`1`.</span>
+<span class="sd">         The random initial guesses are sampled uniformly between :math:`0` and :math:`1`, or uniformly between</span>
+<span class="sd">         user-defined bounds if an input bounds is provided as a keyword argument to the `optimizer` input parameter.</span>
+<span class="sd">        :param initial_parameters: Initial guess(es) for optimization, :class:`numpy.ndarray` of shape</span>
+<span class="sd">         :code:`(nstarts, n_parameters)` or :code:`(n_parameters, )`, where :code:`nstarts` is the number of times the</span>
+<span class="sd">         optimizer will be called. Alternatively, the user can provide input `n_optimizations` to randomly sample</span>
+<span class="sd">         initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the</span>
+<span class="sd">         optimizer.</span>
+<span class="sd">        :param optimizer: This parameter takes as input an object that implements the :class:`Optimizer` class.</span>
+<span class="sd">         Default is the :class:`.Minimize` which utilizes the :class:`scipy.optimize.minimize` method.</span>
+<span class="sd">        :param random_state: Random seed used to initialize the pseudo-random number generator. Default is :any:`None`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Initialize variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span> <span class="o">=</span> <span class="n">inference_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">process_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mle</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Value of parameter vector that maximizes the likelihood function.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_log_like</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Value of the likelihood function at the MLE.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Initialization of MLEstimation object completed.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_optimizations</span> <span class="o">=</span> <span class="n">n_optimizations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_parameters</span> <span class="o">=</span> <span class="n">initial_parameters</span>
+
+        <span class="c1"># Run the optimization procedure</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n_optimizations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">initial_parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">n_optimizations</span><span class="o">=</span><span class="n">n_optimizations</span><span class="p">,</span> <span class="n">initial_parameters</span><span class="o">=</span><span class="n">initial_parameters</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MLE.run">
+<a class="viewcode-back" href="../../../inference/mle.html#UQpy.inference.MLE.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_optimizations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">initial_parameters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the maximum likelihood estimation procedure.</span>
+
+<span class="sd">        This function runs the optimization and updates the :py:attr:`.mle` and :py:attr:`.max_log_like` attributes of</span>
+<span class="sd">        the class. When learning the parameters of a distribution, if `distributions` possesses an :meth:`mle` method</span>
+<span class="sd">        this method is used. If `data` are given when creating the :class:`.MLE` object, this method is called</span>
+<span class="sd">        automatically when the object is created.</span>
+
+<span class="sd">        :param n_optimizations: Number of iterations that the optimization is run, starting at random initial</span>
+<span class="sd">         guesses. It is only used if `initial_parameters` is not provided. Default is :math:`1`.</span>
+<span class="sd">         The random initial guesses are sampled uniformly between :math:`0` and :math:`1`, or uniformly between</span>
+<span class="sd">         user-defined bounds if an input bounds is provided as a keyword argument to the `optimizer` input parameter.</span>
+<span class="sd">        :param initial_parameters: Initial guess(es) for optimization, :class:`numpy.ndarray` of shape</span>
+<span class="sd">         :code:`(nstarts, n_parameters)` or :code:`(n_parameters, )`, where :code:`nstarts` is the number of times the</span>
+<span class="sd">         optimizer will be called. Alternatively, the user can provide input `n_optimizations` to randomly sample</span>
+<span class="sd">         initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the</span>
+<span class="sd">         optimizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Run optimization (use x0 if provided, otherwise sample starting point from [0, 1] or bounds)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;UQpy: Evaluating maximum likelihood estimate for inference model &quot;</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_optimizations</span> <span class="o">=</span> <span class="n">n_optimizations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_parameters</span> <span class="o">=</span> <span class="n">initial_parameters</span>
+
+        <span class="n">use_distribution_fit</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="p">,</span> <span class="s2">&quot;distributions&quot;</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">distributions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">distributions</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">use_distribution_fit</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run_distribution_fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_optimizations</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run_optimization</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_optimizations</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_distribution_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_optimizations</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_optimizations</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">update_parameters</span><span class="p">(</span>
+                <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">list_params</span><span class="p">})</span>
+            <span class="n">mle_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">mle_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mle_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">list_params</span><span class="p">])</span>
+            <span class="n">max_log_like_tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">evaluate_log_likelihood</span><span class="p">(</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">mle_tmp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span> <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># Save result</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mle</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">max_log_like_tmp</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_log_like</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mle</span> <span class="o">=</span> <span class="n">mle_tmp</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max_log_like</span> <span class="o">=</span> <span class="n">max_log_like_tmp</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_optimization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_parameters</span><span class="p">,</span> <span class="n">n_optimizations</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">initial_parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uniform</span>
+            <span class="n">initial_parameters</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Uniform</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">n_optimizations</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">n_parameters</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="p">)</span>
+                    <span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n_optimizations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">n_parameters</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">_bounds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">_bounds</span><span class="p">)</span>
+                <span class="n">initial_parameters</span> <span class="o">=</span> <span class="p">(</span><span class="n">bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+                                      <span class="o">+</span> <span class="p">(</span><span class="n">bounds</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">initial_parameters</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">initial_parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">initial_parameters</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">initial_parameters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">n_parameters</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;UQpy: Wrong dimensions in x0&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x0_</span> <span class="ow">in</span> <span class="n">initial_parameters</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_func_to_minimize</span><span class="p">,</span> <span class="n">x0_</span><span class="p">)</span>
+            <span class="n">mle_tmp</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
+            <span class="n">max_log_like_tmp</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">res</span><span class="o">.</span><span class="n">fun</span>
+            <span class="c1"># Save result</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mle</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">max_log_like_tmp</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_log_like</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mle</span> <span class="o">=</span> <span class="n">mle_tmp</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max_log_like</span> <span class="o">=</span> <span class="n">max_log_like_tmp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: ML estimation completed.&quot;</span><span class="p">)</span>
+
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_evaluate_func_to_minimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">one_param</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">evaluate_log_likelihood</span><span class="p">(</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">one_param</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

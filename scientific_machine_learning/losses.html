@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Losses &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Neural Networks" href="neural_networks/index.html" />
+    <link rel="prev" title="List of Normalizer Layers" href="layers/normalizers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Scientific Machine Learning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#functional">Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#layers">Layers</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#losses">Losses</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Loss Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#loss-baseclass">Loss Baseclass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-of-losses">List of Losses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#neural-networks">Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#trainers">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Scientific Machine Learning</a></li>
+      <li class="breadcrumb-item active">Losses</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scientific_machine_learning/losses.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="losses">
+<h1>Losses<a class="headerlink" href="#losses" title="Link to this heading"></a></h1>
+<p>Most lost functions behave similarly to <a class="reference external" href="https://pytorch.org/docs/stable/nn.html#loss-functions">PyTorch loss functions</a>.
+The take in an input tensor <span class="math notranslate nohighlight">\(x\)</span> and a target <span class="math notranslate nohighlight">\(y\)</span> and return a tensor representing the distance between the two.</p>
+<p>In contrast, the divergence functions presented here are not like the Torch loss functions.
+Divergences compute a distance between the prior and posterior distributions of a Bayesian neural network.
+They take a single <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> as an input to compute a distance between the prior and posterior distribution.</p>
+<section id="loss-baseclass">
+<h2>Loss Baseclass<a class="headerlink" href="#loss-baseclass" title="Link to this heading"></a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Loss</span></code> is an abstract baseclass and a subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.
+This is an abstract baseclass and the parent class to all loss functions.
+Like all abstract baseclasses, this cannot be instantiated but can be subclassed to write custom losses.</p>
+<p>The documentation in the <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> on this baseclass may be inherited from PyTorch docstrings.</p>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.baseclass.Loss">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Loss</span></span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/baseclass/Loss.html#Loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.baseclass.Loss" title="Link to this definition"></a></dt>
+<dd><p>Initialize internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.baseclass.Loss.forward">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/baseclass/Loss.html#Loss.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.baseclass.Loss.forward" title="Link to this definition"></a></dt>
+<dd><p>Define the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<hr class="docutils" />
+<section id="list-of-losses">
+<h2>List of Losses<a class="headerlink" href="#list-of-losses" title="Link to this heading"></a></h2>
+<section id="l-p-loss">
+<h3><span class="math notranslate nohighlight">\(L_p\)</span> Loss<a class="headerlink" href="#l-p-loss" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.LpLoss">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LpLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/LpLoss.html#LpLoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.LpLoss" title="Link to this definition"></a></dt>
+<dd><p>Construct a loss function <span class="math notranslate nohighlight">\(L^p(x, y)\)</span> where <span class="math notranslate nohighlight">\(p=\text{dim}\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ord</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Order of the norm. Default: 2</p></li>
+<li><p><strong>dim</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Dimensions over which to compute the norm specified as an integer or tuple.
+If <code class="docutils literal notranslate"><span class="pre">dim=None</span></code>, the vector is flattened before the norm is computed. Default: None</p></li>
+<li><p><strong>reduction</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Specifies the reduction to apply to the output: ‘none’, ‘mean’, or ‘sum’.
+‘none’: no reduction will be applied, ‘mean’: the output will be averaged, ‘sum’: the output will be summed.
+Default: ‘sum’</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is an implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.linalg.vector_norm</span></code> as a <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.
+This class implements most, but not all, of the <code class="code docutils literal notranslate"><span class="pre">vector_norm</span></code> keywords.
+See the
+<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.linalg.vector_norm.html#torch.linalg.vector_norm">PyTorch vector_norm documentation</a>.
+for details.</p>
+</div>
+<section id="formula">
+<h4>Formula<a class="headerlink" href="#formula" title="Link to this heading"></a></h4>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Ord</p></th>
+<th class="head"><p>Norm</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2 (default)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sqrt{(x-y)^2}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>int, float</p></td>
+<td><p><span class="math notranslate nohighlight">\(((x-y)^n)^{1/n}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>sum(x != 0), the number of non-zero elements</p></td>
+</tr>
+<tr class="row-odd"><td><p>-inf</p></td>
+<td><p><span class="math notranslate nohighlight">\(\min{|x-y|}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>inf</p></td>
+<td><p><span class="math notranslate nohighlight">\(\max{|x-y|}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>where inf refers to <code class="code docutils literal notranslate"><span class="pre">float('inf')</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.inf</span></code>, or any equivalent object.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loss</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">LpLoss</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.LpLoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/LpLoss.html#LpLoss.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.LpLoss.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute the loss <span class="math notranslate nohighlight">\(L_p(x, y)\)</span>.</p>
+<p>The valid shapes for <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> depend on
+<a class="reference external" href="https://pytorch.org/docs/stable/notes/broadcasting.html">PyTorch broadcast semantics</a> .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of any shape. Must be broadcastable with <code class="docutils literal notranslate"><span class="pre">y</span></code></p></li>
+<li><p><strong>y</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of any shape. Must be broadcastable with <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <code class="docutils literal notranslate"><span class="pre">x</span></code> or <code class="docutils literal notranslate"><span class="pre">y</span></code> (depending on broadcasting semantics).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="gaussian-kullback-leibler">
+<h3>Gaussian Kullback-Leibler<a class="headerlink" href="#gaussian-kullback-leibler" title="Link to this heading"></a></h3>
+<p>This is an implementation of Kullback and Liebler’s work in a closed form <span id="id1">[<a class="reference internal" href="../bibliography.html#id82" title="Solomon Kullback and Richard A Leibler. On information and sufficiency. The annals of mathematical statistics, 22(1):79–86, 1951.">37</a>]</span>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.GaussianKullbackLeiblerDivergence">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianKullbackLeiblerDivergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/GaussianKullbackLeiblerDivergence.html#GaussianKullbackLeiblerDivergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.GaussianKullbackLeiblerDivergence" title="Link to this definition"></a></dt>
+<dd><p>Analytic form for Gaussian KL divergence for all Bayesian layers in a module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reduction</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Specifies the reduction to apply to the output: ‘mean’ or ‘sum’.
+‘mean’: the output will be averaged, ‘sum’: the output will be summed. Default: ‘sum’</p>
+</dd>
+</dl>
+<p>The Gaussian Kullback-Leiber divergence <span class="math notranslate nohighlight">\(D_{KL}\)</span> for two univariate normal distributions is computed as</p>
+<div class="math notranslate nohighlight">
+\[D_{KL}(p, q) = \frac{1}{2} \left( 2\log \frac{\sigma_1}{\sigma_0} + \frac{\sigma_0^2}{\sigma_1^2} + \frac{\sigma_0^2 + (\mu_0-\mu_1)^2}{\sigma_1^2} -1 \right)\]</div>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Divergence of a single Bayesian Layer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">divergence_function</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GaussianKullbackLeiblerDivergence</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div</span> <span class="o">=</span> <span class="n">divergence_function</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Divergence of a Bayesian neural network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">FeedForwardNeuralNetwork</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">divergence_function</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GaussianKullbackLeiblerDivergence</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div</span> <span class="o">=</span> <span class="n">divergence_function</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.GaussianKullbackLeiblerDivergence.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/GaussianKullbackLeiblerDivergence.html#GaussianKullbackLeiblerDivergence.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.GaussianKullbackLeiblerDivergence.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute the Gaussian KL divergence on all Bayesian layers in a module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>network</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>) – Module containing Bayesian layers as class attributes</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gaussian KL divergence between prior and posterior distributions</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="monte-carlo-kullback-leibler">
+<h3>Monte Carlo Kullback-Leibler<a class="headerlink" href="#monte-carlo-kullback-leibler" title="Link to this heading"></a></h3>
+<p>This is based on Kullback and Liebler’s work <span id="id2">[<a class="reference internal" href="../bibliography.html#id82" title="Solomon Kullback and Richard A Leibler. On information and sufficiency. The annals of mathematical statistics, 22(1):79–86, 1951.">37</a>]</span>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.MCKullbackLeiblerDivergence">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MCKullbackLeiblerDivergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">posterior_distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/MCKullbackLeiblerDivergence.html#MCKullbackLeiblerDivergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.MCKullbackLeiblerDivergence" title="Link to this definition"></a></dt>
+<dd><p>KL divergence by sampling for all Bayesian layers in a module.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is <em>not</em> identical to the Kullback-Leibler divergence computed in Bayes by Backprop</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>posterior_distribution</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></span>) – A class, <em>not an instance</em>, of a UQpy distribution defining the variational posterior</p></li>
+<li><p><strong>prior_distribution</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></span>) – A class, <em>not an instance</em>, of a UQpy distribution defining the prior</p></li>
+<li><p><strong>reduction</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Specifies the reduction to apply to the output: ‘mean’, or ‘sum’.
+‘mean’: the output will be averaged, ‘sum’: the output will be summed. Default: ‘sum’</p></li>
+</ul>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Divergence of a single Bayesian Layer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">divergence_function</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">MCKullbackLeiblerDivergence</span><span class="p">(</span><span class="n">UQpy</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span> <span class="n">UQpy</span><span class="o">.</span><span class="n">Normal</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div</span> <span class="o">=</span> <span class="n">divergence_function</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Divergence of a Bayesian neural network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">FeedForwardNeuralNetwork</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">divergence_function</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">MCKullbackLeiblerDivergence</span><span class="p">(</span><span class="n">UQpy</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span> <span class="n">UQpy</span><span class="o">.</span><span class="n">Normal</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div</span> <span class="o">=</span> <span class="n">divergence_function</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.MCKullbackLeiblerDivergence.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/MCKullbackLeiblerDivergence.html#MCKullbackLeiblerDivergence.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.MCKullbackLeiblerDivergence.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute the KL divergence by sampling the distributions on all Bayesian layers in a module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>network</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>) – Network containing Bayesian layers</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>KL divergence between prior and posterior distributions</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="generalized-jensen-shannon">
+<h3>Generalized Jensen-Shannon<a class="headerlink" href="#generalized-jensen-shannon" title="Link to this heading"></a></h3>
+<p>This implements a Jensen-Shannon formula <span id="id3">[<a class="reference internal" href="../bibliography.html#id80" title="Ponkrshnan Thiagarajan and Susanta Ghosh. Jensen-shannon divergence based novel loss functions for bayesian neural networks. arXiv preprint arXiv:2209.11366, 2022.">38</a>]</span>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.GeneralizedJensenShannonDivergence">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GeneralizedJensenShannonDivergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">posterior_distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/GeneralizedJensenShannonDivergence.html#GeneralizedJensenShannonDivergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.GeneralizedJensenShannonDivergence" title="Link to this definition"></a></dt>
+<dd><p>Estimate the Jensen-Shannon divergence using Monte Carlo sampling for all Bayesian layers in a module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>posterior_distribution</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></span>) – A class, <em>not an instance</em>, of a UQpy distribution defining the variational posterior</p></li>
+<li><p><strong>prior_distribution</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></span>) – A class, <em>not an instance</em>, of a UQpy distribution defining the prior</p></li>
+<li><p><strong>alpha</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Weight of the mixture distribution, <span class="math notranslate nohighlight">\(0 \leq \alpha \leq 1\)</span>.
+See formula for details. Default: 0.5</p></li>
+<li><p><strong>n_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples using in the Monte Carlo estimates. Default: 1,000</p></li>
+<li><p><strong>reduction</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Specifies the reduction to apply to the output: ‘mean’ or ‘sum’.
+‘mean’: the output will be averaged, ‘sum’: the output will be summed. Default: ‘sum’</p></li>
+</ul>
+</dd>
+</dl>
+<p>The Jenson-Shannon divergence <span class="math notranslate nohighlight">\(D_{JS}\)</span> is computed as</p>
+<div class="math notranslate nohighlight">
+\[D_{JS}(Q, P) = (1-\alpha) D_{KL}(Q, M) + \alpha D_{KL}(P, M)\]</div>
+<p>where <span class="math notranslate nohighlight">\(D_{KL}\)</span> is the Kullback-Leibler divergence and <span class="math notranslate nohighlight">\(M=\alpha Q + (1-\alpha) P\)</span> is the mixture distribution.</p>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Divergence of a single Bayesian Layer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">divergence_function</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GeneralizedJensenShannonDivergence</span><span class="p">(</span><span class="n">UQpy</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span> <span class="n">UQpy</span><span class="o">.</span><span class="n">Normal</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div</span> <span class="o">=</span> <span class="n">divergence_function</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Divergence of a Bayesian neural network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">FeedForwardNeuralNetwork</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">divergence_function</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GeneralizedJensenShannonDivergence</span><span class="p">(</span><span class="n">UQpy</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span> <span class="n">UQpy</span><span class="o">.</span><span class="n">Normal</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div</span> <span class="o">=</span> <span class="n">divergence_function</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.GeneralizedJensenShannonDivergence.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/GeneralizedJensenShannonDivergence.html#GeneralizedJensenShannonDivergence.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.GeneralizedJensenShannonDivergence.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute the Generalized Jensen-Shannon divergence on all Bayesian layers in a module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>network</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>) – Module containing Bayesian layers as class attributes</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Generalized JS divergence between prior and posterior distributions</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="geometric-jensen-shannon">
+<h3>Geometric Jensen-Shannon<a class="headerlink" href="#geometric-jensen-shannon" title="Link to this heading"></a></h3>
+<p>This implements a Jensen-Shannon formula <span id="id4">[<a class="reference internal" href="../bibliography.html#id80" title="Ponkrshnan Thiagarajan and Susanta Ghosh. Jensen-shannon divergence based novel loss functions for bayesian neural networks. arXiv preprint arXiv:2209.11366, 2022.">38</a>]</span> <span id="id5">[<a class="reference internal" href="../bibliography.html#id81" title="Jacob Deasy, Nikola Simidjievski, and Pietro Liò. Constraining variational inference with geometric jensen-shannon divergence. Advances in Neural Information Processing Systems, 33:10647–10658, 2020.">39</a>]</span>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.GeometricJensenShannonDivergence">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GeometricJensenShannonDivergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/GeometricJensenShannonDivergence.html#GeometricJensenShannonDivergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.GeometricJensenShannonDivergence" title="Link to this definition"></a></dt>
+<dd><p>Analytic form for Geometric JS divergence for all Bayesian layers in a module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Weight of the mixture distribution, <span class="math notranslate nohighlight">\(0 \leq \alpha \leq 1\)</span>.
+See formula for details. Default: 0.5</p></li>
+<li><p><strong>reduction</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Specifies the reduction to apply to the output: ‘mean’ or ‘sum’.
+‘mean’: the output will be averaged, ‘sum’: the output will be summed. Default: ‘sum’</p></li>
+</ul>
+</dd>
+</dl>
+<p>The Geometric Jensen-Shannon divergence <span class="math notranslate nohighlight">\(D_{JSG}\)</span> is computed as</p>
+<div class="math notranslate nohighlight">
+\[D_{JSG}(P, Q) = (1-\alpha)  D_{KL}(P, M) + \alpha D_{KL}(Q, M)\]</div>
+<p>where <span class="math notranslate nohighlight">\(D_{KL}\)</span> is the Kullback-Leibler divergence and <span class="math notranslate nohighlight">\(M=P^\alpha Q^{(1-\alpha)}\)</span> is the geometric
+mean distribution. When the distributions <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(Q\)</span> are Gaussian, the closed form for Geometric
+Jensen-Shannon divergence is given as</p>
+<div class="math notranslate nohighlight">
+\[D_{JSG}(P, Q) = \frac12 \left( \frac{(1-\alpha)\sigma_0^2 + \alpha\sigma_1^2}{\sigma_\alpha^2} + \log \frac{\sigma_\alpha^2}{\sigma_0^{2(1-\alpha)} \sigma_1^{2\alpha}} + (1-\alpha) \frac{(\mu_\alpha - \mu_0)^2}{\sigma_\alpha^2} + \frac{\alpha(\mu_\alpha - \mu_1)^2}{\sigma_\alpha^2} -1 \right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_\alpha^2 = \left( \frac{\alpha}{\sigma_0^2}+\frac{1-\alpha}{\sigma_1^2} \right)^{-1}\)</span>
+and <span class="math notranslate nohighlight">\(\mu_\alpha = \sigma_\alpha^2 \left[\frac{\alpha \mu_0}{\sigma_0^2} + \frac{(1-\alpha)\mu_1}{\sigma_1^2}\right]\)</span></p>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Divergence of a single Bayesian Layer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">divergence_function</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GeometricJensenShannonDivergence</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div</span> <span class="o">=</span> <span class="n">divergence_function</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Divergence of a Bayesian neural network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">FeedForwardNeuralNetwork</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">divergence_function</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GeometricJensenShannonDivergence</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div</span> <span class="o">=</span> <span class="n">divergence_function</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.losses.GeometricJensenShannonDivergence.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/scientific_machine_learning/losses/GeometricJensenShannonDivergence.html#GeometricJensenShannonDivergence.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.losses.GeometricJensenShannonDivergence.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute the Geometric JS divergence on all Bayesian layers in a module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>network</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>) – Module containing Bayesian layers as class attributes</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Geometric JS divergence between prior and posterior distributions</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="layers/normalizers.html" class="btn btn-neutral float-left" title="List of Normalizer Layers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="neural_networks/index.html" class="btn btn-neutral float-right" title="Neural Networks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
