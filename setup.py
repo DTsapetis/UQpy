@@ -29,7 +29,7 @@ setup(
     install_requires=read_requirements(),
     extras_require={
         'dev': [
-            'pytest == 8.2.0',
+            'pytest == 8.3.5',
             'pytest-cov == 6.1.1',
             'pylint == 3.3.7',
             'pytest-azurepipelines == 1.0.5',
