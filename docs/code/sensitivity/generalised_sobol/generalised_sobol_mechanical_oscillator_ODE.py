@@ -1,8 +1,11 @@
-r"""
+"""
 
 Mechanical oscillator model (multioutput)
 ==============================================
 
+"""
+
+r"""
 In this example, we consider the mechanical oscillator is governed by the following 
 second-order ODE as demonstrated in [1]_:
 
