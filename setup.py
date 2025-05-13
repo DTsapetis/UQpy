@@ -35,7 +35,7 @@ setup(
             'pytest-azurepipelines == 1.0.5',
             'pytest-cov == 6.1.1',
             'wheel == 0.45.1',
-            'twine == 5.0.0',
+            'twine == 6.1.0',
             'sphinx_autodoc_typehints == 1.23.0',
             'sphinx_rtd_theme == 1.2.0',
             'sphinx_gallery == 0.13.0',
