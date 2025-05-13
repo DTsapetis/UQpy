@@ -37,7 +37,7 @@ setup(
             'wheel == 0.45.1',
             'twine == 5.0.0',
             'sphinx_autodoc_typehints == 1.23.0',
-            'sphinx_rtd_theme == 1.2.0',
+            'sphinx_rtd_theme == 3.0.2',
             'sphinx_gallery == 0.13.0',
             'sphinxcontrib_bibtex == 2.5.0',
             'Sphinx==6.1.3',
