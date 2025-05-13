@@ -1,4 +1,4 @@
-""""
+"""
 This is the toy example with multiple outputs from [1]_.
 
 References
