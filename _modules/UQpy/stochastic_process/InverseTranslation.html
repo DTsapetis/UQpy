@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.stochastic_process.InverseTranslation &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.stochastic_process.InverseTranslation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.stochastic_process.InverseTranslation</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.stochastic_process.supportive</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">inverse_wiener_khinchin_transform</span><span class="p">,</span>
+    <span class="n">wiener_khinchin_transform</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="InverseTranslation">
+<a class="viewcode-back" href="../../../stochastic_process/translation.html#UQpy.stochastic_process.InverseTranslation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InverseTranslation</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">distributions</span><span class="p">:</span> <span class="n">Distribution</span><span class="p">,</span>
+        <span class="n">time_interval</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">frequency_interval</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">n_time_intervals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">n_frequency_intervals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">correlation_function_non_gaussian</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">power_spectrum_non_gaussian</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">samples_non_gaussian</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">percentage_error</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class to perform Iterative Translation Approximation Method to find the underlying  Gaussian Stochastic</span>
+<span class="sd">        Processes which upon translation would yield the necessary non-Gaussian Stochastic Processes.</span>
+
+<span class="sd">        :param distributions: An instance of the :py:mod:`UQpy` :class:`.Distributions` class defining the marginal</span>
+<span class="sd">         distribution of the non-Gaussian stochastic process.</span>
+<span class="sd">        :param time_interval: The value of time discretization.</span>
+<span class="sd">        :param frequency_interval: The value of frequency discretization.</span>
+<span class="sd">        :param n_time_intervals: The number of time discretizations.</span>
+<span class="sd">        :param n_frequency_intervals: The number of frequency discretizations.</span>
+<span class="sd">        :param correlation_function_non_gaussian: The auto correlation function of the non-Gaussian stochastic</span>
+<span class="sd">         processes. Either the power spectrum or the auto correlation function of the Gaussian stochastic process needs</span>
+<span class="sd">         to be defined.</span>
+<span class="sd">        :param power_spectrum_non_gaussian: The power spectrum of the non-Gaussian stochastic processes.</span>
+<span class="sd">        :param samples_non_gaussian: Samples of non-Gaussian stochastic processes.</span>
+<span class="sd">         `samples_non_gaussian` is optional. If no samples are passed, the :class:`.InverseTranslation` class will</span>
+<span class="sd">         compute the underlying Gaussian correlation using the ITAM.</span>
+<span class="sd">        :param percentage_error:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_gaussian</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The inverse translated Gaussian samples from the non-Gaussian samples.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_non_gaussian</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_shape</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span> <span class="o">=</span> <span class="n">distributions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_frequency_intervals</span><span class="p">)</span> <span class="o">*</span> <span class="n">frequency_interval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_time_intervals</span><span class="p">)</span> <span class="o">*</span> <span class="n">time_interval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">percentage_error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">correlation_function_non_gaussian</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">power_spectrum_non_gaussian</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Either the Power Spectrum or the Autocorrelation function should be specified&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">correlation_function_non_gaussian</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">power_spectrum_non_gaussian</span> <span class="o">=</span> <span class="n">power_spectrum_non_gaussian</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correlation_function_non_gaussian</span> <span class="o">=</span> <span class="n">wiener_khinchin_transform</span><span class="p">(</span><span class="n">power_spectrum_non_gaussian</span><span class="p">,</span>
+                                                                               <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">power_spectrum_non_gaussian</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correlation_function_non_gaussian</span> <span class="o">=</span> <span class="n">correlation_function_non_gaussian</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">power_spectrum_non_gaussian</span> <span class="o">=</span> <span class="n">inverse_wiener_khinchin_transform</span><span class="p">(</span><span class="n">correlation_function_non_gaussian</span><span class="p">,</span>
+                                                                                 <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_function_non_gaussian</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_function_non_gaussian</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">samples_non_gaussian</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">samples_non_gaussian</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">power_spectrum_gaussian</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_itam_power_spectrum</span><span class="p">()</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The power spectrum of the inverse translated Gaussian stochastic processes&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auto_correlation_function_gaussian</span> <span class="o">=</span> <span class="n">wiener_khinchin_transform</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">power_spectrum_gaussian</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correlation_function_gaussian</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">auto_correlation_function_gaussian</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_correlation_function_gaussian</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The correlation function of the inverse translated Gaussian stochastic processes.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InverseTranslation.run">
+<a class="viewcode-back" href="../../../stochastic_process/translation.html#UQpy.stochastic_process.InverseTranslation.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples_non_gaussian</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param samples_non_gaussian: Samples of non-Gaussian stochastic processes. If samples are provided at the</span>
+<span class="sd">         initialization, then the run method is executed automatically. If no samples are passed at the</span>
+<span class="sd">         initialization, the :class:`.InverseTranslation` class will compute the underlying Gaussian correlation using</span>
+<span class="sd">         the ITAM and the run method needs to be manually executed by the user.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_shape</span> <span class="o">=</span> <span class="n">samples_non_gaussian</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_non_gaussian</span> <span class="o">=</span> <span class="n">samples_non_gaussian</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_gaussian</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inverse_translate_non_gaussian_samples</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples_shape</span><span class="p">)</span></div>
+
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inverse_translate_non_gaussian_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">,</span> <span class="s2">&quot;cdf&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;UQpy: The marginal dist_object needs to have an inverse cdf defined.&quot;</span><span class="p">)</span>
+        <span class="n">non_gaussian_cdf</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">,</span> <span class="s2">&quot;cdf&quot;</span><span class="p">)</span>
+        <span class="n">samples_cdf</span> <span class="o">=</span> <span class="n">non_gaussian_cdf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples_non_gaussian</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">icdf</span><span class="p">(</span><span class="n">samples_cdf</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_itam_power_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">target_S</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">power_spectrum_non_gaussian</span>
+        <span class="n">i_converge</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">500</span>
+        <span class="n">target_R</span> <span class="o">=</span> <span class="n">wiener_khinchin_transform</span><span class="p">(</span><span class="n">target_S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">R_g_iterate</span> <span class="o">=</span> <span class="n">target_R</span>
+        <span class="n">S_g_iterate</span> <span class="o">=</span> <span class="n">target_S</span>
+        <span class="n">R_ng_iterate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">R_g_iterate</span><span class="p">)</span>
+        <span class="n">r_ng_iterate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">R_g_iterate</span><span class="p">)</span>
+        <span class="n">S_ng_iterate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">S_g_iterate</span><span class="p">)</span>
+        <span class="n">non_gaussian_moments</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">,</span> <span class="s1">&#39;moments&#39;</span><span class="p">)()</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
+            <span class="n">R_g_iterate</span> <span class="o">=</span> <span class="n">wiener_khinchin_transform</span><span class="p">(</span><span class="n">S_g_iterate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target_R</span><span class="p">)):</span>
+                <span class="n">r_ng_iterate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">correlation_distortion</span><span class="p">(</span><span class="n">dist_object</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">,</span>
+                                                         <span class="n">rho</span><span class="o">=</span><span class="n">R_g_iterate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">R_g_iterate</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">R_ng_iterate</span> <span class="o">=</span> <span class="n">r_ng_iterate</span> <span class="o">*</span> <span class="n">non_gaussian_moments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">non_gaussian_moments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">S_ng_iterate</span> <span class="o">=</span> <span class="n">inverse_wiener_khinchin_transform</span><span class="p">(</span><span class="n">R_ng_iterate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+
+            <span class="n">err1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">target_S</span> <span class="o">-</span> <span class="n">S_ng_iterate</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">target_S</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">err1</span> <span class="o">/</span> <span class="n">err2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+                <span class="n">i_converge</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="n">ratio</span> <span class="o">=</span> <span class="n">target_S</span> <span class="o">/</span> <span class="n">S_ng_iterate</span>
+            <span class="n">ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">posinf</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">neginf</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+            <span class="n">S_g_next_iterate</span> <span class="o">=</span> <span class="p">(</span><span class="n">ratio</span> <span class="o">**</span> <span class="mf">1.3</span><span class="p">)</span> <span class="o">*</span> <span class="n">S_g_iterate</span>
+
+            <span class="c1"># Eliminate Numerical error of Upgrading Scheme</span>
+            <span class="n">S_g_next_iterate</span><span class="p">[</span><span class="n">S_g_next_iterate</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">S_g_iterate</span> <span class="o">=</span> <span class="n">S_g_next_iterate</span>
+
+            <span class="k">if</span> <span class="n">i_converge</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">S_g_iterate</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.surrogates.polynomial_chaos.polynomials.Legendre &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../../index.html">
+            
+              <img src="../../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.surrogates.polynomial_chaos.polynomials.Legendre</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.surrogates.polynomial_chaos.polynomials.Legendre</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">special</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uniform</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.baseclass</span><span class="w"> </span><span class="kn">import</span> <span class="n">Distribution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polynomials</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">eval_legendre</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+
+<div class="viewcode-block" id="Legendre">
+<a class="viewcode-back" href="../../../../../surrogates/pce/polynomials.html#UQpy.surrogates.polynomial_chaos.polynomials.Legendre">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Legendre</span><span class="p">(</span><span class="n">Polynomials</span><span class="p">):</span>
+
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">distributions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Distribution</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Distribution</span><span class="p">]]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class of univariate polynomials appropriate for data generated from a uniform distribution.</span>
+
+<span class="sd">        :param degree: Maximum degree of the polynomials.</span>
+<span class="sd">        :param distributions: Distribution object of the generated samples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">distributions</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">degree</span> <span class="o">=</span> <span class="n">degree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span>
+
+<div class="viewcode-block" id="Legendre.evaluate">
+<a class="viewcode-back" href="../../../../../surrogates/pce/polynomials.html#UQpy.surrogates.polynomial_chaos.polynomials.Legendre.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the normalized Legendre polynomials evaluated at sample points.</span>
+
+<span class="sd">        :param x: :class:`numpy.ndarray` containing the samples.</span>
+<span class="sd">        :return: Α list of :class:`numpy.ndarray` with the design matrix and the</span>
+<span class="sd">                    normalized polynomials.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="c1"># normalize data</span>
+        <span class="n">x_normed</span> <span class="o">=</span> <span class="n">Polynomials</span><span class="o">.</span><span class="n">standardize_uniform</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">)</span>
+
+        <span class="c1"># evaluate standard Legendre polynomial, i.e. orthogonal in [-1,1] with</span>
+        <span class="c1"># PDF = 1 (NOT 1/2!!!)</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">eval_legendre</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">x_normed</span><span class="p">)</span>
+
+        <span class="c1"># normalization constant</span>
+        <span class="n">st_lege_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># multiply by sqrt(2) to take into account the pdf 1/2</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">l</span> <span class="o">/</span> <span class="n">st_lege_norm</span>
+
+        <span class="k">return</span> <span class="n">l</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">legendre_triple_product</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+
+        <span class="n">normk</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">norml</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">normm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">normm</span> <span class="o">/</span> <span class="p">(</span><span class="n">normk</span> <span class="o">*</span> <span class="n">norml</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">norm</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">Legendre</span><span class="o">.</span><span class="n">wigner_3j_PCE</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wigner_3j_PCE</span><span class="p">(</span><span class="n">j_1</span><span class="p">,</span> <span class="n">j_2</span><span class="p">,</span> <span class="n">j_3</span><span class="p">):</span>
+
+        <span class="n">cond1</span> <span class="o">=</span> <span class="n">j_1</span> <span class="o">+</span> <span class="n">j_2</span> <span class="o">-</span> <span class="n">j_3</span>
+        <span class="n">cond2</span> <span class="o">=</span> <span class="n">j_1</span> <span class="o">-</span> <span class="n">j_2</span> <span class="o">+</span> <span class="n">j_3</span>
+        <span class="n">cond3</span> <span class="o">=</span> <span class="o">-</span><span class="n">j_1</span> <span class="o">+</span> <span class="n">j_2</span> <span class="o">+</span> <span class="n">j_3</span>
+        <span class="k">if</span> <span class="n">cond1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">cond2</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">cond3</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="n">factarg</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_1</span> <span class="o">+</span> <span class="n">j_2</span> <span class="o">-</span> <span class="n">j_3</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_1</span> <span class="o">-</span> <span class="n">j_2</span> <span class="o">+</span> <span class="n">j_3</span><span class="p">)</span> <span class="o">*</span>
+                       <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="o">-</span><span class="n">j_1</span> <span class="o">+</span> <span class="n">j_2</span> <span class="o">+</span> <span class="n">j_3</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span>
+                       <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_1</span> <span class="o">+</span> <span class="n">j_2</span> <span class="o">+</span> <span class="n">j_3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">factfinal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">factarg</span><span class="p">)</span>
+
+            <span class="n">imin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="o">-</span><span class="n">j_3</span> <span class="o">+</span> <span class="n">j_1</span><span class="p">,</span> <span class="o">-</span><span class="n">j_3</span> <span class="o">+</span> <span class="n">j_2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">imax</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">j_2</span><span class="p">,</span> <span class="n">j_1</span><span class="p">,</span> <span class="n">j_1</span> <span class="o">+</span> <span class="n">j_2</span> <span class="o">-</span> <span class="n">j_3</span><span class="p">)</span>
+            <span class="n">summfinal</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">imin</span><span class="p">,</span> <span class="n">imax</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">sumfact</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> \
+                          <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j_3</span> <span class="o">-</span> <span class="n">j_1</span><span class="p">)</span> <span class="o">*</span> \
+                          <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_2</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> \
+                          <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> \
+                          <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j_3</span> <span class="o">-</span> <span class="n">j_2</span><span class="p">)</span> <span class="o">*</span> \
+                          <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">j_1</span> <span class="o">+</span> <span class="n">j_2</span> <span class="o">-</span> <span class="n">j_3</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+                <span class="n">summfinal</span> <span class="o">=</span> <span class="n">summfinal</span> <span class="o">+</span> <span class="nb">int</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="n">sumfact</span>
+
+            <span class="n">const1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="nb">int</span><span class="p">(</span><span class="n">j_1</span> <span class="o">-</span> <span class="n">j_2</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">factfinal</span> <span class="o">*</span> <span class="n">summfinal</span> <span class="o">*</span> <span class="n">const1</span></div>
+
+
+<span class="n">Polynomials</span><span class="o">.</span><span class="n">distribution_to_polynomial</span><span class="p">[</span><span class="n">Uniform</span><span class="p">]</span> <span class="o">=</span> <span class="n">Legendre</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

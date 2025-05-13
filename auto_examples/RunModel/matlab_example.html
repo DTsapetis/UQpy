@@ -1,0 +1,608 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Third-party - Matlab &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Sampling" href="../../sampling/index.html" />
+    <link rel="prev" title="Python" href="python_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#architecture-workflow">Architecture &amp; Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#examples-template-files">Examples &amp; Template Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#pythonmodel-class">PythonModel Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#thirdpartymodel-class">ThirdPartyModel Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#runmodel-class">RunModel Class</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../runmodel_doc.html#examples">Examples</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">RunModel Examples</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ls_dyna_example_singlejob.html">Third-party - Single job - LS Dyna</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ls_dyna_example_multijob.html">Third-party - Multi-job - LS Dyna</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opensees_example.html">Third-party - OpenSees</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cluster_script_example.html">Cluster Script Example for Third-party</a></li>
+<li class="toctree-l4"><a class="reference internal" href="abaqus_example.html">Third-party - Abaqus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="python_example.html">Python</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Third-party - Matlab</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../runmodel_doc.html">RunModel</a></li>
+          <li class="breadcrumb-item"><a href="index.html">RunModel Examples</a></li>
+      <li class="breadcrumb-item active">Third-party - Matlab</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/auto_examples/RunModel/matlab_example.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-runmodel-matlab-example-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="third-party-matlab">
+<span id="sphx-glr-auto-examples-runmodel-matlab-example-py"></span><h1>Third-party - Matlab<a class="headerlink" href="#third-party-matlab" title="Link to this heading"></a></h1>
+<p>The RunModel class is capable of passing input in different formats into a single computational model. This means that
+the samples passed into a model can be passed as:
+- floating point values
+- numpy arrays
+- lists
+- tuples
+- lists of other iterables
+- numpy arrays of other iterables
+- or any combination of the above</p>
+<p>In the examples below, we demonstrate the use of a third-party computational model (in this case, Matlab) with inputs
+that are combinations of the above.</p>
+<p>Some notes on their use:</p>
+<p>1. UQpy converts all sample input to a numpy array with at least two dimensions. The first dimension,
+i.e. len(samples) must correspond to the number of samples being passed for model execution. The second dimension,
+i.e. len(samples[0]) must correspond to the number of variables that each sample possesses.</p>
+<p>2. Each individual sample, i.e. sample[j], may be composed of multiple data types – with each variable having a
+different data type. For example, sample[j][k] may be a floating point value and sample[j][l] may be an array of
+arbitrary dimension.</p>
+<p>3. If a specific variable has multiple dimensions, the user may specify the index to be return in the input file.
+For example, the place holder for a variable x1 corresponding to sample[j][l] that is an array of shape (1,4) can be
+read as &lt;x1[0, 3]&gt;, which will return the final (0,3) component of samples[j][l].</p>
+<p>4. If the user does not specify the index for a multidimensional variable, then the entire multidimensional variable
+is flattened and written with comma delimiters.</p>
+<p>All examples are run using Matlab execution through the command line. The user will need to modify the model_script
+in order to provide the correct path to the Matlab application on his/her computer.</p>
+<p>Examples 1-2:
+The provided Matlab models take the sum of three random variables:</p>
+<div class="math notranslate nohighlight">
+\[s = \sum_{i=1}^3 x_i\]</div>
+<div class="math notranslate nohighlight">
+\[x_i \sim N(0,1)\]</div>
+<p>Example 3:
+The provided Matlab model takes the product of a random variable and the determinant of a random matrix:</p>
+<div class="math notranslate nohighlight">
+\[x \sim N(0,1)\]</div>
+<p><span class="math notranslate nohighlight">\(y\)</span> is a <span class="math notranslate nohighlight">\(3x3\)</span> matrix of standard normal random variables.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonteCarloSampling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.RunModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.model_execution.ThirdPartyModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThirdPartyModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+<section id="pick-which-model-to-run">
+<h2>Pick which model to run<a class="headerlink" href="#pick-which-model-to-run" title="Link to this heading"></a></h2>
+<p>Options:
+- ‘all’
+- ‘scalar’
+- ‘vector’
+- ‘mixed’</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">pick_model</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-1-three-scalar-random-variables">
+<h2>Example 1: Three scalar random variables<a class="headerlink" href="#example-1-three-scalar-random-variables" title="Link to this heading"></a></h2>
+<p>In this example, we pass three scalar random variables. Note that this is different from assigning a single variable
+with three components, which will be handled in the following example.</p>
+<p>Here we will pass the samples both as an ndarray and as a list. Recall that UQpy converts all samples into an ndarray
+of at least two dimensions internally.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;scalar&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;vector&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call MCS to generate samples</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x_mcs</span> <span class="o">=</span> <span class="n">MonteCarloSampling</span><span class="p">(</span><span class="n">distributions</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">],</span> <span class="n">nsamples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">987979</span><span class="p">)</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;var1&#39;</span><span class="p">,</span> <span class="s1">&#39;var11&#39;</span><span class="p">,</span> <span class="s1">&#39;var111&#39;</span><span class="p">]</span>
+
+    <span class="c1"># UQpy returns samples as an ndarray. Convert them to a list for part 1.2</span>
+    <span class="n">x_mcs_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x_mcs</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Monte Carlo samples of three random variables from a standard normal distribution.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples stored as an array:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data type:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_mcs</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_mcs</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of samples:&#39;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">x_mcs</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x_mcs</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples stored as a list:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data type:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_mcs_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_mcs_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of samples:&#39;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">x_mcs_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x_mcs_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="pass-sampled-as-ndarray-specify-format-in-generated-input-file-serial-execution">
+<h3>1.1 Pass sampled as ndarray, specify format in generated input file, serial execution<a class="headerlink" href="#pass-sampled-as-ndarray-specify-format-in-generated-input-file-serial-execution" title="Link to this heading"></a></h3>
+<p>This examples uses the following files:</p>
+<ul class="simple">
+<li><p>model_script = matlab_model_sum_scalar.py</p></li>
+<li><p>input_template = sum_scalar.m</p></li>
+<li><p>output_script = process_matlab_output.py</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;scalar&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_sum_scalar.py&#39;</span><span class="p">,</span>
+                            <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;sum_scalar.m&#39;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                            <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                            <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:&gt;10.4f}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">ntasks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">x_mcs</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for serial execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="samples-passed-as-list-no-format-specification-parallel-execution">
+<h3>1.2 Samples passed as list, no format specification, parallel execution<a class="headerlink" href="#samples-passed-as-list-no-format-specification-parallel-execution" title="Link to this heading"></a></h3>
+<p>This examples uses the following files:</p>
+<ul class="simple">
+<li><p>model_script = matlab_model_sum_scalar.py</p></li>
+<li><p>input_template = sum_scalar.m</p></li>
+<li><p>output_script = process_matlab_output.py</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;scalar&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel with samples as a list - Again we run the model while instantiating the RunModel object.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_sum_scalar.py&#39;</span><span class="p">,</span>
+                            <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;sum_scalar.m&#39;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                            <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                            <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mcs_list</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_par_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for parallel execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_par_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values retured from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-2-single-tri-variate-random-variable">
+<h2>Example 2: Single tri-variate random variable<a class="headerlink" href="#example-2-single-tri-variate-random-variable" title="Link to this heading"></a></h2>
+<p>In this example, we pass three random variables in as a trivariate random variable. Note that this is different from
+assigning three scalar random variables, which was be handled in Example 1.</p>
+<p>Again, we will pass the samples both as an ndarray and as a list. Recall that UQpy converts all samples into an
+ndarray of at least two dimensions internally.</p>
+<section id="restructure-the-samples">
+<h3>Restructure the samples<a class="headerlink" href="#restructure-the-samples" title="Link to this heading"></a></h3>
+<p>To pass the samples in as a single tri-variate variable, we need reshape the samples from shape (5, 3) to
+shape (5, 1, 3)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;vector&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="n">x_mcs_tri</span> <span class="o">=</span> <span class="n">x_mcs</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">x_mcs_tri_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x_mcs_tri</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Monte Carlo samples of three random variables from a standard normal distribution.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples stored as an array:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data type:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_mcs_tri</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_mcs_tri</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of samples:&#39;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">x_mcs_tri</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x_mcs_tri</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples stored as a list:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data type:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_mcs_tri_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_mcs_tri_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of samples:&#39;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">x_mcs_tri_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x_mcs_tri_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="pass-samples-as-ndarray-specify-format-in-generated-input-file-serial-execution-index-samples-in-input-template">
+<h3>2.1 Pass samples as ndarray, specify format in generated input file, serial execution, index samples in input_template<a class="headerlink" href="#pass-samples-as-ndarray-specify-format-in-generated-input-file-serial-execution-index-samples-in-input-template" title="Link to this heading"></a></h3>
+<p>This examples uses the following files:</p>
+<ul class="simple">
+<li><p>model_script = matlab_model_sum_vector_indexed.py</p></li>
+<li><p>input_template = sum_vector_indexed.m</p></li>
+<li><p>output_script = process_matlab_output.py</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;vector&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_sum_vector_indexed.py&#39;</span><span class="p">,</span>
+                            <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;sum_vector_indexed.m&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                            <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                            <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:&gt;10.4f}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mcs_tri</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for serial execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="samples-passed-as-list-no-format-specification-parallel-execution-index-samples">
+<h3>2.2 Samples passed as list, no format specification, parallel execution, index samples<a class="headerlink" href="#samples-passed-as-list-no-format-specification-parallel-execution-index-samples" title="Link to this heading"></a></h3>
+<p>This examples uses the following files:
+- model_script = matlab_model_sum_vector_indexed.py
+- input_template = sum_vector_indexed.m
+- output_script = process_matlab_output.py</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;vector&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_sum_vector_indexed.py&#39;</span><span class="p">,</span>
+                            <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;sum_vector_indexed.m&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                            <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                            <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mcs_tri_list</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for parallel execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="samples-passed-as-a-ndarray-specify-format-in-generated-input-file-serial-execution-do-not-index-samples">
+<h3>2.3 Samples passed as a ndarray, specify format in generated input file, serial execution, do not index samples<a class="headerlink" href="#samples-passed-as-a-ndarray-specify-format-in-generated-input-file-serial-execution-do-not-index-samples" title="Link to this heading"></a></h3>
+<p>This examples uses the following files:
+- model_script = matlab_model_sum_vector_indexed.py
+- input_template = sum_vector_indexed.m
+- output_script = process_matlab_output.py</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;vector&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="c1"># Notice that we do not specify var_names. This will default to a single variable with name x0. In this case,</span>
+    <span class="c1"># we will read them in by indexing in the input_template.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_sum_vector.py&#39;</span><span class="p">,</span>
+                            <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;sum_vector.m&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                            <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                            <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:&gt;10.4f}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mcs_tri</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for serial execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-3-passing-a-scalar-and-an-array-to-runmodel">
+<h2>Example 3: Passing a scalar and an array to RunModel<a class="headerlink" href="#example-3-passing-a-scalar-and-an-array-to-runmodel" title="Link to this heading"></a></h2>
+<p>In this example, we pass a single scalar random variable as well as an array into a Matlab model.</p>
+<p>Again, we will pass the samples both as an ndarray and as a list. Recall that UQpy converts all samples into an
+ndarray of at least two dimensions internally.</p>
+<p>Create the input samples to be passed</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;mixed&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;vector&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+
+    <span class="c1"># Call MCS to generate samples</span>
+    <span class="c1"># First generate the scalar random variable</span>
+    <span class="n">x_mcs1</span> <span class="o">=</span> <span class="n">MonteCarloSampling</span><span class="p">(</span><span class="n">distributions</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">nsamples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">843765</span><span class="p">)</span>
+    <span class="c1"># Next generate a 3x3 random matrix</span>
+    <span class="n">x_mcs2</span> <span class="o">=</span> <span class="n">MonteCarloSampling</span><span class="p">(</span><span class="n">distributions</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">],</span> <span class="n">nsamples</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">438975</span><span class="p">)</span>
+    <span class="n">x_mcs_array</span> <span class="o">=</span> <span class="n">x_mcs2</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="c1"># -------------------------------------------------------------------------------------------------------------</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Monte Carlo samples of a single random variable from a standard normal distribution.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples stored as an array:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data type:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_mcs1</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_mcs1</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of samples:&#39;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">x_mcs1</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x_mcs1</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Monte Carlo samples of a 3x3 matrix of standard normal random variables.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples stored as an array:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data type:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_mcs_array</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_mcs_array</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of samples:&#39;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">x_mcs_array</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x_mcs_array</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="c1"># Create a set of samples to be passed into RunModel</span>
+    <span class="c1"># Here we need to create the mixed samples such that each sample has a single scalar and a single 3x3 matrix.</span>
+    <span class="c1"># This data structure is essential to passing the input to UQpy correctly.</span>
+    <span class="n">x_mixed</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">x_mixed</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x_mcs1</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x_mcs_array</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Combined samples with a scalar and a 3x3 matrix of standard normal random variables.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples stored as a list:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data type:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_mixed</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_mixed</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of samples:&#39;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">x_mixed</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x_mixed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="n">x_mixed_array</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.atleast_2d.html#numpy.atleast_2d" title="numpy.atleast_2d" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.asarray.html#numpy.asarray" title="numpy.asarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">asarray</span></a><span class="p">(</span><span class="n">x_mixed</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Combined samples with a scalar and a 3x3 matrix of standard normal random variables.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples stored as ndarray:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data type:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_mixed_array</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_mixed_array</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of samples:&#39;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">x_mixed_array</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Samples&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x_mixed_array</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="c1"># Notice that, in both the ndarray case and the list case, the samples have dimension (5,2). That is, there</span>
+    <span class="c1"># are five samples of two variables. The first variable is a scalar. The second variable is a 3x3 matrix.</span>
+</pre></div>
+</div>
+<p>3.1 Pass samples as ndarray, specify format in generated input file, serial execution, do not index samples in
+input_template
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This examples uses the following files:
+- model_script = matlab_model_det.py
+- input_template = prod_determinant.m
+- output_script = process_matlab_output.py</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;mixed&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="c1"># Notice that we do not specify var_names. This will default to two variables with names x0 and x1. In this</span>
+    <span class="c1"># case, x0 is a scalar and x1 is a 3x3 matrix. We will read the matrix in without indexing in the</span>
+    <span class="c1"># input_template.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_det.py&#39;</span><span class="p">,</span>
+                            <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;prod_determinant.m&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">],</span>
+                            <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                            <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:&gt;10.4f}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mixed_array</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for serial execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="id1">
+<h3>3.2 Pass samples as ndarray, specify format in generated input file, serial execution, index samples in input_template<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>This examples uses the following files:
+- model_script = matlab_model_det_index.py
+- input_template = prod_determinant_index.m
+- output_script = process_matlab_output.py</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;mixed&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="c1"># We will read the matrix in with indexing in the input_template.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_det_index.py&#39;</span><span class="p">,</span>
+                 <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;prod_determinant_index.m&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                 <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                 <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:&gt;10.4f}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mixed_array</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for serial execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>3.3 Pass samples as list, do not specify format in generated input file, parallel execution, do not index samples in
+input_template
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This examples uses the following files:
+- model_script = matlab_model_det.py
+- input_template = prod_determinant.m
+- output_script = process_matlab_output.py</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;mixed&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_det.py&#39;</span><span class="p">,</span>
+                 <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;prod_determinant.m&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                 <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mixed</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for serial execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+
+    <span class="c1"># Notice that the solution changes slightly due to the increased precision by not specifying a fmt.</span>
+</pre></div>
+</div>
+<p>3.4 Pass samples as list, do not specify format in generated input file, parallel execution, index samples in
+input_template
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This examples uses the following files:
+- model_script = matlab_model_det_index.py
+- input_template = prod_determinant_index.m
+- output_script = process_matlab_output.py</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;mixed&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="c1"># Notice that we do not specify var_names. This will default to two variables with names x0 and x1. In this</span>
+    <span class="c1"># case, x0 is a scalar and x1 is a 3x3 matrix. We will read the matrix in with indexing in the</span>
+    <span class="c1"># input_template.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_det_index.py&#39;</span><span class="p">,</span>
+                 <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;prod_determinant_index.m&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                 <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                 <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mixed</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for serial execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Matlab simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+
+    <span class="c1"># Notice that the solution changes slightly due to the increased precision by not specifying a fmt.</span>
+</pre></div>
+</div>
+<p>3.5 Pass samples as ndarray, specify format in generated input file, serial execution, partially index samples in
+input_template
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This examples uses the following files:
+- model_script = matlab_model_det_partial.py
+- input_template = prod_determinant_partial.m
+- output_script = process_matlab_output.py</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;mixed&#39;</span> <span class="ow">or</span> <span class="n">pick_model</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+    <span class="c1"># Call to RunModel - Here we run the model while instantiating the RunModel object.</span>
+    <span class="c1"># Notice that we do not specify var_names. This will default to two variables with names x0 and x1. In this</span>
+    <span class="c1"># case, x0 is a scalar and x1 is a 3x3 matrix. We will read the matrix in with indexing in the</span>
+    <span class="c1"># input_template.</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ThirdPartyModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;matlab_model_det_partial.py&#39;</span><span class="p">,</span>
+                 <span class="n">input_template</span><span class="o">=</span><span class="s1">&#39;prod_determinant_partial.m&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;matlab&quot;</span><span class="p">,</span>
+                 <span class="n">output_script</span><span class="o">=</span><span class="s1">&#39;process_matlab_output.py&#39;</span><span class="p">,</span> <span class="n">output_object_name</span><span class="o">=</span><span class="s1">&#39;read_output&#39;</span><span class="p">,</span>
+                <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;Matlab_Model&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:&gt;10.4f}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x_mixed_array</span><span class="p">,</span> <span class="n">ntasks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">t_ser_matlab</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Time for serial execution:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t_ser_matlab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The values returned from the Python simulation:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-runmodel-matlab-example-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/RunModel/matlab_example.ipynb"><img alt="Launch binder" src="../../_images/binder_badge_logo.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8fb420806ae6798d50160feae5351a40/matlab_example.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">matlab_example.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/5fb464d56ba4853ad1bf6434855c5b4c/matlab_example.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">matlab_example.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/90f958c6ac1ad73a727c90e41046fd0b/matlab_example.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">matlab_example.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="python_example.html" class="btn btn-neutral float-left" title="Python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../sampling/index.html" class="btn btn-neutral float-right" title="Sampling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

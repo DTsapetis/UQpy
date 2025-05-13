@@ -1,0 +1,43 @@
+
+
+.. _sphx_glr_auto_examples_scientific_machine_learning_hmc_trainer:
+
+Hamiltonian Monte Carlo Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Fourier Neural Operator (FNO) using the implementation of Hamiltonian Monte Carlo (HMC) provided by the Hamiltorch (https://adamcobb.github.io/journal/hamiltorch.html) library. Our FNO learns the mapping y(x, 0) \mapsto y(x, 0.5) where y(x,t) is the solution to the Burgers&#x27; equation given by">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/hmc_trainer/images/thumb/sphx_glr_burgers_fno_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_hmc_trainer_burgers_fno.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning the Burgers' Operator with HMC</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/scientific_machine_learning/hmc_trainer/burgers_fno
+

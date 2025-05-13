@@ -1,0 +1,855 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List of Bayesian Layers &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Probabilistic Dropout Layer Baseclass" href="dropout_baseclass.html" />
+    <link rel="prev" title="Bayesian Layer Baseclass" href="bayesian_baseclass.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Scientific Machine Learning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#functional">Functional</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#layers">Layers</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html"> Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#notation">Notation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#layer-baseclass">Layer Baseclass</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#list-of-layers">List of Layers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bayesian_baseclass.html"> Bayesian Base Class</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Bayesian Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bayesian-linear">Bayesian Linear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bayesian-convolution-1d">Bayesian Convolution 1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bayesian-convolution-2d">Bayesian Convolution 2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bayesian-convolution-3d">Bayesian Convolution 3D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bayesian-fourier-1d">Bayesian Fourier 1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bayesian-fourier-2d">Bayesian Fourier 2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bayesian-fourier-3d">Bayesian Fourier 3D</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dropout_baseclass.html"> Dropout Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dropout_layers.html"> Dropout Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fourier_layers.html"> Fourier Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="normalizers.html"> Normalizer Layers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#losses">Losses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#neural-networks">Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#trainers">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Scientific Machine Learning</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Neural Network Layers</a></li>
+      <li class="breadcrumb-item active">List of Bayesian Layers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/scientific_machine_learning/layers/bayesian_layers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="list-of-bayesian-layers">
+<h1>List of Bayesian Layers<a class="headerlink" href="#list-of-bayesian-layers" title="Link to this heading"></a></h1>
+<p>All Bayesian layers use their counterparts in <code class="xref py py-mod docutils literal notranslate"><span class="pre">torch.nn.functional</span></code> and/or
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy.scientific_machine_learning.functional</span></code> to define their computation.
+The difference between a PyTorch layer and it’s Bayesian counterpart is in the defition and training of the learnable parameters.
+A PyTorch layer, like <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Conv1d</span></code> version defines weights and biases as deterministic tensors
+and learns a value for those parameters.
+In contrast, UQpy’s Bayesian version, like <code class="xref py py-class docutils literal notranslate"><span class="pre">UQpy.scientific_machine_learning.BayesianConv1d</span></code>,
+defines the weights and biases as random variables, and learns their distributions.
+The purpose of these layers is not to recreate features in Pytorch, but to provide Bayesian implementations
+that match Pytorch’s syntax as much as possible.</p>
+<p>For example, <code class="xref py py-class docutils literal notranslate"><span class="pre">BayesianLinear</span></code> computes <span class="math notranslate nohighlight">\(y=x A^T + b\)</span> just as <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Linear</span></code> does,
+and uses <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.functional.linear</span></code> for the computation. For convenience, the first three parameters
+of <code class="xref py py-class docutils literal notranslate"><span class="pre">BayesianLinear</span></code> are identical in name and purpose to <code class="xref py py-class docutils literal notranslate"><span class="pre">Linear</span></code>,
+and are <code class="docutils literal notranslate"><span class="pre">in_features</span></code>, <code class="docutils literal notranslate"><span class="pre">out_features</span></code>, and <code class="docutils literal notranslate"><span class="pre">bias</span></code>.</p>
+<section id="bayesian-linear">
+<h2>Bayesian Linear<a class="headerlink" href="#bayesian-linear" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianLinear">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesianLinear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_mu_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_rho_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-3.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianLinear.html#BayesianLinear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianLinear" title="Link to this definition"></a></dt>
+<dd><p>Construct a Bayesian Linear layer as <span class="math notranslate nohighlight">\(xA^T + b\)</span>
+where <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are normal random variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of each input sample</p></li>
+<li><p><strong>out_features</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of each output sample</p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, the layer will not learn an additive bias. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sample layer parameters from their respective Gaussian distributions.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, use distribution mean as parameter values. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>prior_mu</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior mean, <span class="math notranslate nohighlight">\(\mu_\text{prior}\)</span> of the prior normal distribution.
+Default: 0.0</p></li>
+<li><p><strong>prior_sigma</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior standard deviation, <span class="math notranslate nohighlight">\(\sigma_\text{prior}\)</span>, of the prior normal distribution.
+Default: 0.1</p></li>
+<li><p><strong>posterior_mu_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\mu\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.
+Default: (0.0, 0.1)</p></li>
+<li><p><strong>posterior_rho_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\rho\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\rho_\text{posterior}[0], \rho_\text{posterior}[1])\)</span>.
+The standard deviation of the posterior is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to ensure it is positive.
+Default: (-3.0, 0.1)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((*, H_\text{in})\)</span> where <span class="math notranslate nohighlight">\(*\)</span> means any number of
+dimensions including none and <span class="math notranslate nohighlight">\(H_\text{in} = \text{in_features}\)</span>.</p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((*, H_\text{out})\)</span> where all but the last dimension
+are the same shape as the input and <span class="math notranslate nohighlight">\(H_\text{out} = \text{out_features}\)</span>.</p></li>
+</ul>
+<p>Attributes:</p>
+<p>Unless otherwise noted, all parameters are initialized using the <code class="docutils literal notranslate"><span class="pre">priors</span></code> with values
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p>
+<ul class="simple">
+<li><p><strong>weight_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the
+weights of shape <span class="math notranslate nohighlight">\((\text{out_features}, \text{in_features})\)</span>.</p></li>
+<li><p><strong>weight_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the
+weights of shape <span class="math notranslate nohighlight">\((\text{out_features}, \text{in_features})\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>bias_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the
+bias of shape <span class="math notranslate nohighlight">\((\text{out_features})\)</span>.
+If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized from
+<span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+<li><p><strong>bias_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distributinon standard deviation of the
+bias of shape <span class="math notranslate nohighlight">\((\text{out_features})\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.
+If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized from
+<span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deterministic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">probabilistic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">deterministic_output</span> <span class="o">==</span> <span class="n">probabilistic_output</span><span class="p">))</span>
+<span class="go">tensor(False)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianLinear.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianLinear.html#BayesianLinear.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianLinear.forward" title="Link to this definition"></a></dt>
+<dd><p>Forward model evaluation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((*, \text{in_features})\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((*, \text{out_features})\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="bayesian-convolution-1d">
+<h2>Bayesian Convolution 1D<a class="headerlink" href="#bayesian-convolution-1d" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianConv1d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesianConv1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dilation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_mu_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_rho_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-3.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianConv1d.html#BayesianConv1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianConv1d" title="Link to this definition"></a></dt>
+<dd><p>Applies a Bayesian 1D convolution over an input signal composed of several input planes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of channels in the input image</p></li>
+<li><p><strong>out_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of channels produced by the convolution</p></li>
+<li><p><strong>kernel_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>]</span>) – Size of the convolving kernel</p></li>
+<li><p><strong>stride</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>]</span>) – Stride of the convolution. Default: 1</p></li>
+<li><p><strong>padding</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>]</span>) – Padding added to both sides of the input.
+Note padding=’valid’ is the same as no padding.
+padding=’same’ pads the input so the output has the shape as the input.
+However, this mode doesn’t support any stride values other than 1.
+Default: 0</p></li>
+<li><p><strong>dilation</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>]</span>) – Spacing between kernel elements. Default: 1</p></li>
+<li><p><strong>groups</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of blocked connections from input channels to output channels.
+<code class="docutils literal notranslate"><span class="pre">in_channels</span></code> and <code class="docutils literal notranslate"><span class="pre">out_channels</span></code> must both be divisible by <code class="docutils literal notranslate"><span class="pre">groups</span></code>. Default: 1</p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the output. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sample layer parameters from their respective Gaussian distributions.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, use distribution mean as parameter values. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>prior_mu</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior mean, <span class="math notranslate nohighlight">\(\mu_\text{prior}\)</span> of the prior normal distribution.
+Default: 0.0</p></li>
+<li><p><strong>prior_sigma</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior standard deviation, <span class="math notranslate nohighlight">\(\sigma_\text{prior}\)</span>, of the prior normal distribution.
+Default: 0.1</p></li>
+<li><p><strong>posterior_mu_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\mu\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.
+Default: (0.0, 0.1)</p></li>
+<li><p><strong>posterior_rho_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\rho\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\rho_\text{posterior}[0], \rho_\text{posterior}[1])\)</span>.
+The standard deviation of the posterior is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to ensure it is positive.
+Default: (-3.0, 0.1)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This class calls <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.nn.functional.conv1d()</span></code> with <code class="docutils literal notranslate"><span class="pre">padding_mode='zeros'</span></code>.</p>
+</div>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, C_\text{in}, L_\text{in})\)</span> or <span class="math notranslate nohighlight">\((C_\text{in}, L_\text{in})\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, C_\text{out}, L_\text{out})\)</span> or <span class="math notranslate nohighlight">\((C_\text{out}, L_\text{out})\)</span>,</p></li>
+</ul>
+<p>where <span class="math notranslate nohighlight">\(L_\text{out}= \left\lfloor \frac{L_\text{in} + 2 \times \text{padding} - \text{dilation} \times (\text{kernel size} - 1) - 1}{\text{stride}} \right\rfloor + 1\)</span></p>
+<p>Attributes:</p>
+<p>Unless otherwise noted, all parameters are initialized using the <code class="docutils literal notranslate"><span class="pre">priors</span></code> with values
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p>
+<ul class="simple">
+<li><p><strong>weight_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the weights of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels}, \frac{\text{in_channels}}{\text{groups}}, \text{kernel_size})\)</span>.</p></li>
+<li><p><strong>weight_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the weights of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels}, \frac{\text{in_channels}}{\text{groups}}, \text{kernel_size})\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>bias_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the bias of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels})\)</span>. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+<li><p><strong>bias_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the bias of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels})\)</span>.  The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to
+guarantee it is positive. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\rho_\text{posterior}[0], \rho_\text{posterior}[1])\)</span>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianConv1d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deterministic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">probabilistic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">deterministic_output</span> <span class="o">==</span> <span class="n">probabilistic_output</span><span class="p">))</span>
+<span class="go">tensor(False)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianConv1d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianConv1d.html#BayesianConv1d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianConv1d.forward" title="Link to this definition"></a></dt>
+<dd><p>Apply <code class="xref py py-func docutils literal notranslate"><span class="pre">F.conv1d()</span></code> to <code class="docutils literal notranslate"><span class="pre">x</span></code> where the weight and bias are drawn from random variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{in}, L)\)</span> or <span class="math notranslate nohighlight">\((C_\text{in}, L)\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{out}, L)\)</span> or <span class="math notranslate nohighlight">\((C_\text{out}, L)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="bayesian-convolution-2d">
+<h2>Bayesian Convolution 2D<a class="headerlink" href="#bayesian-convolution-2d" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianConv2d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesianConv2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dilation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_mu_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_rho_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-3.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianConv2d.html#BayesianConv2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianConv2d" title="Link to this definition"></a></dt>
+<dd><p>Applies a Bayesian 2D convolution over an input signal composed of several input planes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of channels in the input image</p></li>
+<li><p><strong>out_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of channels produced by the convolution</p></li>
+<li><p><strong>kernel_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Size of the convolving kernel</p></li>
+<li><p><strong>stride</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Stride of the convolution. Default: 1</p></li>
+<li><p><strong>padding</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Padding added to both sides of the input.
+It can be a string <code class="docutils literal notranslate"><span class="pre">&quot;valid&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;same&quot;</span></code> or an integer. Default: 0
+or a tuple of integers giving the amount of implicit padding applied on both sides.</p></li>
+<li><p><strong>dilation</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Spacing between kernel elements. Default: 1</p></li>
+<li><p><strong>groups</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of blocked connections from input channels to output channels. Default: 1.
+<code class="docutils literal notranslate"><span class="pre">in_channels</span></code> and <code class="docutils literal notranslate"><span class="pre">out_channels</span></code> must both be divisible by <code class="docutils literal notranslate"><span class="pre">groups</span></code>.</p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the output. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sample layer parameters from their respective Gaussian distributions.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, use distribution mean as parameter values. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>prior_mu</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior mean, <span class="math notranslate nohighlight">\(\mu_\text{prior}\)</span> of the prior normal distribution.
+Default: 0.0</p></li>
+<li><p><strong>prior_sigma</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior standard deviation, <span class="math notranslate nohighlight">\(\sigma_\text{prior}\)</span>, of the prior normal distribution.
+Default: 0.1</p></li>
+<li><p><strong>posterior_mu_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\mu\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.
+Default: (0.0, 0.1)</p></li>
+<li><p><strong>posterior_rho_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\rho\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\rho_\text{posterior}[0], \rho_\text{posterior}[1])\)</span>.
+The standard deviation of the posterior is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to ensure it is positive.
+Default: (-3.0, 0.1)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This class calls <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.nn.functional.conv2d()</span></code> with <code class="docutils literal notranslate"><span class="pre">padding_mode='zeros'</span></code>.</p>
+</div>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, C_\text{in}, H_\text{in}, W_\text{in})\)</span> or <span class="math notranslate nohighlight">\((C_\text{in}, H_\text{in}, W_\text{in})\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, C_\text{out}, H_\text{out}, W_\text{out})\)</span> or <span class="math notranslate nohighlight">\((C_\text{out}, H_\text{out}, W_\text{out})\)</span></p></li>
+</ul>
+<p>where <span class="math notranslate nohighlight">\(H_\text{out} = \left\lfloor \frac{H_\text{in} + 2 \times \text{padding[0]} - \text{dilation[0]} \times (\text{kernel\_size[0] - 1}) - 1}{\text{stride[0]}} + 1\right\rfloor\)</span>
+and
+<span class="math notranslate nohighlight">\(W_\text{out} = \left\lfloor \frac{W_\text{in} + 2 \times \text{padding[1]} - \text{dilation[1]} \times (\text{kernel\_size[1] - 1}) - 1}{\text{stride[1]}} + 1\right\rfloor\)</span></p>
+<p>Attributes:</p>
+<p>Unless otherwise noted, all parameters are initialized using the <code class="docutils literal notranslate"><span class="pre">priors</span></code> with values
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p>
+<ul class="simple">
+<li><p><strong>weight_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the weights of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels}, \frac{\text{in_channels}}{\text{groups}}, \text{kernel_size[0]}, \text{kernel_size[1]})\)</span>.</p></li>
+<li><p><strong>weight_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the weights of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels}, \frac{\text{in_channels}}{\text{groups}}, \text{kernel_size[0]}, \text{kernel_size[1]})\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>bias_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the bias of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels})\)</span>. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+<li><p><strong>bias_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the bias of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels})\)</span>. The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to
+guarantee it is positive. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># With square kernels and equal stride</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianConv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># non-square kernels and unequal stride and with padding</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianConv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># non-square kernels and unequal stride and with padding and dilation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianConv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dilation</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deterministic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">probabilistic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">deterministic_output</span> <span class="o">==</span> <span class="n">probabilistic_output</span><span class="p">))</span>
+<span class="go">tensor(False)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianConv2d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianConv2d.html#BayesianConv2d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianConv2d.forward" title="Link to this definition"></a></dt>
+<dd><p>Apply <code class="xref py py-func docutils literal notranslate"><span class="pre">F.conv2d()</span></code> to <code class="docutils literal notranslate"><span class="pre">x</span></code> where the weight and bias are drawn from random variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{in}, H_\text{in}, W_\text{in})\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{out}, H_\text{out}, W_\text{out})\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="bayesian-convolution-3d">
+<h2>Bayesian Convolution 3D<a class="headerlink" href="#bayesian-convolution-3d" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianConv3d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesianConv3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dilation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_mu_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_rho_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-3.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianConv3d.html#BayesianConv3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianConv3d" title="Link to this definition"></a></dt>
+<dd><p>Applies a Bayesian 3D convolution over an input signal composed of several input planes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of channels in the input image</p></li>
+<li><p><strong>out_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of channels produced by the convolution</p></li>
+<li><p><strong>kernel_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Size of the convolving kernel</p></li>
+<li><p><strong>stride</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Stride of the convolution. Default: 1</p></li>
+<li><p><strong>padding</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Padding added to all six sides of the input.
+It can be either a string {‘valid’, ‘same’} or a tuple of ints giving the amount of implicit padding applied on both sides. Default: 0</p></li>
+<li><p><strong>dilation</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Spacing between kernel elements. Default: 1</p></li>
+<li><p><strong>groups</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of blocked connections from input channels to output channels.
+<code class="docutils literal notranslate"><span class="pre">in_channels</span></code> and <code class="docutils literal notranslate"><span class="pre">out_channels</span></code> must both be divisible by <code class="docutils literal notranslate"><span class="pre">groups</span></code>. Default: 1.</p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the output. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sample layer parameters from their respective Gaussian distributions.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, use distribution mean as parameter values. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>prior_mu</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior mean, <span class="math notranslate nohighlight">\(\mu_\text{prior}\)</span> of the prior normal distribution.
+Default: 0.0</p></li>
+<li><p><strong>prior_sigma</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior standard deviation, <span class="math notranslate nohighlight">\(\sigma_\text{prior}\)</span>, of the prior normal distribution.
+Default: 0.1</p></li>
+<li><p><strong>posterior_mu_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\mu\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.
+Default: (0.0, 0.1)</p></li>
+<li><p><strong>posterior_rho_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\rho\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\rho_\text{posterior}[0], \rho_\text{posterior}[1])\)</span>.
+The standard deviation of the posterior is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to ensure it is positive.
+Default: (-3.0, 0.1)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This class calls <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.nn.functional.conv3d()</span></code> with <code class="docutils literal notranslate"><span class="pre">padding_mode='zeros'</span></code>.</p>
+</div>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, C_\text{in},D_\text{in}, H_\text{in}, W_\text{in})\)</span> or <span class="math notranslate nohighlight">\((C_\text{in},D_\text{in}, H_\text{in}, W_\text{in})\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, C_\text{out},D_\text{out}, H_\text{out}, W_\text{out})\)</span> or <span class="math notranslate nohighlight">\((C_\text{out},D_\text{out}, H_\text{out}, W_\text{out})\)</span></p></li>
+</ul>
+<p>where <span class="math notranslate nohighlight">\(D_\text{out} = \left\lfloor \frac{D_\text{in} + 2 \times \text{padding[0]} - \text{dilation[0]} \times (\text{kernel\_size[0] - 1}) - 1}{\text{stride[0]}} + 1\right\rfloor\)</span></p>
+<p><span class="math notranslate nohighlight">\(H_\text{out} = \left\lfloor \frac{H_\text{in} + 2 \times \text{padding[0]} - \text{dilation[0]} \times (\text{kernel\_size[0] - 1}) - 1}{\text{stride[0]}} + 1\right\rfloor\)</span></p>
+<p><span class="math notranslate nohighlight">\(W_\text{out} = \left\lfloor \frac{W_\text{in} + 2 \times \text{padding[1]} - \text{dilation[1]} \times (\text{kernel\_size[1] - 1}) - 1}{\text{stride[1]}} + 1\right\rfloor\)</span></p>
+<p>Attributes:</p>
+<p>Unless otherwise noted, all parameters are initialized using the <code class="docutils literal notranslate"><span class="pre">priors</span></code> with values
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span></p>
+<ul class="simple">
+<li><p><strong>weight_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the weights of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels}, \frac{\text{in_channels}}{\text{groups}}, \text{kernel_size[0]}, \text{kernel_size[1]}, \text{kernel_size[2]})\)</span>.</p></li>
+<li><p><strong>weight_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the weights of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels}, \frac{\text{in_channels}}{\text{groups}}, \text{kernel_size[0]}, \text{kernel_size[1]}, \text{kernel_size[2]})\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>bias_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the bias of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels})\)</span>. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+<li><p><strong>bias_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the bias of the module
+of shape <span class="math notranslate nohighlight">\((\text{out_channels})\)</span>. The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to
+guarantee it is positive. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># With cubic kernels and equal stride</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianConv3d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># non-cubic kernels and unequal stride and with padding</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianConv3d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deterministic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">probabilistic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">deterministic_output</span> <span class="o">==</span> <span class="n">probabilistic_output</span><span class="p">))</span>
+<span class="go">tensor(False)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianConv3d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianConv3d.html#BayesianConv3d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianConv3d.forward" title="Link to this definition"></a></dt>
+<dd><p>Apply <code class="xref py py-func docutils literal notranslate"><span class="pre">F.conv3d()</span></code> to <code class="docutils literal notranslate"><span class="pre">x</span></code> where the weight and bias are drawn from random variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{in}, D_\text{in}, H_\text{in}, W_\text{in})\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{out}, D_\text{out}, H_\text{out}, W_\text{out})\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="bayesian-fourier-1d">
+<h2>Bayesian Fourier 1D<a class="headerlink" href="#bayesian-fourier-1d" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianFourier1d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesianFourier1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_mu_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_rho_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-3.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianFourier1d.html#BayesianFourier1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianFourier1d" title="Link to this definition"></a></dt>
+<dd><p>A 1d Bayesian Fourier layer as <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span>
+where <span class="math notranslate nohighlight">\(R\)</span>, along with the wieghts and bias for <span class="math notranslate nohighlight">\(W\)</span>, are normal random variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of neurons in the layer and channels in the spectral convolution</p></li>
+<li><p><strong>modes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of Fourier modes to keep, at most <span class="math notranslate nohighlight">\(\lfloor L / 2 \rfloor + 1\)</span></p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the convolution. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sample layer parameters from their respective Gaussian distributions.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, use distribution mean as parameter values. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>prior_mu</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior mean, <span class="math notranslate nohighlight">\(\mu_\text{prior}\)</span> of the prior normal distribution.
+Default: 0.0</p></li>
+<li><p><strong>prior_sigma</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior standard deviation, <span class="math notranslate nohighlight">\(\sigma_\text{prior}\)</span>, of the prior normal distribution.
+Default: 0.1</p></li>
+<li><p><strong>posterior_mu_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\mu\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.
+Default: (0.0, 0.1)</p></li>
+<li><p><strong>posterior_rho_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\rho\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\rho_\text{posterior}[0], \rho_\text{posterior}[1])\)</span>.
+The standard deviation of the posterior is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to ensure it is positive.
+Default: (-3.0, 0.1)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, \text{width}, L)\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, \text{width}, L)\)</span></p></li>
+</ul>
+<p>Attributes:</p>
+<p>Unless otherwise noted, all parameters are initialized using the <code class="docutils literal notranslate"><span class="pre">priors</span></code> with values
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p>
+<ul class="simple">
+<li><p><strong>weight_spectral_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the
+weights of the spectral convolution of shape <span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{modes})\)</span>
+with complex entries.</p></li>
+<li><p><strong>weight_spectral_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the
+weights of the spectral convolution of shape <span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{modes})\)</span>
+with complex entries.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>weight_conv_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the
+weights of the convolution of shape <span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size})\)</span>.
+The <span class="math notranslate nohighlight">\(\text{kernel_size}=1\)</span>.</p></li>
+<li><p><strong>weight_conv_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>) The learnable distribution standard deviation of the
+weights of the convolution of shape <span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size})\)</span>.
+The <span class="math notranslate nohighlight">\(\text{kernel_size}=1\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>bias_conv_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean of the
+bias of the convolution of shape <span class="math notranslate nohighlight">\((\text{width})\)</span>.
+If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized from
+<span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+<li><p><strong>bias_conv_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation of the
+bias of the convolution of shape <span class="math notranslate nohighlight">\((\text{width})\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.
+If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized from
+<span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">length</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="n">length</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianFourier1d</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">modes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deterministic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">probabilistic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">deterministic_output</span> <span class="o">==</span> <span class="n">probabilistic_output</span><span class="p">))</span>
+<span class="go">tensor(False)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianFourier1d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianFourier1d.html#BayesianFourier1d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianFourier1d.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, \text{width}, L)\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, \text{width}, L)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="bayesian-fourier-2d">
+<h2>Bayesian Fourier 2D<a class="headerlink" href="#bayesian-fourier-2d" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianFourier2d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesianFourier2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_mu_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_rho_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-3.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianFourier2d.html#BayesianFourier2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianFourier2d" title="Link to this definition"></a></dt>
+<dd><p>A 2d Bayesian Fourier layer as <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} ( R (\mathcal{F}x)) + W(x)\)</span>
+where <span class="math notranslate nohighlight">\(R\)</span>, along with the wieghts and bias for <span class="math notranslate nohighlight">\(W\)</span>, are normal random variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of neurons in the layer and channels in the spectral convolution</p></li>
+<li><p><strong>modes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Number of Fourier modes to keep,
+at most <span class="math notranslate nohighlight">\((\lfloor H / 2 \rfloor + 1, \lfloor W / 2 \rfloor + 1)\)</span></p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the convolution. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sample layer parameters from their respective Gaussian distributions.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, use distribution mean as parameter values. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>prior_mu</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior mean, <span class="math notranslate nohighlight">\(\mu_\text{prior}\)</span> of the prior normal distribution.
+Default: 0.0</p></li>
+<li><p><strong>prior_sigma</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior standard deviation, <span class="math notranslate nohighlight">\(\sigma_\text{prior}\)</span>, of the prior normal distribution.
+Default: 0.1</p></li>
+<li><p><strong>posterior_mu_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\mu\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.
+Default: (0.0, 0.1)</p></li>
+<li><p><strong>posterior_rho_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\rho\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\rho_\text{posterior}[0], \rho_\text{posterior}[1])\)</span>.
+The standard deviation of the posterior is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to ensure it is positive.
+Default: (-3.0, 0.1)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, \text{width}, H, W)\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, \text{width}, H, W)\)</span></p></li>
+</ul>
+<p>Attributes:</p>
+<p>Unless otherwise noted, all parameters are initialized using the <code class="docutils literal notranslate"><span class="pre">priors</span></code> with values
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p>
+<ul class="simple">
+<li><p><strong>weight_spectral_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean for the
+weights of the spectral convolution of shape
+<span class="math notranslate nohighlight">\((2, \text{width}, \text{width}, \text{modes[0]}, \text{modes[1]})\)</span> with complex entries.</p></li>
+<li><p><strong>weight_spectral_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation for
+the weights of the spectral convolution of shape
+<span class="math notranslate nohighlight">\((2, \text{width}, \text{width}, \text{modes[0]}, \text{modes[1]})\)</span> with complex entries.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>weight_conv_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean for the weights
+of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size[0]}, \text{kernel_size[1]})\)</span> with real entries.
+The <span class="math notranslate nohighlight">\(\text{kernel_size} = (1, 1)\)</span>.</p></li>
+<li><p><strong>weight_conv_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation for the weights
+of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size[0]}, \text{kernel_size[1]})\)</span> with real entries.
+The <span class="math notranslate nohighlight">\(\text{kernel_size} = (1, 1)\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>bias_conv_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean for the bias
+of the convolution of shape <span class="math notranslate nohighlight">\((\text{width})\)</span> with real entires.
+If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized from
+<span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+<li><p><strong>bias_conv_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation for the bias
+of the convolution of shape <span class="math notranslate nohighlight">\((\text{width})\)</span> with real entries. The standard deviation is computed as
+<span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are
+initialized from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">33</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianFourier2d</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">modes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deterministic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">probabilistic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">deterministic_output</span> <span class="o">==</span> <span class="n">probabilistic_output</span><span class="p">))</span>
+<span class="go">tensor(False)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianFourier2d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianFourier2d.html#BayesianFourier2d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianFourier2d.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{in}, H, W)\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{in}, H, W)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="bayesian-fourier-3d">
+<h2>Bayesian Fourier 3D<a class="headerlink" href="#bayesian-fourier-3d" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianFourier3d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesianFourier3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_mu_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_rho_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-3.0,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianFourier3d.html#BayesianFourier3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianFourier3d" title="Link to this definition"></a></dt>
+<dd><p>A 3d Bayesian Fourier layer as <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} ( R (\mathcal{F}x)) + W(x)\)</span>
+where <span class="math notranslate nohighlight">\(R\)</span>, along with the wieghts and bias for <span class="math notranslate nohighlight">\(W\)</span>, are random variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of neurons in the layer and channels in the spectral convolution</p></li>
+<li><p><strong>modes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Number of Fourier modes to keep,
+at most <span class="math notranslate nohighlight">\((\lfloor D / 2 \rfloor + 1, \lfloor H / 2 \rfloor + 1, \lfloor W / 2 \rfloor + 1)\)</span></p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the convolution. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sample layer parameters from their respective Gaussian distributions.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, use distribution mean as parameter values. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>prior_mu</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior mean, <span class="math notranslate nohighlight">\(\mu_\text{prior}\)</span> of the prior normal distribution.
+Default: 0.0</p></li>
+<li><p><strong>prior_sigma</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Prior standard deviation, <span class="math notranslate nohighlight">\(\sigma_\text{prior}\)</span>, of the prior normal distribution.
+Default: 0.1</p></li>
+<li><p><strong>posterior_mu_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\mu\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.
+Default: (0.0, 0.1)</p></li>
+<li><p><strong>posterior_rho_initial</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Mean and standard deviation of the initial posterior distribution for <span class="math notranslate nohighlight">\(\rho\)</span>.
+The initial posterior is <span class="math notranslate nohighlight">\(\mathcal{N}(\rho_\text{posterior}[0], \rho_\text{posterior}[1])\)</span>.
+The standard deviation of the posterior is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to ensure it is positive.
+Default: (-3.0, 0.1)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, \text{width}, D, H, W)\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, \text{width}, D, H, W)\)</span></p></li>
+</ul>
+<p>Attributes:</p>
+<p>Unless otherwise noted, all parameters are initialized using the <code class="docutils literal notranslate"><span class="pre">priors</span></code> with values
+from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p>
+<ul class="simple">
+<li><p><strong>weight_spectral_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean for the
+weights of the spectral convolution of shape
+<span class="math notranslate nohighlight">\((4, \text{width}, \text{width}, \text{modes[0]}, \text{modes[1]}, \text{modes[2]})\)</span> with complex entries.</p></li>
+<li><p><strong>weight_spectral_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation for
+the  weights of the spectral convolution of shape
+<span class="math notranslate nohighlight">\((4, \text{width}, \text{width}, \text{modes[0]}, \text{modes[1]}, \text{modes[2]})\)</span> with complex entries.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>weight_conv_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean for the weights
+of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size[0]}, \text{kernel_size[1]}, \text{kernel_size[2]})\)</span>
+with real entries. The <span class="math notranslate nohighlight">\(\text{kernel_size} = (1, 1, 1)\)</span>.</p></li>
+<li><p><strong>weight_conv_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation for the
+weights of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size[0]}, \text{kernel_size[1]}, \text{kernel_size[2]})\)</span>
+with real entries. The <span class="math notranslate nohighlight">\(\text{kernel_size} = (1, 1, 1)\)</span>.
+The standard deviation is computed as <span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive.</p></li>
+<li><p><strong>bias_conv_mu</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution mean for the bias
+of the convolution of shape <span class="math notranslate nohighlight">\((\text{width})\)</span> with real entires.
+If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are initialized from
+<span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+<li><p><strong>bias_conv_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable distribution standard deviation for the bias
+of the convolution of shape <span class="math notranslate nohighlight">\((\text{width})\)</span> with real entries. The standard deviation is computed as
+<span class="math notranslate nohighlight">\(\sigma = \ln( 1 + \exp(\rho))\)</span> to guarantee it is positive. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values are
+initialized from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_\text{posterior}[0], \mu_\text{posterior}[1])\)</span>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">33</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">BayesianFourier3d</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">modes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deterministic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">probabilistic_output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">determinisitc_output</span> <span class="o">==</span> <span class="n">probabilistic_output</span><span class="p">))</span>
+<span class="go">tensor(False)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.BayesianFourier3d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/BayesianFourier3d.html#BayesianFourier3d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.BayesianFourier3d.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{in}, D, H, W)\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{in}, D, H, W)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="bayesian_baseclass.html" class="btn btn-neutral float-left" title="Bayesian Layer Baseclass" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dropout_baseclass.html" class="btn btn-neutral float-right" title="Probabilistic Dropout Layer Baseclass" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+:orphan:
+
+Sobol Sensitivity indices
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+These examples serve as a guide for using the Sobol sensitivity module. They have been taken from various papers to enable validation of the implementation and have been referenced accordingly.
+
+Single output models
+======================
+We demonstrate the computation of the Sobol indices for models with a single output using the following examples:
+
+1. **Additive function**
+
+    This is a beginner-friendly example for introducing Sobol indices. The function is a linear combination of two inputs which produces a scalar output.
+
+2. **Ishigami function**
+
+    The Ishigami function is a non-linear, non-monotonic function that is commonly used to benchmark uncertainty and senstivity analysis methods.
+
+3. **Sobol function** 
+
+    The Sobol function is non-linear function that is commonly used to benchmark uncertainty 
+    and senstivity analysis methods. Unlike the Ishigami function which has 3 input 
+    variables, the Sobol function can have any number of input variables (see [2]_).
+
+Multiple output models
+========================
+
+We demonstrate the computation of the Sobol indices for models with multiple outputs using the following example:
+
+1. **Mechanical oscillator ODE**
+
+    The Sobol indices are computed for a mechanical oscillator governed by a second-order differential equation [1]_. The model outputs the displacement of the oscillator for a given time period. Here the sensitivity of the model parameters are computed at each point in time (see [1]_).
+
+.. [1] Gamboa F, Janon A, Klein T, Lagnoux A, others. Sensitivity analysis for multidimensional and functional outputs. Electronic journal of statistics 2014; 8(1): 575-603.
+
+.. [2] Saltelli, A. (2002). Making best use of model evaluations to compute  indices.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/sobol/images/thumb/sphx_glr_local_additive_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_sobol_local_additive.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/sobol/images/thumb/sphx_glr_local_ishigami_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_sobol_local_ishigami.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/sobol/images/thumb/sphx_glr_local_sobol_func_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_sobol_local_sobol_func.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="We introduce the variance-based Sobol indices using an elementary example.  For more details, refer [1]_.">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/sobol/images/thumb/sphx_glr_sobol_additive_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_sobol_sobol_additive.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Additive function</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/sobol/images/thumb/sphx_glr_local_mechanical_oscillator_ODE_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_sobol_local_mechanical_oscillator_ODE.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The Sobol function is non-linear function that is commonly used to benchmark uncertainty  and senstivity analysis methods. Unlike the Ishigami function which has 3 input  variables, the Sobol function can have any number of input variables. ">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/sobol/images/thumb/sphx_glr_sobol_func_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_sobol_sobol_func.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Sobol function</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ishigami function is a non-linear, non-monotonic function that is commonly used to  benchmark uncertainty and senstivity analysis methods.">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/sobol/images/thumb/sphx_glr_sobol_ishigami_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_sobol_sobol_ishigami.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Ishigami function</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we consider the mechanical oscillator is governed by the following  second-order ODE as demonstrated in [1]_:">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/sobol/images/thumb/sphx_glr_mechanical_oscillator_ODE_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_sobol_mechanical_oscillator_ODE.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Mechanical oscillator model (multioutput)</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/sensitivity/sobol/local_additive
+   /auto_examples/sensitivity/sobol/local_ishigami
+   /auto_examples/sensitivity/sobol/local_sobol_func
+   /auto_examples/sensitivity/sobol/sobol_additive
+   /auto_examples/sensitivity/sobol/local_mechanical_oscillator_ODE
+   /auto_examples/sensitivity/sobol/sobol_func
+   /auto_examples/sensitivity/sobol/sobol_ishigami
+   /auto_examples/sensitivity/sobol/mechanical_oscillator_ODE
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: sobol_python.zip </auto_examples/sensitivity/sobol/sobol_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: sobol_jupyter.zip </auto_examples/sensitivity/sobol/sobol_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

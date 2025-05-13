@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polynomial Chaos Expansion Examples &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Friedman function (5 random inputs, scalar output)" href="pce_friedman.html" />
+    <link rel="prev" title="PolynomialChaosExpansion Class" href="../../../surrogates/pce/pce.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/gpr.html"> Gaussian Process Regression</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../surrogates/polynomial_chaos.html"> Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/polynomial_bases.html"> Polynomial Bases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/polynomials.html"> Polynomials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/regressions.html"> Regressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/pce.html"> Polynomial Chaos Expansion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html"> Physics-informed Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#pdedata-class">PdeData class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#pdepce-class">PdePce class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#constrainedpce-class">ConstrainedPCE class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#reducedpce-class">ReducedPCE Class</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/index.html">Surrogates</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/polynomial_chaos.html">Polynomial Chaos Expansion - PCE</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/pce/pce.html">PolynomialChaosExpansion Class</a></li>
+      <li class="breadcrumb-item active">Polynomial Chaos Expansion Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/surrogates/pce/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="polynomial-chaos-expansion-examples">
+<h1>Polynomial Chaos Expansion Examples<a class="headerlink" href="#polynomial-chaos-expansion-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 5D data."><img alt="" src="../../../_images/sphx_glr_pce_friedman_thumb.png" />
+<p><a class="reference internal" href="pce_friedman.html#sphx-glr-auto-examples-surrogates-pce-pce-friedman-py"><span class="std std-ref">Friedman function (5 random inputs, scalar output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Friedman function (5 random inputs, scalar output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 3D data."><img alt="" src="../../../_images/sphx_glr_pce_exponential_thumb.png" />
+<p><a class="reference internal" href="pce_exponential.html#sphx-glr-auto-examples-surrogates-pce-pce-exponential-py"><span class="std std-ref">Exponential function (3 random inputs, scalar output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Exponential function (3 random inputs, scalar output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 2D data for a numerical model with multi-dimensional outputs."><img alt="" src="../../../_images/sphx_glr_pce_helmholtz_thumb.png" />
+<p><a class="reference internal" href="pce_helmholtz.html#sphx-glr-auto-examples-surrogates-pce-pce-helmholtz-py"><span class="std std-ref">2D Helmholtz eigenvalues (2 random inputs, vector-valued output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">2D Helmholtz eigenvalues (2 random inputs, vector-valued output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we approximate the well-known Ishigami function with a total-degree Polynomial Chaos Expansion."><img alt="" src="../../../_images/sphx_glr_pce_ishigami_thumb.png" />
+<p><a class="reference internal" href="pce_ishigami.html#sphx-glr-auto-examples-surrogates-pce-pce-ishigami-py"><span class="std std-ref">Ishigami function (3 random inputs, scalar output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Ishigami function (3 random inputs, scalar output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 8D data."><img alt="" src="../../../_images/sphx_glr_pce_robot_arm_thumb.png" />
+<p><a class="reference internal" href="pce_robot_arm.html#sphx-glr-auto-examples-surrogates-pce-pce-robot-arm-py"><span class="std std-ref">Robot Arm function (8 random inputs, scalar output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Robot Arm function (8 random inputs, scalar output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model of a sinusoidal function with a single random input and a scalar output."><img alt="" src="../../../_images/sphx_glr_pce_oakley_thumb.png" />
+<p><a class="reference internal" href="pce_oakley.html#sphx-glr-auto-examples-surrogates-pce-pce-oakley-py"><span class="std std-ref">Oakley Function  (1 random input, scalar output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Oakley Function  (1 random input, scalar output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model of a sinusoidal function with a single random input and a scalar output."><img alt="" src="../../../_images/sphx_glr_pce_sinusoidal_thumb.png" />
+<p><a class="reference internal" href="pce_sinusoidal.html#sphx-glr-auto-examples-surrogates-pce-pce-sinusoidal-py"><span class="std std-ref">Sinusoidal Function  (1 random input, scalar output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Sinusoidal Function  (1 random input, scalar output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 2D data."><img alt="" src="../../../_images/sphx_glr_pce_sphere_thumb.png" />
+<p><a class="reference internal" href="pce_sphere.html#sphx-glr-auto-examples-surrogates-pce-pce-sphere-py"><span class="std std-ref">Sinusoidal Function  Sphere function (2 random inputs, scalar output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Sinusoidal Function  Sphere function (2 random inputs, scalar output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 2D data."><img alt="" src="../../../_images/sphx_glr_pce_camel_thumb.png" />
+<p><a class="reference internal" href="pce_camel.html#sphx-glr-auto-examples-surrogates-pce-pce-camel-py"><span class="std std-ref">Camel function (3 random inputs, scalar output)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camel function (3 random inputs, scalar output)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we approximate the well-known Ishigami function with a total-degree Polynomial Chaos Expansion further reduced by hyperbolic truncation. In order to reduce the number of basis functions, we use the best-model selection algorithm based on Least Angle Regression."><img alt="" src="../../../_images/sphx_glr_pce_sparsity_lars_thumb.png" />
+<p><a class="reference internal" href="pce_sparsity_lars.html#sphx-glr-auto-examples-surrogates-pce-pce-sparsity-lars-py"><span class="std std-ref">Hyperbolic truncation and Least Angle Regression</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Hyperbolic truncation and Least Angle Regression</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we use Physics-informed Polynomial Chaos Expansion for approximation and UQ of Euler beam equation."><img alt="" src="../../../_images/sphx_glr_pce_euler_UQ_thumb.png" />
+<p><a class="reference internal" href="pce_euler_UQ.html#sphx-glr-auto-examples-surrogates-pce-pce-euler-uq-py"><span class="std std-ref">Physics-Informed PCE: Uncertainty Quantification of Euler Beam</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Physics-Informed PCE: Uncertainty Quantification of Euler Beam</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we approximate a deterministic Wave Equation by Physics-informed Polynomial Chaos Expansion."><img alt="" src="../../../_images/sphx_glr_pce_wave_thumb.png" />
+<p><a class="reference internal" href="pce_wave.html#sphx-glr-auto-examples-surrogates-pce-pce-wave-py"><span class="std std-ref">Physics-Informed PCE: Deterministic Wave Equation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Physics-Informed PCE: Deterministic Wave Equation</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/a56d6960d1dbedc04922a1a8d698563a/pce_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">pce_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/d14d361afe8cdc716735a0fb924a989a/pce_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">pce_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../../surrogates/pce/pce.html" class="btn btn-neutral float-left" title="PolynomialChaosExpansion Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pce_friedman.html" class="btn btn-neutral float-right" title="Friedman function (5 random inputs, scalar output)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
