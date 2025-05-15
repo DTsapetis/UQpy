@@ -12,7 +12,7 @@ pytest-azurepipelines == 1.0.5
 twine == 5.0.0
 pathlib==1.0.1
 beartype == 0.20.2
-setuptools==65.5.1
+setuptools==80.7.1
 torch == 2.2.2
 torchinfo == 1.8.0
 pre-commit == 4.2.0
