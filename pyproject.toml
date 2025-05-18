@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "testUQpy"
-version = "4.2.0"  # This should be set dynamically or updated manually.
+version = "4.2.0"
 description = "UQpy is a general purpose toolbox for Uncertainty Quantification"
 readme = "README.rst"
 requires-python = ">=3.9"
