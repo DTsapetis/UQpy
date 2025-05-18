@@ -1,9 +1,4 @@
-mode: ContinuousDeployment
-branches:
-  master:
-    regex: ^master$
-    increment: Patch
-    is-release-branch: true
+mode: MainLine 
 major-version-bump-message: '\+semver:\s?(breaking|major)'
 minor-version-bump-message: '\+semver:\s?(feature|minor)'
 patch-version-bump-message: '\+semver:\s?(fix|patch)'
