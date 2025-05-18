@@ -20,15 +20,17 @@ jobs:
             versionSpec: '5.x'
         
         - name: Determine Version
-          run: |
-           dotnet-gitversion 
+          id: versioning_step 
+          uses: gittools/actions/gitversion/execute@v3.2.1
+          with:
+            useConfigFile: true
+            configFilePath: 'GitVersion.yml'
+
+        # - name: Determine Version
+        #   run: |
+        #    dotnet-gitversion 
         #    -showvariable SemVer > version.json
-            
-        #   id: versioning_step 
-        #   uses: gittools/actions/gitversion/execute@v3.2.1
-        #   with:
-        #     useConfigFile: true
-        #     configFilePath: 'GitVersion.yml'
+
         
         - name: Display GitVersion variables (without prefix)
           run: |
