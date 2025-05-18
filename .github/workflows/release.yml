@@ -17,13 +17,18 @@ jobs:
         - name: Install GitVersion
           uses: gittools/actions/gitversion/setup@v3.2.1
           with:
-            versionSpec: '5.12.0'
+            versionSpec: '5.x'
         
         - name: Determine Version
-          id: versioning_step 
-          uses: gittools/actions/gitversion/execute@v3.2.1
-          with:
-            useConfigFile: true
+          run: |
+           dotnet-gitversion -output json 
+        #    -showvariable SemVer > version.json
+            
+        #   id: versioning_step 
+        #   uses: gittools/actions/gitversion/execute@v3.2.1
+        #   with:
+        #     useConfigFile: true
+        #     configFilePath: 'GitVersion.yml'
         
         - name: Display GitVersion variables (without prefix)
           run: |
