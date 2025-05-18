@@ -21,7 +21,7 @@ jobs:
         
         - name: Determine Version
           run: |
-           dotnet-gitversion -output json 
+           dotnet-gitversion 
         #    -showvariable SemVer > version.json
             
         #   id: versioning_step 
