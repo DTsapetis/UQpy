@@ -17,7 +17,7 @@ jobs:
         - name: Install GitVersion
           uses: gittools/actions/gitversion/setup@v3.2.1
           with:
-            versionSpec: '6.3.0'
+            versionSpec: '5.12.0'
         
         - name: Determine Version
           id: versioning_step 
@@ -29,5 +29,5 @@ jobs:
           run: |
             echo "FullSemVer (env.fullSemVer)            : ${{ env.fullSemVer }}"
             echo "MajorMinorPatch (env.majorMinorPatch)  : ${{ env.majorMinorPatch }}"
-            echo "SemVer (env.semVer)                  : ${{ env.semVer }}"
+            echo "SemVer (env.semVer)                    : ${{ env.semVer }}"
           
