@@ -26,10 +26,10 @@ classifiers = [
     "Natural Language :: English"
 ]
 dependencies = [
-    "numpy ==1.26.4",
+    "numpy ==2.0.2",
     "scipy == 1.13.1",
     "matplotlib == 3.9.4",
-    "scikit-learn == 1.4.2",
+    "scikit-learn == 1.6.1",
     "fire == 0.7.0",
     "pathlib==1.0.1",
     "beartype == 0.20.2",
