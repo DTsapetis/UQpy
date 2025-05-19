@@ -12,13 +12,11 @@ In this example, we train a Bayesian neural network using Variational Inference.
 # %%
 
 import logging
-
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset
-
+from torch.utils.data import Dataset, DataLoader
+import matplotlib.pyplot as plt
 import UQpy.scientific_machine_learning as sml
 
 # logger = logging.getLogger("UQpy")  # Optional, display UQpy logs to console
@@ -125,7 +123,13 @@ standard_deviation = standard_deviation.squeeze().detach().numpy()
 
 fig, ax = plt.subplots()
 ax.scatter(x_noisy, y_noisy, label="Training Data", color="black")
-ax.plot(x_exact, y_exact, label="Exact", color="black", linestyle="dashed")
+ax.plot(
+    x_exact,
+    y_exact,
+    label="Exact",
+    color="black",
+    linestyle="dashed",
+)
 ax.plot(x_exact, mean_prediction, label="Model $\mu$", color="tab:blue")
 ax.fill_between(
     x_exact,

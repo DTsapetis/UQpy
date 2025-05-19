@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 import numpy as np
 
 from UQpy.utilities.ValidationTypes import RandomStateType
@@ -10,7 +9,6 @@ class Refinement(ABC):
     Baseclass of all available strata refinement methods. Provides the methods that each existing and new refinement
     algorithm must implement in order to be used in the :class:`.RefinedStratifiedSampling` class.
     """
-
     @abstractmethod
     def update_samples(
         self,
@@ -55,8 +53,9 @@ class Refinement(ABC):
             points_left -= bin.shape[0]
 
         bin_for_remaining_points = random_state.choice(
-            np.where(strata_metrics == strata_metrics.max())[0], points_left, replace=False
-        )
+            np.where(strata_metrics == strata_metrics.max())[0],
+            points_left,
+            replace=False,)
         bins2break = np.hstack([bins2break, bin_for_remaining_points])
         bins2break = list(map(int, bins2break))
         return bins2break
@@ -64,3 +63,4 @@ class Refinement(ABC):
     @abstractmethod
     def update_strata(self, samplesU01):
         pass
+

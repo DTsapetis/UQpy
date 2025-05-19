@@ -1,10 +1,8 @@
-import copy
 import logging
-
-import numpy as np
 from beartype import beartype
-
 from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import Criterion, Random
+import numpy as np
+import copy
 
 
 class MinCorrelation(Criterion):

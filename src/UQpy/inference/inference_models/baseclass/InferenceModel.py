@@ -7,8 +7,13 @@ from UQpy.utilities.ValidationTypes import PositiveInteger
 
 
 class InferenceModel(ABC):
+
     # Last Modified: 05/13/2020 by Audrey Olivier
-    def __init__(self, n_parameters: PositiveInteger, name: str = ""):
+    def __init__(
+            self,
+            n_parameters: PositiveInteger,
+            name: str = "",
+    ):
         """
         Define a probabilistic model for inference.
 

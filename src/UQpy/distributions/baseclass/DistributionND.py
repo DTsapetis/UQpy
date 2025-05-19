@@ -1,8 +1,6 @@
-from abc import ABC
-
 import numpy as np
-
 from .Distribution import Distribution
+from abc import ABC
 
 
 class DistributionND(Distribution, ABC):

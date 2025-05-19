@@ -2,9 +2,9 @@ import ast
 
 import numpy as np
 import scipy.stats as stats
+from UQpy.utilities.ValidationTypes import RandomStateType
 
 from UQpy.run_model.RunModel import RunModel
-from UQpy.utilities.ValidationTypes import RandomStateType
 
 
 def svd(matrix, rank=None, tol=None):
@@ -71,7 +71,8 @@ def nearest_psd(input_matrix, iterations=10):
     # the algorithm should work for any diagonal W
     delta_s = 0
     psd_matrix = input_matrix.copy()
-    for _k in range(iterations):
+    for k in range(iterations):
+
         r_k = psd_matrix - delta_s
         x_k = _get_ps(r_k, w=w)
         delta_s = x_k - r_k
@@ -103,7 +104,7 @@ def nearest_pd(input_matrix):
     k = 1
     while not _is_pd(pd_matrix):
         min_eig = np.min(np.real(np.linalg.eigvals(pd_matrix)))
-        pd_matrix += np.eye(input_matrix.shape[0]) * (-min_eig * k**2 + spacing)
+        pd_matrix += np.eye(input_matrix.shape[0]) * (-min_eig * k ** 2 + spacing)
         k += 1
 
     return pd_matrix
@@ -125,9 +126,9 @@ def run_parallel_python(model_script, model_object_name, sample, dict_kwargs=Non
     exec("from " + model_script[:-3] + " import " + model_object_name)
 
     if dict_kwargs is None:
-        par_res = ast.literal_eval(model_object_name + "(sample)")
+        par_res = eval(model_object_name + "(sample)")
     else:
-        par_res = ast.literal_eval(model_object_name + "(sample, **dict_kwargs)")
+        par_res = eval(model_object_name + "(sample, **dict_kwargs)")
 
     return par_res
 
@@ -202,11 +203,14 @@ def gradient(runmodel_object=None, point=None, order="first", df_step=None):
             qoi = f_eval(point)
             qoi_minus = f_eval(u_1i_j)
 
-            d2u_dj[:, ii] = (qoi_plus - 2 * qoi + qoi_minus) / (df_step[ii] * df_step[ii])
+            d2u_dj[:, ii] = (qoi_plus - 2 * qoi + qoi_minus) / (
+                df_step[ii] * df_step[ii]
+            )
 
         return d2u_dj
 
     elif order.lower() == "mixed":
+
         import itertools
 
         range_ = list(range(dimension))
@@ -239,7 +243,9 @@ def gradient(runmodel_object=None, point=None, order="first", df_step=None):
             qoi_2 = f_eval(u_1i_j1)
             qoi_3 = f_eval(u_1i_1j)
 
-            d2u_dij[:, count] = (qoi_0 + qoi_3 - qoi_1 - qoi_2) / (4 * eps_i1_0 * eps_i1_1)
+            d2u_dij[:, count] = (qoi_0 + qoi_3 - qoi_1 - qoi_2) / (
+                4 * eps_i1_0 * eps_i1_1
+            )
 
             count += 1
         return d2u_dij
@@ -248,10 +254,9 @@ def gradient(runmodel_object=None, point=None, order="first", df_step=None):
 def bi_variate_normal_pdf(x1, x2, rho):
     return (
         1
-        / (2 * np.pi * np.sqrt(1 - rho**2))
-        * np.exp(-1 / (2 * (1 - rho**2)) * (x1**2 - 2 * rho * x1 * x2 + x2**2))
+        / (2 * np.pi * np.sqrt(1 - rho ** 2))
+        * np.exp(-1 / (2 * (1 - rho ** 2)) * (x1 ** 2 - 2 * rho * x1 * x2 + x2 ** 2))
     )
-
 
 def _get_a_plus(a):
     eig_val, eig_vec = np.linalg.eig(a)
@@ -262,7 +267,7 @@ def _get_a_plus(a):
 
 
 def _get_ps(a, w=None):
-    w05 = np.matrix(w**0.5)
+    w05 = np.matrix(w ** 0.5)
 
     return w05.I * _get_a_plus(w05 * a * w05) * w05.I
 
@@ -324,9 +329,9 @@ def correlation_distortion(dist_object, rho):
     coef = tmp_f_xi * tmp_f_eta * w2d
     phi2 = bi_variate_normal_pdf(xi, eta, rho)
     rho_non = np.sum(coef * phi2)
-    rho_non = (rho_non - dist_object.moments(moments2return="m") ** 2) / dist_object.moments(
-        moments2return="v"
-    )
+    rho_non = (
+        rho_non - dist_object.moments(moments2return="m") ** 2
+    ) / dist_object.moments(moments2return="v")
     return rho_non
 
 

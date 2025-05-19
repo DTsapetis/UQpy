@@ -23,10 +23,9 @@ Friedman function
 
 # %%
 
-import matplotlib.pyplot as plt
 import numpy as np
-
-from UQpy.distributions import JointIndependent, Uniform
+import matplotlib.pyplot as plt
+from UQpy.distributions import Uniform, JointIndependent
 from UQpy.surrogates import *
 
 # %% md
@@ -35,15 +34,8 @@ from UQpy.surrogates import *
 
 # %%
 
-
 def function(x):
-    return (
-        10 * np.sin(np.pi * x[:, 0] * x[:, 1])
-        + 20 * (x[:, 2] - 0.5) ** 2
-        + 10 * x[:, 3]
-        + 5 * x[:, 4]
-    )
-
+    return 10*np.sin(np.pi*x[:,0]*x[:,1]) + 20*(x[:,2]-0.5)**2 + 10*x[:,3] + 5*x[:,4]
 
 # %% md
 #
@@ -55,7 +47,7 @@ np.random.seed(1)
 
 dist = Uniform(loc=0, scale=1)
 
-marg = [dist] * 5
+marg = [dist]*5
 joint = JointIndependent(marginals=marg)
 
 n_samples = 200
@@ -73,7 +65,7 @@ max_degree = 3
 polynomial_basis = TotalDegreeBasis(joint, max_degree)
 least_squares = LeastSquareRegression()
 pce = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
-pce.fit(x, y)
+pce.fit(x,y)
 
 # %% md
 #
@@ -84,7 +76,7 @@ pce.fit(x, y)
 polynomial_basis = TotalDegreeBasis(joint, max_degree)
 lasso = LassoRegression()
 pce2 = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=lasso)
-pce2.fit(x, y)
+pce2.fit(x,y)
 
 # %% md
 #
@@ -95,7 +87,7 @@ pce2.fit(x, y)
 polynomial_basis = TotalDegreeBasis(joint, max_degree)
 ridge = RidgeRegression()
 pce3 = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=ridge)
-pce3.fit(x, y)
+pce3.fit(x,y)
 
 # %% md
 # Error Estimation
@@ -112,13 +104,13 @@ y_pce = pce.predict(x_val).flatten()
 y_pce2 = pce2.predict(x_val).flatten()
 y_pce3 = pce3.predict(x_val).flatten()
 
-error = np.sum(np.abs(y_pce - y_val) / np.abs(y_val)) / n_samples
-error2 = np.sum(np.abs(y_pce2 - y_val) / np.abs(y_val)) / n_samples
-error3 = np.sum(np.abs(y_pce3 - y_val) / np.abs(y_val)) / n_samples
+error = np.sum(np.abs(y_pce - y_val)/np.abs(y_val))/n_samples
+error2 = np.sum(np.abs(y_pce2 - y_val)/np.abs(y_val))/n_samples
+error3 = np.sum(np.abs(y_pce3 - y_val)/np.abs(y_val))/n_samples
 
-print("Validation error, LSTSQ-PCE:", error)
-print("Validation error, LASSO-PCE:", error2)
-print("Validation error, Ridge-PCE:", error3)
+print('Validation error, LSTSQ-PCE:', error)
+print('Validation error, LASSO-PCE:', error2)
+print('Validation error, Ridge-PCE:', error3)
 
 # %% md
 # Moment Estimation
@@ -133,7 +125,7 @@ y_mc = function(x_mc)
 mean_mc = np.mean(y_mc)
 var_mc = np.var(y_mc)
 
-print("Moments from least squares regression :", pce.get_moments())
-print("Moments from LASSO regression :", pce2.get_moments())
-print("Moments from Ridge regression :", pce3.get_moments())
-print("Moments from MC integration: ", mean_mc, var_mc)
+print('Moments from least squares regression :', pce.get_moments())
+print('Moments from LASSO regression :', pce2.get_moments())
+print('Moments from Ridge regression :', pce3.get_moments())
+print('Moments from MC integration: ', mean_mc, var_mc)

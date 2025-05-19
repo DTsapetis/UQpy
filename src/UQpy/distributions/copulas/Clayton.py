@@ -1,12 +1,13 @@
 import numpy
-import numpy as np
 from beartype import beartype
 
-from UQpy.distributions.baseclass import Copula
 from UQpy.utilities.ValidationTypes import Numpy2DFloatArray
+from UQpy.distributions.baseclass import Copula
+import numpy as np
 
 
 class Clayton(Copula):
+
     @beartype
     def __init__(self, theta: float):
         """

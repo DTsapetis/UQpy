@@ -1,8 +1,15 @@
-r"""
+"""
 
 Toy multioutput function
 ==============================================
 
+"""
+
+# %% [markdown]
+# **Toy multioutput function**
+
+
+r"""
 In this example, we demonstrate the computation of the Generalised Sobol indices using 
 the toy example in [1]_.
 
@@ -23,10 +30,10 @@ the toy example in [1]_.
 """
 
 # %%
-from UQpy.distributions import Normal, Uniform
-from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.distributions import Uniform, Normal
+from UQpy.distributions.collection.JointIndependent import JointIndependent
 from UQpy.sensitivity.GeneralisedSobolSensitivity import GeneralisedSobolSensitivity
 from UQpy.sensitivity.PostProcess import *
 
@@ -54,7 +61,9 @@ dist_object_1 = JointIndependent([Normal(0, 1)] * 2)
 # %% [markdown]
 SA = GeneralisedSobolSensitivity(runmodel_obj, dist_object_1)
 
-SA.run(n_samples=20_000, confidence_level=0.95, n_bootstrap_samples=5_00)
+SA.run(
+    n_samples=20_000, confidence_level=0.95, n_bootstrap_samples=5_00
+)
 
 # %% [markdown]
 # **First order Generalised Sobol indices**
@@ -100,7 +109,9 @@ dist_object_2 = JointIndependent([Uniform(0, 1)] * 2)
 
 SA = GeneralisedSobolSensitivity(runmodel_obj, dist_object_2)
 
-SA.run(n_samples=20_000, confidence_level=0.95, n_bootstrap_samples=5_00)
+SA.run(
+    n_samples=20_000, confidence_level=0.95, n_bootstrap_samples=5_00
+)
 
 # %% [markdown]
 # **First order Generalised Sobol indices**

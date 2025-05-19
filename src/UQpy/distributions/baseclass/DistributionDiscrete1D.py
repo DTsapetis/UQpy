@@ -1,8 +1,6 @@
-from abc import ABC
-
 import scipy.stats as stats
-
 from UQpy.distributions.baseclass.Distribution1D import Distribution1D
+from abc import ABC
 
 
 class DistributionDiscrete1D(Distribution1D, ABC):

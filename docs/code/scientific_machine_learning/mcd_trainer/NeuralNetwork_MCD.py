@@ -11,12 +11,10 @@ This example shows how to create a probabilistic neural network using UQpy's Pro
 # %%
 
 import logging
-
-import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset
-
+from torch.utils.data import Dataset, DataLoader
+import matplotlib.pyplot as plt
 import UQpy.scientific_machine_learning as sml
 
 torch.manual_seed(0)
@@ -39,7 +37,7 @@ class SinusoidalDataset(Dataset):
         self.n_samples = n_samples
         self.noise_std = noise_std
         self.x = torch.linspace(-1, 1, n_samples).reshape(-1, 1)
-        self.y = 0.4 * torch.sin(4 * self.x) + 0.5 * torch.cos(12 * self.x)
+        self.y =0.4 * torch.sin(4 * self.x) + 0.5 * torch.cos(12 * self.x)
         self.y += torch.normal(0, self.noise_std, self.x.shape)
 
     def __len__(self):
@@ -124,10 +122,26 @@ quantile_high = torch.quantile(samples, q=0.975, dim=0)
 
 fig, ax = plt.subplots()
 ax.scatter(x_noisy, y_noisy, label="Training Data", color="black")
-ax.plot(x_exact, y_exact, label="Exact", color="black", linestyle="dashed")
-ax.plot(x_exact, deterministic_prediction, label="Deterministic Model", color="tab:blue")
+ax.plot(
+    x_exact,
+    y_exact,
+    label="Exact",
+    color="black",
+    linestyle="dashed",
+)
+ax.plot(
+    x_exact,
+    deterministic_prediction,
+    label="Deterministic Model",
+    color="tab:blue",
+)
 ax.fill_between(
-    x_exact.squeeze(), quantile_low, quantile_high, label="Middle 95%", color="tab:blue", alpha=0.3
+    x_exact.squeeze(),
+    quantile_low,
+    quantile_high,
+    label="Middle 95%",
+    color="tab:blue",
+    alpha=0.3,
 )
 ax.set_title("Monte Carlo Dropout Predictions")
 ax.set(xlabel="x", ylabel="f(x)")

@@ -1,22 +1,14 @@
-import copy
-
 import numpy as np
-from beartype import beartype
-
+import copy
 import UQpy.surrogates.polynomial_chaos.physics_informed.Utilities as utils
+from beartype import beartype
 from UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion import PolynomialChaosExpansion
 from UQpy.surrogates.polynomial_chaos.polynomials.baseclass.PolynomialBasis import PolynomialBasis
 from UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials import Polynomials
 
-
 class ReducedPCE:
     @beartype
-    def __init__(
-        self,
-        pce: PolynomialChaosExpansion,
-        n_deterministic: int,
-        deterministic_positions: list = None,
-    ):
+    def __init__(self, pce: PolynomialChaosExpansion, n_deterministic: int, deterministic_positions: list = None):
         """
         Class to create a reduced PCE filtering out deterministic input variables (e.g. geometry)
 
@@ -42,14 +34,12 @@ class ReducedPCE:
         for i in deterministic_positions:
             determ_selection_mask[i] = True
 
-        determ_multi_index[:, determ_selection_mask] = self.original_multindex[
-            :, determ_selection_mask
-        ]
+        determ_multi_index[:, determ_selection_mask] = self.original_multindex[:, determ_selection_mask]
 
         self.determ_multi_index = determ_multi_index.astype(int)
-        self.determ_basis = PolynomialBasis.construct_arbitrary_basis(
-            self.nvar, self.original_pce.polynomial_basis.distributions, self.determ_multi_index
-        )
+        self.determ_basis = PolynomialBasis.construct_arbitrary_basis(self.nvar,
+                                                                                       self.original_pce.polynomial_basis.distributions,
+                                                                                       self.determ_multi_index)
 
         reduced_multi_mask = self.original_multindex > 0
 
@@ -59,23 +49,21 @@ class ReducedPCE:
 
         reduced_multi_mask = reduced_multi_mask * reduced_var_mask
 
-        reduced_multi_index = np.zeros(self.original_multindex.shape) + (
-            self.original_multindex * reduced_multi_mask
-        )
+        reduced_multi_index = np.zeros(self.original_multindex.shape) + (self.original_multindex * reduced_multi_mask)
         reduced_multi_index = reduced_multi_index[:, reduced_var_mask]
 
         self.reduced_positions = reduced_multi_mask.sum(axis=1) > 0
         reduced_multi_index = reduced_multi_index[self.reduced_positions, :]
 
-        unique_basis, unique_positions, self.unique_indices = np.unique(
-            reduced_multi_index, axis=0, return_index=True, return_inverse=True
-        )
+        unique_basis, unique_positions, self.unique_indices = np.unique(reduced_multi_index, axis=0, return_index=True,
+                                                                        return_inverse=True)
 
         P_unique, nrand = unique_basis.shape
         self.unique_basis = np.concatenate((np.zeros((1, nrand)), unique_basis), axis=0)
 
     @beartype
     def evaluate_coordinate(self, coordinates: np.ndarray, return_coefficients: bool = False):
+
         """
         Evaluate reduced PCE coefficients for given deterministic coordinates.
 
@@ -87,24 +75,19 @@ class ReducedPCE:
         coord_x = np.zeros((1, self.nvar))
         coord_x[0, self.determ_pos] = coordinates
 
-        determ_basis_eval = PolynomialBasis(
-            self.nvar,
-            len(self.determ_multi_index),
-            self.determ_multi_index,
-            self.determ_basis,
-            self.original_pce.polynomial_basis.distributions,
-        ).evaluate_basis(coord_x)
+        determ_basis_eval = PolynomialBasis(self.nvar, len(self.determ_multi_index),
+                                                             self.determ_multi_index, self.determ_basis,
+                                                             self.original_pce.polynomial_basis.distributions).evaluate_basis(
+            coord_x)
         return self._unique_coefficients(determ_basis_eval, return_coefficients)
 
     @beartype
-    def derive_coordinate(
-        self,
-        coordinates: np.ndarray,
-        derivative_order: int,
-        leading_variable: int,
-        derivative_multiplier: float = 1,
-        return_coefficients: bool = False,
-    ):
+    def derive_coordinate(self, coordinates: np.ndarray,
+                          derivative_order: int,
+                          leading_variable: int,
+                          derivative_multiplier: float = 1,
+                          return_coefficients: bool = False):
+
         """
         Evaluate derivative of reduced PCE coefficients for given deterministic coordinates.
 
@@ -118,28 +101,26 @@ class ReducedPCE:
 
         coord_x = np.zeros((1, self.nvar))
         coord_x[0, self.determ_pos] = coordinates
-        coord_s = Polynomials.standardize_sample(
-            coord_x, self.original_pce.polynomial_basis.distributions
-        )
+        coord_s = Polynomials.standardize_sample(coord_x,
+                                                                  self.original_pce.polynomial_basis.distributions)
 
         determ_multi_index = np.zeros(self.original_multindex.shape)
         determ_selection_mask = np.arange(self.nvar) == self.determ_pos
 
-        determ_multi_index[:, determ_selection_mask] = self.original_multindex[
-            :, determ_selection_mask
-        ]
+        determ_multi_index[:, determ_selection_mask] = self.original_multindex[:, determ_selection_mask]
         determ_multi_index = determ_multi_index.astype(int)
 
         pce_deriv = copy.deepcopy(self.original_pce)
         pce_deriv.multi_index_set = determ_multi_index
-        determ_basis_eval = utils.derivative_basis(
-            coord_s, pce_deriv, derivative_order=derivative_order, leading_variable=leading_variable
-        ) * (derivative_multiplier)
+        determ_basis_eval = utils.derivative_basis(coord_s, pce_deriv, derivative_order=derivative_order,
+                                                   leading_variable=leading_variable) * (
+                derivative_multiplier)
 
         return self._unique_coefficients(determ_basis_eval, return_coefficients)
 
     @beartype
     def variance_contributions(self, unique_beta: np.ndarray):
+
         """
         Get first order conditional variances from coefficients of reduced PCE evaluated in the specified deterministic
         physical coordinates
@@ -147,8 +128,10 @@ class ReducedPCE:
         :param unique_beta: vector of reduced PCE coefficients
         :return: first order conditional variances associated to each input random variable
         """
+
+        variance = np.sum(unique_beta[1:] ** 2)
         multi_index_set = self.unique_basis
-        _, inputs_number = multi_index_set.shape
+        terms, inputs_number = multi_index_set.shape
         variances = np.zeros(inputs_number)
         # take all multi-indices except 0-index
         idx_no_0 = np.delete(multi_index_set, 0, axis=0)

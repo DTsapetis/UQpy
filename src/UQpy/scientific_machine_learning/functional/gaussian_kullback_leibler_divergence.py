@@ -1,7 +1,6 @@
-from typing import Union
-
 import torch
 from beartype import beartype
+from typing import Union
 
 
 @beartype

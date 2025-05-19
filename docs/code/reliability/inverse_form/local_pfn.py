@@ -4,7 +4,6 @@ Auxiliary file
 ==============================================
 
 """
-
 import numpy as np
 
 

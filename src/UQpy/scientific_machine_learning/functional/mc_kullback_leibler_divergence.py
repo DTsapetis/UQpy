@@ -1,7 +1,6 @@
 import torch
-from beartype import beartype
-
 from UQpy.sampling import MonteCarloSampling
+from beartype import beartype
 
 
 @beartype
@@ -33,7 +32,9 @@ def mc_kullback_leibler_divergence(
         for prior_dist, post_dist, post_samp in zip(
             prior_distributions, posterior_distributions, posterior_samples
         ):
-            div_list.append((post_dist.log_pdf(post_samp) - prior_dist.log_pdf(post_samp)).item())
+            div_list.append(
+                (post_dist.log_pdf(post_samp) - prior_dist.log_pdf(post_samp)).item()
+            )
         mc_kl_divergence += torch.tensor(div_list) / n_samples
     if reduction == "none":
         return mc_kl_divergence

@@ -20,14 +20,13 @@ In this example, we train a DeepOperatorNetwork to learn the behavior of a linea
 # %%
 
 # torch imports
-# UQpy imports
-import logging
-
-import scipy.io as io
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset, random_split
+from torch.utils.data import Dataset, DataLoader, random_split
+import scipy.io as io
 
+# UQpy imports
+import logging
 import UQpy.scientific_machine_learning as sml
 
 logger = logging.getLogger("UQpy")
@@ -45,7 +44,6 @@ logger.setLevel(logging.INFO)
 # torch activation functions and layers to define their operations.
 
 # %%
-
 
 class BranchNetwork(nn.Module):
     """Construct the branch network for a deep operator network"""
@@ -135,13 +133,15 @@ class ElasticityDataSet(Dataset):
         return self.x, self.f_x[i, :], (self.u_x[i, :, 0], self.u_y[i, :, 0])
 
 
-elastic_data = io.loadmat("linear_elastic_data.mat")
-train_dataset, test_dataset = random_split(
-    ElasticityDataSet(elastic_data["X"], elastic_data["F"], elastic_data["Ux"], elastic_data["Uy"]),
-    [0.9, 0.1],
-)
+elastic_data = io.loadmat('linear_elastic_data.mat')
+train_dataset, test_dataset = random_split(ElasticityDataSet(
+    elastic_data['X'], elastic_data['F'], elastic_data['Ux'],
+    elastic_data['Uy']), [0.9, 0.1])
 
-train_data = DataLoader(train_dataset, batch_size=20, shuffle=True)
+train_data = DataLoader(train_dataset,
+                        batch_size=20,
+                        shuffle=True,
+                        )
 test_data = DataLoader(test_dataset)
 
 # %% md
@@ -160,7 +160,10 @@ class LossFunction(nn.Module):
         self.f = nn.MSELoss(reduction=reduction)
 
     def forward(self, prediction, label):
-        return self.f(prediction[:, :, 0], label[0]) + self.f(prediction[:, :, 1], label[1])
+        return self.f(prediction[:, :, 0], label[0]) + self.f(
+            prediction[:, :, 1],
+            label[1],
+        )
 
 
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)

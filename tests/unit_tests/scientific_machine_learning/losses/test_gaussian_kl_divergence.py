@@ -1,10 +1,8 @@
 import pytest
 import torch
 import torch.nn as nn
-from hypothesis import given, settings
-from hypothesis import strategies as st
-
 import UQpy.scientific_machine_learning as sml
+from hypothesis import given, settings, strategies as st
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")

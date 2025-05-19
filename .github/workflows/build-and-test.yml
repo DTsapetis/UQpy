@@ -11,6 +11,7 @@ on:
     pull_request:
         branches:
         - master
+    workflow_dispatch:
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,10 +26,10 @@ jobs:
             group: [1, 2, 3, 4, 5]
         steps:
           - uses: actions/checkout@v4          
-          - name: Set up Python 3.9
+          - name: Set up Python 3.12
             uses: actions/setup-python@v5
             with:
-              python-version: 3.9
+              python-version: '3.12'
               cache: 'pip'              
           - name: Install dependencies
             run: |

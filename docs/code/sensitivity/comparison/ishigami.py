@@ -3,7 +3,7 @@ r"""
 Ishigami function
 ==============================================
 
-The ishigami function is a non-linear, non-monotonic function that is commonly used to
+The ishigami function is a non-linear, non-monotonic function that is commonly used to 
 benchmark uncertainty and senstivity analysis methods.
 
 .. math::
@@ -17,14 +17,14 @@ benchmark uncertainty and senstivity analysis methods.
 # %%
 import numpy as np
 
+from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.run_model.model_execution.PythonModel import PythonModel
-from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.ChatterjeeSensitivity import ChatterjeeSensitivity
 from UQpy.sensitivity.CramerVonMisesSensitivity import CramerVonMisesSensitivity as cvm
-from UQpy.sensitivity.PostProcess import *
 from UQpy.sensitivity.SobolSensitivity import SobolSensitivity
+from UQpy.sensitivity.PostProcess import *
 
 np.random.seed(123)
 

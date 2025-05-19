@@ -1,17 +1,21 @@
-import copy
 import logging
 
-import numpy as np
 from beartype import beartype
-from scipy.spatial.distance import pdist
 
 from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import Criterion, Random
 from UQpy.utilities.DistanceMetric import DistanceMetric
+from scipy.spatial.distance import pdist
+import numpy as np
+import copy
 
 
 class MaxiMin(Criterion):
     @beartype
-    def __init__(self, iterations: int = 100, metric: DistanceMetric = DistanceMetric.EUCLIDEAN):
+    def __init__(
+        self,
+        iterations: int = 100,
+        metric: DistanceMetric = DistanceMetric.EUCLIDEAN,
+    ):
         """
         Method for generating a Latin hypercube design that aims to maximize the minimum sample distance.
 
@@ -47,9 +51,6 @@ class MaxiMin(Criterion):
                 lhs_samples = copy.deepcopy(samples_try)
             i += 1
 
-        self.logger.info(
-            "UQpy: Achieved maximum distance of %(distance)s"
-            % {"distance": maximized_minimum_distance}
-        )
+        self.logger.info("UQpy: Achieved maximum distance of %(distance)s" % {"distance": maximized_minimum_distance})
 
         return lhs_samples

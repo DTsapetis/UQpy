@@ -1,41 +1,41 @@
 """
-This module contains the Chatterjee coefficient of correlation proposed
-in [1]_.
+This module contains the Chatterjee coefficient of correlation proposed 
+in [1]_. 
 
-Using the rank statistics, we can also estimate the Sobol indices proposed by
+Using the rank statistics, we can also estimate the Sobol indices proposed by 
 Gamboa et al. [2]_.
 
 References
 ----------
 
 .. [1] Sourav Chatterjee (2021) A New Coefficient of Correlation, Journal of the
-        American Statistical Association, 116:536, 2009-2022,
+        American Statistical Association, 116:536, 2009-2022, 
         DOI: 10.1080/01621459.2020.1758115
 
-.. [2] Fabrice Gamboa, Pierre Gremaud, Thierry Klein, and Agnès Lagnoux. (2020).
-        Global Sensitivity Analysis: a new generation of mighty estimators
+.. [2] Fabrice Gamboa, Pierre Gremaud, Thierry Klein, and Agnès Lagnoux. (2020). 
+        Global Sensitivity Analysis: a new generation of mighty estimators 
         based on rank statistics.
 
 """
 
 import logging
-from numbers import Integral
-from typing import Union
 
 import numpy as np
 import scipy.stats
 from beartype import beartype
+from typing import Union
+from numbers import Integral
 
 from UQpy.sensitivity.baseclass.Sensitivity import Sensitivity
 from UQpy.sensitivity.SobolSensitivity import compute_first_order as compute_first_order_sobol
-from UQpy.utilities.UQpyLoggingFormatter import UQpyLoggingFormatter
 from UQpy.utilities.ValidationTypes import (
+    RandomStateType,
+    PositiveInteger,
+    PositiveFloat,
     NumpyFloatArray,
     NumpyIntArray,
-    PositiveFloat,
-    PositiveInteger,
-    RandomStateType,
 )
+from UQpy.utilities.UQpyLoggingFormatter import UQpyLoggingFormatter
 
 
 class ChatterjeeSensitivity(Sensitivity):
@@ -71,7 +71,8 @@ class ChatterjeeSensitivity(Sensitivity):
         "Sobol indices computed using the rank statistics, :class:`numpy.ndarray` of shape :code:`(n_variables, 1)`"
 
         self.confidence_interval_chatterjee = None
-        "Confidence intervals for the Chatterjee sensitivity indices, :class:`numpy.ndarray` of shape :code:`(n_variables, 2)`"
+        "Confidence intervals for the Chatterjee sensitivity indices, :class:`numpy.ndarray` of " \
+        "shape :code:`(n_variables, 2)`"
 
         self.n_variables = None
         "Number of input random variables, :class:`int`"
@@ -113,8 +114,7 @@ class ChatterjeeSensitivity(Sensitivity):
         # Check num_bootstrap_samples data type
         if n_bootstrap_samples is None:
             self.logger.info(
-                "UQpy: num_bootstrap_samples is set to None, confidence intervals will not be computed.\n"
-            )
+                "UQpy: num_bootstrap_samples is set to None, confidence intervals will not be computed.\n")
         elif not isinstance(n_bootstrap_samples, int):
             raise TypeError("UQpy: num_bootstrap_samples should be an integer.\n")
 
@@ -132,13 +132,13 @@ class ChatterjeeSensitivity(Sensitivity):
 
         self.logger.info("UQpy: Model evaluations completed.\n")
 
+
         ################## COMPUTE CHATTERJEE INDICES ##################
 
-        self.first_order_chatterjee_indices = self.compute_chatterjee_indices(
-            A_samples, A_model_evals
-        )
+        self.first_order_chatterjee_indices = self.compute_chatterjee_indices(A_samples, A_model_evals)
 
         self.logger.info("UQpy: Chatterjee indices computed successfully.\n")
+
 
         ################## COMPUTE SOBOL INDICES ##################
 
@@ -147,15 +147,15 @@ class ChatterjeeSensitivity(Sensitivity):
         if estimate_sobol_indices:
             f_C_i_model_evals = self.compute_rank_analog_of_f_C_i(A_samples, A_model_evals)
 
-            self.first_order_sobol_indices = self.compute_Sobol_indices(
-                A_model_evals, f_C_i_model_evals
-            )
+            self.first_order_sobol_indices = self.compute_Sobol_indices(A_model_evals, f_C_i_model_evals)
 
             self.logger.info("UQpy: First order Sobol indices computed successfully.\n")
+
 
         ################## CONFIDENCE INTERVALS ####################
 
         if n_bootstrap_samples is not None:
+
             self.logger.info("UQpy: Computing confidence intervals ...\n")
 
             estimator_inputs = [A_samples, A_model_evals]
@@ -168,9 +168,8 @@ class ChatterjeeSensitivity(Sensitivity):
                 confidence_level,
             )
 
-            self.logger.info(
-                "UQpy: Confidence intervals for Chatterjee indices computed successfully.\n"
-            )
+            self.logger.info("UQpy: Confidence intervals for Chatterjee indices computed successfully.\n")
+
 
     @staticmethod
     @beartype
@@ -205,6 +204,7 @@ class ChatterjeeSensitivity(Sensitivity):
         chatterjee_indices = np.zeros((m, 1))
 
         for i in range(m):
+
             # Samples of random variable X_i
             X_i = X[:, i].reshape(-1, 1)
 
@@ -246,7 +246,9 @@ class ChatterjeeSensitivity(Sensitivity):
 
     @staticmethod
     @beartype
-    def rank_analog_to_pickfreeze(X: Union[NumpyFloatArray, NumpyIntArray], j: Integral):
+    def rank_analog_to_pickfreeze(
+        X: Union[NumpyFloatArray, NumpyIntArray], j: Integral
+    ):
         r"""
         Computing the :math:`N(j)` for each :math:`j \in \{1, \ldots, n\}`
         as in eq.(8) in :cite:`gamboa2020global`, where :math:`n` is the size of :math:`X`.
@@ -396,9 +398,7 @@ class ChatterjeeSensitivity(Sensitivity):
         n_outputs = 1
         C_i_model_evals = C_i_model_evals.reshape((n_outputs, *_shape))
 
-        first_order_sobol = compute_first_order_sobol(
-            A_model_evals, None, C_i_model_evals, scheme="Sobol1993"
-        )
+        first_order_sobol = compute_first_order_sobol(A_model_evals, None, C_i_model_evals, scheme="Sobol1993")
 
         return first_order_sobol
 
@@ -437,6 +437,7 @@ class ChatterjeeSensitivity(Sensitivity):
         A_i_model_evals = np.zeros((N, m))
 
         for i in range(m):
+
             K = self.rank_analog_to_pickfreeze_vec(A_samples[:, i])
 
             A_i_model_evals[:, i] = f_A[K].ravel()

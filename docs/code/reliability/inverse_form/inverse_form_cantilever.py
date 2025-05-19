@@ -21,11 +21,10 @@ The constants in the problem are length (:math:`L=100`), elastic modulus (:math:
 
 import numpy as np
 from scipy import stats
-
 from UQpy.distributions import Normal
 from UQpy.reliability.taylor_series import InverseFORM
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
 
 # %% md
 #
@@ -35,7 +34,7 @@ from UQpy.run_model.RunModel import RunModel
 
 # %%
 
-model = PythonModel(model_script="local_pfn.py", model_object_name="cantilever_beam")
+model = PythonModel(model_script='local_pfn.py', model_object_name="cantilever_beam")
 runmodel_object = RunModel(model=model)
 
 # %% md
@@ -49,13 +48,11 @@ runmodel_object = RunModel(model=model)
 
 p_fail = 0.04054
 distributions = [Normal(500, 100), Normal(1_000, 100)]
-inverse_form = InverseFORM(
-    distributions=distributions,
-    runmodel_object=runmodel_object,
-    p_fail=p_fail,
-    tolerance_u=1e-5,
-    tolerance_gradient=1e-5,
-)
+inverse_form = InverseFORM(distributions=distributions,
+                           runmodel_object=runmodel_object,
+                           p_fail=p_fail,
+                           tolerance_u=1e-5,
+                           tolerance_gradient=1e-5)
 
 # %% md
 #
@@ -69,8 +66,8 @@ inverse_form = InverseFORM(
 
 inverse_form.run()
 beta = np.linalg.norm(inverse_form.design_point_u)
-print("Design point in standard normal space (u^*):", inverse_form.design_point_u[0])
-print("Design point in original space:", inverse_form.design_point_x[0])
-print("Hasofer-Lind reliability index:", beta)
-print("Probability of failure at design point:", stats.norm.cdf(-beta))
-print("Number of iterations:", inverse_form.iteration_record[0])
+print('Design point in standard normal space (u^*):', inverse_form.design_point_u[0])
+print('Design point in original space:', inverse_form.design_point_x[0])
+print('Hasofer-Lind reliability index:', beta)
+print('Probability of failure at design point:', stats.norm.cdf(-beta))
+print('Number of iterations:', inverse_form.iteration_record[0])

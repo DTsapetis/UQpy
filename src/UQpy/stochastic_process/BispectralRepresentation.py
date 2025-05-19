@@ -1,20 +1,19 @@
 import itertools
-
 from UQpy.utilities import *
 
 
 class BispectralRepresentation:
     def __init__(
-        self,
-        n_samples: int,
-        power_spectrum: Union[list, np.ndarray],
-        bispectrum: Union[list, np.ndarray],
-        time_interval: Union[list, np.ndarray],
-        frequency_interval: Union[list, np.ndarray],
-        n_time_intervals: Union[list, np.ndarray],
-        n_frequency_intervals: Union[list, np.ndarray],
-        case="uni",
-        random_state: RandomStateType = None,
+            self,
+            n_samples: int,
+            power_spectrum: Union[list, np.ndarray],
+            bispectrum: Union[list, np.ndarray],
+            time_interval: Union[list, np.ndarray],
+            frequency_interval: Union[list, np.ndarray],
+            n_time_intervals: Union[list, np.ndarray],
+            n_frequency_intervals: Union[list, np.ndarray],
+            case="uni",
+            random_state: RandomStateType = None,
     ):
         """
         A class to simulate non-Gaussian stochastic processes from a given power spectrum and bispectrum based on the
@@ -57,7 +56,7 @@ class BispectralRepresentation:
         self.bispectrum = bispectrum
 
         # Error checks
-        t_u = 2 * np.pi / (2 * self.n_frequency_intervals * self.frequency_interval)
+        t_u = (2 * np.pi / (2 * self.n_frequency_intervals * self.frequency_interval))
         if (self.time_interval > t_u).any():
             raise RuntimeError("UQpy: Aliasing might occur during execution")
 
@@ -65,9 +64,7 @@ class BispectralRepresentation:
         if isinstance(self.random_state, int):
             np.random.seed(self.random_state)
         elif not isinstance(self.random_state, (type(None), np.random.RandomState)):
-            raise TypeError(
-                "UQpy: random_state must be None, an int or an np.random.RandomState object."
-            )
+            raise TypeError("UQpy: random_state must be None, an int or an np.random.RandomState object.")
 
         self.logger = logging.getLogger(__name__)
 
@@ -137,43 +134,27 @@ class BispectralRepresentation:
             for j in itertools.product(*[range(np.int32(k)) for k in np.ceil((wk + 1) / 2)]):
                 wj = np.array(j)
                 wi = wk - wj
-                if (
-                    self.bispectrum_amplitude[(*wi, *wj)] > 0
-                    and self.pure_power_sepctrum[(*wi, *[])] * self.pure_power_sepctrum[(*wj, *[])]
-                    != 0
-                ):
-                    self.bc2[(*wi, *wj)] = (
-                        self.bispectrum_amplitude[(*wi, *wj)] ** 2
-                        / (
-                            self.pure_power_sepctrum[(*wi, *[])]
-                            * self.pure_power_sepctrum[(*wj, *[])]
-                            * self.power_spectrum[(*wk, *[])]
-                        )
-                        * np.prod(self.frequency_interval)
-                    )
-                    self.sum_bc2[(*wk, *[])] = self.sum_bc2[(*wk, *[])] + self.bc2[(*wi, *wj)]
+                if (self.bispectrum_amplitude[(*wi, *wj)] > 0 and self.pure_power_sepctrum[(*wi, *[])]
+                        * self.pure_power_sepctrum[(*wj, *[])] != 0):
+                    self.bc2[(*wi, *wj)] = (self.bispectrum_amplitude[(*wi, *wj)] ** 2
+                                            / (self.pure_power_sepctrum[(*wi, *[])]
+                                               * self.pure_power_sepctrum[(*wj, *[])]
+                                               * self.power_spectrum[(*wk, *[])]) * np.prod(self.frequency_interval))
+                    self.sum_bc2[(*wk, *[])] = (self.sum_bc2[(*wk, *[])] + self.bc2[(*wi, *wj)])
                 else:
                     self.bc2[(*wi, *wj)] = 0
             if self.sum_bc2[(*wk, *[])] > 1:
-                self.logger.info(
-                    "UQpy: Stochastic Process: Results may not be as expected as sum of partial "
-                    "bicoherences is greater than 1"
-                )
-                for j in itertools.product(
-                    *[range(k) for k in np.ceil((wk + 1) / 2, dtype=np.int32)]
-                ):
+                self.logger.info("UQpy: Stochastic Process: Results may not be as expected as sum of partial "
+                                 "bicoherences is greater than 1")
+                for j in itertools.product(*[range(k) for k in np.ceil((wk + 1) / 2, dtype=np.int32)]):
                     wj = np.array(j)
                     wi = wk - wj
-                    self.bc2[(*wi, *wj)] = self.bc2[(*wi, *wj)] / self.sum_bc2[(*wk, *[])]
+                    self.bc2[(*wi, *wj)] = (self.bc2[(*wi, *wj)] / self.sum_bc2[(*wk, *[])])
                 self.sum_bc2[(*wk, *[])] = 1
-            self.pure_power_sepctrum[(*wk, *[])] = self.power_spectrum[(*wk, *[])] * (
-                1 - self.sum_bc2[(*wk, *[])]
-            )
+            self.pure_power_sepctrum[(*wk, *[])] = self.power_spectrum[(*wk, *[])] * (1 - self.sum_bc2[(*wk, *[])])
 
     def _simulate_bsrm_uni(self, phi):
-        coeff = np.sqrt(
-            (2 ** (self.n_dimensions + 1)) * self.power_spectrum * np.prod(self.frequency_interval)
-        )
+        coeff = np.sqrt((2 ** (self.n_dimensions + 1)) * self.power_spectrum * np.prod(self.frequency_interval))
         phi_e = np.exp(phi * 1.0j)
         biphase_e = np.exp(self.biphase * 1.0j)
         b = np.sqrt(1 - self.sum_bc2) * phi_e
@@ -188,9 +169,11 @@ class BispectralRepresentation:
                 wj = np.array(j)
                 wi = wk - wj
                 b[(*wk, *[])] = (
-                    b[(*wk, *[])]
-                    + bc[(*wi, *wj)] * biphase_e[(*wi, *wj)] * phi_e[(*wi, *[])] * phi_e[(*wj, *[])]
-                )
+                        b[(*wk, *[])]
+                        + bc[(*wi, *wj)]
+                        * biphase_e[(*wi, *wj)]
+                        * phi_e[(*wi, *[])]
+                        * phi_e[(*wj, *[])])
 
         b = np.einsum("...i->i...", b)
         b = b * coeff
@@ -221,28 +204,18 @@ class BispectralRepresentation:
         if not isinstance(n_samples, int):
             raise ValueError("UQpy: Stochastic Process: n_samples should be an integer.")
 
-        self.logger.info(
-            "UQpy: Stochastic Process: Running 3rd-order Spectral Representation Method."
-        )
+        self.logger.info("UQpy: Stochastic Process: Running 3rd-order Spectral Representation Method.")
 
         samples = None
         phi = None
 
         if self.case == "uni":
-            self.logger.info(
-                "UQpy: Stochastic Process: Starting simulation of uni-variate Stochastic Processes."
-            )
+            self.logger.info("UQpy: Stochastic Process: Starting simulation of uni-variate Stochastic Processes.")
             self.logger.info("UQpy: The number of dimensions is %i:", self.n_dimensions)
-            phi = (
-                np.random.uniform(
-                    size=np.append(
-                        self.n_samples,
-                        np.ones(self.n_dimensions, dtype=np.int32) * self.n_frequency_intervals,
-                    )
-                )
-                * 2
-                * np.pi
-            )
+            phi = (np.random.uniform(
+                size=np.append(self.n_samples,
+                               np.ones(self.n_dimensions, dtype=np.int32)
+                               * self.n_frequency_intervals, )) * 2 * np.pi)
             samples = self._simulate_bsrm_uni(phi)
 
         if self.samples is None:
@@ -252,6 +225,4 @@ class BispectralRepresentation:
             self.samples = np.concatenate((self.samples, samples), axis=0)
             self.phi = np.concatenate((self.phi, phi), axis=0)
 
-        self.logger.info(
-            "UQpy: Stochastic Process: 3rd-order Spectral Representation Method Complete."
-        )
+        self.logger.info("UQpy: Stochastic Process: 3rd-order Spectral Representation Method Complete.")

@@ -25,14 +25,14 @@ according to:
 
 # %%
 
-import matplotlib.pyplot as plt
 import numpy as np
-
-plt.style.use("ggplot")
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
 from UQpy.distributions import Normal
 from UQpy.reliability import FORM
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+
 
 # %% md
 #
@@ -43,7 +43,7 @@ from UQpy.run_model.RunModel import RunModel
 
 # %%
 
-model = PythonModel(model_script="local_pfn.py", model_object_name="example1")
+model = PythonModel(model_script='local_pfn.py', model_object_name="example1")
 runmodel_object = RunModel(model=model)
 
 # %% md
@@ -54,14 +54,10 @@ runmodel_object = RunModel(model=model)
 
 # %%
 
-distribution_resistance = Normal(loc=200.0, scale=20.0)
-distribution_stress = Normal(loc=150.0, scale=10.0)
-form = FORM(
-    distributions=[distribution_resistance, distribution_stress],
-    runmodel_object=runmodel_object,
-    tolerance_u=1e-5,
-    tolerance_beta=1e-5,
-)
+distribution_resistance = Normal(loc=200., scale=20.)
+distribution_stress = Normal(loc=150., scale=10.)
+form = FORM(distributions=[distribution_resistance, distribution_stress], runmodel_object=runmodel_object,
+            tolerance_u=1e-5, tolerance_beta=1e-5)
 # %% md
 #
 # With everything defined we are ready to run the first-order reliability method and print the results.
@@ -71,11 +67,11 @@ form = FORM(
 # %%
 
 form.run()
-print("Design point in standard normal space:", form.design_point_u)
-print("Design point in original space:", form.design_point_x)
-print("Hasofer-Lind reliability index:", form.beta)
-print("FORM probability of failure:", form.failure_probability)
-print("FORM record of the function gradient:", form.state_function_gradient_record)
+print('Design point in standard normal space:', form.design_point_u)
+print('Design point in original space:', form.design_point_x)
+print('Hasofer-Lind reliability index:', form.beta)
+print('FORM probability of failure:', form.failure_probability)
+print('FORM record of the function gradient:', form.state_function_gradient_record)
 
 # %% md
 #
@@ -84,14 +80,13 @@ print("FORM record of the function gradient:", form.state_function_gradient_reco
 
 # %%
 
-
 def multivariate_gaussian(pos, mu, sigma):
     """Supporting function"""
     n = mu.shape[0]
     sigma_det = np.linalg.det(sigma)
     sigma_inv = np.linalg.inv(sigma)
     N = np.sqrt((2 * np.pi) ** n * sigma_det)
-    fac = np.einsum("...k,kl,...l->...", pos - mu, sigma_inv, pos - mu)
+    fac = np.einsum('...k,kl,...l->...', pos - mu, sigma_inv, pos - mu)
     return np.exp(-fac / 2) / N
 
 
@@ -111,16 +106,13 @@ XU, YU = np.meshgrid(XU, YU)
 # :math:`\textbf{U}` space.
 
 # %%
-mu_X = np.array([distribution_resistance.parameters["loc"], distribution_stress.parameters["loc"]])
-sigma_X = np.array(
-    [
-        [distribution_resistance.parameters["scale"] ** 2, 0],
-        [0, distribution_stress.parameters["scale"] ** 2],
-    ]
-)
+mu_X = np.array([distribution_resistance.parameters['loc'], distribution_stress.parameters['loc']])
+sigma_X = np.array([[distribution_resistance.parameters['scale']**2, 0],
+                    [0, distribution_stress.parameters['scale']**2]])
 
 mu_U = np.array([0, 0])
-sigma_U = np.array([[1, 0], [0, 1]])
+sigma_U = np.array([[1, 0],
+                    [0, 1]])
 
 # Pack X and Y into a single 3-dimensional array for the original space
 posX = np.empty(XX.shape + (2,))
@@ -141,49 +133,31 @@ ZU = multivariate_gaussian(posU, mu_U, sigma_U)
 
 # %%
 fig, ax = plt.subplots()
-ax.contour(XX, YX, ZX, levels=20)
-ax.plot([0, 200], [0, 200], color="black", linewidth=2, label="$G(R,S)=R-S=0$", zorder=1)
-ax.scatter(mu_X[0], mu_X[1], color="black", s=64, label="Mean $(\mu_R, \mu_S)$")
-ax.scatter(
-    form.design_point_x[0][0],
-    form.design_point_x[0][1],
-    color="tab:orange",
-    marker="*",
-    s=100,
-    label="Design Point",
-    zorder=2,
-)
-ax.set(xlabel="Resistence $R$", ylabel="Stress $S$", xlim=(145, 255), ylim=(115, 185))
-ax.set_title("Original $X$ Space ")
-ax.set_aspect("equal")
-ax.legend(loc="lower right")
+ax.contour(XX, YX, ZX,
+           levels=20)
+ax.plot([0, 200], [0, 200],
+        color='black', linewidth=2, label='$G(R,S)=R-S=0$', zorder=1)
+ax.scatter(mu_X[0], mu_X[1],
+           color='black', s=64, label='Mean $(\mu_R, \mu_S)$')
+ax.scatter(form.design_point_x[0][0], form.design_point_x[0][1],
+           color='tab:orange', marker='*', s=100, label='Design Point', zorder=2)
+ax.set(xlabel='Resistence $R$', ylabel='Stress $S$', xlim=(145, 255), ylim=(115, 185))
+ax.set_title('Original $X$ Space ')
+ax.set_aspect('equal')
+ax.legend(loc='lower right')
 
 fig, ax = plt.subplots()
-ax.contour(XU, YU, ZU, levels=20, zorder=1)
-ax.plot([0, -3], [5, -1], color="black", linewidth=2, label="$G(U_1, U_2)=0$", zorder=2)
-ax.arrow(
-    0,
-    0,
-    form.design_point_u[0][0],
-    form.design_point_u[0][1],
-    color="tab:blue",
-    length_includes_head=True,
-    width=0.05,
-    label="$\\beta=||u^*||$",
-    zorder=2,
-)
-ax.scatter(
-    form.design_point_u[0][0],
-    form.design_point_u[0][1],
-    color="tab:orange",
-    marker="*",
-    s=100,
-    label="Design Point $u^*$",
-    zorder=2,
-)
-ax.set(xlabel="$U_1$", ylabel="$U_2$", xlim=(-3, 3), ylim=(-3, 3))
-ax.set_aspect("equal")
-ax.set_title("Standard Normal $U$ Space")
-ax.legend(loc="lower right")
+ax.contour(XU, YU, ZU,
+           levels=20, zorder=1)
+ax.plot([0, -3], [5, -1],
+        color='black', linewidth=2, label='$G(U_1, U_2)=0$', zorder=2)
+ax.arrow(0, 0, form.design_point_u[0][0], form.design_point_u[0][1],
+         color='tab:blue', length_includes_head=True, width=0.05, label='$\\beta=||u^*||$', zorder=2)
+ax.scatter(form.design_point_u[0][0], form.design_point_u[0][1],
+           color='tab:orange', marker='*', s=100, label='Design Point $u^*$', zorder=2)
+ax.set(xlabel='$U_1$', ylabel='$U_2$', xlim=(-3, 3), ylim=(-3, 3))
+ax.set_aspect('equal')
+ax.set_title('Standard Normal $U$ Space')
+ax.legend(loc='lower right')
 
 plt.show()

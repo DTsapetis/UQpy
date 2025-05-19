@@ -5,17 +5,15 @@ from typing import Union
 import numpy as np
 from beartype import beartype
 
-from UQpy.utilities.ValidationTypes import PositiveFloat, PositiveInteger
+from UQpy.utilities.ValidationTypes import PositiveInteger, PositiveFloat
 
 
 class POD(ABC):
     @beartype
-    def __init__(
-        self,
-        solution_snapshots: Union[np.ndarray, list] = None,
-        n_modes: PositiveInteger = None,
-        reconstruction_percentage: Union[PositiveInteger, PositiveFloat] = None,
-    ):
+    def __init__(self,
+                 solution_snapshots: Union[np.ndarray, list] = None,
+                 n_modes: PositiveInteger = None,
+                 reconstruction_percentage: Union[PositiveInteger, PositiveFloat] = None):
         """
 
         :param solution_snapshots: Array or list containing the solution snapshots. If provided as an
@@ -44,14 +42,12 @@ class POD(ABC):
         self.logger = logging.getLogger(__name__)
 
         if n_modes is not None and reconstruction_percentage is not None:
-            raise ValueError(
-                "Either a number of modes or a reconstruction percentage must be chosen, not both."
-            )
+            raise ValueError("Either a number of modes or a reconstruction percentage must be chosen, not both.")
 
         if reconstruction_percentage is not None and reconstruction_percentage <= 0:
-            raise ValueError(
-                "Invalid input, the reconstruction percentage is defined in the range (0,100]."
-            )
+            raise ValueError("Invalid input, the reconstruction percentage is defined in the range (0,100].")
+
+
 
         self.solution_snapshots = solution_snapshots
         self.logger = logging.getLogger(__name__)
@@ -65,7 +61,7 @@ class POD(ABC):
             self.run(solution_snapshots)
 
     def check_input(self):
-        if type(self.solution_snapshots) is list:
+        if type(self.solution_snapshots) == list:
             rows = self.solution_snapshots[0].shape[0]
             columns = self.solution_snapshots[0].shape[1]
             snapshot_number = len(self.solution_snapshots)
@@ -89,9 +85,7 @@ class POD(ABC):
         pass
 
     @abstractmethod
-    def _calculate_reduced_and_reconstructed_solutions(
-        self, u, phi, rows, columns, snapshot_number
-    ):
+    def _calculate_reduced_and_reconstructed_solutions(self, u, phi, rows, columns, snapshot_number):
         pass
 
     def run(self, solution_snapshots: Union[np.ndarray, list]):
@@ -116,10 +110,7 @@ class POD(ABC):
 
         self.eigenvalues = complex_eigenvalues.real
 
-        percentages = [
-            (self.eigenvalues[: i + 1].sum() / self.eigenvalues.sum()) * 100
-            for i in range(n_iterations)
-        ]
+        percentages = [(self.eigenvalues[: i + 1].sum() / self.eigenvalues.sum()) * 100 for i in range(n_iterations)]
 
         minimum_percentage = min(percentages, key=lambda x: abs(x - self.reconstruction_percentage))
 
@@ -128,15 +119,10 @@ class POD(ABC):
         elif self.modes > n_iterations:
             self.logger.warning(
                 "A number of modes greater than the number of dimensions was given."
-                "Number of dimensions is %i",
-                n_iterations,
-            )
+                "Number of dimensions is %i", n_iterations)
 
-        reconstructed_solutions, reduced_solutions = (
-            self._calculate_reduced_and_reconstructed_solutions(
-                self.U, phi, rows, columns, snapshot_number
-            )
-        )
+        reconstructed_solutions, reduced_solutions = \
+            self._calculate_reduced_and_reconstructed_solutions(self.U, phi, rows, columns, snapshot_number)
 
         self.logger.info(f"UQpy: Successful execution of {type(self).__name__}!")
 

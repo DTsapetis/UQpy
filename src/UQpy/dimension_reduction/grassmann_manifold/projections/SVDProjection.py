@@ -2,17 +2,20 @@ from typing import Union
 
 from beartype import beartype
 
-from UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection import (
-    GrassmannProjection,
-)
 from UQpy.utilities.GrassmannPoint import GrassmannPoint
-from UQpy.utilities.Utilities import *
+from UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection import GrassmannProjection
 from UQpy.utilities.ValidationTypes import Numpy2DFloatArray
+from UQpy.utilities.Utilities import *
 
 
 class SVDProjection(GrassmannProjection):
     @beartype
-    def __init__(self, data: list[Numpy2DFloatArray], p: Union[int, str], tol: float = None):
+    def __init__(
+            self,
+            data: list[Numpy2DFloatArray],
+            p: Union[int, str],
+            tol: float = None,
+    ):
         """
 
         :param data: Raw data given as a list of matrices.
@@ -57,9 +60,7 @@ class SVDProjection(GrassmannProjection):
         else:
             for i in range(points_number):
                 if min(np.shape(data[i])) < p:
-                    raise ValueError(
-                        "UQpy: The dimension of the input data is not consistent with `p` of G(n,p)."
-                    )
+                    raise ValueError("UQpy: The dimension of the input data is not consistent with `p` of G(n,p).")
                     # write something that makes sense
 
         ranks = np.ones(points_number) * [int(p)]

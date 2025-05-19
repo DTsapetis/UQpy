@@ -2,8 +2,8 @@ import numpy
 import numpy as np
 from beartype import beartype
 
-from UQpy.distributions.baseclass import Copula
 from UQpy.utilities.ValidationTypes import Numpy2DFloatArray
+from UQpy.distributions.baseclass import Copula
 
 
 class Frank(Copula):
@@ -32,7 +32,7 @@ class Frank(Copula):
         :return: Values of the cdf.
         """
         theta, u, v = self.extract_data(unit_uniform_samples)
-        tmp_ratio = (np.exp(-theta * u) - 1.0) * (np.exp(-theta * v) - 1.0) / (np.exp(-theta) - 1.0)
+        tmp_ratio = ((np.exp(-theta * u) - 1.0) * (np.exp(-theta * v) - 1.0) / (np.exp(-theta) - 1.0))
         cdf_val = -1.0 / theta * np.log(1.0 + tmp_ratio)
         return cdf_val
 

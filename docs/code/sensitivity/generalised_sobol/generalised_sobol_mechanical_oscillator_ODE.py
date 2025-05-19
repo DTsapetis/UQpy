@@ -1,9 +1,12 @@
-r"""
+"""
 
 Mechanical oscillator model (multioutput)
 ==============================================
 
-In this example, we consider the mechanical oscillator is governed by the following
+"""
+
+r"""
+In this example, we consider the mechanical oscillator is governed by the following 
 second-order ODE as demonstrated in [1]_:
 
 .. math::
@@ -17,8 +20,8 @@ The parameteres of the oscillator are modeled as follows:
 .. math::
     m \sim \mathcal{U}(10, 12), c \sim \mathcal{U}(0.4, 0.8), k \sim \mathcal{U}(70, 90), \ell \sim \mathcal{U}(-1, -0.25).
 
-Unlike the pointwise-in-time Sobol indices, which provide the sensitivity of the model
-parameters at each point in time, the GSI indices summarise the sensitivities of the
+Unlike the pointwise-in-time Sobol indices, which provide the sensitivity of the model 
+parameters at each point in time, the GSI indices summarise the sensitivities of the 
 model parameters over the entire time period.
 
 .. [1] Gamboa, F., Janon, A., Klein, T., & Lagnoux, A. (2014). Sensitivity analysis for multidimensional and functional outputs. Electronic Journal of Statistics, 8(1), 575-603.
@@ -28,10 +31,10 @@ model parameters over the entire time period.
 # %%
 import numpy as np
 
-from UQpy.distributions import Normal, Uniform
-from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.distributions import Uniform, Normal
+from UQpy.distributions.collection.JointIndependent import JointIndependent
 from UQpy.sensitivity.GeneralisedSobolSensitivity import GeneralisedSobolSensitivity
 from UQpy.sensitivity.PostProcess import *
 

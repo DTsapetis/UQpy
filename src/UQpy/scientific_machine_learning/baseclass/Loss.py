@@ -1,6 +1,5 @@
-from abc import ABC, abstractmethod
-
 import torch.nn as nn
+from abc import ABC, abstractmethod
 
 
 class Loss(nn.Module, ABC):

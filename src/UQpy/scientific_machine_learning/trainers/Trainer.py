@@ -1,20 +1,19 @@
-import logging
-from typing import Union
-
 import torch
 import torch.nn as nn
+import logging
 from beartype import beartype
-
+from typing import Union
 from UQpy.utilities.ValidationTypes import PositiveInteger
 
 
 @beartype
 class Trainer:
+
     def __init__(
         self,
         model: nn.Module,
         optimizer: torch.optim.Optimizer,
-        loss_function: nn.Module,
+        loss_function: nn.Module = nn.MSELoss(),
         scheduler: Union[torch.optim.lr_scheduler.LRScheduler, list] = None,
     ):
         """Prepare to train a neural network
@@ -25,8 +24,6 @@ class Trainer:
         :param scheduler: Scheduler used to adjust the learning rate of the ``optimizer``.
          Schedulers may be chained together by creating a list of schedulers
         """
-        if loss_function is None:
-            loss_function = nn.MSELoss()
         self.model = model
         self.optimizer = optimizer
         self.loss_function = loss_function
@@ -77,9 +74,13 @@ class Trainer:
             )
 
         if train_data:
-            self.history["train_loss"] = torch.full([epochs], torch.nan, requires_grad=False)
+            self.history["train_loss"] = torch.full(
+                [epochs], torch.nan, requires_grad=False
+            )
         if test_data:
-            self.history["test_loss"] = torch.full([epochs], torch.nan, requires_grad=False)
+            self.history["test_loss"] = torch.full(
+                [epochs], torch.nan, requires_grad=False
+            )
 
         self.logger.info("UQpy: Scientific Machine Learning: Beginning " + log_note)
         i = 0
@@ -88,7 +89,7 @@ class Trainer:
             if train_data:
                 self.model.train(True)
                 total_train_loss = 0
-                for _batch_number, (*x, y) in enumerate(train_data):
+                for batch_number, (*x, y) in enumerate(train_data):
                     prediction = self.model(*x)
                     train_loss = self.loss_function(prediction, y)
                     train_loss.backward()
@@ -108,7 +109,7 @@ class Trainer:
             if test_data:
                 total_test_loss = 0
                 with torch.no_grad():
-                    for _batch_number, (*x, y) in enumerate(test_data):
+                    for batch_number, (*x, y) in enumerate(test_data):
                         test_prediction = self.model(*x)
                         test_loss = self.loss_function(test_prediction, y)
                         total_test_loss += test_loss.item()
@@ -116,13 +117,13 @@ class Trainer:
                     self.history["test_loss"][i] = average_test_loss
                     self.logger.info(
                         f"UQpy: Scientific Machine Learning: "
-                        f"Epoch {i + 1:,} / {epochs:,} Train Loss {average_train_loss:.6e} Test Loss {average_test_loss:.6e}"
+                        f"Epoch {i+1:,} / {epochs:,} Train Loss {average_train_loss:.6e} Test Loss {average_test_loss:.6e}"
                     )
             else:
                 self.logger.info(
                     f"UQpy: Scientific Machine Learning: "
-                    f"Epoch {i + 1:,} / {epochs:,} Train Loss {average_train_loss:.6e}"
+                    f"Epoch {i+1:,} / {epochs:,} Train Loss {average_train_loss:.6e}"
                 )
             i += 1
 
-        self.logger.info("UQpy: Scientific Machine Learning: Completed " + log_note)
+        self.logger.info(f"UQpy: Scientific Machine Learning: Completed " + log_note)

@@ -1,10 +1,13 @@
-import numpy as np
 from beartype import beartype
 
-from UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction import LearningFunction
+from UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction import (
+    LearningFunction,
+)
+import numpy as np
 
 
 class WeightedUFunction(LearningFunction):
+
     @beartype
     def __init__(self, weighted_u_stop: int):
         """
@@ -14,9 +17,7 @@ class WeightedUFunction(LearningFunction):
         """
         self.weighted_u_stop = weighted_u_stop
 
-    def evaluate_function(
-        self, distributions, n_add, surrogate, population, qoi=None, samples=None
-    ):
+    def evaluate_function(self, distributions, n_add, surrogate, population, qoi=None, samples=None):
         g, sig = surrogate.predict(population, True)
 
         # Remove the inconsistency in the shape of 'g' and 'sig' array

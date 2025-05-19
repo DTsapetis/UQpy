@@ -1,5 +1,4 @@
 """distributions module."""
-
 from UQpy.distributions.collection.Beta import Beta
 from UQpy.distributions.collection.Binomial import Binomial
 from UQpy.distributions.collection.Cauchy import Cauchy
@@ -8,8 +7,6 @@ from UQpy.distributions.collection.Exponential import Exponential
 from UQpy.distributions.collection.Gamma import Gamma
 from UQpy.distributions.collection.GeneralizedExtreme import GeneralizedExtreme
 from UQpy.distributions.collection.InverseGaussian import InverseGauss
-from UQpy.distributions.collection.JointCopula import JointCopula
-from UQpy.distributions.collection.JointIndependent import JointIndependent
 from UQpy.distributions.collection.Laplace import Laplace
 from UQpy.distributions.collection.Levy import Levy
 from UQpy.distributions.collection.Logistic import Logistic
@@ -23,3 +20,5 @@ from UQpy.distributions.collection.Poisson import Poisson
 from UQpy.distributions.collection.Rayleigh import Rayleigh
 from UQpy.distributions.collection.TruncatedNormal import TruncatedNormal
 from UQpy.distributions.collection.Uniform import Uniform
+from UQpy.distributions.collection.JointIndependent import JointIndependent
+from UQpy.distributions.collection.JointCopula import JointCopula

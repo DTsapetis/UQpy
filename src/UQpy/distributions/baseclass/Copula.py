@@ -1,10 +1,11 @@
+from UQpy.distributions.baseclass.DistributionContinuous1D import (
+    DistributionContinuous1D,
+)
 from abc import ABC
 from typing import Union
 
-from UQpy.distributions.baseclass.DistributionContinuous1D import DistributionContinuous1D
-
-
 class Copula(ABC):
+
     def __init__(self, ordered_parameters: dict = None, **kwargs: dict):
         """
         Define a copula for a multivariate distribution whose dependence structure is defined with a copula.

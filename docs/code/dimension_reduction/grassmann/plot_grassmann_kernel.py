@@ -13,17 +13,15 @@ This example shows how to use the UQpy Grassmann class to compute kernels
 
 # %%
 
-import sys
-
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-
-from UQpy.dimension_reduction import GrassmannOperations
 from UQpy.dimension_reduction.grassmann_manifold.projections.SVDProjection import SVDProjection
+from UQpy.dimension_reduction import GrassmannOperations
 from UQpy.utilities import GrassmannPoint
 from UQpy.utilities.kernels import ProjectionKernel
+import sys
 
 # %% md
 #
@@ -49,13 +47,13 @@ matrices = [Sol0, Sol1, Sol2, Sol3]
 
 # Plot the solutions
 fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4)
-ax1.title.set_text("Matrix 0")
+ax1.title.set_text('Matrix 0')
 ax1.imshow(Sol0)
-ax2.title.set_text("Matrix 1")
+ax2.title.set_text('Matrix 1')
 ax2.imshow(Sol1)
-ax3.title.set_text("Matrix 2")
+ax3.title.set_text('Matrix 2')
 ax3.imshow(Sol2)
-ax4.title.set_text("Matrix 3")
+ax4.title.set_text('Matrix 3')
 ax4.imshow(Sol3)
 plt.show()
 
@@ -82,9 +80,9 @@ projection_kernel.calculate_kernel_matrix(x=manifold_projection.v, s=manifold_pr
 kernel_phi = projection_kernel.kernel_matrix
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
-ax1.title.set_text("kernel_psi")
+ax1.title.set_text('kernel_psi')
 ax1.imshow(kernel_psi)
-ax2.title.set_text("kernel_phi")
+ax2.title.set_text('kernel_phi')
 ax2.imshow(kernel_phi)
 plt.show()
 
@@ -94,10 +92,9 @@ plt.show()
 
 # %%
 
-projection_kernel.calculate_kernel_matrix(
-    x=[manifold_projection.u[0], manifold_projection.u[1], manifold_projection.u[2]],
-    s=[manifold_projection.u[0], manifold_projection.u[1], manifold_projection.u[2]],
-)
+projection_kernel.\
+    calculate_kernel_matrix(x=[manifold_projection.u[0], manifold_projection.u[1], manifold_projection.u[2]],
+                            s=[manifold_projection.u[0], manifold_projection.u[1], manifold_projection.u[2]])
 kernel_01 = projection_kernel.kernel_matrix
 
 fig = plt.figure()
@@ -112,8 +109,8 @@ plt.show()
 # %%
 from UQpy.utilities.kernels.baseclass.GrassmannianKernel import GrassmannianKernel
 
-
 class UserKernel(GrassmannianKernel):
+
     def element_wise_operation(self, xi_j) -> float:
         xi, xj = xi_j
         r = np.dot(xi.T, xj)
@@ -129,8 +126,8 @@ user_kernel.calculate_kernel_matrix(x=manifold_projection.v, s=manifold_projecti
 kernel_user_phi = user_kernel.kernel_matrix
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
-ax1.title.set_text("kernel_psi")
+ax1.title.set_text('kernel_psi')
 ax1.imshow(kernel_user_psi)
-ax2.title.set_text("kernel_phi")
+ax2.title.set_text('kernel_phi')
 ax2.imshow(kernel_user_phi)
 plt.show()

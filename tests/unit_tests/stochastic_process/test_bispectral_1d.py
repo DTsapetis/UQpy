@@ -1,6 +1,5 @@
-import numpy as np
-
 from UQpy.stochastic_process import BispectralRepresentation
+import numpy as np
 
 n_sim = 100  # Num of samples
 n = 1  # Num of dimensions
@@ -15,13 +14,13 @@ t = np.linspace(0, T - dt, nt)
 df = F / nf
 f = np.linspace(0, F - df, nf)
 
-S = 32 * 1 / np.sqrt(2 * np.pi) * np.exp(-1 / 2 * f**2)
+S = 32 * 1 / np.sqrt(2 * np.pi) * np.exp(-1 / 2 * f ** 2)
 # Generating the 2 dimensional mesh grid
 fx = f
 fy = f
 Fx, Fy = np.meshgrid(f, f)
 
-b = 95 * 2 * 1 / (2 * np.pi) * np.exp(2 * (-1 / 2 * (Fx**2 + Fy**2)))
+b = 95 * 2 * 1 / (2 * np.pi) * np.exp(2 * (-1 / 2 * (Fx ** 2 + Fy ** 2)))
 B_Real = b
 B_Imag = b
 
@@ -33,9 +32,7 @@ B_Imag[:, 0] = 0
 B_Complex = B_Real + 1j * B_Imag
 B_Ampl = np.absolute(B_Complex)
 
-BSRM_object = BispectralRepresentation(
-    n_sim, S, B_Complex, [dt], [df], [nt], [nf], random_state=128
-)
+BSRM_object = BispectralRepresentation(n_sim, S, B_Complex, [dt], [df], [nt], [nf], random_state=128)
 samples_1d = BSRM_object.samples
 
 

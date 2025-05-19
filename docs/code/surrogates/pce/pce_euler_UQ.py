@@ -12,16 +12,17 @@ In this example, we use Physics-informed Polynomial Chaos Expansion for approxim
 
 # %%
 
-from UQpy.distributions import JointIndependent, Uniform
+from UQpy.distributions import Uniform, JointIndependent
 from UQpy.surrogates import *
-from UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE import ConstrainedPCE
-from UQpy.surrogates.polynomial_chaos.physics_informed.PdeData import PdeData
-from UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE import PdePCE
-from UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE import ReducedPCE
-from UQpy.surrogates.polynomial_chaos.physics_informed.Utilities import *
 
 # load PC^2
 from UQpy.surrogates.polynomial_chaos.polynomials.TotalDegreeBasis import TotalDegreeBasis
+from UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE import ConstrainedPCE
+from UQpy.surrogates.polynomial_chaos.physics_informed.PdeData import PdeData
+from UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE import PdePCE
+from UQpy.surrogates.polynomial_chaos.physics_informed.Utilities import *
+from UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE import ReducedPCE
+
 
 # %% md
 #
@@ -29,13 +30,10 @@ from UQpy.surrogates.polynomial_chaos.polynomials.TotalDegreeBasis import TotalD
 
 # %%
 
-
 # Definition of PDE/ODE
 def pde_func(standardized_sample, pce):
     der_order = 4
-    deriv_pce = derivative_basis(
-        standardized_sample, pce, derivative_order=der_order, leading_variable=0
-    ) * ((2 / 1) ** der_order)
+    deriv_pce = derivative_basis(standardized_sample, pce, derivative_order=der_order, leading_variable=0) * ((2 / 1) ** der_order)
 
     pde_basis = deriv_pce
 
@@ -77,28 +75,21 @@ def bc_sampling(nsim=1000):
 
 # define sampling and evaluation of BC for estimation of error
 def bc_res(nsim, pce):
-    physical_sample = np.zeros((2, 2))
+    physical_sample= np.zeros((2, 2))
     physical_sample[1, 0] = 1
-    standardized_sample = polynomial_chaos.Polynomials.standardize_sample(
-        physical_sample, pce.polynomial_basis.distributions
-    )
+    standardized_sample = polynomial_chaos.Polynomials.standardize_sample(physical_sample, pce.polynomial_basis.distributions)
 
     der_order = 2
     deriv_pce = np.sum(
-        derivative_basis(standardized_sample, pce, derivative_order=der_order, leading_variable=0)
-        * ((2 / 1) ** der_order)
-        * np.array(pce.coefficients).T,
-        axis=1,
-    )
+        derivative_basis(standardized_sample, pce, derivative_order=der_order, leading_variable=0) *
+        ((2 / 1) ** der_order) * np.array(pce.coefficients).T, axis=1)
 
     return deriv_pce
 
 
 # Definition of the reference solution for an error estimation
 def ref_sol(physical_coordinate, q):
-    return (q + 1) * (
-        -(physical_coordinate**4) / 24 + physical_coordinate**3 / 12 - physical_coordinate / 24
-    )
+    return (q + 1) * (-(physical_coordinate ** 4) / 24 + physical_coordinate ** 3 / 12 - physical_coordinate / 24)
 
 
 # %% md
@@ -178,9 +169,7 @@ PCEorder = p
 polynomial_basis = TotalDegreeBasis(joint, PCEorder, hyperbolic=1)
 
 #  create initial PCE object containing basis, regression method and dirichlet BC
-initpce = PolynomialChaosExpansion(
-    polynomial_basis=polynomial_basis, regression_method=least_squares
-)
+initpce = PolynomialChaosExpansion(polynomial_basis=polynomial_basis, regression_method=least_squares)
 initpce.set_data(x_train, y_train)
 
 # construct a PC^2 object combining pde_data, pde_pce and initial PCE objects
@@ -199,11 +188,11 @@ yy_val_true = ref_sol(real_ogrid[:, 0], real_ogrid[:, 1]).flatten()
 
 err = np.abs(yy_val_pce - yy_val_true)
 tot_err = np.sum(err)
-print("\nTotal approximation error by PC^2-LAR: ", tot_err)
+print('\nTotal approximation error by PC^2-LAR: ', tot_err)
 
 err_ols = np.abs(yy_val_pce_ols - yy_val_true)
 tot_err_ols = np.sum(err_ols)
-print("Total approximation error by PC^2-OLS: ", tot_err_ols)
+print('Total approximation error by PC^2-OLS: ', tot_err_ols)
 
 # %% md
 #
@@ -233,22 +222,18 @@ for x in beam_x:
     uq = np.zeros((1 + n_derivations, nrand))
     for d in range(1 + n_derivations):
         if d == 0:
-            coeff = reduced_pce.evaluate_coordinate(np.array(x), return_coefficients=True)
+            coeff = (reduced_pce.evaluate_coordinate(np.array(x), return_coefficients=True))
         else:
-            coeff = reduced_pce.derive_coordinate(
-                np.array(x),
-                derivative_order=d,
-                leading_variable=0,
-                return_coefficients=True,
-                derivative_multiplier=transformation_multiplier(pde_data, 0, d),
-            )
+            coeff = reduced_pce.derive_coordinate(np.array(x), derivative_order=d, leading_variable=0,
+                                                  return_coefficients=True,
+                                                  derivative_multiplier=transformation_multiplier(pde_data, 0, d))
         mean[d] = coeff[0]
         var[d] = np.sum(coeff[1:] ** 2)
         variances[d, :] = reduced_pce.variance_contributions(coeff)
 
         for e in range(nrand):
-            lq[d, e] = mean[d] + sigma_mult * np.sqrt(np.sum(variances[d, : e + 1]))
-            uq[d, e] = mean[d] - sigma_mult * np.sqrt(np.sum(variances[d, : e + 1]))
+            lq[d, e] = mean[d] + sigma_mult * np.sqrt(np.sum(variances[d, :e + 1]))
+            uq[d, e] = mean[d] - sigma_mult * np.sqrt(np.sum(variances[d, :e + 1]))
 
     lower_quantiles_modes.append(lq)
     upper_quantiles_modes.append(uq)
@@ -270,53 +255,39 @@ upper_quantiles_modes = np.array(upper_quantiles_modes)
 import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots(1, 4, figsize=(14.5, 3))
-colors = ["black", "blue", "green", "red"]
+colors = ['black', 'blue', 'green', 'red']
 
 for d in range(2, 1 + n_derivations):
     ax[d - 1].plot(beam_x, mean_res[:, d], color=colors[d - 1])
-    ax[d - 1].plot(
-        beam_x, mean_res[:, d] + sigma_mult * np.sqrt(vartot_res[:, d]), color=colors[d - 1]
-    )
-    ax[d - 1].plot(
-        beam_x, mean_res[:, d] - sigma_mult * np.sqrt(vartot_res[:, d]), color=colors[d - 1]
-    )
+    ax[d - 1].plot(beam_x, mean_res[:, d] + sigma_mult * np.sqrt(vartot_res[:, d]), color=colors[d - 1])
+    ax[d - 1].plot(beam_x, mean_res[:, d] - sigma_mult * np.sqrt(vartot_res[:, d]), color=colors[d - 1])
 
-    ax[d - 1].plot(beam_x, lower_quantiles_modes[:, d, 0], "--", alpha=0.7, color=colors[d - 1])
-    ax[d - 1].plot(beam_x, upper_quantiles_modes[:, d, 0], "--", alpha=0.7, color=colors[d - 1])
-    ax[d - 1].fill_between(
-        beam_x,
-        lower_quantiles_modes[:, d, 0],
-        upper_quantiles_modes[:, d, 0],
-        facecolor=colors[d - 1],
-        alpha=0.05,
-    )
+    ax[d - 1].plot(beam_x, lower_quantiles_modes[:, d, 0], '--', alpha=0.7, color=colors[d - 1])
+    ax[d - 1].plot(beam_x, upper_quantiles_modes[:, d, 0], '--', alpha=0.7, color=colors[d - 1])
+    ax[d - 1].fill_between(beam_x, lower_quantiles_modes[:, d, 0], upper_quantiles_modes[:, d, 0],
+                           facecolor=colors[d - 1], alpha=0.05)
 
-    ax[d - 1].plot(beam_x, np.zeros(len(beam_x)), color="black")
+    ax[d - 1].plot(beam_x, np.zeros(len(beam_x)), color='black')
 
 ax[0].plot(beam_x, mean_res[:, 0], color=colors[0])
 ax[0].plot(beam_x, mean_res[:, 0] + sigma_mult * np.sqrt(vartot_res[:, 0]), color=colors[0])
 ax[0].plot(beam_x, mean_res[:, 0] - sigma_mult * np.sqrt(vartot_res[:, 0]), color=colors[0])
 
-ax[0].plot(beam_x, lower_quantiles_modes[:, 0, 0], "--", alpha=0.7, color=colors[0])
-ax[0].plot(beam_x, upper_quantiles_modes[:, 0, 0], "--", alpha=0.7, color=colors[0])
-ax[0].fill_between(
-    beam_x,
-    lower_quantiles_modes[:, 0, 0],
-    upper_quantiles_modes[:, 0, 0],
-    facecolor=colors[0],
-    alpha=0.05,
-)
+ax[0].plot(beam_x, lower_quantiles_modes[:, 0, 0], '--', alpha=0.7, color=colors[0])
+ax[0].plot(beam_x, upper_quantiles_modes[:, 0, 0], '--', alpha=0.7, color=colors[0])
+ax[0].fill_between(beam_x, lower_quantiles_modes[:, 0, 0], upper_quantiles_modes[:, 0, 0],
+                   facecolor=colors[0], alpha=0.05)
 
-ax[0].plot(beam_x, np.zeros(len(beam_x)), color="black")
+ax[0].plot(beam_x, np.zeros(len(beam_x)), color='black')
 
 ax[3].invert_yaxis()
 ax[1].invert_yaxis()
 
-ax[3].set_title(r"Load $\frac{\partial^4 w}{\partial x^4}$", y=1.04)
-ax[2].set_title(r"Shear Force $\frac{\partial^3 w}{\partial x^3}$", y=1.04)
-ax[1].set_title(r"Bending Moment $\frac{\partial^2 w}{\partial x^2}$", y=1.04)
-ax[0].set_title(r"Deflection $w$", y=1.04)
+ax[3].set_title(r'Load $\frac{\partial^4 w}{\partial x^4}$', y=1.04)
+ax[2].set_title(r'Shear Force $\frac{\partial^3 w}{\partial x^3}$', y=1.04)
+ax[1].set_title(r'Bending Moment $\frac{\partial^2 w}{\partial x^2}$', y=1.04)
+ax[0].set_title(r'Deflection $w$', y=1.04)
 
 for axi in ax.flatten():
-    axi.set_xlabel(r"$x$")
+    axi.set_xlabel(r'$x$')
 plt.show()

@@ -5,6 +5,7 @@ from UQpy.surrogates.polynomial_chaos.regressions.baseclass.Regression import Re
 
 
 class LeastSquareRegression(Regression):
+
     def run(self, x: np.ndarray, y: np.ndarray, design_matrix: np.ndarray):
         """
         Least squares solution to compute the polynomial_chaos coefficients.

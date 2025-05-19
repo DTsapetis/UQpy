@@ -1,8 +1,7 @@
-from typing import Annotated
-
 import torch
 from beartype import beartype
 from beartype.vale import Is
+from typing import Annotated
 
 
 @beartype

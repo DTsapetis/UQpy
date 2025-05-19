@@ -1,16 +1,16 @@
 import logging
 from typing import Union
 
-import numpy as np
 from beartype import beartype
 
-from UQpy.distributions import *
-from UQpy.distributions import DistributionContinuous1D, JointIndependent
 from UQpy.sampling.stratified_sampling.baseclass.StratifiedSampling import StratifiedSampling
-from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import Random
 from UQpy.sampling.stratified_sampling.latin_hypercube_criteria.baseclass import Criterion
 from UQpy.utilities.Utilities import process_random_state
-from UQpy.utilities.ValidationTypes import NumpyFloatArray, PositiveInteger, RandomStateType
+from UQpy.sampling.stratified_sampling.latin_hypercube_criteria import Random
+from UQpy.utilities.ValidationTypes import PositiveInteger, NumpyFloatArray, RandomStateType
+from UQpy.distributions import *
+import numpy as np
+from UQpy.distributions import DistributionContinuous1D, JointIndependent
 
 
 class LatinHypercubeSampling(StratifiedSampling):
@@ -19,8 +19,8 @@ class LatinHypercubeSampling(StratifiedSampling):
         self,
         distributions: Union[Distribution, list[Distribution]],
         nsamples: PositiveInteger,
-        criterion: Criterion,
-        random_state: RandomStateType = None,
+        criterion: Criterion = Random(),
+        random_state: RandomStateType = None
     ):
         """
         Perform Latin hypercube sampling (LHS) of random variables.
@@ -47,8 +47,6 @@ class LatinHypercubeSampling(StratifiedSampling):
          4. :class:`.MinCorrelation` - minimizing the correlation between the points. \n
          5. User-defined criterion class, by providing an implementation of the abstract class :class:`Criterion`
         """
-        if criterion is None:
-            criterion = Random()
         self.random_state = process_random_state(random_state)
         self.distributions = distributions
         self.criterion = criterion
@@ -70,7 +68,7 @@ class LatinHypercubeSampling(StratifiedSampling):
 
     @property
     def samples(self):
-        """The generated LHS samples."""
+        """ The generated LHS samples."""
         return np.atleast_2d(self._samples)
 
     @beartype

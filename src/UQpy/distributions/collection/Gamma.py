@@ -7,6 +7,7 @@ from UQpy.distributions.baseclass import DistributionContinuous1D
 
 
 class Gamma(DistributionContinuous1D):
+
     @beartype
     def __init__(
         self,
@@ -20,5 +21,7 @@ class Gamma(DistributionContinuous1D):
         :param loc: location parameter
         :param scale: scale parameter
         """
-        super().__init__(a=a, loc=loc, scale=scale, ordered_parameters=("a", "loc", "scale"))
+        super().__init__(
+            a=a, loc=loc, scale=scale, ordered_parameters=("a", "loc", "scale")
+        )
         self._construct_from_scipy(scipy_name=stats.gamma)

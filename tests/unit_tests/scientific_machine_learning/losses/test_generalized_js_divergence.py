@@ -1,7 +1,6 @@
 import pytest
 import torch
 import torch.nn as nn
-
 import UQpy as uq
 import UQpy.scientific_machine_learning as sml
 
@@ -16,7 +15,9 @@ def test_reduction_shape():
         sml.BayesianLinear(width, 1),
     )
     model = sml.FeedForwardNeuralNetwork(network)
-    divergence_function = sml.GeneralizedJensenShannonDivergence(uq.Normal, uq.Uniform, n_samples=1)
+    divergence_function = sml.GeneralizedJensenShannonDivergence(
+        uq.Normal, uq.Uniform, n_samples=1
+    )
     divergence = divergence_function(model)
     assert divergence.shape == torch.Size()
 

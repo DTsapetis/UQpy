@@ -19,18 +19,53 @@ jobs:
   code-ql-analysis:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Run CodeQL Analysis
-      uses: github/codeql-action/init@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
 
   sonar-cloud-analysis:
     runs-on: ubuntu-latest
     steps:
-      - name: SonarQube Cloud Scan
-        uses: SonarSource/sonarcloud-github-action@v5.0.0
-        with:
-          projectBaseDir: src
-          
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@v5.1.0
+      with:
+        args: >
+          -Dsonar.organization=dtsapetis
+          -Dsonar.projectKey=DTsapetis_UQpy
+          -Dsonar.verbose=true
+          -Dsonar.sources=src/
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: https://sonarcloud.io
+  
+  code-complexity:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4          
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v5
+      with:
+          python-version: 3.9
+    - name: Install Radon
+      run: pip install radon
+    - name: Run Radon
+      run: |
+          radon cc src -a -s
+          radon mi src -s
+          radon raw src -s -j
     
   
   

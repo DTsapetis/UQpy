@@ -25,22 +25,23 @@
 
 # %%
 
+from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Normal
 from UQpy.reliability import FORM
-from UQpy.run_model.model_execution.PythonModel import PythonModel
-from UQpy.run_model.RunModel import RunModel
 
-dist1 = Normal(loc=20.0, scale=3.5)
-dist2 = Normal(loc=5.0, scale=0.8)
-dist3 = Normal(loc=4.0, scale=0.4)
+dist1 = Normal(loc=20., scale=3.5)
+dist2 = Normal(loc=5., scale=0.8)
+dist3 = Normal(loc=4., scale=0.4)
 
-model = PythonModel(model_script="local_pfn.py", model_object_name="example3")
+model = PythonModel(model_script='local_pfn.py', model_object_name="example3",)
 run_model = RunModel(model=model)
 
 form = FORM(distributions=[dist1, dist2, dist3], runmodel_object=run_model)
 form.run()
 
-print("Design point in standard normal space: %s" % form.design_point_u)
-print("Design point in original space: %s" % form.design_point_x)
-print("Hasofer-Lind reliability index: %s" % form.beta)
-print("FORM probability of failure: %s" % form.failure_probability)
+print('Design point in standard normal space: %s' % form.design_point_u)
+print('Design point in original space: %s' % form.design_point_x)
+print('Hasofer-Lind reliability index: %s' % form.beta)
+print('FORM probability of failure: %s' % form.failure_probability)
+

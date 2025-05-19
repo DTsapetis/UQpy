@@ -1,11 +1,9 @@
 import pytest
 import torch
 import torch.nn as nn
-from hypothesis import given, settings
-from hypothesis import strategies as st
-
+from UQpy.distributions import Normal, Lognormal
 import UQpy.scientific_machine_learning as sml
-from UQpy.distributions import Lognormal, Normal
+from hypothesis import given, settings, strategies as st
 
 settings.register_profile("fast", max_examples=1)
 settings.load_profile("fast")
@@ -31,5 +29,8 @@ def test_divergence_shape(width):
 def test_reduction_none_raises_error():
     with pytest.raises(ValueError):
         sml.MCKullbackLeiblerDivergence(
-            posterior_distribution=Normal, prior_distribution=Normal, reduction="none", n_samples=1
+            posterior_distribution=Normal,
+            prior_distribution=Normal,
+            reduction="none",
+            n_samples=1,
         )

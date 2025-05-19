@@ -1,23 +1,22 @@
-import logging
-from typing import Union
-
 import torch
 import torch.nn as nn
-from beartype import beartype
-
 import UQpy.scientific_machine_learning as sml
+import logging
+from beartype import beartype
 from UQpy.utilities.ValidationTypes import PositiveInteger
+from typing import Union
 
 
 @beartype
 class BBBTrainer:
+
     def __init__(
         self,
         model: nn.Module,
         optimizer: torch.optim.Optimizer,
-        scheduler: Union[torch.optim.lr_scheduler.LRScheduler, list],
-        loss_function: nn.Module,
-        divergence: nn.Module,
+        scheduler: Union[torch.optim.lr_scheduler.LRScheduler, list] = None,
+        loss_function: nn.Module = nn.MSELoss(),
+        divergence: nn.Module = sml.GaussianKullbackLeiblerDivergence(),
     ):
         """Prepare to train a Bayesian neural network using Bayes by back propagation
 
@@ -29,10 +28,6 @@ class BBBTrainer:
         :param divergence: Divergence measured between prior and posterior distribution of Bayesian layers
          Default: ``sml.GaussianKullbackLeiblerLoss()``
         """
-        if loss_function is None:
-            loss_function = nn.MSELoss()
-        if divergence is None:
-            divergence = sml.GaussianKullbackLeiblerDivergence()
         self.model = model
         self.optimizer = optimizer
         self.scheduler = (
@@ -92,11 +87,19 @@ class BBBTrainer:
             )
 
         if train_data:
-            self.history["train_loss"] = torch.full([epochs], torch.nan, requires_grad=False)
-            self.history["train_divergence"] = torch.full([epochs], torch.nan, requires_grad=False)
-            self.history["train_nll"] = torch.full([epochs], torch.nan, requires_grad=False)
+            self.history["train_loss"] = torch.full(
+                [epochs], torch.nan, requires_grad=False
+            )
+            self.history["train_divergence"] = torch.full(
+                [epochs], torch.nan, requires_grad=False
+            )
+            self.history["train_nll"] = torch.full(
+                [epochs], torch.nan, requires_grad=False
+            )
         if test_data:
-            self.history["test_nll"] = torch.full([epochs], torch.nan, requires_grad=False)
+            self.history["test_nll"] = torch.full(
+                [epochs], torch.nan, requires_grad=False
+            )
 
         self.logger.info("UQpy: Scientific Machine Learning: Beginning " + log_note)
         i = 0
@@ -108,7 +111,7 @@ class BBBTrainer:
                 total_train_loss = 0
                 total_nll_loss = 0
                 total_divergence_loss = 0
-                for _batch_number, (*x, y) in enumerate(train_data):
+                for batch_number, (*x, y) in enumerate(train_data):
                     nll_loss = torch.zeros(num_samples)
                     for sample in range(num_samples):
                         prediction = self.model(*x)
@@ -145,7 +148,7 @@ class BBBTrainer:
             if test_data:
                 total_test_nll = 0
                 with torch.no_grad():
-                    for batch_number, (*x, y) in enumerate(test_data):
+                    for _batch_number, (*x, y) in enumerate(test_data):
                         test_prediction = self.model(*x)
                         test_nll = self.loss_function(test_prediction, y)
                         total_test_nll += test_nll.item()
@@ -156,4 +159,4 @@ class BBBTrainer:
 
             i += 1
 
-        self.logger.info("UQpy: Scientific Machine Learning: Completed " + log_note)
+        self.logger.info(f"UQpy: Scientific Machine Learning: Completed " + log_note)

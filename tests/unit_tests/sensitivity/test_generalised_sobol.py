@@ -1,4 +1,4 @@
-""" "
+""""
 This is the test module for the Generalised Sobol indices.
 
 Here, we will use the toy example from [1]_, which is a multi-output problem.
@@ -7,7 +7,7 @@ Here, we will use the toy example from [1]_, which is a multi-output problem.
 References
 ----------
 
-.. [1]  Gamboa F, Janon A, Klein T, Lagnoux A, others.
+.. [1]  Gamboa F, Janon A, Klein T, Lagnoux A, others. 
         Sensitivity analysis for multidimensional and functional outputs.
         Electronic journal of statistics 2014; 8(1): 575-603.
 
@@ -33,9 +33,9 @@ diff = |a - b|
 diff <= atol + rtol * abs(b)
 
 -   relative tolerance: rtol * abs(b)
-    It is the maximum allowed difference between a and b,
-    relative to the absolute value of b.
-    For example, to set a tolerance of 1%, pass rol=0.01,
+    It is the maximum allowed difference between a and b, 
+    relative to the absolute value of b. 
+    For example, to set a tolerance of 1%, pass rol=0.01, 
     which assures that the values are within 2 decimal places of each other.
 -   absolute tolerance: atol
     When b is close to zero, the atol value is used.
@@ -46,15 +46,14 @@ import numpy as np
 import pytest
 import scipy
 
-from UQpy.distributions import Normal, Uniform
-from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
+from UQpy.distributions import Uniform, Normal
+from UQpy.distributions.collection.JointIndependent import JointIndependent
 from UQpy.sensitivity.GeneralisedSobolSensitivity import GeneralisedSobolSensitivity
 
 # Prepare
 ###############################################################################
-
 
 # Prepare the input distribution
 @pytest.fixture()
@@ -90,7 +89,10 @@ def toy_model_object():
     model = PythonModel(
         model_script="multioutput.py",
         model_object_name="evaluate",
-        var_names=["X_1", "X_2"],
+        var_names=[
+            "X_1",
+            "X_2",
+        ],
         delete_files=True,
     )
 
@@ -184,7 +186,10 @@ def NUM_SAMPLES():
 
 
 @pytest.fixture()
-def bootstrap_generalised_sobol_index_variance(generalised_sobol_object_normal, NUM_SAMPLES):
+def bootstrap_generalised_sobol_index_variance(
+    generalised_sobol_object_normal, NUM_SAMPLES
+):
+
     SA = generalised_sobol_object_normal
 
     np.random.seed(12345)  #! set seed for reproducibility
@@ -215,6 +220,7 @@ def bootstrap_generalised_sobol_index_variance(generalised_sobol_object_normal, 
 
 @pytest.fixture()
 def model_eval_generalised_sobol_index_variance():
+
     """
     For computational efficiency, the variance of the generalised Sobol indices
     is precomputed using model evaluations with
@@ -291,8 +297,10 @@ def test_pick_and_freeze_estimator(
 
 
 def test_bootstrap_variance_computation(
-    model_eval_generalised_sobol_index_variance, bootstrap_generalised_sobol_index_variance
+    model_eval_generalised_sobol_index_variance,
+    bootstrap_generalised_sobol_index_variance,
 ):
+
     """Test the bootstrap variance computation."""
 
     # Prepare

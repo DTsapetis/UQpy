@@ -1,14 +1,17 @@
-from typing import Union
-
 import torch
 import torch.nn.functional as F
 from torch.nn.modules.utils import _triple
-
+from typing import Union
 from UQpy.scientific_machine_learning.baseclass import NormalBayesianLayer
-from UQpy.utilities.ValidationTypes import NonNegativeInteger, PositiveFloat, PositiveInteger
+from UQpy.utilities.ValidationTypes import (
+    PositiveInteger,
+    NonNegativeInteger,
+    PositiveFloat,
+)
 
 
 class BayesianConv3d(NormalBayesianLayer):
+
     def __init__(
         self,
         in_channels: PositiveInteger,

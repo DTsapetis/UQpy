@@ -29,9 +29,9 @@ diff = |a - b|
 diff <= atol + rtol * abs(b)
 
 -   relative tolerance: rtol * abs(b)
-    It is the maximum allowed difference between a and b,
-    relative to the absolute value of b.
-    For example, to set a tolerance of 1%, pass rol=0.01,
+    It is the maximum allowed difference between a and b, 
+    relative to the absolute value of b. 
+    For example, to set a tolerance of 1%, pass rol=0.01, 
     which assures that the values are within 2 decimal places of each other.
 
 -   absolute tolerance: atol
@@ -43,15 +43,14 @@ import numpy as np
 import pytest
 import scipy
 
+from UQpy.run_model.RunModel import RunModel
+from UQpy.run_model.model_execution.PythonModel import PythonModel
 from UQpy.distributions import Normal, Uniform
 from UQpy.distributions.collection.JointIndependent import JointIndependent
-from UQpy.run_model.model_execution.PythonModel import PythonModel
-from UQpy.run_model.RunModel import RunModel
 from UQpy.sensitivity.CramerVonMisesSensitivity import CramerVonMisesSensitivity
 
 # Prepare
 ###############################################################################
-
 
 # Prepare the input distribution
 @pytest.fixture()
@@ -163,6 +162,7 @@ def bootstrap_CVM_index_variance(CVM_object, NUM_SAMPLES):
 
 @pytest.fixture()
 def model_evals_CVM_index_variance():
+
     """
     runmodel_obj = RunModel(
                 model_script='exponential.py',
@@ -244,7 +244,9 @@ def numerical_Sobol_indices(CVM_object_ishigami):
 
     np.random.seed(12345)
 
-    SA.run(n_samples=500_000, estimate_sobol_indices=True, disable_CVM_indices=True)
+    SA.run(
+        n_samples=500_000, estimate_sobol_indices=True, disable_CVM_indices=True
+    )
 
     return SA.first_order_sobol_indices, SA.total_order_sobol_indices
 
@@ -321,7 +323,9 @@ def test_bootstrap_variance_computation(
     assert np.isclose(boot_var_first, var_first, rtol=0, atol=1e-4).all()
 
 
-def test_Sobol_estimate_computation(numerical_Sobol_indices, analytical_ishigami_Sobol_indices):
+def test_Sobol_estimate_computation(
+    numerical_Sobol_indices, analytical_ishigami_Sobol_indices
+):
     """
     This function tests the Sobol_estimate_computation method using 1_000_000 samples.
     """

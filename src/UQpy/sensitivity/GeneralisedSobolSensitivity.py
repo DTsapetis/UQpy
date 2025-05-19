@@ -3,7 +3,7 @@
 The GeneralisedSobol class computes the generalised Sobol indices for a given
 multi-ouput model. The class is based on the work of [1]_ and [2]_.
 
-Additionally, we can compute the confidence intervals for the Sobol indices
+Additionally, we can compute the confidence intervals for the Sobol indices 
 using bootstrapping [3]_.
 
 References
@@ -13,29 +13,30 @@ References
         Sensitivity analysis for multidimensional and functional outputs.
         Electronic journal of statistics 2014; 8(1): 575-603.
 
- .. [2] Alexanderian A, Gremaud PA, Smith RC. Variance-based sensitivity
-        analysis for time-dependent processes. Reliability engineering
+ .. [2] Alexanderian A, Gremaud PA, Smith RC. Variance-based sensitivity 
+        analysis for time-dependent processes. Reliability engineering 
         & system safety 2020; 196: 106722.
 
-.. [3] Jeremy Orloff and Jonathan Bloom (2014), Bootstrap confidence intervals,
-       Introduction to Probability and Statistics, MIT OCW.
+.. [3] Jeremy Orloff and Jonathan Bloom (2014), Bootstrap confidence intervals, 
+       Introduction to Probability and Statistics, MIT OCW. 
 
 """
 
 import logging
-from typing import Union
 
 import numpy as np
+
+from typing import Union
 from beartype import beartype
 
-from UQpy.sensitivity.baseclass.PickFreeze import generate_pick_freeze_samples
 from UQpy.sensitivity.baseclass.Sensitivity import Sensitivity
+from UQpy.sensitivity.baseclass.PickFreeze import generate_pick_freeze_samples
 from UQpy.utilities.UQpyLoggingFormatter import UQpyLoggingFormatter
 from UQpy.utilities.ValidationTypes import (
-    NumpyFloatArray,
-    NumpyIntArray,
     PositiveFloat,
     PositiveInteger,
+    NumpyFloatArray,
+    NumpyIntArray,
 )
 
 
@@ -58,7 +59,10 @@ class GeneralisedSobolSensitivity(Sensitivity):
     **Methods:**
     """
 
-    def __init__(self, runmodel_object, dist_object, random_state=None, **kwargs) -> None:
+    def __init__(
+        self, runmodel_object, dist_object, random_state=None, **kwargs
+    ) -> None:
+
         super().__init__(runmodel_object, dist_object, random_state, **kwargs)
 
         # Create logger with the same name as the class
@@ -83,6 +87,7 @@ class GeneralisedSobolSensitivity(Sensitivity):
         n_bootstrap_samples: PositiveInteger = None,
         confidence_level: PositiveFloat = 0.95,
     ):
+
         """
         Compute the generalised Sobol indices for models with multiple outputs
         (vector-valued response) using the Pick-and-Freeze method.
@@ -104,17 +109,14 @@ class GeneralisedSobolSensitivity(Sensitivity):
 
         # Check num_bootstrap_samples data type
         if n_bootstrap_samples is None:
-            self.logger.info(
-                "UQpy: num_bootstrap_samples is set to None, confidence intervals will not be computed.\n"
-            )
+            self.logger.info("UQpy: num_bootstrap_samples is set to None, confidence intervals will not be computed.\n")
 
         elif not isinstance(n_bootstrap_samples, int):
             raise TypeError("UQpy: num_bootstrap_samples should be an integer.\n")
         ################## GENERATE SAMPLES ##################
 
-        (A_samples, B_samples, C_i_generator, _) = generate_pick_freeze_samples(
-            self.dist_object, self.n_samples, self.random_state
-        )
+        (A_samples, B_samples, C_i_generator, _,) = generate_pick_freeze_samples(
+            self.dist_object, self.n_samples, self.random_state)
 
         self.logger.info("UQpy: Generated samples using the pick-freeze scheme.\n")
 
@@ -148,6 +150,7 @@ class GeneralisedSobolSensitivity(Sensitivity):
         C_i_model_evals = np.zeros((self.n_outputs, self.n_samples, self.n_variables))
 
         for i, C_i in enumerate(C_i_generator):
+
             # if model output is vectorised,
             # shape retured by model is (n_samples, n_outputs, 1)
             # we need to reshape it to (n_samples, n_outputs)
@@ -165,23 +168,27 @@ class GeneralisedSobolSensitivity(Sensitivity):
         ################## COMPUTE GENERALISED SOBOL INDICES ##################
 
         self.generalized_first_order_indices = self.compute_first_order_generalised_sobol_indices(
-            A_model_evals, B_model_evals, C_i_model_evals
-        )
+            A_model_evals, B_model_evals, C_i_model_evals)
 
         self.logger.info("UQpy: First order Generalised Sobol indices computed successfully.\n")
 
         self.generalized_total_order_indices = self.compute_total_order_generalised_sobol_indices(
-            A_model_evals, B_model_evals, C_i_model_evals
-        )
+            A_model_evals, B_model_evals, C_i_model_evals)
 
         self.logger.info("UQpy: Total order Generalised Sobol indices computed successfully.\n")
+
 
         ################## CONFIDENCE INTERVALS ####################
 
         if n_bootstrap_samples is not None:
+
             self.logger.info("UQpy: Computing confidence intervals ...\n")
 
-            estimator_inputs = [A_model_evals, B_model_evals, C_i_model_evals]
+            estimator_inputs = [
+                A_model_evals,
+                B_model_evals,
+                C_i_model_evals,
+            ]
 
             # First order generalised Sobol indices
             self.first_order_confidence_interval = self.bootstrapping(
@@ -193,8 +200,7 @@ class GeneralisedSobolSensitivity(Sensitivity):
             )
 
             self.logger.info(
-                "UQpy: Confidence intervals for First order Generalised Sobol indices computed successfully.\n"
-            )
+                "UQpy: Confidence intervals for First order Generalised Sobol indices computed successfully.\n")
 
             # Total order generalised Sobol indices
             self.total_order_confidence_interval = self.bootstrapping(
@@ -206,8 +212,8 @@ class GeneralisedSobolSensitivity(Sensitivity):
             )
 
             self.logger.info(
-                "UQpy: Confidence intervals for Total order Sobol Generalised indices computed successfully.\n"
-            )
+                "UQpy: Confidence intervals for Total order Sobol Generalised indices computed successfully.\n")
+
 
     @staticmethod
     @beartype
@@ -216,6 +222,7 @@ class GeneralisedSobolSensitivity(Sensitivity):
         B_model_evals: Union[NumpyFloatArray, NumpyIntArray],
         C_i_model_evals: Union[NumpyFloatArray, NumpyIntArray],
     ):
+
         """
         Compute the generalised Sobol indices for models with multiple outputs.
 
@@ -236,6 +243,7 @@ class GeneralisedSobolSensitivity(Sensitivity):
         gen_sobol_i = np.zeros((num_vars, 1))
 
         for i in range(num_vars):
+
             all_Y_i = A_model_evals.T  # shape: (n_outputs, n_samples)
             all_Y_i_tilde = B_model_evals.T  # shape: (n_outputs, n_samples)
             all_Y_i_u = C_i_model_evals[:, :, i]  # shape: (n_outputs, n_samples)
@@ -285,6 +293,7 @@ class GeneralisedSobolSensitivity(Sensitivity):
         B_model_evals: Union[NumpyFloatArray, NumpyIntArray],
         C_i_model_evals: Union[NumpyFloatArray, NumpyIntArray],
     ):
+
         """
         Compute the generalised Sobol indices for models with multiple outputs.
 
@@ -305,6 +314,7 @@ class GeneralisedSobolSensitivity(Sensitivity):
         gen_sobol_total_i = np.zeros((num_vars, 1))
 
         for i in range(num_vars):
+
             all_Y_i = A_model_evals.T  # shape: (n_outputs, n_samples)
             all_Y_i_tilde = B_model_evals.T  # shape: (n_outputs, n_samples)
             all_Y_i_u = C_i_model_evals[:, :, i]  # shape: (n_outputs, n_samples)

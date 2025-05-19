@@ -1,5 +1,4 @@
 from scipy.linalg import sqrtm
-
 from UQpy.utilities import *
 
 
@@ -7,13 +6,13 @@ class KarhunenLoeveExpansion:
     # TODO: Test this for non-stationary processes.
 
     def __init__(
-        self,
-        n_samples: int,
-        correlation_function: np.ndarray,
-        time_interval: Union[np.ndarray, float],
-        threshold: int = None,
-        random_state: RandomStateType = None,
-        random_variables: np.ndarray = None,
+            self,
+            n_samples: int,
+            correlation_function: np.ndarray,
+            time_interval: Union[np.ndarray, float],
+            threshold: int = None,
+            random_state: RandomStateType = None,
+            random_variables: np.ndarray = None,
     ):
         """
         A class to simulate stochastic processes from a given auto-correlation function based on the Karhunen-Loeve
@@ -36,9 +35,7 @@ class KarhunenLoeveExpansion:
         if isinstance(self.random_state, int):
             np.random.seed(self.random_state)
         elif not isinstance(self.random_state, (type(None), np.random.RandomState)):
-            raise TypeError(
-                "UQpy: random_state must be None, an int or an np.random.RandomState object."
-            )
+            raise TypeError("UQpy: random_state must be None, an int or an np.random.RandomState object.")
 
         self.logger = logging.getLogger(__name__)
         self.n_samples = n_samples
@@ -89,13 +86,10 @@ class KarhunenLoeveExpansion:
 
         self.logger.info("UQpy: Stochastic Process: Starting simulation of Stochastic Processes.")
 
-        if random_variables is not None and random_variables.shape == (
-            self.n_eigenvalues,
-            self.n_samples,
-        ):
-            self.logger.info("UQpy: Stochastic Process: Using user defined random variables")
+        if random_variables is not None and random_variables.shape == (self.n_eigenvalues, self.n_samples):
+            self.logger.info('UQpy: Stochastic Process: Using user defined random variables')
         else:
-            self.logger.info("UQpy: Stochastic Process; Using computer generated random variables")
+            self.logger.info('UQpy: Stochastic Process; Using computer generated random variables')
             random_variables = np.random.normal(size=(self.n_eigenvalues, self.n_samples))
 
         # xi = np.random.normal(size=(self.n_eigenvalues, self.n_samples))
@@ -106,8 +100,8 @@ class KarhunenLoeveExpansion:
             self.random_variables = random_variables
         else:
             self.samples = np.concatenate((self.samples, samples), axis=0)
-            self.random_variables = np.concatenate(
-                (self.random_variables, random_variables), axis=0
-            )
+            self.random_variables = np.concatenate((self.random_variables, random_variables), axis=0)
 
         self.logger.info("UQpy: Stochastic Process: Karhunen-Loeve Expansion Complete.")
+
+

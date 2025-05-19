@@ -1,13 +1,14 @@
 from typing import Union
-
-import numpy as np
-import scipy.stats as stats
 from beartype import beartype
-
-from UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction import LearningFunction
+from UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction import (
+    LearningFunction,
+)
+import scipy.stats as stats
+import numpy as np
 
 
 class ExpectedImprovement(LearningFunction):
+
     @beartype
     def __init__(self, eif_stop: Union[float, int] = 0.01):
         """
@@ -18,9 +19,7 @@ class ExpectedImprovement(LearningFunction):
         """
         self.eif_stop = eif_stop
 
-    def evaluate_function(
-        self, distributions, n_add, surrogate, population, qoi=None, samples=None
-    ):
+    def evaluate_function(self, distributions, n_add, surrogate, population, qoi=None, samples=None):
         g, sig = surrogate.predict(population, True)
 
         # Remove the inconsistency in the shape of 'g' and 'sig' array

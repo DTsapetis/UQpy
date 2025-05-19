@@ -1,26 +1,25 @@
 import logging
-from typing import Callable, Union
+from typing import Union, Callable
 
-import numpy as np
 from beartype import beartype
 
-from UQpy.distributions import Distribution
+from UQpy.utilities.ValidationTypes import PositiveInteger, RandomStateType, NumpyFloatArray
 from UQpy.utilities.Utilities import process_random_state
-from UQpy.utilities.ValidationTypes import NumpyFloatArray, PositiveInteger, RandomStateType
+from UQpy.distributions import Distribution
+import numpy as np
 
 
 class ImportanceSampling:
+
     # Last Modified: 10/05/2020 by Audrey Olivier
     @beartype
-    def __init__(
-        self,
-        pdf_target: Callable = None,
-        log_pdf_target: Callable = None,
-        args_target: tuple = None,
-        proposal: Union[None, Distribution] = None,
-        random_state: RandomStateType = None,
-        nsamples: PositiveInteger = None,
-    ):
+    def __init__(self,
+                 pdf_target: Callable = None,
+                 log_pdf_target: Callable = None,
+                 args_target: tuple = None,
+                 proposal: Union[None, Distribution] = None,
+                 random_state: RandomStateType = None,
+                 nsamples: PositiveInteger = None):
         """
         Sample from a user-defined target density using importance sampling.
 
@@ -75,8 +74,7 @@ class ImportanceSampling:
             if not hasattr(self.proposal, "pdf"):
                 raise AttributeError("UQpy: The proposal should have a log_pdf or pdf method")
             self.proposal.log_pdf = lambda x: np.log(
-                np.maximum(self.proposal.pdf(x), 10 ** (-320) * np.ones((x.shape[0],)))
-            )
+                np.maximum(self.proposal.pdf(x), 10 ** (-320) * np.ones((x.shape[0],))))
 
     @beartype
     def run(self, nsamples: PositiveInteger):
@@ -94,17 +92,16 @@ class ImportanceSampling:
         if self.evaluate_log_target is None:
             self._preprocess_proposal()
             self.evaluate_log_target = self._preprocess_target(
-                log_pdf_=self.log_pdf_target, pdf_=self.pdf_target, args=self._args_target
-            )
+                log_pdf_=self.log_pdf_target,
+                pdf_=self.pdf_target,
+                args=self._args_target, )
 
         self.logger.info("UQpy: Running Importance Sampling...")
         # Sample from proposal
         new_samples = self.proposal.rvs(nsamples=nsamples, random_state=self.random_state)
         # Compute un-scaled weights of new samples
-        self.evaluate_log_target(x=new_samples)
-        new_log_weights = self.evaluate_log_target(x=new_samples) - self.proposal.log_pdf(
-            x=new_samples
-        )
+        a = self.evaluate_log_target(x=new_samples)
+        new_log_weights = self.evaluate_log_target(x=new_samples) - self.proposal.log_pdf(x=new_samples)
 
         # Save samples and weights (append to existing if necessary)
         if self.samples is None:
@@ -113,8 +110,7 @@ class ImportanceSampling:
         else:
             self.samples = np.concatenate([self.samples, new_samples], axis=0)
             self.unnormalized_log_weights = np.concatenate(
-                [self.unnormalized_log_weights, new_log_weights], axis=0
-            )
+                [self.unnormalized_log_weights, new_log_weights], axis=0)
 
         # Take the exponential and normalize the weights
         weights = np.exp(self.unnormalized_log_weights - max(self.unnormalized_log_weights))
@@ -125,9 +121,7 @@ class ImportanceSampling:
 
         # If a set of unweighted samples exist, delete them as they are not representative of the distribution anymore
         if self.unweighted_samples is not None:
-            self.logger.info(
-                "UQpy: unweighted samples are being deleted, call the resample method to regenerate them"
-            )
+            self.logger.info("UQpy: unweighted samples are being deleted, call the resample method to regenerate them")
             self.unweighted_samples = None
 
     def resample(self, method: str = "multinomial", nsamples: int = None):
@@ -170,9 +164,7 @@ class ImportanceSampling:
                 raise TypeError("UQpy: pdf_target must be a callable")
             if args is None:
                 args = ()
-            evaluate_log_pdf = lambda x: np.log(
-                np.maximum(pdf_(x, *args), 10 ** (-320) * np.ones((x.shape[0],)))
-            )
+            evaluate_log_pdf = lambda x: np.log(np.maximum(pdf_(x, *args), 10 ** (-320) * np.ones((x.shape[0],))))
         else:
             raise ValueError("UQpy: log_pdf_target or pdf_target should be provided.")
         return evaluate_log_pdf

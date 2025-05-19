@@ -22,23 +22,23 @@ Gaussian Process of a sinusoidal function
 
 import shutil
 
-import matplotlib.pyplot as plt
-import numpy as np
-
 from UQpy import PythonModel
-from UQpy.distributions import Gamma
-from UQpy.run_model.RunModel import RunModel
-from UQpy.sampling import TrueStratifiedSampling
 from UQpy.sampling.stratified_sampling.strata import RectangularStrata
+from UQpy.sampling import TrueStratifiedSampling
+from UQpy.run_model.RunModel import RunModel
+from UQpy.distributions import Gamma
+import numpy as np
+import matplotlib.pyplot as plt
 from UQpy.surrogates import GaussianProcessRegression
 
 # %% md
 #
 # Create a distribution object.
+
 # %%
 from UQpy.utilities import RBF
 
-marginals = [Gamma(a=2.0, loc=1.0, scale=3.0)]
+marginals = [Gamma(a=2., loc=1., scale=3.)]
 
 # %% md
 #
@@ -54,9 +54,8 @@ strata = RectangularStrata(strata_number=[20])
 
 # %%
 
-x = TrueStratifiedSampling(
-    distributions=marginals, strata_object=strata, nsamples_per_stratum=1, random_state=2
-)
+x = TrueStratifiedSampling(distributions=marginals, strata_object=strata,
+                           nsamples_per_stratum=1, random_state=2)
 
 
 # %% md
@@ -66,26 +65,20 @@ x = TrueStratifiedSampling(
 
 # %%
 
-model = PythonModel(
-    model_script="local_python_model_1Dfunction.py", model_object_name="y_func", delete_files=True
-)
+model = PythonModel(model_script='local_python_model_1Dfunction.py', model_object_name='y_func',
+                    delete_files=True)
 rmodel = RunModel(model=model)
 rmodel.run(samples=x.samples)
 
 from UQpy.surrogates.gaussian_process.regression_models import LinearRegression
 from UQpy.utilities.MinimizeOptimizer import MinimizeOptimizer
 
-bounds = [[10 ** (-3), 10**3], [10 ** (-3), 10**2]]
-optimizer = MinimizeOptimizer(method="L-BFGS-B", bounds=bounds)
+bounds = [[10**(-3), 10**3], [10**(-3), 10**2]]
+optimizer = MinimizeOptimizer(method='L-BFGS-B', bounds=bounds)
 
-K = GaussianProcessRegression(
-    regression_model=LinearRegression(),
-    kernel=RBF(),
-    optimizer=optimizer,
-    optimizations_number=20,
-    hyperparameters=[1, 0.1],
-    random_state=2,
-)
+K = GaussianProcessRegression(regression_model=LinearRegression(), kernel=RBF(),
+                              optimizer=optimizer, optimizations_number=20, hyperparameters=[1, 0.1],
+                              random_state=2)
 K.fit(samples=x.samples, values=rmodel.qoi_list)
 print(K.hyperparameters)
 
@@ -119,21 +112,17 @@ rmodel.run(samples=x1, append_samples=False)
 
 fig = plt.figure()
 ax = plt.subplot(111)
-plt.plot(np.squeeze(x1), np.squeeze(rmodel.qoi_list), label="Sine")
-plt.plot(x1, y, label="Surrogate")
+plt.plot(np.squeeze(x1), np.squeeze(rmodel.qoi_list), label='Sine')
+plt.plot(x1, y, label='Surrogate')
 # plt.plot(x1, y_grad, label='Gradient')
-plt.scatter(K.samples, K.values, label="Data")
-plt.fill(
-    np.concatenate([x1, x1[::-1]]),
-    np.concatenate([y - 1.9600 * y_sd, (y + 1.9600 * y_sd)[::-1]]),
-    alpha=0.5,
-    fc="y",
-    ec="None",
-    label="95% CI",
-)
+plt.scatter(K.samples, K.values, label='Data')
+plt.fill(np.concatenate([x1, x1[::-1]]), np.concatenate([y - 1.9600 * y_sd,
+                                                         (y + 1.9600 * y_sd)[::-1]]),
+         alpha=.5, fc='y', ec='None', label='95% CI')
 box = ax.get_position()
 ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
 
 # Put a legend to the right of the current axis
-ax.legend(loc="center left", bbox_to_anchor=(1, 0.5))
+ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 plt.show()
+
