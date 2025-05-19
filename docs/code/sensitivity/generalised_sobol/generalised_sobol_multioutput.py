@@ -1,8 +1,15 @@
-r"""
+"""
 
 Toy multioutput function
 ==============================================
 
+"""
+
+# %% [markdown]
+# **Toy multioutput function**
+
+
+r"""
 In this example, we demonstrate the computation of the Generalised Sobol indices using 
 the toy example in [1]_.
 

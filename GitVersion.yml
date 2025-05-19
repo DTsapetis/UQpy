@@ -1,10 +1,5 @@
-mode: Mainline
-major-version-bump-message: '\+semver:\s?(breaking|major)'
-minor-version-bump-message: '\+semver:\s?(feature|minor)'
-patch-version-bump-message: '\+semver:\s?(fix|patch)'
-commit-message-incrementing: Enabled
-branches: {}
-ignore:
-  sha: []
-merge-message-formats: {}
+next-version: 4.3.0
 
+mode: ContinuousDelivery
+workflow: TrunkBased/preview1
+assembly-versioning-scheme: MajorMinorPatch
