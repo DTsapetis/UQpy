@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../../index.html">
+            
+              <img src="../../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion</span><span class="w"> </span><span class="kn">import</span> <span class="n">PolynomialChaosExpansion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.polynomials.TotalDegreeBasis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PolynomialBasis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.regressions.baseclass.Regression</span><span class="w"> </span><span class="kn">import</span> <span class="n">Regression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.regressions</span><span class="w"> </span><span class="kn">import</span> <span class="n">LeastSquareRegression</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">linear_model</span> <span class="k">as</span> <span class="n">regresion</span>
+
+
+<div class="viewcode-block" id="LeastAngleRegression">
+<a class="viewcode-back" href="../../../../../surrogates/pce/regressions.html#UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LeastAngleRegression</span><span class="p">(</span><span class="n">Regression</span><span class="p">):</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">n_nonzero_coefs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class to select the best model approximation and calculate the polynomial_chaos coefficients with the Least Angle </span>
+<span class="sd">        Regression method combined with ordinary least squares.</span>
+
+<span class="sd">        :param n_nonzero_coefs: Maximum number of non-zero coefficients.</span>
+<span class="sd">        :param fit_intercept: Whether to calculate the intercept for this model. Recommended false for PCE, since</span>
+<span class="sd">         intercept is included in basis functions.</span>
+<span class="sd">        :param verbose: Sets the verbosity amount.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_intercept</span> <span class="o">=</span> <span class="n">fit_intercept</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_nonzero_coefs</span> <span class="o">=</span> <span class="n">n_nonzero_coefs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="n">normalize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LeastAngleRegression.run">
+<a class="viewcode-back" href="../../../../../surrogates/pce/regressions.html#UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">design_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Implements the LAR method to compute the polynomial_chaos coefficients. </span>
+<span class="sd">        Recommended only for model_selection algorithm.</span>
+
+<span class="sd">        :param x: :class:`numpy.ndarray` containing the training points (samples).</span>
+<span class="sd">        :param y: :class:`numpy.ndarray` containing the model evaluations (labels) at the training points.</span>
+<span class="sd">        :param design_matrix: matrix containing the evaluation of the polynomials at the input points **x**.</span>
+<span class="sd">        :return: Beta (polynomial_chaos coefficients)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">polynomialbasis</span> <span class="o">=</span> <span class="n">design_matrix</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">polynomialbasis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">n_samples</span><span class="p">,</span> <span class="n">inputs_number</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">regresion</span><span class="o">.</span><span class="n">Lars</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_intercept</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span>
+                             <span class="n">n_nonzero_coefs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nonzero_coefs</span><span class="p">)</span>
+        <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">design_matrix</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># LarsBeta = reg.coef_path_</span>
+        <span class="n">c_</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">coef_</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Beta_path</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">coef_path_</span>
+
+        <span class="k">if</span> <span class="n">c_</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">c_</span> <span class="o">=</span> <span class="n">c_</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">c_</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">c_</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="LeastAngleRegression.model_selection">
+<a class="viewcode-back" href="../../../../../surrogates/pce/regressions.html#UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression.model_selection">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_selection</span><span class="p">(</span><span class="n">pce_object</span><span class="p">:</span> <span class="n">PolynomialChaosExpansion</span><span class="p">,</span> <span class="n">target_error</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">check_overfitting</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        LARS model selection algorithm for given TargetError of approximation</span>
+<span class="sd">        measured by Cross validation: Leave-one-out error (1 is perfect approximation). Option to check overfitting by </span>
+<span class="sd">        empirical rule: if three steps in a row have a decreasing accuracy, stop the algorithm.</span>
+
+<span class="sd">        :param pce_object: existing target PCE for model_selection</span>
+<span class="sd">        :param target_error: Target error of an approximation (stoping criterion).</span>
+<span class="sd">        :param check_overfitting: Whether to check over-fitting by empirical rule.</span>
+<span class="sd">        :return: copy of input PolynomialChaosExpansion containing the best possible model for given data identified by LARs  </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pce</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">pce_object</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">pce</span><span class="o">.</span><span class="n">experimental_design_input</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">pce</span><span class="o">.</span><span class="n">experimental_design_output</span>
+
+        <span class="n">pce</span><span class="o">.</span><span class="n">regression_method</span> <span class="o">=</span> <span class="n">LeastAngleRegression</span><span class="p">()</span>
+        <span class="n">pce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="n">LarsBeta</span> <span class="o">=</span> <span class="n">pce</span><span class="o">.</span><span class="n">regression_method</span><span class="o">.</span><span class="n">Beta_path</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">steps</span> <span class="o">=</span> <span class="n">LarsBeta</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">polynomialbasis</span> <span class="o">=</span> <span class="n">pce</span><span class="o">.</span><span class="n">design_matrix</span>
+        <span class="n">multindex</span> <span class="o">=</span> <span class="n">pce</span><span class="o">.</span><span class="n">multi_index_set</span>
+
+        <span class="n">pce</span><span class="o">.</span><span class="n">regression_method</span> <span class="o">=</span> <span class="n">LeastSquareRegression</span><span class="p">()</span>
+
+        <span class="n">larsbasis</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">OLSBetaList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">larsindex</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">LarsError</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">overfitting</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">BestLarsError</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">if</span> <span class="n">steps</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;LAR identified constant function! Check your data.&#39;</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="n">BestLarsError</span> <span class="o">&lt;</span> <span class="n">target_error</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="n">steps</span> <span class="o">-</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">overfitting</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">LarsBeta</span><span class="p">[:,</span> <span class="n">step</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span>
+            <span class="n">mask</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="n">larsindex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">multindex</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="n">larsbasis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pce_object</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials</span><span class="p">)[</span><span class="n">mask</span><span class="p">]))</span>
+
+            <span class="n">pce</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials_number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">larsbasis</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+            <span class="n">pce</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials</span> <span class="o">=</span> <span class="n">larsbasis</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+            <span class="n">pce</span><span class="o">.</span><span class="n">multi_index_set</span> <span class="o">=</span> <span class="n">larsindex</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+
+            <span class="n">pce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">coefficients</span> <span class="o">=</span> <span class="n">pce</span><span class="o">.</span><span class="n">coefficients</span>
+
+            <span class="n">LarsError</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pce</span><span class="o">.</span><span class="n">leaveoneout_error</span><span class="p">()))</span>
+
+            <span class="n">error</span> <span class="o">=</span> <span class="n">LarsError</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">BestLarsMultindex</span> <span class="o">=</span> <span class="n">larsindex</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+                <span class="n">BestLarsBasis</span> <span class="o">=</span> <span class="n">larsbasis</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+                <span class="n">BestLarsError</span> <span class="o">=</span> <span class="n">LarsError</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">error</span> <span class="o">&gt;</span> <span class="n">BestLarsError</span><span class="p">:</span>
+                    <span class="n">BestLarsMultindex</span> <span class="o">=</span> <span class="n">larsindex</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+                    <span class="n">BestLarsBasis</span> <span class="o">=</span> <span class="n">larsbasis</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+                    <span class="n">BestLarsError</span> <span class="o">=</span> <span class="n">LarsError</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">step</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">check_overfitting</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">BestLarsError</span> <span class="o">&gt;</span> <span class="mf">0.6</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">error</span> <span class="o">&lt;</span> <span class="n">LarsError</span><span class="p">[</span><span class="n">step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span><span class="n">error</span> <span class="o">&lt;</span> <span class="n">LarsError</span><span class="p">[</span><span class="n">step</span> <span class="o">-</span> <span class="mi">2</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span>
+                        <span class="n">error</span> <span class="o">&lt;</span> <span class="n">LarsError</span><span class="p">[</span><span class="n">step</span> <span class="o">-</span> <span class="mi">3</span><span class="p">]):</span>
+                    <span class="n">overfitting</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">pce</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials_number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">BestLarsBasis</span><span class="p">)</span>
+        <span class="n">pce</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials</span> <span class="o">=</span> <span class="n">BestLarsBasis</span>
+        <span class="n">pce</span><span class="o">.</span><span class="n">multi_index_set</span> <span class="o">=</span> <span class="n">BestLarsMultindex</span>
+
+        <span class="n">pce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pce</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

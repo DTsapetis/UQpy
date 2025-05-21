@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. FORM - Linear function - Two Random variables &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="2. FORM - Linear function - Three Random variables" href="FORM_linear_function_3d.html" />
+    <link rel="prev" title="FORM Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reliability/index.html">Reliability</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../reliability/subset.html"> Subset Simulation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../reliability/taylor_series.html"> Taylor Series</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../reliability/form.html"> FORM</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../reliability/form.html#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reliability/form.html#attributes">Attributes</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../reliability/form.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reliability/inverse_form.html"> InverseFORM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reliability/sorm.html"> SORM</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../reliability/index.html">Reliability</a></li>
+          <li class="breadcrumb-item"><a href="../../../reliability/taylor_series.html">Taylor Series</a></li>
+          <li class="breadcrumb-item"><a href="../../../reliability/form.html">FORM</a></li>
+          <li class="breadcrumb-item"><a href="index.html">FORM Examples</a></li>
+      <li class="breadcrumb-item active">1. FORM - Linear function - Two Random variables</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/reliability/form/FORM_linear_function_2d.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-reliability-form-form-linear-function-2d-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="form-linear-function-two-random-variables">
+<span id="sphx-glr-auto-examples-reliability-form-form-linear-function-2d-py"></span><h1>1. FORM - Linear function - Two Random variables<a class="headerlink" href="#form-linear-function-two-random-variables" title="Link to this heading"></a></h1>
+<p>In the second example we have the limit state to be a linear function of two (<span class="math notranslate nohighlight">\(d=2\)</span>) independent Gaussian random
+variables</p>
+<p><span class="math notranslate nohighlight">\(g(U) = -\frac{1}{\sqrt{d}}\sum_{i=1}^{d} u_i + \beta\)</span></p>
+<p>The probability of failure in this case is <span class="math notranslate nohighlight">\(P(F) ≈ 10^{−3}\)</span> for <span class="math notranslate nohighlight">\(β = 3.0902\)</span></p>
+<p>Initially we have to import the necessary modules.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.reliability</span><span class="w"> </span><span class="kn">import</span> <span class="n">FORM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.RunModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.model_execution.PythonModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonModel</span>
+
+
+<span class="n">dist1</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">dist2</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">PythonModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;local_pfn.py&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;example2&quot;</span><span class="p">)</span>
+<span class="n">RunModelObject2</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">FORM</span><span class="p">(</span><span class="n">distributions</span><span class="o">=</span><span class="p">[</span><span class="n">dist1</span><span class="p">,</span> <span class="n">dist2</span><span class="p">],</span> <span class="n">runmodel_object</span><span class="o">=</span><span class="n">RunModelObject2</span><span class="p">)</span>
+<span class="n">Z</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># print results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Design point in standard normal space: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">Z</span><span class="o">.</span><span class="n">design_point_u</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Design point in original space: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">Z</span><span class="o">.</span><span class="n">design_point_x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hasofer-Lind reliability index: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">Z</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;FORM probability of failure: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">Z</span><span class="o">.</span><span class="n">failure_probability</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-reliability-form-form-linear-function-2d-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/reliability/form/FORM_linear_function_2d.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo12.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/8e58fc37405afc137f0c099ce61ecc17/FORM_linear_function_2d.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">FORM_linear_function_2d.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/08b23e1ab7a1810ff3c6e55f97b60877/FORM_linear_function_2d.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">FORM_linear_function_2d.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/dea39a3c91004ad0b4ccf48ff1e9266e/FORM_linear_function_2d.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">FORM_linear_function_2d.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="FORM Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="FORM_linear_function_3d.html" class="btn btn-neutral float-right" title="2. FORM - Linear function - Three Random variables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

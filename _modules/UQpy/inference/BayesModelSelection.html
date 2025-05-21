@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.inference.BayesModelSelection &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.inference.BayesModelSelection</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.inference.BayesModelSelection</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.BayesParameterEstimation</span><span class="w"> </span><span class="kn">import</span> <span class="n">BayesParameterEstimation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.evidence_methods.HarmonicMean</span><span class="w"> </span><span class="kn">import</span> <span class="n">HarmonicMean</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.evidence_methods.baseclass</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvidenceMethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.inference_models.baseclass.InferenceModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImportanceSampling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">PositiveInteger</span>
+
+
+<div class="viewcode-block" id="BayesModelSelection">
+<a class="viewcode-back" href="../../../inference/bayes_model_selection.html#UQpy.inference.BayesModelSelection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BayesModelSelection</span><span class="p">:</span>
+
+    <span class="c1"># Authors: Audrey Olivier, Yuchen Zhou</span>
+    <span class="c1"># Last modified: 01/24/2020 by Audrey Olivier</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">parameter_estimators</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BayesParameterEstimation</span><span class="p">],</span>
+            <span class="n">prior_probabilities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">evidence_method</span><span class="p">:</span> <span class="n">EvidenceMethod</span> <span class="o">=</span> <span class="n">HarmonicMean</span><span class="p">(),</span>
+            <span class="n">nsamples</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PositiveInteger</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform model selection via Bayesian inference, i.e., compute model posterior probabilities given data.</span>
+
+<span class="sd">        This class leverages the :class:`.BayesParameterEstimation` class to get samples from the parameter posterior</span>
+<span class="sd">        densities. These samples are then used to compute the model evidence :code:`p(data|model)` for all models and</span>
+<span class="sd">        the model posterior probabilities.</span>
+
+<span class="sd">        :param data: Available data</span>
+<span class="sd">        :param parameter_estimators: Parameter estimators used during the model selection algorithm.</span>
+<span class="sd">        :param prior_probabilities: Prior probabilities of each model, default is :code:`[1/nmodels, ] * nmodels`</span>
+<span class="sd">        :param evidence_method: as of v3, only the harmonic mean method is supported</span>
+<span class="sd">        :param nsamples: Number of samples used in :class:`.MCMC`/:class:`.ImportanceSampling`, for each model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bayes_estimators</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BayesParameterEstimation</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter_estimators</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Results of the Bayesian parameter estimation.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">InferenceModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">inference_model</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bayes_estimators</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Probabilistic models used during the model selection process.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models_number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evidence_method</span> <span class="o">=</span> <span class="n">evidence_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">prior_probabilities</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prior_probabilities</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prior_probabilities</span> <span class="o">=</span> <span class="n">prior_probabilities</span>
+
+        <span class="c1"># Instantiate the Bayesian parameter estimators (without running them)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_bayes_estimators</span><span class="p">()</span>
+
+        <span class="c1"># Initialize the outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evidences</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">models_number</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Value of the evidence for all models.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">models_number</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Posterior probability for all models&quot;&quot;&quot;</span>
+
+        <span class="c1"># Run the model selection procedure</span>
+        <span class="k">if</span> <span class="n">nsamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_bayes_estimators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">estimator</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bayes_estimators</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">estimator</span><span class="o">.</span><span class="n">sampler</span><span class="p">,</span> <span class="n">ImportanceSampling</span><span class="p">):</span>
+                <span class="n">estimator</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">save_log_pdf</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">estimator</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">concatenate_chains</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">estimator</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">inference_model</span><span class="o">.</span><span class="n">n_parameters</span>
+
+<div class="viewcode-block" id="BayesModelSelection.run">
+<a class="viewcode-back" href="../../../inference/bayes_model_selection.html#UQpy.inference.BayesModelSelection.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the Bayesian model selection procedure, i.e., compute model posterior probabilities.</span>
+
+<span class="sd">        This function calls the :py:meth:`run_estimation` method of the :class:`.BayesParameterEstimation` object for</span>
+<span class="sd">        each model to sample from the parameter posterior probability, then computes the model evidence and model</span>
+<span class="sd">        posterior probability. This function updates attributes :py:attr:`bayes_estimators`, :py:attr:`evidences` and</span>
+<span class="sd">        :py:attr:`probabilities`. If `nsamples` are given when creating the object, this method is called</span>
+<span class="sd">        directly when the object is created. It can also be called separately.</span>
+
+<span class="sd">        :param nsamples: Number of samples used in :class:`.MCMC`/:class:`.ImportanceSampling``, for each model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Running Bayesian Model Selection.&quot;</span><span class="p">)</span>
+        <span class="c1"># Perform mcmc for all candidate models</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">inference_model</span><span class="p">,</span> <span class="n">bayes_estimator</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bayes_estimators</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Running mcmc for model &quot;</span> <span class="o">+</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nsamples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">bayes_estimator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">evidences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">evidence_method</span><span class="o">.</span><span class="n">estimate_evidence</span><span class="p">(</span><span class="n">inference_model</span><span class="o">=</span><span class="n">inference_model</span><span class="p">,</span>
+                                                       <span class="n">posterior_samples</span><span class="o">=</span><span class="n">bayes_estimator</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span>
+                                                       <span class="n">log_posterior_values</span><span class="o">=</span><span class="n">bayes_estimator</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">log_pdf_values</span><span class="p">,</span> <span class="p">)</span>
+
+        <span class="c1"># Compute posterior probabilities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_posterior_probabilities</span><span class="p">(</span>
+            <span class="n">prior_probabilities</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prior_probabilities</span><span class="p">,</span>
+            <span class="n">evidence_values</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">evidences</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Bayesian Model Selection analysis completed!&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BayesModelSelection.sort_models">
+<a class="viewcode-back" href="../../../inference/bayes_model_selection.html#UQpy.inference.BayesModelSelection.sort_models">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sort_models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sort models in descending order of model probability (increasing order of criterion value).</span>
+
+<span class="sd">        This function sorts - in place - the attribute lists :py:attr:`candidate_models`, :py:attr:`probabilities`</span>
+<span class="sd">        and :py:attr:`evidences` so that they are sorted from most probable to the least probable model. It is a</span>
+<span class="sd">        stand-alone function that is provided to help the user to easily visualize which model is the best.</span>
+
+<span class="sd">        No inputs/outputs.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sort_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">)))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prior_probabilities</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prior_probabilities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evidences</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">evidences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">]</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_posterior_probabilities</span><span class="p">(</span><span class="n">prior_probabilities</span><span class="p">,</span> <span class="n">evidence_values</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the model probability given prior probabilities P(M) and evidence values p(data|M).</span>
+
+<span class="sd">        Model posterior probability P(M|data) is proportional to p(data|M)P(M). Posterior probabilities sum up to 1 over</span>
+<span class="sd">        all models. This function is a utility function (static method), called within the run_estimation method.</span>
+
+<span class="sd">        **Inputs:**</span>
+
+<span class="sd">        :param prior_probabilities: Values of prior probabilities for all models.</span>
+<span class="sd">        :type prior_probabilities: list (length nmodels) of floats</span>
+
+<span class="sd">        :param prior_probabilities: Values of evidence for all models.</span>
+<span class="sd">        :type prior_probabilities: list (length nmodels) of floats</span>
+
+<span class="sd">        **Output/Returns:**</span>
+
+<span class="sd">        :return probabilities: Values of model posterior probabilities</span>
+<span class="sd">        :rtype probabilities: list (length nmodels) of floats</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scaled_evidences</span> <span class="o">=</span> <span class="p">[</span><span class="n">evidence</span> <span class="o">*</span> <span class="n">prior_probability</span> <span class="k">for</span> <span class="p">(</span><span class="n">evidence</span><span class="p">,</span> <span class="n">prior_probability</span><span class="p">)</span>
+                            <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">evidence_values</span><span class="p">,</span> <span class="n">prior_probabilities</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">scaled_evidences</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">scaled_evidences</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

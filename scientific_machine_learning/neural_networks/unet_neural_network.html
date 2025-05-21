@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>U-net Convolutional Neural Network &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Neural Network Trainers" href="../trainers/index.html" />
+    <link rel="prev" title="Learning the Burgers’ Operator" href="../../auto_examples/scientific_machine_learning/fourier_neural_operator/burgers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Scientific Machine Learning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#functional">Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#layers">Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#losses">Losses</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#neural-networks">Neural Networks</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html"> Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#neural-operators-theory">Neural Operators - Theory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#neural-operators-practice">Neural Operators - Practice</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#list-of-neural-networks">List of Neural Networks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="neural_network_parent.html"> Neural Network Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deep_operator_network.html"> Deep Operator Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="feed_forward_neural_network.html"> Feed Forward Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fourier_neural_operator.html"> Fourier Neural Operator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> U-net Neural Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#trainers">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Scientific Machine Learning</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Neural Networks</a></li>
+      <li class="breadcrumb-item active">U-net Convolutional Neural Network</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/scientific_machine_learning/neural_networks/unet_neural_network.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="u-net-convolutional-neural-network">
+<h1>U-net Convolutional Neural Network<a class="headerlink" href="#u-net-convolutional-neural-network" title="Link to this heading"></a></h1>
+<p>The <a class="reference internal" href="#UQpy.scientific_machine_learning.neural_networks.Unet" title="UQpy.scientific_machine_learning.neural_networks.Unet"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unet</span></code></a> class provides the implementation of the U-net neural network (U-Net) originally introduced by Ronneberger et al. <span id="id1">[<a class="reference internal" href="../../bibliography.html#id79" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Medical image computing and computer-assisted intervention–MICCAI 2015: 18th international conference, Munich, Germany, October 5-9, 2015, proceedings, part III 18, 234–241. Springer, 2015.">44</a>]</span>
+The network is originally designed for image segmentation tasks but can also be generalized to perform image-to-image regression.
+The architecture comprises a series of encoding blocks and decoding blocks, as shown below.</p>
+<figure class="align-center" id="id2">
+<a class="with-border reference internal image-reference" href="../../_images/Unet_schematic.pdf"><img alt="Diagram showing the architecture of a U-Net neural network." class="with-border" src="../../_images/Unet_schematic.pdf" style="width: 600px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The architecture of the U-Net neural network.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Each encoding block consists of a repeated set of a convolutional layers of kernel, a batch normalization layer followed
+by a nonlinear activation function and a downsampling layer together with the rectified linear unit (ReLU) activation function.
+The maximum pooling (max-pooling) operation is used in the downsampling layer.
+The decoding blocks have the same structure as their encoding counterparts with the exception that the downsampling
+layers are replaced by upsampling layers.
+The last convolutional layer of kernel size combines the features of the last multi-channel output to a single prediction.
+The network also includes a number of skip connections between the contracting and expanding paths,
+aimed at combining high resolution features with abstract feature representations from the encoding path.</p>
+<p>The <a class="reference internal" href="#UQpy.scientific_machine_learning.neural_networks.Unet" title="UQpy.scientific_machine_learning.neural_networks.Unet"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unet</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.scientific_machine_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unet</span>
+</pre></div>
+</div>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.Unet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Unet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_type=&lt;class</span> <span class="pre">'torch.nn.modules.conv.Conv2d'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/neural_networks/Unet.html#Unet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.Unet" title="Link to this definition"></a></dt>
+<dd><p>Construct U-net convolutional neural network for mean-field prediction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_filters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – A list of positive integers specifying the number of filters at for each convolutional layer in the encoding and decoding paths.
+The length of the list determines the depth of the U-Net.</p></li>
+<li><p><strong>kernel_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – The size of the convolutional kernels. This value is used for all convolutional layers.
+Standard kernel size options are 3, 6, or 9.</p></li>
+<li><p><strong>out_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – The number of output channels in the final convolutional layer.</p></li>
+<li><p><strong>layer_type</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>) – The type of convolutional layer to use. The default is the <code class="docutils literal notranslate"><span class="pre">nn.Conv2d</span></code>.
+It can be replaced with Bayesian layers for performing uncertainty quantification.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A default value <code class="docutils literal notranslate"><span class="pre">stride=2</span></code> is used for the max pooling layers.
+A default padding value of <code class="docutils literal notranslate"><span class="pre">kernel_size</span> <span class="pre">//</span> <span class="pre">2</span></code> is used for all convolutional layers.</p>
+</div>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{in}, H, W)\)</span></p></li>
+<li><p>Output: Tensor of shape <span class="math notranslate nohighlight">\((N, C_\text{out}, H, W)\)</span></p></li>
+</ul>
+<p>Attributes:</p>
+<p>Encoder Layers: The encoding blocks are created during initialization from the <code class="docutils literal notranslate"><span class="pre">n_filters</span></code> list
+for indices <span class="math notranslate nohighlight">\(i=1, \dots, \text{len}(\texttt{n_filters})- 1\)</span>.</p>
+<ul class="simple">
+<li><p><strong>encoder_maxpool_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.MaxPool2d</span></code>): Max pooling layer for downsampling at encoder layer <code class="docutils literal notranslate"><span class="pre">i</span></code> (for <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>).</p></li>
+<li><p><strong>encoder_conv_1_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Conv2d</span></code>): First convolutional layer at encoder layer <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
+<li><p><strong>encoder_bn_1_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.BatchNorm2d</span></code>): Batch normalization layer after <code class="docutils literal notranslate"><span class="pre">encoder_conv_1_i</span></code>.</p></li>
+<li><p><strong>encoder_conv_2_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Conv2d</span></code>): Second convolutional layer at encoder layer <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
+<li><p><strong>encoder_bn_2_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.BatchNorm2d</span></code>): Batch normalization layer after <code class="docutils literal notranslate"><span class="pre">encoder_conv_2_i</span></code>.</p></li>
+</ul>
+<p>Decoder Layers:</p>
+<ul class="simple">
+<li><p><strong>decoder_upsample_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Upsample</span></code>): Upsampling layer at decoder layer <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
+<li><p><strong>decoder_conv_1_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Conv2d</span></code>): First convolutional at decoder layer <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
+<li><p><strong>decoder_bn_1_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.BatchNorm2d</span></code>): Batch normalization layer after <code class="docutils literal notranslate"><span class="pre">decoder_conv_1_i</span></code>.</p></li>
+<li><p><strong>decoder_conv_2_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Conv2d</span></code>): Second convolutional layer at decoder layer <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
+<li><p><strong>decoder_bn_2_i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.BatchNorm2d</span></code>): Batch normalization layer after <code class="docutils literal notranslate"><span class="pre">decoder_conv_2_i</span></code>.</p></li>
+</ul>
+<p>Final Convolution Layer:</p>
+<ul class="simple">
+<li><p><strong>final_conv</strong> (:py:class:’torch.nn.Conv2d’): Convolutional layer applied after the last decoder block. It maps the output to the desired number of channels.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.Unet.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/neural_networks/Unet.html#Unet.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.Unet.forward" title="Link to this definition"></a></dt>
+<dd><p>Forward pass through the U-Net model.</p>
+<p>The output is computed by passing the input through each encoding and decoding block together with the skip connections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, C_ ext{in}, H, W)\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, C_  ext{out}, H, W)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.Unet.optional_step_en">
+<span class="sig-name descname"><span class="pre">optional_step_en</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/neural_networks/Unet.html#Unet.optional_step_en"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.Unet.optional_step_en" title="Link to this definition"></a></dt>
+<dd><p>Optional method for additional operators during encoding</p>
+<p>Intended to be overridden by subclasses to apply operations like Monte Carlo Dropout based on the layer index i.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Input tensor</p></li>
+<li><p><strong>i</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Index of the encoding block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.Unet.optional_step_dec">
+<span class="sig-name descname"><span class="pre">optional_step_dec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/neural_networks/Unet.html#Unet.optional_step_dec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.Unet.optional_step_dec" title="Link to this definition"></a></dt>
+<dd><p>Optional method for additional operations during decoding</p>
+<p>Intended to be overridden by subclasses to apply operations like Monte Carlo Dropout based on the layer index i.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Input tensor</p></li>
+<li><p><strong>i</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Index of the decoding block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.Unet.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.Unet.summary" title="Link to this definition"></a></dt>
+<dd><p>Call <code class="docutils literal notranslate"><span class="pre">torchinfo.summary()</span></code> on <code class="docutils literal notranslate"><span class="pre">self</span></code>.
+See <a class="reference external" href="https://github.com/TylerYep/torchinfo?tab=readme-ov-file#documentation">torchinfo documentation</a>
+for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Keyword arguments passed to <code class="docutils literal notranslate"><span class="pre">torchinfo.summary</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Model statistics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.Unet.count_parameters">
+<span class="sig-name descname"><span class="pre">count_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.Unet.count_parameters" title="Link to this definition"></a></dt>
+<dd><p>Get the total number of parameters that require a gradient computation in the model</p>
+</dd></dl>
+
+</dd></dl>
+
+<p><strong>Note on Convolutional Layer Parameters:</strong></p>
+<p>Each convolutional layer accepts an input volume with width <span class="math notranslate nohighlight">\(W_1\)</span>, height <span class="math notranslate nohighlight">\(H_1\)</span>, and depth <span class="math notranslate nohighlight">\(D_1\)</span>.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Input Dimensions</strong>: <span class="math notranslate nohighlight">\(W_1 \times H_1 \times D_1\)</span></dt><dd><ul>
+<li><p><strong>Number of Filters (K)</strong>: Determines the number of filters (or kernels) used, affecting the depth <span class="math notranslate nohighlight">\(D_2\)</span> of the output volume.</p></li>
+<li><p><strong>Spatial Extent (F)</strong>: The size of each filter, typically a square (e.g., 3x3).</p></li>
+<li><p><strong>Stride (S)</strong>: The step size with which the filters are moved across the input volume.</p></li>
+<li><p><strong>Zero Padding (P)</strong>: Number of pixels added to the border of the input volume, enabling control over the spatial dimensions of the output volume.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Output Dimensions</strong>: <span class="math notranslate nohighlight">\(W_2 \times H_2 \times D_2\)</span></dt><dd><ul>
+<li><p><strong>Output Width</strong>: <span class="math notranslate nohighlight">\(W_2 = \left( \frac{W_1 - F + 2P}{S} \right) + 1\)</span></p></li>
+<li><p><strong>Output Height</strong>: <span class="math notranslate nohighlight">\(H_2 = \left( \frac{H_1 - F + 2P}{S} \right) + 1\)</span></p></li>
+<li><p><strong>Output Depth</strong>: <span class="math notranslate nohighlight">\(D_2 = K\)</span>, corresponding to the number of filters.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">UQpy.scientific_machine_learning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sml</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">n_filters</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
+<span class="linenos"> 6</span><span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="linenos"> 7</span><span class="n">out_channels</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="linenos"> 8</span><span class="n">unet</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">Unet</span><span class="p">(</span><span class="n">n_filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+<span class="linenos"> 9</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="linenos">10</span><span class="n">y</span> <span class="o">=</span> <span class="n">unet</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input shape: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>       <span class="c1"># (N, in_channels, H, W)</span>
+<span class="linenos">13</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prediction shape: </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># (N, out_channels, H, W)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../auto_examples/scientific_machine_learning/fourier_neural_operator/burgers.html" class="btn btn-neutral float-left" title="Learning the Burgers’ Operator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../trainers/index.html" class="btn btn-neutral float-right" title="Neural Network Trainers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

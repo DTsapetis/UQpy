@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaussian Process with Noise and Constraints &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Gaussian Process without noise" href="plot_gpr_no_noise.html" />
+    <link rel="prev" title="Gaussian Process of a sinusoidal function" href="plot_gpr_sine.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../surrogates/gpr.html"> Gaussian Process Regression</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/gpr.html#regression-models">Regression Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/gpr.html#kernels">Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/gpr.html#constraints">Constraints</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../surrogates/gpr.html#gaussianprocessregression-class">GaussianProcessRegression Class</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/gpr.html#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/gpr.html#attributes">Attributes</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../surrogates/gpr.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/polynomial_chaos.html"> Polynomial Chaos Expansion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/index.html">Surrogates</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/gpr.html">Gaussian Process Regression</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Gaussian Process Regression Examples</a></li>
+      <li class="breadcrumb-item active">Gaussian Process with Noise and Constraints</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/surrogates/gpr/gpr_constraints.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-surrogates-gpr-gpr-constraints-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="gaussian-process-with-noise-and-constraints">
+<span id="sphx-glr-auto-examples-surrogates-gpr-gpr-constraints-py"></span><h1>Gaussian Process with Noise and Constraints<a class="headerlink" href="#gaussian-process-with-noise-and-constraints" title="Link to this heading"></a></h1>
+<p>This jupyter script shows the performance of GaussianProcessRegressor class in the UQpy. A training data is generated
+using a function (<span class="math notranslate nohighlight">\(f(x)\)</span>, as defined below), which is used to train a surrogate model.</p>
+<p>Import the necessary modules to run the example script. Notice that FminCobyla is used here, to solve the MLE
+optimization problem with constraints.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.regression_models.QuadraticRegression</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuadraticRegression</span>
+
+<a href="https://docs.python.org/3/library/warnings.html#warnings.filterwarnings" title="warnings.filterwarnings" class="sphx-glr-backref-module-warnings sphx-glr-backref-type-py-function"><span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span></a><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.MinimizeOptimizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinimizeOptimizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.FminCobyla</span><span class="w"> </span><span class="kn">import</span> <span class="n">FminCobyla</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegression</span><span class="p">,</span> <span class="n">NonNegative</span><span class="p">,</span> <span class="n">RBF</span>
+</pre></div>
+</div>
+<p>Consider the following function <span class="math notranslate nohighlight">\(f(x)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[f(x) = \frac{1}{100} + \frac{5}{8}(2x-1)^4[(2x-1)^2 + 4\sin{(5 \pi x)^2}], \quad \quad x \in [0,1]\]</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">funct</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sin.html#numpy.sin" title="numpy.sin" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">sin</span></a><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+</div>
+<p>Define the training data set. The following 13 points have been used to fit the GP.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.26</span><span class="p">,</span> <span class="mf">0.27</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.68</span><span class="p">,</span> <span class="mf">0.81</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.925</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">funct</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Define the test data.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">funct</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="train-gpr">
+<h2>Train GPR<a class="headerlink" href="#train-gpr" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Noise</p></li>
+<li><p>Constraints</p></li>
+</ul>
+<p>Here, 30 equidistant point are selected over the domain of <span class="math notranslate nohighlight">\(x\)</span>, lets call them constraint points. The idea is to
+train the surrogate model such that the probability of positive surrogates prediction is very high at these points.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">X_c</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_c</span> <span class="o">=</span> <span class="n">funct</span><span class="p">(</span><span class="n">X_c</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this approach, MLE problem is solved with the following constraints:</p>
+<div class="math notranslate nohighlight">
+\[\hat{y}(x_c)-Z \sigma_{\hat{y}}(x_c) &gt; 0  \quad \quad Z = 2\]</div>
+<div class="math notranslate nohighlight">
+\[|\hat{y}(x_t) - y(x_t)| &lt; \epsilon   \quad \quad \epsilon = 0.3\]</div>
+<p>where, <span class="math notranslate nohighlight">\(x_c\)</span> and <span class="math notranslate nohighlight">\(x_t\)</span> are the constraint and training sample points, respectively.</p>
+<p>Define kernel used to define the covariance matrix. Here, the application of Radial Basis Function (RBF) kernel is
+demonstrated.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">kernel3</span> <span class="o">=</span> <span class="n">RBF</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Define the optimizer used to identify the maximum likelihood estimate.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bounds_3</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">13</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)]]</span>
+<span class="n">optimizer3</span> <span class="o">=</span> <span class="n">FminCobyla</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Define constraints for the Cobyla optimizer using UQpy’s Nonnegatice class.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">cons</span> <span class="o">=</span> <span class="n">NonNegative</span><span class="p">(</span><span class="n">constraint_points</span><span class="o">=</span><span class="n">X_c</span><span class="p">,</span> <span class="n">observed_error</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">z_value</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Define the ‘GaussianProcessRegressor’ class object, the input attributes defined here are kernel, optimizer, initial
+estimates of hyperparameters and number of times MLE is identified using random starting point.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gpr3</span> <span class="o">=</span> <span class="n">GaussianProcessRegression</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel3</span><span class="p">,</span> <span class="n">hyperparameters</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">)],</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer3</span><span class="p">,</span>
+                                 <span class="n">optimizations_number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">optimize_constraints</span><span class="o">=</span><span class="n">cons</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds_3</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">regression_model</span><span class="o">=</span><span class="n">QuadraticRegression</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Call the ‘fit’ method to train the surrogate model (GPR).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gpr3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The maximum likelihood estimates of the hyperparameters are as follows:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">gpr3</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Length Scale: &#39;</span><span class="p">,</span> <span class="n">gpr3</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Process Variance: &#39;</span><span class="p">,</span> <span class="n">gpr3</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noise Variance: &#39;</span><span class="p">,</span> <span class="n">gpr3</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Use ‘predict’ method to compute surrogate prediction at the test samples. The attribute ‘return_std’ is a boolean
+indicator. If ‘True’, ‘predict’ method also returns the standard error at the test samples.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred3</span><span class="p">,</span> <span class="n">y_std3</span> <span class="o">=</span> <span class="n">gpr3</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The plot shows the test function in dashed red line and 13 training points are represented by blue dots. Also, blue
+curve shows the GPR prediction for $x in (0, 1)$ and yellow shaded region represents 95% confidence interval.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.5</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_test</span><span class="p">,</span><span class="s1">&#39;r--&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test Function&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span><span class="n">markerfacecolor</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training Data&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_pred3</span><span class="p">,</span><span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GP Prediction&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">y_pred3</span><span class="o">-</span><span class="mf">1.96</span><span class="o">*</span><span class="n">y_std3</span><span class="p">,</span>
+                <span class="n">y_pred3</span><span class="o">+</span><span class="mf">1.96</span><span class="o">*</span><span class="n">y_std3</span><span class="p">,</span>
+                <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;95% Credibility Interval&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;f(x)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">1.8</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span><span class="n">prop</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">});</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Verify the constraints for the trained surrogate model. Notice that all values are positive, thus constraints are
+satisfied for the constraint points.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">y_</span><span class="p">,</span> <span class="n">ys_</span> <span class="o">=</span> <span class="n">gpr3</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_c</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">y_</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">ys_</span>
+</pre></div>
+</div>
+<p>Notice that all values are negative, thus constraints are satisfied for the training points.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">y_</span> <span class="o">=</span> <span class="n">gpr3</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">y_</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.03</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-surrogates-gpr-gpr-constraints-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/surrogates/gpr/gpr_constraints.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo45.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/c472d1263895a8f46e496d83fe653e6e/gpr_constraints.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">gpr_constraints.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/14e7a094e1e6a979a16e19294bdf963b/gpr_constraints.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">gpr_constraints.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/de18840ba94642eda0e00f5b7b257bc7/gpr_constraints.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">gpr_constraints.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plot_gpr_sine.html" class="btn btn-neutral float-left" title="Gaussian Process of a sinusoidal function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plot_gpr_no_noise.html" class="btn btn-neutral float-right" title="Gaussian Process without noise" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neural Network Layers &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Bayesian Layer Baseclass" href="bayesian_baseclass.html" />
+    <link rel="prev" title="List of Spectral Convolutions" href="../functional/spectral_conv.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Scientific Machine Learning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#functional">Functional</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#layers">Layers</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#notation">Notation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#layer-baseclass">Layer Baseclass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-of-layers">List of Layers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bayesian_baseclass.html"> Bayesian Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bayesian_layers.html"> Bayesian Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dropout_baseclass.html"> Dropout Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dropout_layers.html"> Dropout Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fourier_layers.html"> Fourier Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="normalizers.html"> Normalizer Layers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#losses">Losses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#neural-networks">Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#trainers">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Scientific Machine Learning</a></li>
+      <li class="breadcrumb-item active">Neural Network Layers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/scientific_machine_learning/layers/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="neural-network-layers">
+<h1>Neural Network Layers<a class="headerlink" href="#neural-network-layers" title="Link to this heading"></a></h1>
+<p>In this module, a layer in a neural network refers to an operation on tensor <span class="math notranslate nohighlight">\(x\)</span> that maps it to a tensor <span class="math notranslate nohighlight">\(y\)</span>.
+Many layers have learnable parameters implemented via <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>.
+They may be deterministic or have probabilistic behavior, such as the <code class="xref py py-class docutils literal notranslate"><span class="pre">Dropout</span></code> layers.</p>
+<p>The layers available here are designed for compatability with torch’s layers, and recreate their naming and syntax
+conventions as much as practical.</p>
+<section id="notation">
+<h2>Notation<a class="headerlink" href="#notation" title="Link to this heading"></a></h2>
+<p>We use notation consistent with PyTorch to denote the input and output tensor shapes in any given layer.
+These variables are often combined to describe the shape of a tensor with many dimensions.
+Unless otherwise stated, the variables are:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Notation for tensor shapes</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
+<td><p>Batch size</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(C, C_\text{in}, C_\text{out}\)</span></p></td>
+<td><p>Number of channels in a signal</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(L\)</span></p></td>
+<td><p>Length of a signal. Typically used for 1d signals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(H, W\)</span></p></td>
+<td><p>Height, width of a signal. Typically used for 2d signals.</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(D, H, W\)</span></p></td>
+<td><p>Depth, height, width of a signal. Typically used for 3d signals.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="layer-baseclass">
+<h2>Layer Baseclass<a class="headerlink" href="#layer-baseclass" title="Link to this heading"></a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code> is an abstract baseclass and a subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>, just as all torch layers are.
+All of the Dropout layers share their own base class, as do the Bayesian layers.</p>
+<p>This is the parent class to all layers.
+Like all abstract baseclasses, this cannot be instantiated but can be subclassed to write custom layers.
+All layers use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> method to define the forward model call.</p>
+<p>The documentation in the <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">extra_repr()</span></code> on this page may be inherited from PyTorch docstrings.</p>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.baseclass.Layer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/baseclass/Layer.html#Layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.baseclass.Layer" title="Link to this definition"></a></dt>
+<dd><p>Initialize internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.baseclass.Layer.forward">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/baseclass/Layer.html#Layer.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.baseclass.Layer.forward" title="Link to this definition"></a></dt>
+<dd><p>Define the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.baseclass.Layer.extra_repr">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extra_repr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/baseclass/Layer.html#Layer.extra_repr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.baseclass.Layer.extra_repr" title="Link to this definition"></a></dt>
+<dd><p>Return the extra representation of the module.</p>
+<p>To print customized extra information, you should re-implement
+this method in your own modules. Both single-line and multi-line
+strings are acceptable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<hr class="docutils" />
+<section id="list-of-layers">
+<h2>List of Layers<a class="headerlink" href="#list-of-layers" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bayesian_baseclass.html"> Bayesian Base Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bayesian_layers.html"> Bayesian Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dropout_baseclass.html"> Dropout Base Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dropout_layers.html"> Dropout Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fourier_layers.html"> Fourier Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normalizers.html"> Normalizer Layers</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../functional/spectral_conv.html" class="btn btn-neutral float-left" title="List of Spectral Convolutions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bayesian_baseclass.html" class="btn btn-neutral float-right" title="Bayesian Layer Baseclass" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

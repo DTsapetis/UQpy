@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tempering MCMC &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tempering MCMC Examples" href="../../auto_examples/sampling/tempering/index.html" />
+    <link rel="prev" title="Stretch" href="stretch.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Sampling</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../monte_carlo.html"> Monte Carlo Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../latin_hypercube.html"> Latin Hypercube Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stratified_sampling.html"> True Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refined_stratified_sampling.html"> Refined Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simplex.html"> Simplex Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../akmcs.html"> Adaptive Kriging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theta_criterion.html"> Theta Criterion</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"> Markov Chain Monte Carlo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#mcmc-class">MCMC Class</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#list-of-mcmc-algorithms">List of MCMC algorithms</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="mh.html"> Metropolis Hastings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mmh.html"> Modified Metropolis Hastings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dram.html"> DRAM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dream.html"> DREAM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stretch.html"> Stretch</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Tempering MCMC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#adding-new-mcmc-algorithms">Adding New MCMC Algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../importance_sampling.html"> Importance Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Sampling</a></li>
+          <li class="breadcrumb-item"><a href="index.html">MCMC</a></li>
+      <li class="breadcrumb-item active">Tempering MCMC</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/sampling/mcmc/tempering.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tempering-mcmc">
+<h1>Tempering MCMC<a class="headerlink" href="#tempering-mcmc" title="Link to this heading"></a></h1>
+<p>Tempering MCMC algorithms aim at sampling from a target distribution <span class="math notranslate nohighlight">\(p_1(x)\)</span> of the form
+<span class="math notranslate nohighlight">\(p_1(x)=\frac{q_1(x)p_0(x)}{Z_1}\)</span> where the factor <span class="math notranslate nohighlight">\(q_1(x)\)</span> and reference distribution
+<span class="math notranslate nohighlight">\(p_0(x)\)</span> can be evaluated. Additionally, these algorithms return an estimate of the normalization
+constant <span class="math notranslate nohighlight">\(Z_1=\int{q_{1}(x) p_{0}(x)dx}\)</span>.</p>
+<p>The algorithms sample from a sequence of intermediate densities
+<span class="math notranslate nohighlight">\(p_{\beta}(x) \propto q_{\beta}(x) p_{0}(x)\)</span> for values of the parameter <span class="math notranslate nohighlight">\(\beta\)</span> between 0 and 1
+(<span class="math notranslate nohighlight">\(\beta=\frac{1}{T}\)</span> where <span class="math notranslate nohighlight">\(T\)</span> is sometimes called the temperature, <span class="math notranslate nohighlight">\(q_{\beta}(x)\)</span> is referred to as the intermediate factor associated with tempering parameter <span class="math notranslate nohighlight">\(\beta\)</span>).
+Setting <span class="math notranslate nohighlight">\(\beta = 1\)</span> equates sampling from the target, while <span class="math notranslate nohighlight">\(\beta \rightarrow 0\)</span> samples from the
+reference distribution.</p>
+<p>Parallel tempering samples from all distributions simultaneously, and the tempering parameters <span class="math notranslate nohighlight">\(0 &lt; \beta_1 &lt; \beta_2 &lt; \cdots &lt; \beta_{N} \leq 1\)</span> must be
+chosen in advance by the user. Sequential tempering on the other hand samples from the various distributions sequentially, starting
+from the reference distribution, and the tempering parameters are selected adaptively by the algorithm.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.mcmc.tempering_mcmc.TemperingMCMC" title="UQpy.sampling.mcmc.tempering_mcmc.TemperingMCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">TemperingMCMC</span></code></a> base class defines inputs that are common to parallel and sequential tempering:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.tempering_mcmc.TemperingMCMC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TemperingMCMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_log_pdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/tempering_mcmc/baseclass/TemperingMCMC.html#TemperingMCMC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.tempering_mcmc.TemperingMCMC" title="Link to this definition"></a></dt>
+<dd><p>Parent class to parallel and sequential tempering MCMC algorithms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdf_intermediate</strong> – callable that computes the intermediate factor. It should take at
+least two inputs <code class="code docutils literal notranslate"><span class="pre">x</span></code> (ndarray, point(s) at which to evaluate the function), and <code class="code docutils literal notranslate"><span class="pre">temper_param</span></code> (float,
+tempering parameter). Eit  her <cite>pdf_intermediate</cite> or <cite>log_pdf_intermediate</cite> must be provided
+(<cite>log_pdf_intermediate</cite> is preferred). Within the code, the <cite>log_pdf_intermediate</cite> is evaluated as:
+<code class="code docutils literal notranslate"><span class="pre">log_pdf_intermediate(x,</span> <span class="pre">temper_param,</span> <span class="pre">*args_pdf_intermediate)</span></code>
+where <cite>args_pdf_intermediate</cite> are additional positional arguments that are provided to the class via its
+<cite>args_pdf_intermediate</cite> input</p></li>
+<li><p><strong>log_pdf_intermediate</strong> – see <cite>pdf_intermediate</cite></p></li>
+<li><p><strong>args_pdf_intermediate</strong> – see <cite>pdf_intermediate</cite></p></li>
+<li><p><strong>distribution_reference</strong> – reference pdf <span class="math notranslate nohighlight">\(p_0\)</span> as a <a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> object</p></li>
+<li><p><strong>save_log_pdf</strong> – see same input in <code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="parallel-tempering">
+<h2>Parallel Tempering<a class="headerlink" href="#parallel-tempering" title="Link to this heading"></a></h2>
+<p>This algorithm (see e.g. <span id="id1">[<a class="reference internal" href="../../bibliography.html#id67" title="David J. Earl and Michael W. Deem. Parallel tempering: theory, applications, and new perspectives. Phys. Chem. Chem. Phys., 7:3910-3916, 2005. URL: http://dx.doi.org/10.1039/B509983H, doi:10.1039/B509983H.">33</a>]</span> for theory about parallel tempering) runs the chains sampling from the various tempered distributions simultaneously. Periodically during the
+run, the different temperatures swap members of their ensemble in a way that preserves detailed balance. The chains
+closer to the reference chain (hot chains) can sample from regions that have low probability under the target and
+thus allow a better exploration of the parameter space, while the cold chains can better explore regions of high
+likelihood.</p>
+<p>In parallel tempering, the normalizing constant <span class="math notranslate nohighlight">\(Z_1\)</span> is evaluated via thermodynamic integration (<span id="id2">[<a class="reference internal" href="../../bibliography.html#id68" title="Paul M. Goggans and Ying Chi. Using thermodynamic integration to calculate the posterior probability in bayesian model selection problems. In AIP Conference Proceedings 707, 59. 2004. doi:https://doi.org/10.1063/1.1751356.">34</a>]</span>). Defining
+the potential function <span class="math notranslate nohighlight">\(U_{\beta}(x)=\frac{\partial \log{q_{\beta}(x)}}{\partial \beta}\)</span>, then</p>
+<p><span class="math notranslate nohighlight">\(\ln{Z_1} = \log{Z_0} + \int_{0}^{1} E_{x \sim p_{\beta}} \left[ U_{\beta}(x) \right] d\beta\)</span></p>
+<p>where the expectations are approximated via MC sampling using saved samples from the intermediate distributions. A trapezoidal rule is used for integration.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.mcmc.ParallelTemperingMCMC" title="UQpy.sampling.mcmc.ParallelTemperingMCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParallelTemperingMCMC</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc.tempering_mcmc.ParallelTemperingMCMC</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParallelTemperingMCMC</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.ParallelTemperingMCMC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParallelTemperingMCMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_iterations_between_sweeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_log_pdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples_per_chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempering_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_tempering_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/tempering_mcmc/ParallelTemperingMCMC.html#ParallelTemperingMCMC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.ParallelTemperingMCMC" title="Link to this definition"></a></dt>
+<dd><p>Class for Parallel-Tempering MCMC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_log_pdf</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – boolean, see <a class="reference internal" href="index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> documentation. Importantly, this needs to be set to True if
+one wants to evaluate the normalization constant via thermodynamic integration.</p></li>
+<li><p><strong>n_iterations_between_sweeps</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – number of iterations (sampling steps) between sweeps between chains.</p></li>
+<li><p><strong>tempering_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – tempering parameters, as a list of N floats increasing from 0. to 1. Either
+<cite>tempering_parameters</cite> or <cite>n_tempering_parameters</cite> should be provided</p></li>
+<li><p><strong>n_tempering_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – number of tempering levels N, the tempering parameters are selected to follow
+a geometric suite by default</p></li>
+<li><p><strong>samplers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.baseclass.MCMC.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.baseclass.MCMC.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a>]]</span>) – <a class="reference internal" href="index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> object or list of such objects: MCMC samplers used to sample the parallel
+chains. If only one object is provided, the same MCMC sampler is used for all chains. Default to running a
+simple MH algorithm, where the proposal covariance for a given chain is inversely proportional to the
+tempering parameter.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.ParallelTemperingMCMC.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples_per_chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/tempering_mcmc/ParallelTemperingMCMC.html#ParallelTemperingMCMC.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.ParallelTemperingMCMC.run" title="Link to this definition"></a></dt>
+<dd><p>Run the MCMC algorithm.</p>
+<p>This function samples from the MCMC chains and appends samples to existing ones (if any). This method
+leverages the <cite>run_iterations</cite> method specific to each of the samplers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples to generate from the target (the same number of samples will be generated
+for all intermediate distributions).</p></li>
+<li><p><strong>nsamples_per_chain</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples per chain to generate from the target. Either
+<cite>nsamples</cite> or <cite>nsamples_per_chain</cite> must be provided (not both)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.ParallelTemperingMCMC.evaluate_normalization_constant">
+<span class="sig-name descname"><span class="pre">evaluate_normalization_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_potential</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_Z0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples_from_p0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/tempering_mcmc/ParallelTemperingMCMC.html#ParallelTemperingMCMC.evaluate_normalization_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.ParallelTemperingMCMC.evaluate_normalization_constant" title="Link to this definition"></a></dt>
+<dd><p>Evaluate normalization constant <span class="math notranslate nohighlight">\(Z_1\)</span>.</p>
+<p>The function returns an approximation of <span class="math notranslate nohighlight">\(Z_1\)</span>, and saves intermediate results
+(value of <span class="math notranslate nohighlight">\(\ln{Z_0}\)</span>, list of tempering parameters used in integration, and values of the associated
+expected potentials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compute_potential</strong> – Function that takes three inputs: <code class="code docutils literal notranslate"><span class="pre">x</span></code> (sample points where to evaluate the
+potential), <code class="code docutils literal notranslate"><span class="pre">log_factor_tempered_values</span></code> (values of the log intermediate factors evaluated at points
+<code class="code docutils literal notranslate"><span class="pre">x</span></code>), <code class="code docutils literal notranslate"><span class="pre">temper_param</span></code> (tempering parameter) and evaluates the potential:</p></li>
+<li><p><strong>log_Z0</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Value of <span class="math notranslate nohighlight">\(\ln{Z_{0}}\)</span> (float), if unknwon, see <cite>nsamples_from_p0</cite>.</p></li>
+<li><p><strong>nsamples_from_p0</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – number of samples from the reference distribution to sample to evaluate
+<span class="math notranslate nohighlight">\(\ln{Z_{0}}\)</span>. Used only if input <cite>log_Z0</cite> is not provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="sequential-tempering">
+<h2>Sequential Tempering<a class="headerlink" href="#sequential-tempering" title="Link to this heading"></a></h2>
+<p>This algorithm (first introduced in <span id="id3">[<a class="reference internal" href="../../bibliography.html#id69" title="Jianye Ching and Yi-Chu Chen. Transitional markov chain monte carlo method for bayesian model updating, model class selection, and model averaging. Journal of Engineering Mechanics, 133(7):816-832, 2007. URL: https://ascelibrary.org/doi/abs/10.1061/%28ASCE%290733-9399%282007%29133%3A7%28816%29, arXiv:https://ascelibrary.org/doi/pdf/10.1061/%28ASCE%290733-9399%282007%29133%3A7%28816%29, doi:10.1061/(ASCE)0733-9399(2007)133:7(816).">35</a>]</span>) samples from a series of intermediate targets that are each tempered versions of the final/true
+target. In going from one intermediate distribution to the next, the existing samples are resampled according to
+some weights (similar to importance sampling). To ensure that there aren’t a large number of duplicates, the
+resampling step is followed by a short (or even single-step) Metropolis Hastings run that disperses the samples while
+remaining within the correct intermediate distribution. The final intermediate target is the required target distribution,
+and the samples following this distribution are the required samples.</p>
+<p>The normalization constant <span class="math notranslate nohighlight">\(Z_1\)</span> is estimated as the product of the normalized sums of the resampling weights for
+each intermediate distribution, i.e. if <span class="math notranslate nohighlight">\(w_{\beta_j}(x_{j_i})\)</span> is the resampling weight corresponding to tempering
+parameter <span class="math notranslate nohighlight">\(\beta_j\)</span>, calculated for the i-th sample for the intermediate distribution associated with <span class="math notranslate nohighlight">\(\beta_j\)</span>,
+then <span class="math notranslate nohighlight">\(Z_1 = \prod_{j=1}^{N} \ [ \sum_{i=i}^{\text{nsamples}} \ ]\)</span>. The Coefficient of Variance (COV) for this
+estimator is also given in <span id="id4">[<a class="reference internal" href="../../bibliography.html#id69" title="Jianye Ching and Yi-Chu Chen. Transitional markov chain monte carlo method for bayesian model updating, model class selection, and model averaging. Journal of Engineering Mechanics, 133(7):816-832, 2007. URL: https://ascelibrary.org/doi/abs/10.1061/%28ASCE%290733-9399%282007%29133%3A7%28816%29, arXiv:https://ascelibrary.org/doi/pdf/10.1061/%28ASCE%290733-9399%282007%29133%3A7%28816%29, doi:10.1061/(ASCE)0733-9399(2007)133:7(816).">35</a>]</span>.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC" title="UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequentialTemperingMCMC</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC</span><span class="w"> </span><span class="kn">import</span> <span class="n">SequentialTemperingMCMC</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SequentialTemperingMCMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_pdf_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recalculate_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_intermediate_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentage_resampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resampling_burn_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resampling_proposal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resampling_proposal_is_symmetric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/tempering_mcmc/SequentialTemperingMCMC.html#SequentialTemperingMCMC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC" title="Link to this definition"></a></dt>
+<dd><p>Class for Sequential-Tempering MCMC</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sampler</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.baseclass.MCMC.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a></span>) – <code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code> object: MCMC samplers used to draw the remaining samples for the intermediate
+distribution after the resampling step. Default to running a simple MH algorithm, where the proposal covariance
+is calculated as per the procedure given in Ching and Chen (2007) and Betz et. al. (2016).</p></li>
+<li><p><strong>recalculate_weights</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – boolean: To be set to true if the resampling weights are to be recalculated after
+each point is generated during the resampling step. This is done so that the resampling weights are in
+accordance with the new sample generated after Metropolis Hastings is used for dispersion to ensure uniqueness
+of the samples.</p></li>
+<li><p><strong>save_intermediate_samples</strong> – boolean: To be set to true to save the samples that are generated according to
+the intermediate distributions.</p></li>
+<li><p><strong>percentage_resampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – float: Indicates what percentage of samples for a given intermediate distribution
+are to be generated through resampling from the set of samples generated for the previous intermediate
+distribution.</p></li>
+<li><p><strong>resampling_burn_length</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – int: Burn-in length for the Metropolis Hastings dispersion step to ensure
+uniqueness.</p></li>
+<li><p><strong>resampling_proposal</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a></span>) – <a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> object. The proposal distribution for the Metropolis Hastings
+dispersion step.</p></li>
+<li><p><strong>resampling_proposal_is_symmetric</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – boolean: Indicates whether the provided resampling proposal is
+symmetric.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/tempering_mcmc/SequentialTemperingMCMC.html#SequentialTemperingMCMC.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC.run" title="Link to this definition"></a></dt>
+<dd><p>Run the MCMC algorithm.</p>
+<p>This function samples from each intermediate distribution until samples from the target are generated. Samples
+cannot be appended to existing samples in this method. It leverages the <cite>run_iterations</cite> method specific to the
+sampler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples to generate from the target (the same number of samples will be generated
+for all intermediate distributions).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC.evaluate_normalization_constant">
+<span class="sig-name descname"><span class="pre">evaluate_normalization_constant</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/tempering_mcmc/SequentialTemperingMCMC.html#SequentialTemperingMCMC.evaluate_normalization_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC.evaluate_normalization_constant" title="Link to this definition"></a></dt>
+<dd><p>Computes the normalization constant <span class="math notranslate nohighlight">\(Z_{1}=\int{q_{1}(x) p_{0}(x)dx}\)</span> where <span class="math notranslate nohighlight">\(p_0\)</span> is the
+reference pdf and <span class="math notranslate nohighlight">\(q_1\)</span> is the target factor.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/sampling/tempering/index.html">Tempering Examples</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="stretch.html" class="btn btn-neutral float-left" title="Stretch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../auto_examples/sampling/tempering/index.html" class="btn btn-neutral float-right" title="Tempering MCMC Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

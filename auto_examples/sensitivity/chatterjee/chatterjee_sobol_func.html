@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobol function &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Cramér-von Mises indices" href="../../../sensitivity/cramer_von_mises.html" />
+    <link rel="prev" title="Ishigami function" href="chatterjee_ishigami.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sensitivity/chatterjee.html"> Chatterjee Sensitivity</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../sensitivity/chatterjee.html#chatterjee-class">Chatterjee Class</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../sensitivity/chatterjee.html#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sensitivity/chatterjee.html#attributes">Attributes</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../sensitivity/chatterjee.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/cramer_von_mises.html"> Cramér-von Mises Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/generalised_sobol.html"> Generalised Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/morris.html"> Morris Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/pce.html"> Polynomial Chaos Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/sobol.html"> Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../sensitivity/index.html">Sensitivity</a></li>
+          <li class="breadcrumb-item"><a href="../../../sensitivity/chatterjee.html">Chatterjee indices</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Chatterjee indices</a></li>
+      <li class="breadcrumb-item active">Sobol function</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/sensitivity/chatterjee/chatterjee_sobol_func.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-sensitivity-chatterjee-chatterjee-sobol-func-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="sobol-function">
+<span id="sphx-glr-auto-examples-sensitivity-chatterjee-chatterjee-sobol-func-py"></span><h1>Sobol function<a class="headerlink" href="#sobol-function" title="Link to this heading"></a></h1>
+<p>The Sobol function is non-linear function that is commonly used to benchmark uncertainty
+and senstivity analysis methods. Unlike the ishigami function which has 3 input
+variables, the Sobol function can have any number of input variables.</p>
+<p>This function was used in <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> to compare the Pick and Freeze approach and the rank
+statistics approach to estimating Sobol indices. The rank statistics approach was
+observed to be more accurate than the Pick and Freeze approach and it also provides
+better estimates when only a small number of model evaluations are available.</p>
+<div class="math notranslate nohighlight">
+\[g(x_1, x_2, \ldots, x_D) := \prod_{i=1}^{D} \frac{|4x_i - 2| + a_i}{1 + a_i},\]</div>
+<p>where,</p>
+<div class="math notranslate nohighlight">
+\[x_i \sim \mathcal{U}(0, 1), \quad a_i \in \mathbb{R}.\]</div>
+<p>Finally, we also compare the convergence rate of the Pick and Freeze approach with the
+rank statistics approach as in <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>)</span>
+<p>Fabrice Gamboa, Pierre Gremaud, Thierry Klein, and Agnès Lagnoux. (2020). Global Sensitivity Analysis: a new generation of mighty estimators based on rank statistics. (<a class="reference external" href="https://arxiv.org/abs/2003.01772">Link</a>)</p>
+</aside>
+</aside>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.RunModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.model_execution.PythonModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uniform</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.collection.JointIndependent</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointIndependent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.ChatterjeeSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatterjeeSensitivity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.SobolSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobolSensitivity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.PostProcess</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.seed.html#numpy.random.seed" title="numpy.random.seed" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Define the model and input distributions</strong></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Model object</span>
+<span class="n">num_vars</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">a_vals</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_vars</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">PythonModel</span><span class="p">(</span>
+    <span class="n">model_script</span><span class="o">=</span><span class="s2">&quot;local_sobol_func.py&quot;</span><span class="p">,</span>
+    <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;evaluate&quot;</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;X_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">)],</span>
+    <span class="n">delete_files</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">a_values</span><span class="o">=</span><span class="n">a_vals</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">runmodel_obj</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># Define distribution object</span>
+<span class="n">dist_object</span> <span class="o">=</span> <span class="n">JointIndependent</span><span class="p">([</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="n">num_vars</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Compute Chatterjee indices</strong></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">SA</span> <span class="o">=</span> <span class="n">ChatterjeeSensitivity</span><span class="p">(</span><span class="n">runmodel_obj</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">)</span>
+
+<span class="c1"># Compute Chatterjee indices using rank statistics</span>
+<span class="n">SA</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span> <span class="n">estimate_sobol_indices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Chatterjee indices</strong></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">SA</span><span class="o">.</span><span class="n">first_order_chatterjee_indices</span>
+
+<span class="c1"># **Plot the Chatterjee indices**</span>
+<span class="n">fig1</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plot_sensitivity_index</span><span class="p">(</span>
+    <span class="n">SA</span><span class="o">.</span><span class="n">first_order_chatterjee_indices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;Chatterjee indices&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Estimated Sobol indices</strong></p>
+<p>Expected first order Sobol indices:</p>
+<p><span class="math notranslate nohighlight">\(S_1\)</span> = 0.46067666</p>
+<p><span class="math notranslate nohighlight">\(S_2\)</span> = 0.20474518</p>
+<p><span class="math notranslate nohighlight">\(S_3\)</span> = 0.11516917</p>
+<p><span class="math notranslate nohighlight">\(S_4\)</span> = 0.07370827</p>
+<p><span class="math notranslate nohighlight">\(S_5\)</span> = 0.0511863</p>
+<p><span class="math notranslate nohighlight">\(S_6\)</span> = 0.03760626</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">SA</span><span class="o">.</span><span class="n">first_order_sobol_indices</span>
+
+<span class="c1"># **Plot the first order Sobol indices**</span>
+<span class="n">fig2</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span> <span class="n">plot_sensitivity_index</span><span class="p">(</span>
+    <span class="n">SA</span><span class="o">.</span><span class="n">first_order_sobol_indices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;First order Sobol indices&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Comparing convergence rate of rank statistics and the Pick and Freeze approach</strong></p>
+<p>In the Pick-Freeze estimations, several sizes of sample N have been considered:
+N = 100, 500, 1000, 5000, 10000, 50000, and 100000.
+The Pick-Freeze procedure requires (p + 1) samples of size N.
+To have a fair comparison, the sample sizes considered in the estimation using
+rank statistics are n = (p+1)N = 7N.
+We observe that both methods converge and give precise results for large sample sizes.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute indices values for equal number of model evaluations</span>
+
+<span class="n">true_values</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.46067666</span><span class="p">,</span>
+                        <span class="mf">0.20474518</span><span class="p">,</span>
+                        <span class="mf">0.11516917</span><span class="p">,</span>
+                        <span class="mf">0.07370827</span><span class="p">,</span>
+                        <span class="mf">0.0511863</span> <span class="p">,</span>
+                        <span class="mf">0.03760626</span><span class="p">])</span>
+
+<span class="n">sample_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1_000</span><span class="p">,</span> <span class="mi">5_000</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">,</span> <span class="mi">50_000</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">]</span>
+<span class="n">num_studies</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">)</span>
+
+<span class="n">store_pick_freeze</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">num_studies</span><span class="p">))</span>
+<span class="n">store_rank_stats</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">num_studies</span><span class="p">))</span>
+
+<span class="n">SA_chatterjee</span> <span class="o">=</span> <span class="n">ChatterjeeSensitivity</span><span class="p">(</span><span class="n">runmodel_obj</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">)</span>
+<span class="n">SA_sobol</span> <span class="o">=</span> <span class="n">SobolSensitivity</span><span class="p">(</span><span class="n">runmodel_obj</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sample_size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">):</span>
+
+    <span class="c1"># Estimate using rank statistics</span>
+    <span class="n">SA_chatterjee</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">sample_size</span><span class="o">*</span><span class="mi">7</span><span class="p">,</span> <span class="n">estimate_sobol_indices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">store_rank_stats</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">SA_chatterjee</span><span class="o">.</span><span class="n">first_order_sobol_indices</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+    <span class="c1"># Estimate using Pick and Freeze approach</span>
+    <span class="n">SA_sobol</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">sample_size</span><span class="p">)</span>
+    <span class="n">store_pick_freeze</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">SA_sobol</span><span class="o">.</span><span class="n">first_order_indices</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Convergence plot</span>
+
+<span class="n">fix</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">):</span>
+
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># (built-in) divmod(a, b) returns a tuple (a // b, a % b)</span>
+
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">,</span> <span class="n">store_rank_stats</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:],</span> <span class="s1">&#39;ro-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Chatterjee estimate&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">,</span> <span class="n">store_pick_freeze</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:],</span> <span class="s1">&#39;bx-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Pick and Freeze estimate&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sample_sizes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True indices&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$S^&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;$ = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.round.html#numpy.round" title="numpy.round" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">round</span></a><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="mi">4</span><span class="p">)))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Comparing convergence of the Chatterjee estimate and the Pick and Freeze approach&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-sensitivity-chatterjee-chatterjee-sobol-func-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/sensitivity/chatterjee/chatterjee_sobol_func.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo34.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/fc921f307a0ac7f3a94349e49b35b09a/chatterjee_sobol_func.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">chatterjee_sobol_func.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/9e594054289bcb7ef9393d4c266a5609/chatterjee_sobol_func.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">chatterjee_sobol_func.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/826a22097e74f9b3a10b5857abb22c24/chatterjee_sobol_func.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">chatterjee_sobol_func.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chatterjee_ishigami.html" class="btn btn-neutral float-left" title="Ishigami function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../sensitivity/cramer_von_mises.html" class="btn btn-neutral float-right" title="Cramér-von Mises indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+
+
+.. _sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network:
+
+Deep Operator Network Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Data generation fuction for DeepONet examples">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/deep_operator_network/images/thumb/sphx_glr_local_integral_data_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network_local_integral_data.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Data generation fuction for DeepONet examples</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Deep Operator Network to learn the operator \mathcal{L}f(x) = \int f(x) dx.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/deep_operator_network/images/thumb/sphx_glr_integral_1d_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network_integral_1d.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning the 1D Integral Operator</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Bayesian DeepOperatorNetwork to learn the behavior of a linear elastic system.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/deep_operator_network/images/thumb/sphx_glr_bayesian_linear_elastic_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network_bayesian_linear_elastic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning a Linear Elastic system</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a DeepOperatorNetwork to learn the behavior of a linear elastic system.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/deep_operator_network/images/thumb/sphx_glr_linear_elastic_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network_linear_elastic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning a Linear Elastic system</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/scientific_machine_learning/deep_operator_network/local_integral_data
+   /auto_examples/scientific_machine_learning/deep_operator_network/integral_1d
+   /auto_examples/scientific_machine_learning/deep_operator_network/bayesian_linear_elastic
+   /auto_examples/scientific_machine_learning/deep_operator_network/linear_elastic
+
