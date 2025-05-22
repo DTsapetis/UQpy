@@ -1,0 +1,484 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sensitivity.GeneralisedSobolSensitivity &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sensitivity.GeneralisedSobolSensitivity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sensitivity.GeneralisedSobolSensitivity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">The GeneralisedSobol class computes the generalised Sobol indices for a given</span>
+<span class="sd">multi-ouput model. The class is based on the work of [1]_ and [2]_.</span>
+
+<span class="sd">Additionally, we can compute the confidence intervals for the Sobol indices </span>
+<span class="sd">using bootstrapping [3]_.</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+
+<span class="sd"> .. [1] Gamboa F, Janon A, Klein T, Lagnoux A, others.</span>
+<span class="sd">        Sensitivity analysis for multidimensional and functional outputs.</span>
+<span class="sd">        Electronic journal of statistics 2014; 8(1): 575-603.</span>
+
+<span class="sd"> .. [2] Alexanderian A, Gremaud PA, Smith RC. Variance-based sensitivity </span>
+<span class="sd">        analysis for time-dependent processes. Reliability engineering </span>
+<span class="sd">        &amp; system safety 2020; 196: 106722.</span>
+
+<span class="sd">.. [3] Jeremy Orloff and Jonathan Bloom (2014), Bootstrap confidence intervals, </span>
+<span class="sd">       Introduction to Probability and Statistics, MIT OCW. </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.baseclass.Sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sensitivity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.baseclass.PickFreeze</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_pick_freeze_samples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.UQpyLoggingFormatter</span><span class="w"> </span><span class="kn">import</span> <span class="n">UQpyLoggingFormatter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PositiveFloat</span><span class="p">,</span>
+    <span class="n">PositiveInteger</span><span class="p">,</span>
+    <span class="n">NumpyFloatArray</span><span class="p">,</span>
+    <span class="n">NumpyIntArray</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="GeneralisedSobolSensitivity">
+<a class="viewcode-back" href="../../../sensitivity/generalised_sobol.html#UQpy.sensitivity.GeneralisedSobolSensitivity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeneralisedSobolSensitivity</span><span class="p">(</span><span class="n">Sensitivity</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the generalised Sobol indices for models with multiple outputs</span>
+<span class="sd">    (vector-valued response) using the Pick-and-Freeze method.</span>
+
+<span class="sd">    :param runmodel_object: The computational model. It should be of type :class:`.RunModel`. \</span>
+<span class="sd">        The output QoI can be a scalar or vector of length :code:`ny`, then the sensitivity \</span>
+<span class="sd">        indices of all :code:`ny` outputs are computed independently.</span>
+
+<span class="sd">    :param distributions: List of :class:`.Distribution` objects corresponding to each \</span>
+<span class="sd">        random variable, or :class:`.JointIndependent` object \</span>
+<span class="sd">        (multivariate RV with independent marginals).</span>
+
+<span class="sd">    :param random_state: Random seed used to initialize the pseudo-random number \</span>
+<span class="sd">        generator. Default is :any:`None`.</span>
+
+<span class="sd">    **Methods:**</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">runmodel_object</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">runmodel_object</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Create logger with the same name as the class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generalized_first_order_indices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Generalised first order Sobol indices, :any:`numpy.ndarray` of shape (n_variables, 1)&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generalized_total_order_indices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Generalised total order Sobol indices, :any:`numpy.ndarray` of shape (n_variables, 1)&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Number of samples used to compute the sensitivity indices, :class:`int`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Number of model input variables, :class:`int`&quot;</span>
+
+<div class="viewcode-block" id="GeneralisedSobolSensitivity.run">
+<a class="viewcode-back" href="../../../sensitivity/generalised_sobol.html#UQpy.sensitivity.GeneralisedSobolSensitivity.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_samples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="mi">1_000</span><span class="p">,</span>
+        <span class="n">n_bootstrap_samples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">confidence_level</span><span class="p">:</span> <span class="n">PositiveFloat</span> <span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the generalised Sobol indices for models with multiple outputs</span>
+<span class="sd">        (vector-valued response) using the Pick-and-Freeze method.</span>
+
+<span class="sd">        :param n_samples: Number of samples used to compute the sensitivity indices. \</span>
+<span class="sd">            Default is 1,000.</span>
+
+<span class="sd">        :param n_bootstrap_samples: Number of bootstrap samples used to compute the \</span>
+<span class="sd">            confidence intervals. Default is :any:`None`.</span>
+
+<span class="sd">        :param confidence_level: Confidence level used to compute the confidence \</span>
+<span class="sd">            intervals. Default is 0.95.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check n_samples data type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="n">n_samples</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;UQpy: n_samples should be an integer&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check num_bootstrap_samples data type</span>
+        <span class="k">if</span> <span class="n">n_bootstrap_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: num_bootstrap_samples is set to None, confidence intervals will not be computed.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_bootstrap_samples</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;UQpy: num_bootstrap_samples should be an integer.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1">################## GENERATE SAMPLES ##################</span>
+
+        <span class="p">(</span><span class="n">A_samples</span><span class="p">,</span> <span class="n">B_samples</span><span class="p">,</span> <span class="n">C_i_generator</span><span class="p">,</span> <span class="n">_</span><span class="p">,)</span> <span class="o">=</span> <span class="n">generate_pick_freeze_samples</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dist_object</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Generated samples using the pick-freeze scheme.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">=</span> <span class="n">A_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Number of variables</span>
+
+        <span class="c1">################# MODEL EVALUATIONS ####################</span>
+
+        <span class="n">A_model_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">A_samples</span><span class="p">)</span>  <span class="c1"># shape: (n_samples, n_outputs)</span>
+
+        <span class="c1"># if model output is vectorised,</span>
+        <span class="c1"># shape retured by model is (n_samples, n_outputs, 1)</span>
+        <span class="c1"># we need to reshape it to (n_samples, n_outputs)</span>
+        <span class="k">if</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">A_model_evals</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># shape: (n_samples, n_outputs)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations A completed.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">B_model_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">B_samples</span><span class="p">)</span>  <span class="c1"># shape: (n_samples, n_outputs)</span>
+
+        <span class="c1"># if model output is vectorised,</span>
+        <span class="c1"># shape retured by model is (n_samples, n_outputs, 1)</span>
+        <span class="c1"># we need to reshape it to (n_samples, n_outputs)</span>
+        <span class="k">if</span> <span class="n">B_model_evals</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">B_model_evals</span> <span class="o">=</span> <span class="n">B_model_evals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># shape: (n_samples, n_outputs)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations B completed.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># shape: (n_outputs, n_samples, n_variables)</span>
+        <span class="n">C_i_model_evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">C_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">C_i_generator</span><span class="p">):</span>
+
+            <span class="c1"># if model output is vectorised,</span>
+            <span class="c1"># shape retured by model is (n_samples, n_outputs, 1)</span>
+            <span class="c1"># we need to reshape it to (n_samples, n_outputs)</span>
+            <span class="n">model_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">C_i</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">model_evals</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">C_i_model_evals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">C_i</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">C_i_model_evals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_evals</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations C completed.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: All model evaluations computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">################## COMPUTE GENERALISED SOBOL INDICES ##################</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generalized_first_order_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_first_order_generalised_sobol_indices</span><span class="p">(</span>
+            <span class="n">A_model_evals</span><span class="p">,</span> <span class="n">B_model_evals</span><span class="p">,</span> <span class="n">C_i_model_evals</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: First order Generalised Sobol indices computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generalized_total_order_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_total_order_generalised_sobol_indices</span><span class="p">(</span>
+            <span class="n">A_model_evals</span><span class="p">,</span> <span class="n">B_model_evals</span><span class="p">,</span> <span class="n">C_i_model_evals</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Total order Generalised Sobol indices computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+        <span class="c1">################## CONFIDENCE INTERVALS ####################</span>
+
+        <span class="k">if</span> <span class="n">n_bootstrap_samples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Computing confidence intervals ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">estimator_inputs</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">A_model_evals</span><span class="p">,</span>
+                <span class="n">B_model_evals</span><span class="p">,</span>
+                <span class="n">C_i_model_evals</span><span class="p">,</span>
+            <span class="p">]</span>
+
+            <span class="c1"># First order generalised Sobol indices</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first_order_confidence_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bootstrapping</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">compute_first_order_generalised_sobol_indices</span><span class="p">,</span>
+                <span class="n">estimator_inputs</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">generalized_first_order_indices</span><span class="p">,</span>
+                <span class="n">n_bootstrap_samples</span><span class="p">,</span>
+                <span class="n">confidence_level</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;UQpy: Confidence intervals for First order Generalised Sobol indices computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Total order generalised Sobol indices</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">total_order_confidence_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bootstrapping</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">compute_total_order_generalised_sobol_indices</span><span class="p">,</span>
+                <span class="n">estimator_inputs</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">generalized_total_order_indices</span><span class="p">,</span>
+                <span class="n">n_bootstrap_samples</span><span class="p">,</span>
+                <span class="n">confidence_level</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;UQpy: Confidence intervals for Total order Sobol Generalised indices computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_first_order_generalised_sobol_indices</span><span class="p">(</span>
+        <span class="n">A_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+        <span class="n">B_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+        <span class="n">C_i_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the generalised Sobol indices for models with multiple outputs.</span>
+
+<span class="sd">        :param A_model_evals: Model evaluations, :class:`numpy.ndarray` of shape :code:`(n_samples, n_outputs)`.</span>
+<span class="sd">        :param B_model_evals: Model evaluations, :class:`numpy.ndarray` of shape :code:`(n_samples, n_outputs)`.</span>
+<span class="sd">        :param C_i_model_evals: Model evaluations, :class:`numpy.ndarray` of shape</span>
+<span class="sd">        :code:`(n_outputs, n_samples, n_variables)`.</span>
+
+<span class="sd">        :return: First order generalised Sobol indices, :class:`numpy.ndarray` of shape</span>
+<span class="sd">        :code:`(n_outputs, n_variables)`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">num_vars</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">n_outputs</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># store generalised Sobol indices</span>
+        <span class="n">gen_sobol_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_vars</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">):</span>
+
+            <span class="n">all_Y_i</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># shape: (n_outputs, n_samples)</span>
+            <span class="n">all_Y_i_tilde</span> <span class="o">=</span> <span class="n">B_model_evals</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># shape: (n_outputs, n_samples)</span>
+            <span class="n">all_Y_i_u</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span>  <span class="c1"># shape: (n_outputs, n_samples)</span>
+
+            <span class="c1"># compute the mean using all model evaluations</span>
+            <span class="c1"># shape: (n_outputs, 1)</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_Y_i</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_Y_i_u</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_Y_i_tilde</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
+
+            <span class="c1"># center the evaluations since mean is available</span>
+            <span class="n">all_Y_i</span> <span class="o">=</span> <span class="n">all_Y_i</span> <span class="o">-</span> <span class="n">mean</span>
+            <span class="n">all_Y_i_tilde</span> <span class="o">=</span> <span class="n">all_Y_i_tilde</span> <span class="o">-</span> <span class="n">mean</span>
+            <span class="n">all_Y_i_u</span> <span class="o">=</span> <span class="n">all_Y_i_u</span> <span class="o">-</span> <span class="n">mean</span>
+
+            <span class="c1"># compute the variance matrix using all available model evaluations</span>
+            <span class="c1"># shape: (n_outputs, n_outputs)</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">all_Y_i</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">all_Y_i_u</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">all_Y_i_tilde</span><span class="p">))</span> <span class="o">/</span> <span class="mi">3</span>
+
+            <span class="c1"># compute covariance btw. RVs &#39;X&#39; and &#39;Y&#39;</span>
+            <span class="c1"># shape: (2*n_outputs, 2*n_outputs)</span>
+            <span class="c1"># It contains the following 4 block matrices:</span>
+            <span class="c1">#   (1, 1) variance of &#39;X&#39;</span>
+            <span class="c1">#  *(1, 2) covariance between &#39;X&#39; and &#39;Y&#39; (a.k.a. cross-covariance)</span>
+            <span class="c1">#   (2, 1) covariance between &#39;Y&#39; and &#39;X&#39; (a.k.a. cross-covariance)</span>
+            <span class="c1">#   (2, 2) variance of &#39;Y&#39;</span>
+            <span class="n">_cov_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">all_Y_i_u</span><span class="p">,</span> <span class="n">all_Y_i</span><span class="p">)</span>  <span class="c1"># for first order indices</span>
+
+            <span class="c1"># We need the cross-covariance between &#39;X&#39; and &#39;Y&#39;</span>
+            <span class="c1"># Extract *(1, 2) (upper right block)</span>
+            <span class="c1"># shape: (n_outputs, n_outputs)</span>
+            <span class="n">C_u</span> <span class="o">=</span> <span class="n">_cov_1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n_outputs</span><span class="p">,</span> <span class="n">n_outputs</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_outputs</span><span class="p">]</span>
+
+            <span class="n">denominator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+
+            <span class="c1"># Generalised Sobol indices</span>
+            <span class="n">gen_sobol_i</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C_u</span><span class="p">)</span> <span class="o">/</span> <span class="n">denominator</span>
+
+        <span class="k">return</span> <span class="n">gen_sobol_i</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_total_order_generalised_sobol_indices</span><span class="p">(</span>
+        <span class="n">A_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+        <span class="n">B_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+        <span class="n">C_i_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the generalised Sobol indices for models with multiple outputs.</span>
+
+<span class="sd">        :param A_model_evals: Model evaluations, :class:`numpy.ndarray` of shape :code:`(n_samples, n_outputs)`.</span>
+<span class="sd">        :param B_model_evals: Model evaluations, :class:`numpy.ndarray` of shape :code:`(n_samples, n_outputs)`.</span>
+<span class="sd">        :param C_i_model_evals: Model evaluations, :class:`numpy.ndarray` of shape</span>
+<span class="sd">        :code:`(n_outputs, n_samples, n_variables)`.</span>
+
+<span class="sd">        :return: Total order generalised Sobol indices, :class:`numpy.ndarray` of shape</span>
+<span class="sd">        :code:`(n_outputs, n_variables)`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">num_vars</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">n_outputs</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># store generalised Sobol indices</span>
+        <span class="n">gen_sobol_total_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_vars</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">):</span>
+
+            <span class="n">all_Y_i</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># shape: (n_outputs, n_samples)</span>
+            <span class="n">all_Y_i_tilde</span> <span class="o">=</span> <span class="n">B_model_evals</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># shape: (n_outputs, n_samples)</span>
+            <span class="n">all_Y_i_u</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span>  <span class="c1"># shape: (n_outputs, n_samples)</span>
+
+            <span class="c1"># compute the mean using all model evaluations</span>
+            <span class="c1"># shape: (n_outputs, 1)</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_Y_i</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_Y_i_u</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_Y_i_tilde</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
+
+            <span class="c1"># center the evaluations since mean is available</span>
+            <span class="n">all_Y_i</span> <span class="o">=</span> <span class="n">all_Y_i</span> <span class="o">-</span> <span class="n">mean</span>
+            <span class="n">all_Y_i_tilde</span> <span class="o">=</span> <span class="n">all_Y_i_tilde</span> <span class="o">-</span> <span class="n">mean</span>
+            <span class="n">all_Y_i_u</span> <span class="o">=</span> <span class="n">all_Y_i_u</span> <span class="o">-</span> <span class="n">mean</span>
+
+            <span class="c1"># compute the variance matrix using all available model evaluations</span>
+            <span class="c1"># shape: (n_outputs, n_outputs)</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">all_Y_i</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">all_Y_i_u</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">all_Y_i_tilde</span><span class="p">))</span> <span class="o">/</span> <span class="mi">3</span>
+
+            <span class="c1"># compute covariance btw. RVs &#39;X&#39; and &#39;Y&#39;</span>
+            <span class="c1"># shape: (2*n_outputs, 2*n_outputs)</span>
+            <span class="c1"># It contains the following 4 block matrices:</span>
+            <span class="c1">#   (1, 1) variance of &#39;X&#39;</span>
+            <span class="c1">#  *(1, 2) covariance between &#39;X&#39; and &#39;Y&#39; (a.k.a. cross-covariance)</span>
+            <span class="c1">#   (2, 1) covariance between &#39;Y&#39; and &#39;X&#39; (a.k.a. cross-covariance)</span>
+            <span class="c1">#   (2, 2) variance of &#39;Y&#39;</span>
+            <span class="n">_cov_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">all_Y_i_u</span><span class="p">,</span> <span class="n">all_Y_i_tilde</span><span class="p">)</span>  <span class="c1"># for total order indices</span>
+
+            <span class="c1"># We need the cross-covariance between &#39;X&#39; and &#39;Y&#39;</span>
+            <span class="c1"># Extract *(1, 2) (upper right block)</span>
+            <span class="c1"># shape: (n_outputs, n_outputs)</span>
+            <span class="n">C_u_tilde</span> <span class="o">=</span> <span class="n">_cov_2</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n_outputs</span><span class="p">,</span> <span class="n">n_outputs</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_outputs</span><span class="p">]</span>
+            <span class="n">denominator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+
+            <span class="c1"># Generalised Sobol indices</span>
+            <span class="n">gen_sobol_total_i</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C_u_tilde</span><span class="p">)</span> <span class="o">/</span> <span class="n">denominator</span>
+
+        <span class="k">return</span> <span class="n">gen_sobol_total_i</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.dimension_reduction.hosvd.HigherOrderSVD &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.dimension_reduction.hosvd.HigherOrderSVD</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.dimension_reduction.hosvd.HigherOrderSVD</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="HigherOrderSVD">
+<a class="viewcode-back" href="../../../../dimension_reduction/hosvd.html#UQpy.dimension_reduction.hosvd.HigherOrderSVD">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HigherOrderSVD</span><span class="p">:</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">solution_snapshots</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span>
+            <span class="n">modes</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="n">reconstruction_percentage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">PositiveFloat</span><span class="p">,</span> <span class="n">PositiveInteger</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param solution_snapshots: Second order tensor or list containing the solution snapshots. Third dimension or</span>
+<span class="sd">         length of list corresponds to the number of snapshots.</span>
+<span class="sd">        :param modes: Number of modes to keep for dataset reconstruction.</span>
+<span class="sd">        :param reconstruction_percentage: Dataset reconstruction percentage.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconstruction_error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3hat</span><span class="p">:</span> <span class="n">Numpy2DFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalized core tensor produced by the HOSVD decomposition.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u3hat</span><span class="p">:</span> <span class="n">Numpy2DFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalized unitary array produced by the HOSVD decomposition&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduced_solutions</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v3</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sig_3</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u3</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v2</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sig_2</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u2</span><span class="p">:</span> <span class="n">Numpy2DFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unitary array of the SVD of the second unfolded matrix.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v1</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sig_1</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u1</span><span class="p">:</span> <span class="n">Numpy2DFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unitary array of the SVD of the first unfolded matrix&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solution_snapshots</span> <span class="o">=</span> <span class="n">solution_snapshots</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modes</span> <span class="o">=</span> <span class="n">modes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconstruction_percentage</span> <span class="o">=</span> <span class="n">reconstruction_percentage</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span> <span class="o">!=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">10</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">reconstruction_percentage</span> <span class="o">!=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either a number of modes or a reconstruction percentage must be chosen, not both.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solution_snapshots</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">get_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HigherOrderSVD.factorize">
+<a class="viewcode-back" href="../../../../dimension_reduction/hosvd.html#UQpy.dimension_reduction.hosvd.HigherOrderSVD.factorize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">factorize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">get_error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the HOSVD method.</span>
+
+<span class="sd">        :param get_error: A boolean declaring whether to return the reconstruction error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solution_snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span> <span class="o">=</span> <span class="n">HigherOrderSVD</span><span class="o">.</span><span class="n">unfold3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solution_snapshots</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">u1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sig_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">v1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sig_2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">v2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sig_3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">v3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">a3</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">sig_3_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sig_3</span><span class="p">)</span>
+        <span class="n">hold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u3</span><span class="p">),</span> <span class="n">a3</span><span class="p">)</span>
+        <span class="n">kronecker_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">u2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hold</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">kronecker_product</span><span class="o">.</span><span class="n">T</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span> <span class="o">==</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">error_</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+                <span class="n">error_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">sig_3</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">sig_3</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">rows</span><span class="p">:</span>
+                    <span class="n">error_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">error_</span><span class="p">]</span>
+            <span class="n">error</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+            <span class="n">perc</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">percentage</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">perc</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">reconstruction_percentage</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">modes</span> <span class="o">=</span> <span class="n">perc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">percentage</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span> <span class="o">&gt;</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;A number of modes greater than the number of temporal dimensions was given.&quot;</span>
+                <span class="s2">&quot;Number of temporal dimensions is </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rows</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduced_solutions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u3</span><span class="p">,</span> <span class="n">sig_3_</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u3hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u3</span><span class="p">[:,</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">],</span> <span class="n">sig_3_</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">,</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">sig_3_</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">,</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">,</span> <span class="p">:])</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span> <span class="o">==</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Dataset reconstruction: </span><span class="si">{0:.3%}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reconstruction_percentage</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">get_error</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reconstruction_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">s3hat</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sig_3</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Reduced-order reconstruction error: </span><span class="si">{0:.3%}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reconstruction_error</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HigherOrderSVD.unfold3d">
+<a class="viewcode-back" href="../../../../dimension_reduction/hosvd.html#UQpy.dimension_reduction.hosvd.HigherOrderSVD.unfold3d">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unfold3d</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param second_order_tensor: A three-dimensional :class:`ndarray` which contains the data to be unfolded.</span>
+<span class="sd">        :returns: Three unfolded matrices in the form of two-dimensional :class:`ndarray`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="n">second_order_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="n">second_order_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">number_of_data</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="p">)</span>
+            <span class="n">tensor_of_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">number_of_data</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_data</span><span class="p">):</span>
+                <span class="n">tensor_of_list</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">second_order_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">second_order_tensor</span>
+            <span class="n">second_order_tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">tensor_of_list</span><span class="p">)</span>
+
+        <span class="n">permutation1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">permutation2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">permutation3</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">permuted_tensor1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="p">,</span> <span class="n">permutation1</span><span class="p">)</span>
+        <span class="n">permuted_tensor2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="p">,</span> <span class="n">permutation2</span><span class="p">)</span>
+        <span class="n">permuted_tensor3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="p">,</span> <span class="n">permutation3</span><span class="p">)</span>
+
+        <span class="n">matrix1</span> <span class="o">=</span> <span class="n">permuted_tensor1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                           <span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">)</span>
+        <span class="n">matrix2</span> <span class="o">=</span> <span class="n">permuted_tensor2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                           <span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">)</span>
+        <span class="n">matrix3</span> <span class="o">=</span> <span class="n">permuted_tensor3</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                                           <span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">second_order_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">matrix1</span><span class="p">,</span> <span class="n">matrix2</span><span class="p">,</span> <span class="n">matrix3</span></div>
+
+
+<div class="viewcode-block" id="HigherOrderSVD.reconstruct">
+<a class="viewcode-back" href="../../../../dimension_reduction/hosvd.html#UQpy.dimension_reduction.hosvd.HigherOrderSVD.reconstruct">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reconstruct</span><span class="p">(</span><span class="n">u1</span><span class="p">:</span> <span class="n">Numpy2DFloatArray</span><span class="p">,</span>
+                    <span class="n">u2</span><span class="p">:</span> <span class="n">Numpy2DFloatArray</span><span class="p">,</span>
+                    <span class="n">u3hat</span><span class="p">:</span> <span class="n">Numpy2DFloatArray</span><span class="p">,</span>
+                    <span class="n">s3hat</span><span class="p">:</span> <span class="n">Numpy2DFloatArray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reconstructs the approximated solution.</span>
+
+<span class="sd">        :param u1: Unitary array of the SVD of the first unfolded matrix.</span>
+<span class="sd">        :param u2: Unitary array of the SVD of the second unfolded matrix.</span>
+<span class="sd">        :param u3hat: Normalized unitary array produced by the HOSVD decomposition.</span>
+<span class="sd">        :param s3hat: Normalized core tensor produced by the HOSVD decomposition</span>
+<span class="sd">        :return: An :class:`ndarray` containing the reconstruction of the approximated solution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">s3hat</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u3hat</span><span class="p">[:,</span> <span class="p">:],</span> <span class="n">c</span><span class="p">)</span>
+
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">u1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="n">u2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">snapshot_number</span> <span class="o">=</span> <span class="n">u3hat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">reconstructed_solutions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">snapshot_number</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">snapshot_number</span><span class="p">):</span>
+            <span class="n">reconstructed_solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">rows</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">columns</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">reconstructed_solutions</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

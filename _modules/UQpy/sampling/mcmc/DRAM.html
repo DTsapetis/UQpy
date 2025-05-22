@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sampling.mcmc.DRAM &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sampling.mcmc.DRAM</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sampling.mcmc.DRAM</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc.baseclass.MCMC</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCMC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+
+<div class="viewcode-block" id="DRAM">
+<a class="viewcode-back" href="../../../../sampling/mcmc/dram.html#UQpy.sampling.mcmc.DRAM">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DRAM</span><span class="p">(</span><span class="n">MCMC</span><span class="p">):</span>
+
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">pdf_target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">log_pdf_target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">args_target</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">burn_length</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Is</span><span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">jump</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">dimension</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">seed</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">save_log_pdf</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">concatenate_chains</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">initial_covariance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">covariance_update_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+            <span class="n">scale_parameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">delayed_rejection_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="n">save_covariance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="p">:</span> <span class="n">RandomStateType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">n_chains</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">nsamples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">nsamples_per_chain</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delayed Rejection Adaptive Metropolis algorithm :cite:`Dram1` :cite:`MCMC2`</span>
+
+<span class="sd">        In this algorithm, the proposal density is Gaussian and its covariance C is being updated from samples as</span>
+<span class="sd">        :code:`C = scale_parameter * C_sample` where :code:`C_sample` is the sample covariance. Also, the delayed</span>
+<span class="sd">        rejection scheme is applied, i.e, if a candidate is not accepted another one is generated from the proposal with</span>
+<span class="sd">        covariance :code:`delayed_rejection_scale ** 2 * C`.</span>
+
+<span class="sd">        :param pdf_target: Target density function from which to draw random samples. Either `pdf_target` or</span>
+<span class="sd">         `log_pdf_target` must be provided (the latter should be preferred for better numerical stability).</span>
+
+<span class="sd">         If `pdf_target` is a callable, it refers to the joint pdf to sample from, it must take at least one input</span>
+<span class="sd">         **x**, which are the point(s) at which to evaluate the pdf. Within :class:`.MCMC` the `pdf_target` is evaluated</span>
+<span class="sd">         as:</span>
+<span class="sd">         :code:`p(x) = pdf_target(x, \*args_target)`</span>
+
+<span class="sd">         where **x** is a :class:`numpy.ndarray of shape :code:`(nsamples, dimension)` and `args_target` are additional</span>
+<span class="sd">         positional arguments that are provided to :class:`.MCMC` via its `args_target` input.</span>
+
+<span class="sd">         If `pdf_target` is a list of callables, it refers to independent marginals to sample from. The marginal in</span>
+<span class="sd">         dimension :code:`j` is evaluated as: :code:`p_j(xj) = pdf_target[j](xj, \*args_target[j])` where **x** is a</span>
+<span class="sd">         :class:`numpy.ndarray` of shape :code:`(nsamples, dimension)`</span>
+<span class="sd">        :param log_pdf_target: Logarithm of the target density function from which to draw random samples.</span>
+<span class="sd">         Either pdf_target or log_pdf_target must be provided (the latter should be preferred for better numerical</span>
+<span class="sd">         stability).</span>
+
+<span class="sd">         Same comments as for input `pdf_target`.</span>
+<span class="sd">        :param args_target: Positional arguments of the pdf / log-pdf target function. See `pdf_target`</span>
+<span class="sd">        :param burn_length: Length of burn-in - i.e., number of samples at the beginning of the chain to discard (note:</span>
+<span class="sd">         no thinning during burn-in). Default is :math:`0`, no burn-in.</span>
+<span class="sd">        :param jump: Thinning parameter, used to reduce correlation between samples. Setting :code:`jump=n` corresponds</span>
+<span class="sd">         to skipping n-1 states between accepted states of the chain. Default is :math:`1` (no thinning).</span>
+<span class="sd">        :param dimension: A scalar value defining the dimension of target density function. Either `dimension` and</span>
+<span class="sd">         `n_chains` or `seed` must be provided.</span>
+<span class="sd">        :param seed: Seed of the Markov chain(s), shape :code:`(n_chains, dimension)`.</span>
+<span class="sd">         Default: :code:`zeros(n_chains x dimension)`.</span>
+
+<span class="sd">         If `seed` is not provided, both `n_chains` and `dimension` must be provided.</span>
+<span class="sd">        :param save_log_pdf: Boolean that indicates whether to save log-pdf values along with the samples.</span>
+<span class="sd">         Default: :any:`False`</span>
+<span class="sd">        :param concatenate_chains: Boolean that indicates whether to concatenate the chains after a run, i.e., samples</span>
+<span class="sd">         are stored as a :class:`numpy.ndarray` of shape :code:`(nsamples * n_chains, dimension)` if :any:`True`,</span>
+<span class="sd">         :code:`(nsamples, n_chains, dimension)` if :any:`False`.</span>
+<span class="sd">         Default: :any:`True`</span>
+<span class="sd">        :param n_chains: The number of Markov chains to generate. Either `dimension` and `n_chains` or `seed` must be</span>
+<span class="sd">         provided.</span>
+<span class="sd">        :param initial_covariance: Initial covariance for the gaussian proposal distribution. Default: I(dim)</span>
+<span class="sd">        :param covariance_update_rate: Rate at which covariance is being updated, i.e., every k0 iterations.</span>
+<span class="sd">         Default: :math:`100`</span>
+<span class="sd">        :param scale_parameter: Scale parameter for covariance updating. Default: :math:`2.38^2/dim`</span>
+<span class="sd">        :param delayed_rejection_scale: Scale parameter for delayed rejection. Default: :math:`1/5`</span>
+<span class="sd">        :param save_covariance: If :any:`True`, updated covariance is saved in attribute :py:attr:`adaptive_covariance`.</span>
+<span class="sd">         Default: :any:`False`</span>
+<span class="sd">        :param random_state: Random seed used to initialize the pseudo-random number generator. Default is</span>
+<span class="sd">         :any:`None`.</span>
+<span class="sd">        :param nsamples: Number of samples to generate.</span>
+<span class="sd">        :param nsamples_per_chain: Number of samples to generate per chain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsamples</span> <span class="o">=</span> <span class="n">nsamples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_chain</span> <span class="o">=</span> <span class="n">nsamples_per_chain</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">pdf_target</span><span class="o">=</span><span class="n">pdf_target</span><span class="p">,</span>
+            <span class="n">log_pdf_target</span><span class="o">=</span><span class="n">log_pdf_target</span><span class="p">,</span>
+            <span class="n">args_target</span><span class="o">=</span><span class="n">args_target</span><span class="p">,</span>
+            <span class="n">dimension</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+            <span class="n">burn_length</span><span class="o">=</span><span class="n">burn_length</span><span class="p">,</span>
+            <span class="n">jump</span><span class="o">=</span><span class="n">jump</span><span class="p">,</span>
+            <span class="n">save_log_pdf</span><span class="o">=</span><span class="n">save_log_pdf</span><span class="p">,</span>
+            <span class="n">concatenate_chains</span><span class="o">=</span><span class="n">concatenate_chains</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="n">n_chains</span><span class="o">=</span><span class="n">n_chains</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="c1"># Check the initial covariance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_covariance</span> <span class="o">=</span> <span class="n">initial_covariance</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_covariance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_covariance</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+                  <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_covariance</span> <span class="o">==</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;UQpy: Input initial_covariance should be a 2D ndarray of shape (dimension, dimension)&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">covariance_update_rate</span> <span class="o">=</span> <span class="n">covariance_update_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_parameter</span> <span class="o">=</span> <span class="n">scale_parameter</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_parameter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scale_parameter</span> <span class="o">=</span> <span class="mf">2.38</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delayed_rejection_scale</span> <span class="o">=</span> <span class="n">delayed_rejection_scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_covariance</span> <span class="o">=</span> <span class="n">save_covariance</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">typ</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="s2">&quot;covariance_update_rate&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;scale_parameter&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;delayed_rejection_scale&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;save_covariance&quot;</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span> <span class="n">typ</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; must be of type &quot;</span> <span class="o">+</span> <span class="n">typ</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="c1"># initialize the sample mean and sample covariance that you need</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_covariance</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_covariance</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adaptive_covariance</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_covariance</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">UQpy: Initialization of &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot; algorithm complete.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">nsamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">nsamples_per_chain</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">,</span> <span class="n">nsamples_per_chain</span><span class="o">=</span><span class="n">nsamples_per_chain</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DRAM.run_one_iteration">
+<a class="viewcode-back" href="../../../../sampling/mcmc/dram.html#UQpy.sampling.mcmc.DRAM.run_one_iteration">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_one_iteration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_state</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">current_log_pdf</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run one iteration of the mcmc chain for DRAM algorithm, starting at current state -</span>
+<span class="sd">        see :class:`MCMC` class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultivariateNormal</span>
+
+        <span class="n">multivariate_normal</span> <span class="o">=</span> <span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span> <span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="c1"># Sample candidate</span>
+        <span class="n">candidate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">current_state</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">nc</span><span class="p">,</span> <span class="n">current_cov</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_covariance</span><span class="p">):</span>
+            <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">update_parameters</span><span class="p">(</span><span class="n">cov</span><span class="o">=</span><span class="n">current_cov</span><span class="p">)</span>
+            <span class="n">candidate</span><span class="p">[</span><span class="n">nc</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">current_state</span><span class="p">[</span><span class="n">nc</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> \
+                               <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span> \
+                                   <span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,))</span>
+
+        <span class="c1"># Compute log_pdf_target of candidate sample</span>
+        <span class="n">log_p_candidate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">(</span><span class="n">candidate</span><span class="p">)</span>
+
+        <span class="c1"># Compare candidate with current sample and decide or not to keep the candidate (loop over nc chains)</span>
+        <span class="n">accept_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span><span class="p">,))</span>
+        <span class="n">delayed_chains_indices</span> <span class="o">=</span> <span class="p">([])</span>  <span class="c1"># indices of chains that will undergo delayed rejection</span>
+        <span class="n">unif_rvs</span> <span class="o">=</span> <span class="p">(</span><span class="n">Uniform</span><span class="p">()</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,)))</span>
+        <span class="k">for</span> <span class="n">nc</span><span class="p">,</span> <span class="p">(</span><span class="n">cand</span><span class="p">,</span> <span class="n">log_p_cand</span><span class="p">,</span> <span class="n">log_p_curr</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                <span class="nb">zip</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="n">log_p_candidate</span><span class="p">,</span> <span class="n">current_log_pdf</span><span class="p">)):</span>
+            <span class="n">accept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">unif_rvs</span><span class="p">[</span><span class="n">nc</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">log_p_cand</span> <span class="o">-</span> <span class="n">log_p_curr</span>
+            <span class="k">if</span> <span class="n">accept</span><span class="p">:</span>
+                <span class="n">current_state</span><span class="p">[</span><span class="n">nc</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">cand</span>
+                <span class="n">current_log_pdf</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_p_cand</span>
+                <span class="n">accept_vec</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">1.0</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># enter delayed rejection</span>
+                <span class="n">delayed_chains_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span>  <span class="c1"># these indices will enter the delayed rejection part</span>
+
+        <span class="c1"># Delayed rejection</span>
+        <span class="k">if</span> <span class="n">delayed_chains_indices</span><span class="p">:</span>  <span class="c1"># performed delayed rejection for some chains</span>
+            <span class="n">current_states_delayed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">delayed_chains_indices</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">))</span>
+            <span class="n">candidates_delayed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">delayed_chains_indices</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">))</span>
+            <span class="n">candidate2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">delayed_chains_indices</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">))</span>
+            <span class="c1"># Sample other candidates closer to the current one</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">delayed_chains_indices</span><span class="p">):</span>
+                <span class="n">current_states_delayed</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">current_state</span><span class="p">[</span><span class="n">nc</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="n">candidates_delayed</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">candidate</span><span class="p">[</span><span class="n">nc</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">update_parameters</span><span class="p">(</span>
+                    <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delayed_rejection_scale</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_covariance</span><span class="p">[</span><span class="n">nc</span><span class="p">])</span>
+                <span class="n">candidate2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">current_states_delayed</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> \
+                                   <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span> \
+                                       <span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,))</span>
+            <span class="c1"># Evaluate their log_target</span>
+            <span class="n">log_p_candidate2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">(</span><span class="n">candidate2</span><span class="p">)</span>
+            <span class="n">log_prop_cand_cand2</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">(</span><span class="n">candidates_delayed</span> <span class="o">-</span> <span class="n">candidate2</span><span class="p">)</span>
+            <span class="n">log_prop_cand_curr</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">(</span><span class="n">candidates_delayed</span> <span class="o">-</span> <span class="n">current_states_delayed</span><span class="p">)</span>
+            <span class="c1"># Accept or reject</span>
+            <span class="n">unif_rvs</span> <span class="o">=</span> <span class="p">(</span><span class="n">Uniform</span><span class="p">()</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">delayed_chains_indices</span><span class="p">),</span>
+                                      <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,)))</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">cand2</span><span class="p">,</span> <span class="n">log_p_cand2</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">u_rv</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                    <span class="n">delayed_chains_indices</span><span class="p">,</span>
+                    <span class="n">candidate2</span><span class="p">,</span>
+                    <span class="n">log_p_candidate2</span><span class="p">,</span>
+                    <span class="n">log_prop_cand_cand2</span><span class="p">,</span>
+                    <span class="n">log_prop_cand_curr</span><span class="p">,</span>
+                    <span class="n">unif_rvs</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="n">alpha_cand_cand2</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_p_candidate</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">-</span> <span class="n">log_p_cand2</span><span class="p">))</span>
+                <span class="n">alpha_cand_curr</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_p_candidate</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">-</span> <span class="n">current_log_pdf</span><span class="p">[</span><span class="n">nc</span><span class="p">]))</span>
+                <span class="n">log_alpha2</span> <span class="o">=</span> <span class="p">(</span><span class="n">log_p_cand2</span> <span class="o">-</span> <span class="n">current_log_pdf</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">+</span> <span class="n">j1</span> <span class="o">-</span> <span class="n">j2</span>
+                              <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">alpha_cand_cand2</span><span class="p">,</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">320</span><span class="p">)))</span>
+                              <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">alpha_cand_curr</span><span class="p">,</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">320</span><span class="p">))))</span>
+                <span class="n">accept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">u_rv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">log_alpha2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">accept</span><span class="p">:</span>
+                    <span class="n">current_state</span><span class="p">[</span><span class="n">nc</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">cand2</span>
+                    <span class="n">current_log_pdf</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_p_cand2</span>
+                    <span class="n">accept_vec</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">1.0</span>
+
+        <span class="c1"># Adaptive part: update the covariance</span>
+        <span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span><span class="p">):</span>
+            <span class="c1"># update covariance</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample_mean</span><span class="p">[</span><span class="n">nc</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_covariance</span><span class="p">[</span><span class="n">nc</span><span class="p">],</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recursive_update_mean_covariance</span><span class="p">(</span>
+                <span class="n">nsamples</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations_number</span><span class="p">,</span>
+                <span class="n">new_sample</span><span class="o">=</span><span class="n">current_state</span><span class="p">[</span><span class="n">nc</span><span class="p">,</span> <span class="p">:],</span>
+                <span class="n">previous_mean</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_mean</span><span class="p">[</span><span class="n">nc</span><span class="p">],</span>
+                <span class="n">previous_covariance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_covariance</span><span class="p">[</span><span class="n">nc</span><span class="p">],</span> <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations_number</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations_number</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance_update_rate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">current_covariance</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_parameter</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_covariance</span><span class="p">[</span><span class="n">nc</span><span class="p">]</span> <span class="o">+</span> \
+                                              <span class="mf">1e-6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_covariance</span> <span class="ow">and</span> \
+                <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations_number</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations_number</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance_update_rate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adaptive_covariance</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_covariance</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+        <span class="c1"># Update the acceptance rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_acceptance_rate</span><span class="p">(</span><span class="n">accept_vec</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">current_state</span><span class="p">,</span> <span class="n">current_log_pdf</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_recursive_update_mean_covariance</span><span class="p">(</span>
+            <span class="n">nsamples</span><span class="p">,</span> <span class="n">new_sample</span><span class="p">,</span> <span class="n">previous_mean</span><span class="p">,</span> <span class="n">previous_covariance</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterative formula to compute a new sample mean and covariance based on previous ones and new sample.</span>
+
+<span class="sd">        New covariance is computed only of previous_covariance is provided.</span>
+
+<span class="sd">        **Inputs:**</span>
+
+<span class="sd">        * n (int): Number of samples used to compute the new mean</span>
+<span class="sd">        * new_sample (ndarray (dim, )): new sample</span>
+<span class="sd">        * previous_mean (ndarray (dim, )): Previous sample mean, to be updated with new sample value</span>
+<span class="sd">        * previous_covariance (ndarray (dim, dim)): Previous sample covariance, to be updated with new sample value</span>
+
+<span class="sd">        **Output/Returns:**</span>
+
+<span class="sd">        * new_mean (ndarray (dim, )): Updated sample mean</span>
+<span class="sd">        * new_covariance (ndarray (dim, dim)): Updated sample covariance</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_mean</span> <span class="o">=</span> <span class="p">(</span><span class="n">nsamples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">nsamples</span> <span class="o">*</span> <span class="n">previous_mean</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">nsamples</span> <span class="o">*</span> <span class="n">new_sample</span>
+        <span class="k">if</span> <span class="n">previous_covariance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">new_mean</span>
+        <span class="n">dimensions</span> <span class="o">=</span> <span class="n">new_sample</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">if</span> <span class="n">nsamples</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">new_covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">delta_n</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_sample</span> <span class="o">-</span> <span class="n">previous_mean</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">dimensions</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">new_covariance</span> <span class="o">=</span> <span class="p">(</span><span class="n">nsamples</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nsamples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> \
+                             <span class="o">*</span> <span class="n">previous_covariance</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">nsamples</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">delta_n</span><span class="p">,</span> <span class="n">delta_n</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_mean</span><span class="p">,</span> <span class="n">new_covariance</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

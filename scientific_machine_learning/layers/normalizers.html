@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List of Normalizer Layers &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Losses" href="../losses.html" />
+    <link rel="prev" title="List of Fourier Layers" href="fourier_layers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Scientific Machine Learning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#functional">Functional</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#layers">Layers</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html"> Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#notation">Notation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#layer-baseclass">Layer Baseclass</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#list-of-layers">List of Layers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bayesian_baseclass.html"> Bayesian Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bayesian_layers.html"> Bayesian Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dropout_baseclass.html"> Dropout Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dropout_layers.html"> Dropout Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fourier_layers.html"> Fourier Layers</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Normalizer Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gaussiannormalizer">GaussianNormalizer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rangenormalizer">RangeNormalizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#losses">Losses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#neural-networks">Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#trainers">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Scientific Machine Learning</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Neural Network Layers</a></li>
+      <li class="breadcrumb-item active">List of Normalizer Layers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/scientific_machine_learning/layers/normalizers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="list-of-normalizer-layers">
+<h1>List of Normalizer Layers<a class="headerlink" href="#list-of-normalizer-layers" title="Link to this heading"></a></h1>
+<p>All normalizer layers scale and shift tensors, but do <em>not</em> have learnable parameters.</p>
+<section id="gaussiannormalizer">
+<h2>GaussianNormalizer<a class="headerlink" href="#gaussiannormalizer" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.GaussianNormalizer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianNormalizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/GaussianNormalizer.html#GaussianNormalizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.GaussianNormalizer" title="Link to this definition"></a></dt>
+<dd><p>Normalize a tensor to have mean of zero and standard deviation of one.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to machine percision, mean and standard deviation may have errors on the order of <span class="math notranslate nohighlight">\(10^{-8}\)</span>.
+Using different data types may affect percision of results.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of any shape</p></li>
+<li><p><strong>encoding</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, scale and shift a tensor to have mean of zero and standard deviation of one.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, scale and shift from a mean of zero and std of one to the original mean and std of <code class="docutils literal notranslate"><span class="pre">x</span></code>.
+Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>epsilon</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Small positive value added to standard deviation for numerical stability</p></li>
+<li><p><strong>dim</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Dimensions to be reduced in <span class="math notranslate nohighlight">\(\text{mean}(x), \text{std}(x)\)</span>.
+If <code class="code docutils literal notranslate"><span class="pre">None</span></code>, reduce all dimensions for scalar min and max. Default: None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">torch.mean(x)</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.std(x)</span></code> contains infinite (<code class="code docutils literal notranslate"><span class="pre">inf</span></code>)
+or not-a-number (<code class="code docutils literal notranslate"><span class="pre">nan</span></code>) over a dimension to be reduced</p>
+</dd>
+</dl>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: Any shape</p></li>
+<li><p>Output: Any shape (same shape as input)</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># use one instance and change mode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># for reproducibility</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalizer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GaussianNormalizer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalizer</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>  <span class="c1"># equivalent to normalizer.encode(False)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_reconstruction</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">x_reconstruction</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">x_reconstruction</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<span class="go">tensor(0.5003) tensor(-6.5804e-09) tensor(0.5003)</span>
+<span class="go">tensor(0.2879) tensor(1.) tensor(0.2879)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># use two instances with different modes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># for reproducibility</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GaussianNormalizer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">decoder</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">GaussianNormalizer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_reconstruction</span> <span class="o">=</span> <span class="n">decoder</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">x_reconstruction</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">x_reconstruction</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<span class="go">tensor(0.5003) tensor(-6.5804e-09) tensor(0.5003)</span>
+<span class="go">tensor(0.2879) tensor(1.) tensor(0.2879)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.GaussianNormalizer.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/GaussianNormalizer.html#GaussianNormalizer.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.GaussianNormalizer.forward" title="Link to this definition"></a></dt>
+<dd><p>Scale <code class="docutils literal notranslate"><span class="pre">x</span></code> to have a new mean and standard deviation.</p>
+<p>If <code class="code docutils literal notranslate"><span class="pre">self.encoding</span></code> is <code class="code docutils literal notranslate"><span class="pre">True</span></code>, return <span class="math notranslate nohighlight">\(\frac{x - \text{mean}}{\text{std} + \epsilon}\)</span>.
+If <code class="code docutils literal notranslate"><span class="pre">self.encoding</span></code> is <code class="code docutils literal notranslate"><span class="pre">False</span></code>, return <span class="math notranslate nohighlight">\((x \times (\text{std} + \epsilon)) + \text{mean}\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of any shape</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of same shape as <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.GaussianNormalizer.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/GaussianNormalizer.html#GaussianNormalizer.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.GaussianNormalizer.encode" title="Link to this definition"></a></dt>
+<dd><p>Set the Normalizer to scale a tensor a mean of zero and standard deviation of one</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="code docutils literal notranslate"><span class="pre">True</span></code>, set <code class="docutils literal notranslate"><span class="pre">self.encoding</span></code> to <code class="code docutils literal notranslate"><span class="pre">True</span></code>. Default: <code class="code docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.GaussianNormalizer.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/GaussianNormalizer.html#GaussianNormalizer.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.GaussianNormalizer.decode" title="Link to this definition"></a></dt>
+<dd><p>Set the normalizer to restore a tensor to its original mean and standard deviation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="code docutils literal notranslate"><span class="pre">True</span></code>, set <code class="docutils literal notranslate"><span class="pre">self.encoding</span></code> to <code class="code docutils literal notranslate"><span class="pre">False</span></code>. Default: <code class="code docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.GaussianNormalizer.encoding">
+<span class="sig-prename descclassname"><span class="pre">GaussianNormalizer.</span></span><span class="sig-name descname"><span class="pre">encoding</span></span><a class="headerlink" href="#UQpy.scientific_machine_learning.GaussianNormalizer.encoding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.GaussianNormalizer.mean">
+<span class="sig-prename descclassname"><span class="pre">GaussianNormalizer.</span></span><span class="sig-name descname"><span class="pre">mean</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.Tensor</span></em><a class="headerlink" href="#UQpy.scientific_machine_learning.GaussianNormalizer.mean" title="Link to this definition"></a></dt>
+<dd><p>Original mean of the initialization tensor</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.GaussianNormalizer.std">
+<span class="sig-prename descclassname"><span class="pre">GaussianNormalizer.</span></span><span class="sig-name descname"><span class="pre">std</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.Tensor</span></em><a class="headerlink" href="#UQpy.scientific_machine_learning.GaussianNormalizer.std" title="Link to this definition"></a></dt>
+<dd><p>Original standard deviation of the initialization tensor</p>
+</dd></dl>
+
+</section>
+</section>
+<hr class="docutils" />
+<section id="rangenormalizer">
+<h2>RangeNormalizer<a class="headerlink" href="#rangenormalizer" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.RangeNormalizer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RangeNormalizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/RangeNormalizer.html#RangeNormalizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.RangeNormalizer" title="Link to this definition"></a></dt>
+<dd><p>Normalize a tensor to fall within the range <span class="math notranslate nohighlight">\([\text{low}, \text{high}]\)</span></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to machine precision, normalized values may be outside of range by errors on the order of <span class="math notranslate nohighlight">\(10^{-8}\)</span>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of any shape</p></li>
+<li><p><strong>encoding</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, scale and shift a tensor to be within <span class="math notranslate nohighlight">\([\text{low}, \text{high}]\)</span>.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, scale and shift from <span class="math notranslate nohighlight">\([\text{low}, \text{high}]\)</span> to the original range of <code class="docutils literal notranslate"><span class="pre">x</span></code>.
+Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>low</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Lower bound of the normalized range</p></li>
+<li><p><strong>high</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Upper bound of the normalized range</p></li>
+<li><p><strong>dim</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Dimensions to be reduced in <span class="math notranslate nohighlight">\(\min(x), \max(x)\)</span>.
+If <code class="code docutils literal notranslate"><span class="pre">None</span></code>, reduce all dimensions for scalar min and max. Default: None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">low</span></code> greater or equal to <code class="docutils literal notranslate"><span class="pre">high</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If <span class="math notranslate nohighlight">\(\min(x)\)</span> equals <span class="math notranslate nohighlight">\(\max(x)\)</span> over any dimension to be reduced.
+This is to prevent a <code class="code docutils literal notranslate"><span class="pre">ZeroDivisionError</span></code> from occuring in the computation of <code class="code docutils literal notranslate"><span class="pre">scale</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: Any shape</p></li>
+<li><p>Output: Any shape (same shape as input)</p></li>
+</ul>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># use one instance and change mode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># for reproducibility</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalizer</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">RangeNormalizer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalizer</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>  <span class="c1"># equivalent to normalizer.encode(False)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_reconstruction</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x_reconstruction</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">x_reconstruction</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="go">tensor(-4.3433) tensor(0.) tensor(-4.3433)</span>
+<span class="go">tensor(4.1015) tensor(1.) tensor(4.1015)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># use two instances with different modes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># for reproducibility</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">RangeNormalizer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">decoder</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">RangeNormalizer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_reconstruction</span> <span class="o">=</span> <span class="n">decoder</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x_reconstruction</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">x_reconstruction</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="go">tensor(-4.3433) tensor(0.) tensor(-4.3433)</span>
+<span class="go">tensor(4.1015) tensor(1.) tensor(4.1015)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.RangeNormalizer.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/RangeNormalizer.html#RangeNormalizer.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.RangeNormalizer.forward" title="Link to this definition"></a></dt>
+<dd><p>Scale and shift <code class="docutils literal notranslate"><span class="pre">x</span></code> to fall within a new range.</p>
+<p>If <code class="code docutils literal notranslate"><span class="pre">self.encoding</span></code> is <code class="code docutils literal notranslate"><span class="pre">True</span></code>, return <span class="math notranslate nohighlight">\((x \times \text{scale}) + \text{shift}\)</span>.
+If <code class="code docutils literal notranslate"><span class="pre">self.encoding</span></code> is <code class="code docutils literal notranslate"><span class="pre">False</span></code>, return <span class="math notranslate nohighlight">\(\frac{x - \text{shift}}{\text{scale}}\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of any shape</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of same shape as <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.RangeNormalizer.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/RangeNormalizer.html#RangeNormalizer.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.RangeNormalizer.encode" title="Link to this definition"></a></dt>
+<dd><p>Set the normalizer to scale and shift a tensor to fall within range <span class="math notranslate nohighlight">\([    ext{low},       ext{high}]\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, set <code class="docutils literal notranslate"><span class="pre">self.encoding</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.RangeNormalizer.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/RangeNormalizer.html#RangeNormalizer.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.RangeNormalizer.decode" title="Link to this definition"></a></dt>
+<dd><p>Set the normalizer to restore a tensor to its original range</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, set <code class="docutils literal notranslate"><span class="pre">self.encoding</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="id1">
+<h3>Attributes<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.RangeNormalizer.encoding">
+<span class="sig-prename descclassname"><span class="pre">RangeNormalizer.</span></span><span class="sig-name descname"><span class="pre">encoding</span></span><a class="headerlink" href="#UQpy.scientific_machine_learning.RangeNormalizer.encoding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.RangeNormalizer.scale">
+<span class="sig-prename descclassname"><span class="pre">RangeNormalizer.</span></span><span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.Tensor</span></em><a class="headerlink" href="#UQpy.scientific_machine_learning.RangeNormalizer.scale" title="Link to this definition"></a></dt>
+<dd><p>Multiplicative factor to rescale range of x to interval width</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.RangeNormalizer.shift">
+<span class="sig-prename descclassname"><span class="pre">RangeNormalizer.</span></span><span class="sig-name descname"><span class="pre">shift</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.Tensor</span></em><a class="headerlink" href="#UQpy.scientific_machine_learning.RangeNormalizer.shift" title="Link to this definition"></a></dt>
+<dd><p>Additive factor to make interval start at <code class="docutils literal notranslate"><span class="pre">self.low</span></code></p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fourier_layers.html" class="btn btn-neutral float-left" title="List of Fourier Layers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../losses.html" class="btn btn-neutral float-right" title="Losses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

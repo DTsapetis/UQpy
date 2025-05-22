@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List of Fourier Layers &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="List of Normalizer Layers" href="normalizers.html" />
+    <link rel="prev" title="Probabilisitc Models with Monte Carlo Dropout" href="../../auto_examples/scientific_machine_learning/mcd_trainer/NeuralNetwork_MCD.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Scientific Machine Learning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#functional">Functional</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#layers">Layers</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html"> Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#notation">Notation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#layer-baseclass">Layer Baseclass</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#list-of-layers">List of Layers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bayesian_baseclass.html"> Bayesian Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bayesian_layers.html"> Bayesian Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dropout_baseclass.html"> Dropout Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dropout_layers.html"> Dropout Layers</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Fourier Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#formula">Formula</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="normalizers.html"> Normalizer Layers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#losses">Losses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#neural-networks">Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#trainers">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Scientific Machine Learning</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Neural Network Layers</a></li>
+      <li class="breadcrumb-item active">List of Fourier Layers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/scientific_machine_learning/layers/fourier_layers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="list-of-fourier-layers">
+<h1>List of Fourier Layers<a class="headerlink" href="#list-of-fourier-layers" title="Link to this heading"></a></h1>
+<p>All Fourier layers are types of convolutions, although they do not have a direct counterpart in <code class="xref py py-mod docutils literal notranslate"><span class="pre">torch</span></code>.</p>
+<section id="formula">
+<h2>Formula<a class="headerlink" href="#formula" title="Link to this heading"></a></h2>
+<p>Using the notation from Li et al. <span id="id1">[<a class="reference internal" href="../../bibliography.html#id75" title="Zongyi Li, Nikola Kovachki, Kamyar Azizzadenesheli, Burigede Liu, Kaushik Bhattacharya, Andrew Stuart, and Anima Anandkumar. Fourier neural operator for parametric partial differential equations. arXiv preprint arXiv:2010.08895, 2021. URL: https://arxiv.org/abs/2010.08895.">40</a>]</span>, the Fourier layer is defined as</p>
+<div class="math notranslate nohighlight">
+\[FL(x) = \underbrace{\mathcal{F}^{-1}( R ( \mathcal{F}(x) ) )}_\text{Spectral Convolution} + \underbrace{W(x)}_\text{Convolution}\]</div>
+<p>The spectral convolution <span class="math notranslate nohighlight">\(\mathcal{F}^{-1}( R ( \mathcal{F}(x) ) )\)</span> is computed by UQpy’s
+<code class="docutils literal notranslate"><span class="pre">sml.functional.spectral_conv</span></code> function and <span class="math notranslate nohighlight">\(W(x)\)</span> is computed by <code class="docutils literal notranslate"><span class="pre">torch.nn.functional.conv</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">Fourier1d</span></code> layer calls <code class="docutils literal notranslate"><span class="pre">spectral_conv1d</span></code> and <code class="docutils literal notranslate"><span class="pre">conv1d</span></code> and the higher dimensional Fourier layers call the
+appropriate higher-dimensional functions.</p>
+<p>The forward Fourier transform <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> and its inverse <span class="math notranslate nohighlight">\(\mathcal{F}^{-1}\)</span> are computed by
+<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.fft</span></code>.
+The linear transformation <span class="math notranslate nohighlight">\(R\)</span> is the learnable parameter <code class="xref py py-attr docutils literal notranslate"><span class="pre">weight_spectral</span></code>.
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">weight_spectral</span></code> contains real numbers (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.float</span></code>) that are cast to complex
+(<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.cfloat</span></code>) with 0 in the imaginary component for compatibility with the spectral convolutions computed
+by the Scientific Machine Learning <code class="code docutils literal notranslate"><span class="pre">functional</span></code> submodule.
+The convolution <span class="math notranslate nohighlight">\(W\)</span> is computed by the appropriate convolution from <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.functional</span></code> using the
+learnable weights <code class="xref py py-attr docutils literal notranslate"><span class="pre">weight_conv</span></code> and optional bias <code class="xref py py-attr docutils literal notranslate"><span class="pre">bias_conv</span></code>.</p>
+<hr class="docutils" />
+<section id="fourier1d">
+<h3>Fourier1d<a class="headerlink" href="#fourier1d" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.Fourier1d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Fourier1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/Fourier1d.html#Fourier1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.Fourier1d" title="Link to this definition"></a></dt>
+<dd><p>A 1d Fourier layer to compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of neurons in the layer and channels in the spectral convolution</p></li>
+<li><p><strong>modes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of Fourier modes to keep, at most <span class="math notranslate nohighlight">\(\lfloor L / 2 \rfloor + 1\)</span></p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the convolution. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This class does <em>not</em> accept the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> argument
+since Fourier layers require real and complex tensors as described by the attributes.</p>
+</div>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, \text{width}, L)\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, \text{width}, L)\)</span></p></li>
+</ul>
+<p>Attributes:</p>
+<ul class="simple">
+<li><p><strong>weight_spectral</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable weights of the spectral convolution of
+shape <span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{modes})\)</span> with complex entries.
+The initial values of these weights are sampled from
+<span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+<li><p><strong>weight_conv</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable weights of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size})\)</span> with real entries. The <span class="math notranslate nohighlight">\(\text{kernel_size}=1\)</span>.
+The initial values of these weights are sampled from
+<span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+<li><p><strong>bias_conv</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable bias of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width})\)</span> with real entries.
+If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then the initial values of these weights are sampled from
+<span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+</ul>
+<p>The kernel for the convolution is fixed as <span class="math notranslate nohighlight">\(\text{kernel_size} = 1\)</span>.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">length</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="n">length</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">Fourier1d</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">modes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.Fourier1d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/Fourier1d.html#Fourier1d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.Fourier1d.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, \text{width}, L)\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, \text{width}, L)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="fourier2d">
+<h3>Fourier2d<a class="headerlink" href="#fourier2d" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.Fourier2d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Fourier2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/Fourier2d.html#Fourier2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.Fourier2d" title="Link to this definition"></a></dt>
+<dd><p>A 2d Fourier layer to compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of neurons in the layer and channels in the spectral convolution</p></li>
+<li><p><strong>modes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Tuple of Fourier modes to keep.
+At most <span class="math notranslate nohighlight">\((\lfloor H / 2 \rfloor + 1, \lfloor W / 2 \rfloor + 1)\)</span></p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the convolution. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, \text{width}, H, W)\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, \text{width}, H, W)\)</span></p></li>
+</ul>
+<p>Attributes:</p>
+<ul class="simple">
+<li><p><strong>weight_spectral</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable weights for the spectral
+convolution of shape <span class="math notranslate nohighlight">\((2, \text{width}, \text{width}, \text{modes[0]}, \text{modes[1]})\)</span>.
+The initial values of these weights are sampled from
+<span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+<li><p><strong>weight_conv</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable weights of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size[0]}, \text{kernel_size[1]})\)</span> with real entries.
+The <span class="math notranslate nohighlight">\(\text{kernel_size} = (1, 1)\)</span>. The initial values of these weights are sampled from
+<span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+<li><p><strong>bias_conv</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable bias of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width})\)</span> with real entries.
+If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then the initial values of these weights are sampled from
+<span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+</ul>
+<p>The kernel for the convolution is fixed as <span class="math notranslate nohighlight">\(\text{kernel_size}=(1, 1)\)</span>.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">Fourier2d</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">modes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.Fourier2d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/Fourier2d.html#Fourier2d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.Fourier2d.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, \text{width}, H, W)\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, \text{width}, H, W)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="fourier3d">
+<h3>Fourier3d<a class="headerlink" href="#fourier3d" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.Fourier3d">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Fourier3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/Fourier3d.html#Fourier3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.Fourier3d" title="Link to this definition"></a></dt>
+<dd><p>A 3d Fourier layer to compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of neurons in the layer and channels in the spectral convolution</p></li>
+<li><p><strong>modes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Tuple of Fourier modes to keep.
+At most <span class="math notranslate nohighlight">\((\lfloor D / 2 \rfloor + 1, \lfloor H / 2 \rfloor + 1, \lfloor W / 2 \rfloor + 1)\)</span></p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a learnable bias to the convolution. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>Shape:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((N, \text{width}, D, H, W)\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((N, \text{width}, D, H, W)\)</span></p></li>
+</ul>
+<p>Attributes:</p>
+<ul class="simple">
+<li><p><strong>weight_spectral</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable weights for the spectral
+convolution of shape <span class="math notranslate nohighlight">\((4, \text{width}, \text{width}, \text{modes[0]}, \text{modes[1]}, \text{modes[2]})\)</span>
+with complex entries. The initial values of these weights are sampled from
+<span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+<li><p><strong>weight_conv</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable weights of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width}, \text{width}, \text{kernel_size[0]}, \text{kernel_size[1]}, \text{kernel_size[2]})\)</span>
+with real entries. The <span class="math notranslate nohighlight">\(\text{kernel_size} = (1, 1, 1)\)</span>. The initial values of these weights are sampled
+from <span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+<li><p><strong>bias_conv</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code>): The learnable bias of the convolution of shape
+<span class="math notranslate nohighlight">\((\text{width})\)</span> with real entries. If <code class="docutils literal notranslate"><span class="pre">bias</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then the initial values of these weights
+are sampled from <span class="math notranslate nohighlight">\(\mathcal{U}(-\sqrt{k}, \sqrt{k})\)</span> where <span class="math notranslate nohighlight">\(k = \frac{1}{\text{width}}\)</span>.</p></li>
+</ul>
+<p>The kernel for the convolution is fixed as <span class="math notranslate nohighlight">\(\text{kernel_size}=(1, 1, 1)\)</span>.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">sml</span><span class="o">.</span><span class="n">Fourier3d</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">modes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.layers.Fourier3d.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/layers/Fourier3d.html#Fourier3d.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.layers.Fourier3d.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(\mathcal{F}^{-1} (R (\mathcal{F}x)) + W(x)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Tensor of shape <span class="math notranslate nohighlight">\((N, \text{width}, D, H, W)\)</span></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor of shape <span class="math notranslate nohighlight">\((N, \text{width}, D, H, W)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../auto_examples/scientific_machine_learning/mcd_trainer/NeuralNetwork_MCD.html" class="btn btn-neutral float-left" title="Probabilisitc Models with Monte Carlo Dropout" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="normalizers.html" class="btn btn-neutral float-right" title="List of Normalizer Layers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

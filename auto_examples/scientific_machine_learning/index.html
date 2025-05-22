@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scientific Machine Learning Examples &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scientific Machine Learning Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/auto_examples/scientific_machine_learning/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scientific-machine-learning-examples">
+<h1>Scientific Machine Learning Examples<a class="headerlink" href="#scientific-machine-learning-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"></div></section>
+<section id="bayesian-quickstart">
+<h1>Bayesian Quickstart<a class="headerlink" href="#bayesian-quickstart" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Bayesian Quickstart Testing"><img alt="" src="../../_images/sphx_glr_bayesian_quickstart_testing_thumb.png" />
+<p><a class="reference internal" href="bayesian_quickstart/bayesian_quickstart_testing.html#sphx-glr-auto-examples-scientific-machine-learning-bayesian-quickstart-bayesian-quickstart-testing-py"><span class="std std-ref">Bayesian Quickstart Testing</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Bayesian Quickstart Testing</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Bayesian Quickstart Training"><img alt="" src="../../_images/sphx_glr_bayesian_quickstart_training_thumb.png" />
+<p><a class="reference internal" href="bayesian_quickstart/bayesian_quickstart_training.html#sphx-glr-auto-examples-scientific-machine-learning-bayesian-quickstart-bayesian-quickstart-training-py"><span class="std std-ref">Bayesian Quickstart Training</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Bayesian Quickstart Training</div>
+</div></div></section>
+<section id="bayes-by-backpropagation-trainer-examples">
+<h1>Bayes By Backpropagation Trainer Examples<a class="headerlink" href="#bayes-by-backpropagation-trainer-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Bayesian neural network to learn the function f(x)=x^2"><img alt="" src="../../_images/sphx_glr_bbbtrainer_quadratic_thumb.png" />
+<p><a class="reference internal" href="bbb_trainer/bbbtrainer_quadratic.html#sphx-glr-auto-examples-scientific-machine-learning-bbb-trainer-bbbtrainer-quadratic-py"><span class="std std-ref">Training a Bayesian neural network</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Training a Bayesian neural network</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Bayesian neural network using Variational Inference."><img alt="" src="../../_images/sphx_glr_bbbtrainer_trig_thumb.png" />
+<p><a class="reference internal" href="bbb_trainer/bbbtrainer_trig.html#sphx-glr-auto-examples-scientific-machine-learning-bbb-trainer-bbbtrainer-trig-py"><span class="std std-ref">Training with Variational Inference</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Training with Variational Inference</div>
+</div></div></section>
+<section id="deep-operator-network-examples">
+<h1>Deep Operator Network Examples<a class="headerlink" href="#deep-operator-network-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Data generation fuction for DeepONet examples"><img alt="" src="../../_images/sphx_glr_local_integral_data_thumb.png" />
+<p><a class="reference internal" href="deep_operator_network/local_integral_data.html#sphx-glr-auto-examples-scientific-machine-learning-deep-operator-network-local-integral-data-py"><span class="std std-ref">Data generation fuction for DeepONet examples</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Data generation fuction for DeepONet examples</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Deep Operator Network to learn the operator \mathcal{L}f(x) = \int f(x) dx."><img alt="" src="../../_images/sphx_glr_integral_1d_thumb.png" />
+<p><a class="reference internal" href="deep_operator_network/integral_1d.html#sphx-glr-auto-examples-scientific-machine-learning-deep-operator-network-integral-1d-py"><span class="std std-ref">Learning the 1D Integral Operator</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Learning the 1D Integral Operator</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Bayesian DeepOperatorNetwork to learn the behavior of a linear elastic system."><img alt="" src="../../_images/sphx_glr_bayesian_linear_elastic_thumb.png" />
+<p><a class="reference internal" href="deep_operator_network/bayesian_linear_elastic.html#sphx-glr-auto-examples-scientific-machine-learning-deep-operator-network-bayesian-linear-elastic-py"><span class="std std-ref">Learning a Linear Elastic system</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Learning a Linear Elastic system</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a DeepOperatorNetwork to learn the behavior of a linear elastic system."><img alt="" src="../../_images/sphx_glr_linear_elastic_thumb.png" />
+<p><a class="reference internal" href="deep_operator_network/linear_elastic.html#sphx-glr-auto-examples-scientific-machine-learning-deep-operator-network-linear-elastic-py"><span class="std std-ref">Learning a Linear Elastic system</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Learning a Linear Elastic system</div>
+</div></div></section>
+<section id="fourier-neural-operator-examples">
+<h1>Fourier Neural Operator Examples<a class="headerlink" href="#fourier-neural-operator-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Fourier Neural Operator to learn the mapping y(x, 0) \mapsto y(x, 0.5) where y(x,t) is the solution to the Burgers&#x27; equation given by"><img alt="" src="../../_images/sphx_glr_burgers_thumb.png" />
+<p><a class="reference internal" href="fourier_neural_operator/burgers.html#sphx-glr-auto-examples-scientific-machine-learning-fourier-neural-operator-burgers-py"><span class="std std-ref">Learning the Burgers’ Operator</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Learning the Burgers' Operator</div>
+</div></div></section>
+<section id="hamiltonian-monte-carlo-examples">
+<h1>Hamiltonian Monte Carlo Examples<a class="headerlink" href="#hamiltonian-monte-carlo-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Fourier Neural Operator (FNO) using the implementation of Hamiltonian Monte Carlo (HMC) provided by the Hamiltorch (https://adamcobb.github.io/journal/hamiltorch.html) library. Our FNO learns the mapping y(x, 0) \mapsto y(x, 0.5) where y(x,t) is the solution to the Burgers&#x27; equation given by"><img alt="" src="../../_images/sphx_glr_burgers_fno_thumb.png" />
+<p><a class="reference internal" href="hmc_trainer/burgers_fno.html#sphx-glr-auto-examples-scientific-machine-learning-hmc-trainer-burgers-fno-py"><span class="std std-ref">Learning the Burgers’ Operator with HMC</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Learning the Burgers' Operator with HMC</div>
+</div></div></section>
+<section id="monte-carlo-dropout-examples">
+<h1>Monte Carlo Dropout Examples<a class="headerlink" href="#monte-carlo-dropout-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a probabilistic neural network using UQpy&#x27;s ProbabilisticDropout layers."><img alt="" src="../../_images/sphx_glr_NeuralNetwork_MCD_thumb.png" />
+<p><a class="reference internal" href="mcd_trainer/NeuralNetwork_MCD.html#sphx-glr-auto-examples-scientific-machine-learning-mcd-trainer-neuralnetwork-mcd-py"><span class="std std-ref">Probabilisitc Models with Monte Carlo Dropout</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Probabilisitc Models with Monte Carlo Dropout</div>
+</div></div></section>
+<section id="trainer-examples">
+<h1>Trainer Examples<a class="headerlink" href="#trainer-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to train a simple neural network using UQpy&#x27;s Trainer class."><img alt="" src="../../_images/sphx_glr_trainer_trig_thumb.png" />
+<p><a class="reference internal" href="trainer/trainer_trig.html#sphx-glr-auto-examples-scientific-machine-learning-trainer-trainer-trig-py"><span class="std std-ref">Training a Neural Network</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Training a Neural Network</div>
+</div></div></section>
+<section id="u-net-examples">
+<h1>U-net Examples<a class="headerlink" href="#u-net-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Learning a Stress Field with U-Nets"><img alt="" src="../../_images/sphx_glr_unet_example_thumb.png" />
+<p><a class="reference internal" href="unet/unet_example.html#sphx-glr-auto-examples-scientific-machine-learning-unet-unet-example-py"><span class="std std-ref">Learning a Stress Field with U-Nets</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Learning a Stress Field with U-Nets</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting the U-net example"><img alt="" src="../../_images/sphx_glr_unet_example_plot_thumb.png" />
+<p><a class="reference internal" href="unet/unet_example_plot.html#sphx-glr-auto-examples-scientific-machine-learning-unet-unet-example-plot-py"><span class="std std-ref">Plotting the U-net example</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plotting the U-net example</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8e82ea99130e2c4371fd9f7a56c06128/scientific_machine_learning_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">scientific_machine_learning_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/ab34fe71c0196e1a6ca442ebde469da6/scientific_machine_learning_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">scientific_machine_learning_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

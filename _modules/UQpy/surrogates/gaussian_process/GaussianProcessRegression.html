@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.surrogates.gaussian_process.GaussianProcessRegression &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.surrogates.gaussian_process.GaussianProcessRegression</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.surrogates.gaussian_process.GaussianProcessRegression</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">cholesky</span><span class="p">,</span> <span class="n">cho_solve</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.Utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_random_state</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.baseclass.Surrogate</span><span class="w"> </span><span class="kn">import</span> <span class="n">Surrogate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomStateType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.kernels.baseclass.Kernel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kernel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.constraints.baseclass.Constraints</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConstraintsGPR</span>
+
+
+<div class="viewcode-block" id="GaussianProcessRegression">
+<a class="viewcode-back" href="../../../../surrogates/gpr.html#UQpy.surrogates.gaussian_process.GaussianProcessRegression">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GaussianProcessRegression</span><span class="p">(</span><span class="n">Surrogate</span><span class="p">):</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">kernel</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">,</span>
+            <span class="n">hyperparameters</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+            <span class="n">regression_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">optimizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">optimize_constraints</span><span class="p">:</span> <span class="n">ConstraintsGPR</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">optimizations_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">noise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="p">:</span> <span class="n">RandomStateType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        GaussianProcessRegressor an Gaussian process regression-based surrogate model to predict the model output at</span>
+<span class="sd">        new sample points.</span>
+
+<span class="sd">        :param kernel: `kernel` specifies and evaluates the kernel.</span>
+<span class="sd">         Built-in options: RBF</span>
+<span class="sd">        :param hyperparameters: List or array of initial values for the kernel hyperparameters/scale parameters. This</span>
+<span class="sd">         input attribute defines the dimension of input training point, thus its length/shape should be equal to the</span>
+<span class="sd">         input dimension plus one (d+1), this list/array includes &#39;d&#39; length scale and process standard deviation. In</span>
+<span class="sd">         case of noisy observations/output, its length/shape should be equal to the input dimension plus two (d+2), this</span>
+<span class="sd">         list/array includes &#39;d&#39; lengthscales, process standard deviation and noise variance.</span>
+<span class="sd">        :param regression_model: A class object, which computes the basis function at a sample point. If</span>
+<span class="sd">         regression_model is None, this class will train GP with regression.</span>
+<span class="sd">         Default: None</span>
+<span class="sd">        :param bounds: This input attribute defines the bounds of the loguniform distributions, which randomly generates</span>
+<span class="sd">         new starting point for optimization problem to estimate maximum likelihood estimator. This should be a closed</span>
+<span class="sd">         bound.</span>
+<span class="sd">         Default: [10**-3, 10**3] for each hyperparameter and [10**-10, 10**-1] for variance in noise (if applicable).</span>
+<span class="sd">        :param optimizations_number: Number of times MLE optimization problem is to be solved with a random starting</span>
+<span class="sd">         point. Default: 1.</span>
+<span class="sd">        :param normalize: Boolean flag used in case data normalization is required.</span>
+<span class="sd">        :param optimizer: A class object of &#39;MinimizeOptimizer&#39; or &#39;FminCobyla&#39; from UQpy.utilities module. If optimizer</span>
+<span class="sd">         is not defined, this class will not solve MLE problem and predictions will be based on hyperparameters provided</span>
+<span class="sd">         as input.</span>
+<span class="sd">         Default: None.</span>
+<span class="sd">        :param noise: Boolean flag used in case of noisy training data.</span>
+<span class="sd">         Default: False</span>
+<span class="sd">        :param random_state: Random seed used to initialize the pseudo-random number generator. If an integer is</span>
+<span class="sd">         provided, this sets the seed for an object of :class:`numpy.random.RandomState`. Otherwise, the</span>
+<span class="sd">         object itself can be passed directly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regression_model</span> <span class="o">=</span> <span class="n">regression_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hyperparameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizations_number</span> <span class="o">=</span> <span class="n">optimizations_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimize_constraints</span> <span class="o">=</span> <span class="n">optimize_constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="n">normalize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="o">=</span> <span class="n">noise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+
+        <span class="c1"># Variables are used outside the __init__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_std</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value_mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_std</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rmodel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmodel</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Regression coefficients.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">err_var</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Variance of the Gaussian random process.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">F_dash</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_inv</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inverse Cholesky decomposition of the correlation matrix.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">_bounds</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_define_bounds</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">_bounds</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">jac</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">process_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_define_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">bounds_</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">10</span> <span class="o">**</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">3</span><span class="p">]]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span><span class="p">:</span>
+            <span class="n">bounds_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span> <span class="o">**</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span> <span class="o">**</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds_</span>
+
+<div class="viewcode-block" id="GaussianProcessRegression.fit">
+<a class="viewcode-back" href="../../../../surrogates/gpr.html#UQpy.surrogates.gaussian_process.GaussianProcessRegression.fit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">samples</span><span class="p">,</span>
+            <span class="n">values</span><span class="p">,</span>
+            <span class="n">optimizations_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">hyperparameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit the surrogate model using the training samples and the corresponding model values.</span>
+
+<span class="sd">        The user can run this method multiple time after initiating the :class:`.GaussianProcessRegressor` class object.</span>
+
+<span class="sd">        This method updates the samples and parameters of the :class:`.GaussianProcessRegressor` object. This method</span>
+<span class="sd">        uses `hyperparameters` from previous run as the starting point for MLE problem unless user provides a new</span>
+<span class="sd">        starting point.</span>
+
+<span class="sd">        :param samples: `ndarray` containing the training points.</span>
+<span class="sd">        :param values: `ndarray` containing the model evaluations at the training points.</span>
+<span class="sd">        :param optimizations_number: number of optimization iterations</span>
+<span class="sd">        :param hyperparameters: List or array of initial values for the kernel hyperparameters/scale parameters.</span>
+
+<span class="sd">        The :meth:`fit` method has no returns, although it creates the `beta`, `err_var` and `C_inv` attributes of the</span>
+<span class="sd">        :class:`.GaussianProcessRegressor` class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Running gpr.fit&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">optimizations_number</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">optimizations_number</span> <span class="o">=</span> <span class="n">optimizations_number</span>
+        <span class="k">if</span> <span class="n">hyperparameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hyperparameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+        <span class="c1"># Number of samples and dimensions of samples and values</span>
+        <span class="n">nsamples</span><span class="p">,</span> <span class="n">input_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">output_dim</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="n">nsamples</span><span class="p">)</span>
+
+        <span class="c1"># Verify the length of hyperparameters and input dimension</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">input_dim</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;UQpy: The length/shape of attribute &#39;hyperparameter&#39; and input dimension are not &quot;</span>
+                                   <span class="s2">&quot;consistent.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">input_dim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;UQpy: The length/shape of attribute &#39;hyperparameter&#39; and input dimension are not &quot;</span>
+                               <span class="s2">&quot;consistent.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+
+        <span class="c1"># Normalizing the data</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample_mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value_mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">s_</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_std</span>
+            <span class="n">y_</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_std</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span>
+            <span class="n">y_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression_model</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">s_</span><span class="p">)</span>
+
+        <span class="c1"># Maximum Likelihood Estimation : Solving optimization problem to calculate hyperparameters</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># To ensure that cholesky of covariance matrix is computed again during optimization</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">]</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">]</span>
+
+            <span class="n">starting_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">lb</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">ub</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizations_number</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)))</span>
+            <span class="n">starting_point</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_constraints</span><span class="o">.</span><span class="n">define_arguments</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">apply_constraints</span><span class="p">(</span><span class="n">constraints</span><span class="o">=</span><span class="n">cons</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">apply_constraints_argument</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimize_constraints</span><span class="o">.</span><span class="n">constraint_args</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">log_bounds</span> <span class="o">=</span> <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">update_bounds</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">log_bounds</span><span class="p">)</span>
+
+            <span class="n">minimizer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizations_number</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)])</span>
+            <span class="n">fun_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizations_number</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">i__</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizations_number</span><span class="p">):</span>
+                <span class="n">p_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">GaussianProcessRegression</span><span class="o">.</span><span class="n">log_likelihood</span><span class="p">,</span>
+                                             <span class="n">initial_guess</span><span class="o">=</span><span class="n">starting_point</span><span class="p">[</span><span class="n">i__</span><span class="p">,</span> <span class="p">:],</span>
+                                             <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span> <span class="n">s_</span><span class="p">,</span> <span class="n">y_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">),</span>
+                                             <span class="n">jac</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">jac</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                    <span class="n">minimizer</span><span class="p">[</span><span class="n">i__</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">p_</span>
+                    <span class="n">fun_value</span><span class="p">[</span><span class="n">i__</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">GaussianProcessRegression</span><span class="o">.</span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">p_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span> <span class="n">s_</span><span class="p">,</span> <span class="n">y_</span><span class="p">,</span>
+                                                                                 <span class="bp">self</span><span class="o">.</span><span class="n">noise</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">minimizer</span><span class="p">[</span><span class="n">i__</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">p_</span><span class="o">.</span><span class="n">x</span>
+                    <span class="n">fun_value</span><span class="p">[</span><span class="n">i__</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_</span><span class="o">.</span><span class="n">fun</span>
+
+            <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">fun_value</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Maximum likelihood estimator failed: Choose different starting point or &quot;</span>
+                                          <span class="s2">&quot;increase nopt&quot;</span><span class="p">)</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">fun_value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">minimizer</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="c1"># Updated Correlation matrix corresponding to MLE estimates of hyperparameters</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">kernel_parameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">s_</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s_</span><span class="p">)</span> <span class="o">+</span> \
+                     <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">kernel_parameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">s_</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s_</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">+</span> <span class="mf">1e-10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nsamples</span><span class="p">),</span> <span class="n">lower</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_</span> <span class="o">=</span> <span class="n">cho_solve</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="n">y_</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Compute the regression coefficient (solving this linear equation: F * beta = Y)</span>
+            <span class="c1"># Eq: 3.8, DACE</span>
+            <span class="n">f_dash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
+            <span class="n">y_dash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+            <span class="n">q_</span><span class="p">,</span> <span class="n">g_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">f_dash</span><span class="p">)</span>  <span class="c1"># Eq: 3.11, DACE</span>
+            <span class="c1"># Check if F is a full rank matrix</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">g_</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="mi">1</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Chosen regression functions are not sufficiently linearly independent&quot;</span><span class="p">)</span>
+            <span class="c1"># Design parameters (beta: regression coefficient)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">g_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">q_</span><span class="p">),</span> <span class="n">y_dash</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,jk-&gt;ik&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_</span> <span class="o">=</span> <span class="n">cho_solve</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="n">y_</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: gpr fit complete.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GaussianProcessRegression.predict">
+<a class="viewcode-back" href="../../../../surrogates/gpr.html#UQpy.surrogates.gaussian_process.GaussianProcessRegression.predict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">return_std</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">hyperparameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predict the model response at new points.</span>
+
+<span class="sd">        This method evaluates the regression and correlation model at new sample points. Then, it predicts the function</span>
+<span class="sd">        value and standard deviation.</span>
+
+<span class="sd">        :param points: Points at which to predict the model response.</span>
+<span class="sd">        :param return_std: Indicator to estimate standard deviation.</span>
+<span class="sd">        :param hyperparameters: Hyperparameters for correlation model.</span>
+<span class="sd">        :return: Predicted values at the new points, Standard deviation of predicted values at the new points</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+            <span class="n">x_</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_std</span>
+            <span class="n">s_</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_std</span>
+            <span class="n">y_</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_std</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span>
+            <span class="n">y_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">if</span> <span class="n">hyperparameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">hyperparameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hyperparameters</span>
+
+        <span class="n">noise_std</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">kernelparameters</span> <span class="o">=</span> <span class="n">hyperparameters</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span><span class="p">:</span>
+            <span class="n">kernelparameters</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">noise_std</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">hyperparameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># This is used for MLE constraints, if constraints call &#39;predict&#39; method.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">kernel_parameter</span> <span class="o">=</span> <span class="n">kernelparameters</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">kernelparameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sigma</span> <span class="o">=</span> <span class="n">kernelparameters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;kernelparameters is None&#39;</span><span class="p">)</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">s_</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s_</span><span class="p">)</span> <span class="o">+</span> \
+                <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">noise_std</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">K</span> <span class="o">+</span> <span class="mf">1e-10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">f_dash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
+                <span class="n">y_dash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+                <span class="n">q_</span><span class="p">,</span> <span class="n">g_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">f_dash</span><span class="p">)</span>  <span class="c1"># Eq: 3.11, DACE</span>
+                <span class="c1"># Check if F is a full rank matrix</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">g_</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="mi">1</span><span class="p">)):</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Chosen regression functions are not sufficiently linearly independent&quot;</span><span class="p">)</span>
+                <span class="c1"># Design parameters (beta: regression coefficient)</span>
+                <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">g_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">q_</span><span class="p">),</span> <span class="n">y_dash</span><span class="p">))</span>
+                <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,jk-&gt;ik&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+            <span class="n">alpha_</span> <span class="o">=</span> <span class="n">cho_solve</span><span class="p">((</span><span class="n">cc</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="n">y_</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cc</span><span class="p">,</span> <span class="n">alpha_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_</span>
+
+        <span class="n">mu1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression_model</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">mu1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,jk-&gt;ik&quot;</span><span class="p">,</span> <span class="n">fx</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mu1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,jk-&gt;ik&quot;</span><span class="p">,</span> <span class="n">fx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kernelparameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">kernel_parameter</span> <span class="o">=</span> <span class="n">kernelparameters</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">kernelparameters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s_</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">mu1</span> <span class="o">+</span> <span class="n">k</span> <span class="o">@</span> <span class="n">alpha_</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_mean</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_std</span>
+        <span class="k">if</span> <span class="n">x_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">return_std</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">kernel_parameter</span> <span class="o">=</span> <span class="n">kernelparameters</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">kernelparameters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">k1</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">x_</span><span class="p">)</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="p">(</span><span class="n">k1</span> <span class="o">-</span> <span class="n">k</span> <span class="o">@</span> <span class="n">cho_solve</span><span class="p">((</span><span class="n">cc</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="n">k</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+            <span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+                <span class="n">mse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_std</span> <span class="o">*</span> <span class="n">mse</span>
+            <span class="k">if</span> <span class="n">x_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">mse</span> <span class="o">=</span> <span class="n">mse</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">mse</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_likelihood</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">k_</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ind_noise</span><span class="p">,</span> <span class="n">fx_</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param p0: An 1-D numpy array of hyperparameters, that are identified through MLE. The last two elements are</span>
+<span class="sd">                   process variance and data noise, rest of the elements are length scale along each input dimension.</span>
+<span class="sd">        :param k_: Kernel</span>
+<span class="sd">        :param s: Input training data</span>
+<span class="sd">        :param y: Output training data</span>
+<span class="sd">        :param ind_noise: Boolean flag to indicate the noisy output</span>
+<span class="sd">        :param fx_: Basis function evaluated at training points</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Return the log-likelihood function and it&#39;s gradient. Gradient is calculated using Central Difference</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">ind_noise</span><span class="p">:</span>
+            <span class="n">k_</span><span class="o">.</span><span class="n">kernel_parameter</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">p0</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">p0</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">k__</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k_</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="n">p0</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">k_</span><span class="o">.</span><span class="n">kernel_parameter</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">p0</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">p0</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">k__</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k_</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="n">k__</span> <span class="o">+</span> <span class="mf">1e-10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">lower</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">fx_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">f_dash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="n">fx_</span><span class="p">)</span>
+            <span class="n">y_dash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">q_</span><span class="p">,</span> <span class="n">g_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">f_dash</span><span class="p">)</span>  <span class="c1"># Eq: 3.11, DACE</span>
+            <span class="c1"># Check if F is a full rank matrix</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">g_</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">fx_</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">fx_</span><span class="p">,</span> <span class="mi">1</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Chosen regression functions are not sufficiently linearly independent&quot;</span><span class="p">)</span>
+            <span class="c1"># Design parameters (beta: regression coefficient)</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">g_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">q_</span><span class="p">),</span> <span class="n">y_dash</span><span class="p">))</span>
+            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,jk-&gt;ik&quot;</span><span class="p">,</span> <span class="n">fx_</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+
+        <span class="n">term1</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">cho_solve</span><span class="p">((</span><span class="n">cc</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="n">y</span> <span class="o">-</span> <span class="n">mu</span><span class="p">))</span>
+        <span class="n">term2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">cc</span><span class="p">))))</span>
+
+        <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">term1</span> <span class="o">+</span> <span class="n">term2</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

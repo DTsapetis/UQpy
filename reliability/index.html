@@ -1,0 +1,157 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reliability &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Subset Simulation" href="subset.html" />
+    <link rel="prev" title="Bayes Model Selection - Regression Models" href="../auto_examples/inference/bayes_model_selection/bayes_model_selection.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reliability</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subset.html"> Subset Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="taylor_series.html"> Taylor Series</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Reliability</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reliability/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reliability">
+<h1>Reliability<a class="headerlink" href="#reliability" title="Link to this heading"></a></h1>
+<p>Reliability of a system refers to the assessment of its probability of failure (i.e the system no longer satisfies some
+performance measures), given the model uncertainty in the structural, environmental and load parameters. Given a vector
+of random variables <span class="math notranslate nohighlight">\(\textbf{X}=[X_1, X_2, \ldots, X_n]^T \in \mathcal{D}_\textbf{X}\subset \mathbb{R}^n\)</span>, where
+<span class="math notranslate nohighlight">\(\mathcal{D}\)</span> is the domain of interest and <span class="math notranslate nohighlight">\(f_{\textbf{X}}(\textbf{x})\)</span> is its joint probability density
+function then, the probability that the system will fail is defined as</p>
+<div class="math notranslate nohighlight">
+\[P_f =\mathbb{P}(g(\textbf{X}) \leq 0) = \int_{\mathcal{D}_f} f_{\textbf{X}}(\textbf{x})d\textbf{x} = \int_{\{\textbf{X}:g(\textbf{X})\leq 0 \}} f_{\textbf{X}}(\textbf{x})d\textbf{x}\]</div>
+<p>where <span class="math notranslate nohighlight">\(g(\textbf{X})\)</span> is the so-called performance function and <span class="math notranslate nohighlight">\(\mathcal{D}_f=\{\textbf{X}:g(\textbf{X})\leq 0 \}\)</span> is the failure domain.
+The reliability problem is often formulated in the
+standard normal space <span class="math notranslate nohighlight">\(\textbf{U}\sim \mathcal{N}(\textbf{0}, \textbf{I}_n)\)</span>, which means that a nonlinear
+isoprobabilistic  transformation from the generally non-normal parameter space
+<span class="math notranslate nohighlight">\(\textbf{X}\sim f_{\textbf{X}}(\cdot)\)</span> to the standard normal space is required (see the <code class="xref py py-mod docutils literal notranslate"><span class="pre">transformations</span></code> module).
+The performance function in the standard normal space is denoted <span class="math notranslate nohighlight">\(G(\textbf{U})\)</span>. <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> does not require this
+transformation and can support reliability analysis for problems with arbitrarily distributed parameters.</p>
+<p>This module contains functionality for all reliability methods supported in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>.
+The module currently contains the following classes:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">TaylorSeries</span></code>: Class to perform reliability analysis using First Order Reliability Method (<code class="xref py py-class docutils literal notranslate"><span class="pre">FORM</span></code>),
+Inverse First Order Reliability Method (<code class="xref py py-class docutils literal notranslate"><span class="pre">InverseFORM</span></code>) and Second Order Reliability Method (<code class="xref py py-class docutils literal notranslate"><span class="pre">SORM</span></code>).</p></li>
+<li><p><a class="reference internal" href="subset.html#UQpy.reliability.SubsetSimulation" title="UQpy.reliability.SubsetSimulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SubsetSimulation</span></code></a>: Class to perform reliability analysis using subset simulation.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/inference/bayes_model_selection/bayes_model_selection.html" class="btn btn-neutral float-left" title="Bayes Model Selection - Regression Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="subset.html" class="btn btn-neutral float-right" title="Subset Simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

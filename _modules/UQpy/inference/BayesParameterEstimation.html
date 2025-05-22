@@ -1,0 +1,222 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.inference.BayesParameterEstimation &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.inference.BayesParameterEstimation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.inference.BayesParameterEstimation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">PositiveInteger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.inference_models.baseclass.InferenceModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">ImportanceSampling</span>
+
+
+<div class="viewcode-block" id="BayesParameterEstimation">
+<a class="viewcode-back" href="../../../inference/bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BayesParameterEstimation</span><span class="p">:</span>
+    <span class="c1"># Authors: Audrey Olivier, Dimitris Giovanis</span>
+    <span class="c1"># Last Modified: 12/19 by Audrey Olivier</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inference_model</span><span class="p">:</span> <span class="n">InferenceModel</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">sampling_class</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MCMC</span><span class="p">,</span> <span class="n">ImportanceSampling</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">nsamples</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate the parameter posterior density given some data.</span>
+
+<span class="sd">        This class generates samples from the parameter posterior distribution using Markov Chain Monte Carlo or</span>
+<span class="sd">        Importance Sampling. It leverages the :class:`.MCMC` and :class:`.ImportanceSampling` classes from the</span>
+<span class="sd">        :py:mod:`.sampling` module.</span>
+
+<span class="sd">        :param inference_model: The inference model that defines the likelihood function.</span>
+<span class="sd">        :param data: Available data, :class:`numpy.ndarray` of shape consistent with log-likelihood function in</span>
+<span class="sd">         :class:`.InferenceModel`</span>
+<span class="sd">        :param sampling_class: Class instance, must be a subclass of :class:`.MCMC` or :class:`.ImportanceSampling`.</span>
+<span class="sd">        :param nsamples: Number of samples used in :class:`.MCMC`/:class:`ImportanceSampling`, see</span>
+<span class="sd">         :meth:`run` method. If the `nsamples` parameter is provided then :class:`.BayesParameterEstimation` is</span>
+<span class="sd">         automatically performed. In case an :class:`.ImportanceSampling` method is used to perform the parameter</span>
+<span class="sd">         estimation, then `nsamples` equal to the total number of samples. In case an :class:`.MCMC` sampler is used,</span>
+<span class="sd">         and the given `nsamples` is not a multiple of `n_chains`, then `nsamples` is set to the next largest integer</span>
+<span class="sd">         that is a multiple of  `nchains`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inference_model</span> <span class="o">=</span> <span class="n">inference_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MCMC</span><span class="p">,</span> <span class="n">ImportanceSampling</span><span class="p">]</span> <span class="o">=</span> <span class="n">sampling_class</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sampling method object, contains e.g. the posterior samples.</span>
+
+<span class="sd">        This must be created along side the :class:`.BayesParameterEstimation` object, and its run method is called </span>
+<span class="sd">        whenever the :py:meth:`run` method of the :class:`.BayesParameterEstimation` is called.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="p">,</span> <span class="n">ImportanceSampling</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">proposal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">prior</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                        <span class="s2">&quot;UQpy: A proposal density of the ImportanceSampling&quot;</span>
+                        <span class="s2">&quot; or a prior to the Inference model  must be provided.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">proposal</span> <span class="o">=</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">prior</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">_args_target</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">,)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">log_pdf_target</span> <span class="o">=</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">evaluate_log_posterior</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="p">,</span> <span class="n">MCMC</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">_initialization_seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">prior</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">inference_model</span><span class="o">.</span><span class="n">prior</span><span class="p">,</span> <span class="s2">&quot;rvs&quot;</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;UQpy: A prior with a rvs method must be provided for the InferenceModel&quot;</span>
+                        <span class="s2">&quot; or a seed must be provided for MCMC.&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">n_chains</span><span class="p">,</span>
+                                                                  <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">log_pdf_target</span> <span class="o">=</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">evaluate_log_posterior</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">pdf_target</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">args_target</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">,)</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">,</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">evaluate_log_target_marginals</span><span class="p">,)</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">_preprocess_target</span><span class="p">(</span><span class="n">pdf_</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                                <span class="n">log_pdf_</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">log_pdf_target</span><span class="p">,</span>
+                                                <span class="n">args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">args_target</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">nsamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BayesParameterEstimation.run">
+<a class="viewcode-back" href="../../../inference/bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the Bayesian inference procedure, i.e., sample from the parameter posterior distribution.</span>
+
+<span class="sd">        This function calls the :meth:`run` method of the :py:attr:`.sampler` attribute to generate samples from the</span>
+<span class="sd">        parameter posterior distribution.</span>
+
+<span class="sd">        :param nsamples: Number of samples used in :class:`.MCMC`/:class:`.ImportanceSampling`.  In case an</span>
+<span class="sd">         :class:`.ImportanceSampling` method is used to perform the parameter estimation, then `nsamples` equal to the</span>
+<span class="sd">         total number of samples. In case an :class:`.MCMC` sampler is used, and the given `nsamples` is not a multiple</span>
+<span class="sd">         of `n_chains`, then `nsamples` is set to the next largest integer that is a multiple of  `nchains`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Parameter estimation with &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+                         <span class="o">+</span> <span class="s2">&quot; completed successfully!&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

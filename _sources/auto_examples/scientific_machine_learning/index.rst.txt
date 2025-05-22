@@ -1,0 +1,418 @@
+:orphan:
+
+Scientific Machine Learning Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+Bayesian Quickstart
+^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Bayesian Quickstart Testing">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/bayesian_quickstart/images/thumb/sphx_glr_bayesian_quickstart_testing_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_bayesian_quickstart_bayesian_quickstart_testing.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Bayesian Quickstart Testing</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Bayesian Quickstart Training">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/bayesian_quickstart/images/thumb/sphx_glr_bayesian_quickstart_training_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_bayesian_quickstart_bayesian_quickstart_training.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Bayesian Quickstart Training</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+Bayes By Backpropagation Trainer Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Bayesian neural network to learn the function f(x)=x^2">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/bbb_trainer/images/thumb/sphx_glr_bbbtrainer_quadratic_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_bbb_trainer_bbbtrainer_quadratic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Training a Bayesian neural network</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Bayesian neural network using Variational Inference.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/bbb_trainer/images/thumb/sphx_glr_bbbtrainer_trig_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_bbb_trainer_bbbtrainer_trig.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Training with Variational Inference</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+Deep Operator Network Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Data generation fuction for DeepONet examples">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/deep_operator_network/images/thumb/sphx_glr_local_integral_data_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network_local_integral_data.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Data generation fuction for DeepONet examples</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Deep Operator Network to learn the operator \mathcal{L}f(x) = \int f(x) dx.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/deep_operator_network/images/thumb/sphx_glr_integral_1d_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network_integral_1d.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning the 1D Integral Operator</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Bayesian DeepOperatorNetwork to learn the behavior of a linear elastic system.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/deep_operator_network/images/thumb/sphx_glr_bayesian_linear_elastic_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network_bayesian_linear_elastic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning a Linear Elastic system</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a DeepOperatorNetwork to learn the behavior of a linear elastic system.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/deep_operator_network/images/thumb/sphx_glr_linear_elastic_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_deep_operator_network_linear_elastic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning a Linear Elastic system</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+Fourier Neural Operator Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Fourier Neural Operator to learn the mapping y(x, 0) \mapsto y(x, 0.5) where y(x,t) is the solution to the Burgers&#x27; equation given by">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/fourier_neural_operator/images/thumb/sphx_glr_burgers_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_fourier_neural_operator_burgers.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning the Burgers' Operator</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+Hamiltonian Monte Carlo Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we train a Fourier Neural Operator (FNO) using the implementation of Hamiltonian Monte Carlo (HMC) provided by the Hamiltorch (https://adamcobb.github.io/journal/hamiltorch.html) library. Our FNO learns the mapping y(x, 0) \mapsto y(x, 0.5) where y(x,t) is the solution to the Burgers&#x27; equation given by">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/hmc_trainer/images/thumb/sphx_glr_burgers_fno_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_hmc_trainer_burgers_fno.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning the Burgers' Operator with HMC</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+Monte Carlo Dropout Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a probabilistic neural network using UQpy&#x27;s ProbabilisticDropout layers.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/mcd_trainer/images/thumb/sphx_glr_NeuralNetwork_MCD_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_mcd_trainer_NeuralNetwork_MCD.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Probabilisitc Models with Monte Carlo Dropout</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+Trainer Examples
+^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to train a simple neural network using UQpy&#x27;s Trainer class.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/trainer/images/thumb/sphx_glr_trainer_trig_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_trainer_trainer_trig.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Training a Neural Network</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+U-net Examples
+^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Learning a Stress Field with U-Nets">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/unet/images/thumb/sphx_glr_unet_example_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_unet_unet_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning a Stress Field with U-Nets</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plotting the U-net example">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/unet/images/thumb/sphx_glr_unet_example_plot_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_unet_unet_example_plot.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plotting the U-net example</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+   :includehidden:
+
+
+   /auto_examples/scientific_machine_learning//bayesian_quickstart/index.rst
+   /auto_examples/scientific_machine_learning//bbb_trainer/index.rst
+   /auto_examples/scientific_machine_learning//deep_operator_network/index.rst
+   /auto_examples/scientific_machine_learning//fourier_neural_operator/index.rst
+   /auto_examples/scientific_machine_learning//hmc_trainer/index.rst
+   /auto_examples/scientific_machine_learning//mcd_trainer/index.rst
+   /auto_examples/scientific_machine_learning//trainer/index.rst
+   /auto_examples/scientific_machine_learning//unet/index.rst
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: scientific_machine_learning_python.zip </auto_examples/scientific_machine_learning/scientific_machine_learning_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: scientific_machine_learning_jupyter.zip </auto_examples/scientific_machine_learning/scientific_machine_learning_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sampling.stratified_sampling.strata.VoronoiStrata &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../../index.html">
+            
+              <img src="../../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sampling.stratified_sampling.strata.VoronoiStrata</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sampling.stratified_sampling.strata.VoronoiStrata</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.strata.DelaunayStrata</span><span class="w"> </span><span class="kn">import</span> <span class="n">DelaunayStrata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.strata.baseclass.Strata</span><span class="w"> </span><span class="kn">import</span> <span class="n">Strata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.SimplexSampling</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomStateType</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Voronoi</span>
+
+
+<div class="viewcode-block" id="VoronoiStrata">
+<a class="viewcode-back" href="../../../../../sampling/strata/voronoi_strata.html#UQpy.sampling.stratified_sampling.strata.VoronoiStrata">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VoronoiStrata</span><span class="p">(</span><span class="n">Strata</span><span class="p">):</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">seeds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">seeds_number</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">dimension</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">decomposition_iterations</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="p">:</span> <span class="n">RandomStateType</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define a geometric decomposition of the n-dimensional unit hypercube into disjoint and space-filling</span>
+<span class="sd">        Voronoi strata.</span>
+
+<span class="sd">        :param seeds: An array of dimension :math:`N * n` specifying the seeds of all strata. The seeds of the strata</span>
+<span class="sd">         are the coordinates of the point inside each stratum that defines the stratum. The user must provide `seeds` or</span>
+<span class="sd">         `seeds_number` and `dimension`</span>
+<span class="sd">        :param seeds_number: The number of seeds to randomly generate. Seeds are generated by random sampling on the</span>
+<span class="sd">         unit hypercube. The user must provide `seeds` or `seeds_number` and `dimension`</span>
+<span class="sd">        :param dimension: The dimension of the unit hypercube in which to generate random seeds. Used only if</span>
+<span class="sd">         `seeds_number` is provided. The user must provide `seeds` or `seeds_number` and `dimension`</span>
+<span class="sd">        :param decomposition_iterations: Number of iterations to perform to create a Centroidal Voronoi decomposition.</span>
+<span class="sd">         If :code:`decomposition_iterations = 0`, the Voronoi decomposition is based on the provided or generated seeds.</span>
+<span class="sd">         If :code:`decomposition_iterations &gt;= 1`, the seed points are moved to the centroids of the Voronoi cells</span>
+<span class="sd">         in each iteration and a new Voronoi decomposition is performed. This process is repeated</span>
+<span class="sd">         `decomposition_iterations` times to create a Centroidal Voronoi decomposition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">seeds</span><span class="o">=</span><span class="n">seeds</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seeds_number</span> <span class="o">=</span> <span class="n">seeds_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="n">dimension</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decomposition_iterations</span> <span class="o">=</span> <span class="n">decomposition_iterations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="p">:</span> <span class="n">Voronoi</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines a Voronoi decomposition of the set of reflected points. When creating the Voronoi decomposition on</span>
+<span class="sd">        the unit hypercube, the code reflects the points on the unit hypercube across all faces of the unit hypercube.</span>
+<span class="sd">        This causes the Voronoi decomposition to create edges along the faces of the hypercube.</span>
+<span class="sd">        </span>
+<span class="sd">        This object is not the Voronoi decomposition of the unit hypercube. It is the Voronoi decomposition of all</span>
+<span class="sd">        points and their reflections from which the unit hypercube is extracted.</span>
+<span class="sd">        </span>
+<span class="sd">        To access the vertices in the unit hypercube, see the attribute :py:attr:`vertices`.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of the vertices for each Voronoi stratum on the unit hypercube.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">seeds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">seeds_number</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;UQpy: Ignoring &#39;nseeds&#39; and &#39;dimension&#39; attributes because &#39;seeds&#39; are provided&quot;</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seeds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stratify</span><span class="p">()</span>
+
+<div class="viewcode-block" id="VoronoiStrata.stratify">
+<a class="viewcode-back" href="../../../../../sampling/strata/voronoi_strata.html#UQpy.sampling.stratified_sampling.strata.VoronoiStrata.stratify">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stratify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs the Voronoi stratification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Creating Voronoi stratification ...&quot;</span><span class="p">)</span>
+
+        <span class="n">initial_seeds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seeds</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">seeds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">initial_seeds</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">uniform</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">seeds_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">],</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">decomposition_iterations</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cent</span><span class="p">,</span> <span class="n">vol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_volume</span><span class="p">(</span><span class="n">initial_seeds</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vol</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decomposition_iterations</span><span class="p">):</span>
+                <span class="n">cent</span><span class="p">,</span> <span class="n">vol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_volume</span><span class="p">(</span><span class="n">initial_seeds</span><span class="p">)</span>
+                <span class="n">initial_seeds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cent</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vol</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">seeds</span> <span class="o">=</span> <span class="n">initial_seeds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Voronoi stratification created.&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_seeds</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="p">,</span> <span class="n">bounded_regions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voronoi_unit_hypercube</span><span class="p">(</span><span class="n">initial_seeds</span><span class="p">)</span>
+        <span class="n">cent</span><span class="p">,</span> <span class="n">vol</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">bounded_regions</span><span class="p">:</span>
+            <span class="n">vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">region</span> <span class="o">+</span> <span class="p">[</span><span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">:]</span>
+            <span class="n">centroid</span><span class="p">,</span> <span class="n">volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_voronoi_centroid_volume</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="n">cent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="n">vol</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cent</span><span class="p">,</span> <span class="n">vol</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">voronoi_unit_hypercube</span><span class="p">(</span><span class="n">seeds</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Voronoi</span>
+
+        <span class="c1"># Mirror the seeds in both low and high directions for each dimension</span>
+        <span class="n">bounded_points</span> <span class="o">=</span> <span class="n">seeds</span>
+        <span class="n">dimension</span> <span class="o">=</span> <span class="n">seeds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimension</span><span class="p">):</span>
+            <span class="n">seeds_del</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">bounded_points</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">points_temp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="o">-</span><span class="n">bounded_points</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">seeds_del</span><span class="p">])</span>
+                <span class="n">points_temp2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">bounded_points</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">seeds_del</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">dimension</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">points_temp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">seeds_del</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="o">-</span><span class="n">bounded_points</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">])</span>
+                <span class="n">points_temp2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">seeds_del</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">bounded_points</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">points_temp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">seeds_del</span><span class="p">[:,</span> <span class="p">:</span><span class="n">i</span><span class="p">],</span>
+                                          <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="o">-</span><span class="n">bounded_points</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                          <span class="n">seeds_del</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:],</span> <span class="p">])</span>
+                <span class="n">points_temp2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">seeds_del</span><span class="p">[:,</span> <span class="p">:</span><span class="n">i</span><span class="p">],</span>
+                                          <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">bounded_points</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                          <span class="n">seeds_del</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:],])</span>
+            <span class="n">seeds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">points_temp1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">seeds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">points_temp2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">vor</span> <span class="o">=</span> <span class="n">Voronoi</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">incremental</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">regions</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">bounded_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bounded_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">vor</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">point_region</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+
+        <span class="n">bounded_regions</span> <span class="o">=</span> <span class="n">regions</span>
+
+        <span class="k">return</span> <span class="n">vor</span><span class="p">,</span> <span class="n">bounded_regions</span>
+
+<div class="viewcode-block" id="VoronoiStrata.compute_voronoi_centroid_volume">
+<a class="viewcode-back" href="../../../../../sampling/strata/voronoi_strata.html#UQpy.sampling.stratified_sampling.strata.VoronoiStrata.compute_voronoi_centroid_volume">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_voronoi_centroid_volume</span><span class="p">(</span><span class="n">vertices</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function computes the centroid and volume of a Voronoi cell from its vertices.</span>
+
+<span class="sd">        :param vertices: Coordinates of the vertices that define the Voronoi cell.</span>
+<span class="sd">        :return: Centroid and Volume of the Voronoi cell</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Delaunay</span><span class="p">,</span> <span class="n">ConvexHull</span>
+
+        <span class="n">tess</span> <span class="o">=</span> <span class="n">Delaunay</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="n">dimension</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">vertices</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tess</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">cent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tess</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">,</span> <span class="n">dimension</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tess</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">):</span>
+            <span class="c1"># pylint: disable=E1136</span>
+            <span class="n">ch</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">tess</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">tess</span><span class="o">.</span><span class="n">simplices</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+            <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">volume</span>
+            <span class="n">cent</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tess</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">tess</span><span class="o">.</span><span class="n">simplices</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">volume</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">volume</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cent</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">centroid</span><span class="p">,</span> <span class="n">volume</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_strata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamples_per_stratum</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Delaunay</span><span class="p">,</span> <span class="n">ConvexHull</span>
+
+        <span class="n">samples_in_strata</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="p">):</span>  <span class="c1"># For each bounded region (Voronoi stratification)</span>
+            <span class="n">vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seeds</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">seed_and_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">vertices</span><span class="p">,</span> <span class="n">seed</span><span class="p">])</span>
+
+            <span class="c1"># Create Dealunay Triangulation using seed and vertices of each stratum</span>
+            <span class="n">delaunay_obj</span> <span class="o">=</span> <span class="n">Delaunay</span><span class="p">(</span><span class="n">seed_and_vertices</span><span class="p">)</span>
+
+            <span class="c1"># Compute volume of each delaunay</span>
+            <span class="n">volume</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">delaunay_obj</span><span class="o">.</span><span class="n">simplices</span><span class="p">)):</span>
+                <span class="n">vert</span> <span class="o">=</span> <span class="n">delaunay_obj</span><span class="o">.</span><span class="n">simplices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">ch</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">seed_and_vertices</span><span class="p">[</span><span class="n">vert</span><span class="p">])</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span>
+
+            <span class="n">temp_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">delaunay_obj</span><span class="o">.</span><span class="n">simplices</span><span class="p">)))</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nsamples_per_stratum</span><span class="p">[</span><span class="n">j</span><span class="p">])):</span>
+                <span class="n">simplex</span> <span class="o">=</span> <span class="n">random_state</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">temp_prob</span><span class="p">)</span>
+
+                <span class="n">new_samples</span> <span class="o">=</span> <span class="n">SimplexSampling</span><span class="p">(</span>
+                    <span class="n">nodes</span><span class="o">=</span><span class="n">seed_and_vertices</span><span class="p">[</span><span class="n">delaunay_obj</span><span class="o">.</span><span class="n">simplices</span><span class="p">[</span><span class="n">simplex</span><span class="p">]],</span>
+                    <span class="n">nsamples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">samples</span>
+                <span class="n">samples_in_strata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_samples</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">extend_weights</span><span class="p">(</span><span class="n">nsamples_per_stratum</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">samples_in_strata</span><span class="p">,</span> <span class="n">weights</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_centroids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># if self.mesh is None:</span>
+        <span class="c1">#     self.add_boundary_points_and_construct_delaunay()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">qhull</span><span class="p">,</span> <span class="n">ConvexHull</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ConvexHull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">simplices</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">centroids</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> \
+                    <span class="n">DelaunayStrata</span><span class="o">.</span><span class="n">compute_delaunay_centroid_volume</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">simplices</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+            <span class="k">except</span> <span class="n">qhull</span><span class="o">.</span><span class="n">QhullError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">centroids</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">]]),</span> <span class="mi">0</span><span class="p">,)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples_number</span><span class="p">,</span> <span class="n">training_points</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_boundary_points_and_construct_delaunay</span><span class="p">(</span><span class="n">samples_number</span><span class="p">,</span> <span class="n">training_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">old_vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">simplices</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<div class="viewcode-block" id="VoronoiStrata.add_boundary_points_and_construct_delaunay">
+<a class="viewcode-back" href="../../../../../sampling/strata/voronoi_strata.html#UQpy.sampling.stratified_sampling.strata.VoronoiStrata.add_boundary_points_and_construct_delaunay">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_boundary_points_and_construct_delaunay</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">samples_number</span><span class="p">,</span> <span class="n">training_points</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method add the corners of :math:`[0, 1]^n` hypercube to the existing samples, which are used to construct a</span>
+<span class="sd">        Delaunay Triangulation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh_vertices</span> <span class="o">=</span> <span class="n">training_points</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points_to_samplesU01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">training_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="o">.</span><span class="n">vertices</span><span class="p">)[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&lt;=</span> <span class="mf">1e-10</span><span class="p">,))</span> <span class="ow">or</span> \
+               <span class="nb">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">,)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mesh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_vertices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">points_to_samplesU01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">points_to_samplesU01</span><span class="p">,</span> <span class="p">])</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.qhull</span><span class="w"> </span><span class="kn">import</span> <span class="n">Delaunay</span>
+
+        <span class="c1"># Define the simplex mesh to be used for gradient estimation and sampling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Delaunay</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh_vertices</span><span class="p">,</span>
+            <span class="n">furthest_site</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">incremental</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">qhull_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="s2">&quot;points&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_strata_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_centroids</span><span class="p">()</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">):</span>
+            <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_strata_and_generate_samples</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">dimension</span><span class="p">,</span> <span class="n">points_to_add</span><span class="p">,</span> <span class="n">bins2break</span><span class="p">,</span> <span class="n">samples_u01</span><span class="p">,</span> <span class="n">random_state</span>
+    <span class="p">):</span>
+        <span class="n">new_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">points_to_add</span><span class="p">,</span> <span class="n">dimension</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">points_to_add</span><span class="p">):</span>
+            <span class="n">new_points</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sample</span><span class="p">(</span>
+                <span class="n">bins2break</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_strata</span><span class="p">(</span><span class="n">new_point</span><span class="o">=</span><span class="n">new_points</span><span class="p">,</span> <span class="n">samples_u01</span><span class="o">=</span><span class="n">samples_u01</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_points</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_gradient_strata_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="c1"># Estimate the variance over each simplex by Delta Method. Moments of the simplices are computed using</span>
+        <span class="c1"># Eq. (19) from the following reference:</span>
+        <span class="c1"># Good, I.J. and Gaskins, R.A. (1971). The Centroid Method of Numerical Integration. Numerische</span>
+        <span class="c1">#       Mathematik. 16: 343--359.</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">))</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">):</span>
+                <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">]][:,</span> <span class="n">k</span><span class="p">])</span>
+                <span class="n">var</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                                    <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+                                    <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+                            <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">*</span> <span class="n">std</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">var</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:])</span> <span class="o">*</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_gradient</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">surrogate</span><span class="p">,</span>
+            <span class="n">step_size</span><span class="p">,</span>
+            <span class="n">samples_number</span><span class="p">,</span>
+            <span class="n">index</span><span class="p">,</span>
+            <span class="n">samples_u01</span><span class="p">,</span>
+            <span class="n">training_points</span><span class="p">,</span>
+            <span class="n">qoi</span><span class="p">,</span>
+            <span class="n">max_train_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">qhull</span><span class="p">,</span> <span class="n">ConvexHull</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nsimplex</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ConvexHull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">centroids</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">DelaunayStrata</span><span class="o">.</span><span class="n">compute_delaunay_centroid_volume</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+            <span class="k">except</span> <span class="n">qhull</span><span class="o">.</span><span class="n">QhullError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">centroids</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">volumes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">]]),</span> <span class="mi">0</span><span class="p">,)</span>
+
+        <span class="k">if</span> <span class="n">max_train_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">training_points</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_train_size</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">==</span> <span class="n">training_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.Utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_gradient</span>
+            <span class="c1"># Use the entire sample set to train the surrogate model (more expensive option)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span> <span class="o">=</span> <span class="n">calculate_gradient</span><span class="p">(</span>
+                <span class="n">surrogate</span><span class="p">,</span>
+                <span class="n">step_size</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">training_points</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">qoi</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">centroids</span><span class="p">,)</span>
+            <span class="c1"># dy_dx = self.calculate_gradient(</span>
+            <span class="c1">#     np.atleast_2d(training_points), qoi, self.mesh.centroids, surrogate)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Use only max_train_size points to train the surrogate model (more economical option)</span>
+            <span class="c1"># Build a mapping from the new vertex indices to the old vertex indices.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_vertices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_indices</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_to_old</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">old_vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">old_vertices</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_to_old</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">old_vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                        <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Find the nearest neighbors to the most recently added point</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">NearestNeighbors</span>
+
+            <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">max_train_size</span><span class="p">)</span>
+            <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">samples_u01</span><span class="p">))</span>
+            <span class="n">neighbors</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">samples_u01</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">return_distance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="c1"># For every simplex, check if at least dimension-1 vertices are in the neighbor set.</span>
+            <span class="c1"># Only update the gradient in simplices that meet this criterion.</span>
+            <span class="n">update_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vertices_in_U01</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points_to_samplesU01</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vertices_in_U01</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices_in_U01</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">18</span>
+                <span class="n">v_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices_in_U01</span><span class="p">)</span>
+                <span class="n">v_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices_in_U01</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v_set</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">v_list</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices_in_U01</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">18</span><span class="p">)]),)):</span>
+                        <span class="n">update_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+
+            <span class="n">update_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">update_list</span><span class="p">)</span>
+
+            <span class="c1"># Initialize the gradient vector</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_to_old</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">))</span>
+
+            <span class="c1"># For those simplices that will not be updated, use the previous gradient</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_to_old</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx_old</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">new_to_old</span><span class="p">[</span><span class="n">j</span><span class="p">]),</span> <span class="p">:]</span>
+
+            <span class="c1"># For those simplices that will be updated, compute the new gradient</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.Utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_gradient</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span><span class="p">[</span><span class="n">update_array</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">calculate_gradient</span><span class="p">(</span><span class="n">surrogate</span><span class="p">,</span> <span class="n">step_size</span><span class="p">,</span>
+                                                             <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">training_points</span><span class="p">)[</span><span class="n">neighbors</span><span class="p">],</span>
+                                                             <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">qoi</span><span class="p">)[</span><span class="n">neighbors</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                                             <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">centroids</span><span class="p">[</span><span class="n">update_array</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_strata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_point</span><span class="p">,</span> <span class="n">samples_u01</span><span class="p">):</span>
+        <span class="n">i_</span> <span class="o">=</span> <span class="n">samples_u01</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">p_</span> <span class="o">=</span> <span class="n">new_point</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Update the matrices to have recognize the new point</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points_to_samplesU01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">points_to_samplesU01</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">i_</span><span class="p">,</span> <span class="n">i_</span> <span class="o">+</span> <span class="n">p_</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">old_vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">simplices</span>
+
+        <span class="c1"># Update the Delaunay triangulation mesh to include the new point.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">add_points</span><span class="p">(</span><span class="n">new_point</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="s2">&quot;points&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_vertices</span><span class="p">,</span> <span class="n">new_point</span><span class="p">])</span>
+
+        <span class="c1"># Compute the strata weights.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="p">,</span> <span class="n">bounded_regions</span> <span class="o">=</span> <span class="n">VoronoiStrata</span><span class="o">.</span><span class="n">voronoi_unit_hypercube</span><span class="p">(</span><span class="n">samples_u01</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">centroids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">bounded_regions</span><span class="p">:</span>
+            <span class="n">vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voronoi</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">region</span> <span class="o">+</span> <span class="p">[</span><span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span>
+            <span class="n">centroid</span><span class="p">,</span> <span class="n">volume</span> <span class="o">=</span> <span class="n">VoronoiStrata</span><span class="o">.</span><span class="n">compute_voronoi_centroid_volume</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centroids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bin_</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+
+        <span class="n">tmp_vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">simplices</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">bin_</span><span class="p">),</span> <span class="p">:]]</span>
+        <span class="n">col_one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">sub_simplex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">tmp_vertices</span><span class="p">)</span>  <span class="c1"># node: an array containing mid-point of edges</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">sub_simplex</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tmp_vertices</span><span class="p">[</span><span class="n">col_one</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+
+        <span class="c1"># Using the Simplex class to generate a new sample in the sub-simplex</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">SimplexSampling</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">sub_simplex</span><span class="p">,</span> <span class="n">nsamples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span><span class="o">.</span><span class="n">samples</span>
+        <span class="k">return</span> <span class="n">new</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

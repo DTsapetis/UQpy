@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adding New Latin Hypercube Design Criteria &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Stratified Sampling" href="../stratified_sampling.html" />
+    <link rel="prev" title="List of Available Latin Hypercube Design Criteria" href="lhs_criteria.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Sampling</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../monte_carlo.html"> Monte Carlo Sampling</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../latin_hypercube.html"> Latin Hypercube Sampling</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lhs_class.html"> Latin Hypercube Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lhs_criteria.html"> List of Available Latin Hypercube Criteria</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Adding new Latin Hypercube Design Criteria</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.sampling.Criterion"><code class="docutils literal notranslate"><span class="pre">Criterion</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../stratified_sampling.html"> True Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refined_stratified_sampling.html"> Refined Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simplex.html"> Simplex Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../akmcs.html"> Adaptive Kriging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theta_criterion.html"> Theta Criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcmc/index.html"> Markov Chain Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../importance_sampling.html"> Importance Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Sampling</a></li>
+          <li class="breadcrumb-item"><a href="../latin_hypercube.html">Latin Hypercube Sampling</a></li>
+      <li class="breadcrumb-item active">Adding New Latin Hypercube Design Criteria</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/sampling/latin_hypercube/lhs_user_criterion.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="adding-new-latin-hypercube-design-criteria">
+<h1>Adding New Latin Hypercube Design Criteria<a class="headerlink" href="#adding-new-latin-hypercube-design-criteria" title="Link to this heading"></a></h1>
+<p>The <a class="reference internal" href="lhs_class.html#UQpy.sampling.LatinHypercubeSampling" title="UQpy.sampling.LatinHypercubeSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">LatinHypercubeSampling</span></code></a> class offers a variety of methods for pairing the samples in a Latin hypercube
+design. These are specified by the <cite>criterion</cite> parameter (i.e. Random, Centered, MaxiMin, MinCorrelation).
+Each one of the Criteria classes can be found in <code class="xref py py-mod docutils literal notranslate"><span class="pre">latin_hypercube_criteria</span></code> folder, with the <a class="reference internal" href="#UQpy.sampling.Criterion" title="UQpy.sampling.Criterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Criterion</span></code></a> baseclass
+defining their common interface. As a result, adding a new method is straightforward.
+This is done by creating a new class that implements the <a class="reference internal" href="#UQpy.sampling.Criterion" title="UQpy.sampling.Criterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Criterion</span></code></a> abstract baseclass. The base class requires the
+creation of a <code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_samples()</span></code> method that contains the algorithm for pairing the samples.
+This method retrieves the randomly generated samples generated in the baseclass in equal probability bins in each
+dimension and returns a set of samples that is paired according to the user’s desired criterion.
+The user may also pass criterion-specific parameters into the <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code> method of the generated class.
+The output of this function should be a numpy array of at least two-dimensions with the first dimension being the
+number of samples and the second dimension being the number of variables.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.Criterion" title="UQpy.sampling.Criterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Criterion</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.latin_hypercube_criteria.baseclass.Criterion</span><span class="w"> </span><span class="kn">import</span> <span class="n">Criterion</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.Criterion">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Criterion</span></span><a class="reference internal" href="../../_modules/UQpy/sampling/stratified_sampling/latin_hypercube_criteria/baseclass/Criterion.html#Criterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.Criterion" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.Criterion.generate_samples">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/stratified_sampling/latin_hypercube_criteria/baseclass/Criterion.html#Criterion.generate_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.Criterion.generate_samples" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that must be overriden when generating creating new Latin Hypercube sampling criteria.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>An example of a user-defined criterion is given below:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">UserCriterion</span><span class="p">(</span><span class="n">Criterion</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span><span class="w"> </span><span class="nf">generate_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">lhs_samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">samples_number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">if</span> <span class="n">random_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">order</span> <span class="o">=</span> <span class="n">random_state</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">samples_number</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">else</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">samples_number</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">lhs_samples</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">order</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="n">lhs_samplesAn</span> <span class="n">example</span> <span class="n">of</span> <span class="n">a</span> <span class="n">user</span><span class="o">-</span><span class="n">defined</span> <span class="n">criterion</span> <span class="ow">is</span> <span class="n">given</span> <span class="n">below</span><span class="p">:</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lhs_criteria.html" class="btn btn-neutral float-left" title="List of Available Latin Hypercube Design Criteria" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../stratified_sampling.html" class="btn btn-neutral float-right" title="Stratified Sampling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
