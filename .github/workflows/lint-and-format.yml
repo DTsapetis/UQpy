@@ -21,6 +21,11 @@ jobs:
         runs-on: self-hosted
         steps:
         - uses: actions/checkout@v4
+        - name: Set up Python # Required for the self-hosted runner. 
+          uses: actions/setup-python@v5
+          with:
+            python-version: "3.9"
+            cache: 'pip' 
         - name: Install Pylint
           run: pip install pylint
         - name: Lint code
