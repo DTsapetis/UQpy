@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cramér-von Mises indices &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cramér-von Mises Sensitivity indices" href="../auto_examples/sensitivity/cramer_von_mises/index.html" />
+    <link rel="prev" title="Sobol function" href="../auto_examples/sensitivity/chatterjee/chatterjee_sobol_func.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="chatterjee.html"> Chatterjee Sensitivity</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Cramér-von Mises Sensitivity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cramer-von-mises-class">Cramér-von Mises Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generalised_sobol.html"> Generalised Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="morris.html"> Morris Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pce.html"> Polynomial Chaos Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sobol.html"> Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sensitivity</a></li>
+      <li class="breadcrumb-item active">Cramér-von Mises indices</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sensitivity/cramer_von_mises.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cramer-von-mises-indices">
+<h1>Cramér-von Mises indices<a class="headerlink" href="#cramer-von-mises-indices" title="Link to this heading"></a></h1>
+<p>A sensitivity index based on the Cramér-von Mises distance. In contrast to the variance based Sobol indices, it takes into account the whole distribution of the model output and is therefore considered as a moment-free method <span id="id1">[<a class="reference internal" href="../bibliography.html#id63" title="Fabrice Gamboa, Thierry Klein, and Agnès Lagnoux. Sensitivity analysis based on cramér–von mises distance. SIAM/ASA Journal on Uncertainty Quantification, 6(2):522-548, 2018. URL: https://doi.org/10.1137/15M1025621, arXiv:https://doi.org/10.1137/15M1025621, doi:10.1137/15M1025621.">49</a>]</span>. Furthermore the index can be naturally extended to multivariate model outputs (not implemented yet in UQPy).</p>
+<p>Consider a model <span class="math notranslate nohighlight">\(Y=f(X): \mathbb{R}^d \rightarrow \mathbb{R}^k\)</span> with <span class="math notranslate nohighlight">\(d\)</span> inputs <span class="math notranslate nohighlight">\(X_{(1)}, X_{(2)}, \ldots, X_{(d)}\)</span> and <span class="math notranslate nohighlight">\(k\)</span> outputs <span class="math notranslate nohighlight">\(Y_{(1)}, Y_{(2)}, \ldots, Y_{(k)}\)</span>. We define the cumulative distribution function <span class="math notranslate nohighlight">\(F(t)\)</span> of <span class="math notranslate nohighlight">\(Y\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[F(t)=\mathbb{P}(Z \leqslant t)=\mathbb{E}\left[\mathbb{1}_{\{Z \leqslant t\}}\right] \text { for } t=\left(t_{1}, \ldots, t_{k}\right) \in \mathbb{R}^{k}\]</div>
+<p>and the conditional distribution function <span class="math notranslate nohighlight">\(F(t)\)</span> of <span class="math notranslate nohighlight">\(Y\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[F^{v}(t)=\mathbb{P}\left(Z \leqslant t \mid X_{v}\right)=\mathbb{E}\left[\mathbb{1}_{\{Z \leqslant t\}} \mid X_{v}\right] \text { for } t=\left(t_{1}, \ldots, t_{k}\right) \in \mathbb{R}^{k}\]</div>
+<p>where, <span class="math notranslate nohighlight">\(\{Z \leqslant t\} \text { means that } \left\{Z_{1} \leqslant t_{1}, \ldots, Z_{k} \leqslant t_{k}\right\}\)</span>.</p>
+<p>The first order Cramér-von Mises index <span class="math notranslate nohighlight">\(S_{2, C V M}^{i}\)</span> (for input <span class="math notranslate nohighlight">\(v = {i}\)</span>) is defined as:</p>
+<div class="math notranslate nohighlight">
+\[S_{2, C V M}^{i}:=\frac{\int_{\mathbb{R}^{k}} \mathbb{E}\left[\left(F(t)-F^{i}(t)\right)^{2}\right] d F(t)}{\int_{\mathbb{R}^{k}} F(t)(1-F(t)) d F(t)}\]</div>
+<p>and the total Cramér-von Mises index <span class="math notranslate nohighlight">\(S_{2, C V M}^{T o t, i}\)</span> (for input <span class="math notranslate nohighlight">\(v = {i}\)</span>) is defined as:</p>
+<div class="math notranslate nohighlight">
+\[S_{2, C V M}^{T o t, i}:=1-S_{2, C V M}^{\sim i}=1-\frac{\int_{\mathbb{R}^{k}} \mathbb{E}\left[\left(F(t)-F^{\sim i}(t)\right)^{2}\right] d F(t)}{\int_{\mathbb{R}^{k}} F(t)(1-F(t)) d F(t)}\]</div>
+<p>The above first and total order indices are estimated using the Pick-and-Freeze approach. This requires <span class="math notranslate nohighlight">\(N(d+2)\)</span> model evaluations, where <span class="math notranslate nohighlight">\(N\)</span> is the number of samples. (For implementation details, see also <span id="id2">[<a class="reference internal" href="../bibliography.html#id62" title="Fabrice Gamboa, Pierre Gremaud, Thierry Klein, and Agnès Lagnoux. Global sensitivity analysis: a new generation of mighty estimators based on rank statistics. 2020. arXiv:2003.01772.">48</a>]</span>.)</p>
+<section id="cramer-von-mises-class">
+<h2>Cramér-von Mises Class<a class="headerlink" href="#cramer-von-mises-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sensitivity.CramerVonMisesSensitivity" title="UQpy.sensitivity.CramerVonMisesSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">CramerVonMisesSensitivity</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.CramerVonMisesSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">CramerVonMisesSensitivity</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sensitivity.CramerVonMisesSensitivity">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CramerVonMisesSensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runmodel_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/CramerVonMisesSensitivity.html#CramerVonMisesSensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.CramerVonMisesSensitivity" title="Link to this definition"></a></dt>
+<dd><p>Compute the Cramér-von Mises indices.</p>
+<p>Currently only available for models with scalar output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>runmodel_object</strong> – The computational model. It should be of type <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>.         The output QoI can be a scalar or vector of length <code class="code docutils literal notranslate"><span class="pre">ny</span></code>, then the sensitivity         indices of all <code class="code docutils literal notranslate"><span class="pre">ny</span></code> outputs are computed independently.</p></li>
+<li><p><strong>distributions</strong> – List of <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> objects corresponding to each         random variable, or <a class="reference internal" href="../distributions/joint_from_independent.html#UQpy.distributions.collection.JointIndependent" title="UQpy.distributions.collection.JointIndependent"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointIndependent</span></code></a> object         (multivariate RV with independent marginals).</p></li>
+<li><p><strong>random_state</strong> – Random seed used to initialize the pseudo-random number         generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Methods:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.CramerVonMisesSensitivity.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate_sobol_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_bootstrap_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.95</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_CVM_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/CramerVonMisesSensitivity.html#CramerVonMisesSensitivity.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.CramerVonMisesSensitivity.run" title="Link to this definition"></a></dt>
+<dd><p>Compute the Cramér-von Mises indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples used to compute the Cramér-von Mises indices.             Default is 1,000.</p></li>
+<li><p><strong>estimate_sobol_indices</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="code docutils literal notranslate"><span class="pre">True</span></code>, the Sobol indices are estimated             using the pick-and-freeze samples.</p></li>
+<li><p><strong>num_bootstrap_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of bootstrap samples used to estimate the             Sobol indices. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+<li><p><strong>confidence_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Confidence level used to compute the confidence             intervals of the Cramér-von Mises indices.</p></li>
+<li><p><strong>disable_CVM_indices</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="code docutils literal notranslate"><span class="pre">True</span></code>, the Cramér-von Mises indices             are not computed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.CramerVonMisesSensitivity.first_order_CramerVonMises_indices">
+<span class="sig-prename descclassname"><span class="pre">CramerVonMisesSensitivity.</span></span><span class="sig-name descname"><span class="pre">first_order_CramerVonMises_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.CramerVonMisesSensitivity.first_order_CramerVonMises_indices" title="Link to this definition"></a></dt>
+<dd><p>First order Cramér-von Mises indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">1)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.CramerVonMisesSensitivity.confidence_interval_CramerVonMises">
+<span class="sig-prename descclassname"><span class="pre">CramerVonMisesSensitivity.</span></span><span class="sig-name descname"><span class="pre">confidence_interval_CramerVonMises</span></span><a class="headerlink" href="#UQpy.sensitivity.CramerVonMisesSensitivity.confidence_interval_CramerVonMises" title="Link to this definition"></a></dt>
+<dd><p>Confidence intervals of the first order Cramér-von Mises indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">2)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.CramerVonMisesSensitivity.first_order_sobol_indices">
+<span class="sig-prename descclassname"><span class="pre">CramerVonMisesSensitivity.</span></span><span class="sig-name descname"><span class="pre">first_order_sobol_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.CramerVonMisesSensitivity.first_order_sobol_indices" title="Link to this definition"></a></dt>
+<dd><p>First order Sobol indices computed using the pick-and-freeze samples, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">1)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.CramerVonMisesSensitivity.total_order_sobol_indices">
+<span class="sig-prename descclassname"><span class="pre">CramerVonMisesSensitivity.</span></span><span class="sig-name descname"><span class="pre">total_order_sobol_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.CramerVonMisesSensitivity.total_order_sobol_indices" title="Link to this definition"></a></dt>
+<dd><p>Total order Sobol indices computed using the pick-and-freeze samples, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">1)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.CramerVonMisesSensitivity.n_samples">
+<span class="sig-prename descclassname"><span class="pre">CramerVonMisesSensitivity.</span></span><span class="sig-name descname"><span class="pre">n_samples</span></span><a class="headerlink" href="#UQpy.sensitivity.CramerVonMisesSensitivity.n_samples" title="Link to this definition"></a></dt>
+<dd><p>Number of samples used to compute the Cramér-von Mises indices, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.CramerVonMisesSensitivity.n_variables">
+<span class="sig-prename descclassname"><span class="pre">CramerVonMisesSensitivity.</span></span><span class="sig-name descname"><span class="pre">n_variables</span></span><a class="headerlink" href="#UQpy.sensitivity.CramerVonMisesSensitivity.n_variables" title="Link to this definition"></a></dt>
+<dd><p>Number of input random variables, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/sensitivity/cramer_von_mises/index.html">Cramér-von Mises Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/sensitivity/chatterjee/chatterjee_sobol_func.html" class="btn btn-neutral float-left" title="Sobol function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/sensitivity/cramer_von_mises/index.html" class="btn btn-neutral float-right" title="Cramér-von Mises Sensitivity indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

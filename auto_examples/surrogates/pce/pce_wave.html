@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Physics-Informed PCE: Deterministic Wave Equation &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Physics-informed Polynomial Chaos Expansion" href="../../../surrogates/pce/physics_informed.html" />
+    <link rel="prev" title="Physics-Informed PCE: Uncertainty Quantification of Euler Beam" href="pce_euler_UQ.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/gpr.html"> Gaussian Process Regression</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../surrogates/polynomial_chaos.html"> Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/polynomial_bases.html"> Polynomial Bases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/polynomials.html"> Polynomials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/regressions.html"> Regressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/pce.html"> Polynomial Chaos Expansion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html"> Physics-informed Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#pdedata-class">PdeData class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#pdepce-class">PdePce class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#constrainedpce-class">ConstrainedPCE class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#reducedpce-class">ReducedPCE Class</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/index.html">Surrogates</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/polynomial_chaos.html">Polynomial Chaos Expansion - PCE</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/pce/pce.html">PolynomialChaosExpansion Class</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Polynomial Chaos Expansion Examples</a></li>
+      <li class="breadcrumb-item active">Physics-Informed PCE: Deterministic Wave Equation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/surrogates/pce/pce_wave.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-surrogates-pce-pce-wave-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="physics-informed-pce-deterministic-wave-equation">
+<span id="sphx-glr-auto-examples-surrogates-pce-pce-wave-py"></span><h1>Physics-Informed PCE: Deterministic Wave Equation<a class="headerlink" href="#physics-informed-pce-deterministic-wave-equation" title="Link to this heading"></a></h1>
+<p>In this example, we approximate a deterministic Wave Equation by Physics-informed Polynomial Chaos Expansion.</p>
+<p>Import necessary libraries.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uniform</span><span class="p">,</span> <span class="n">JointIndependent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.latin_hypercube_criteria</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">LatinHypercubeSampling</span>
+
+<span class="c1"># load PC^2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConstrainedPCE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.physics_informed.PdeData</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdeData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdePCE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.physics_informed.Utilities</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>We then define functions used for construction of Physically Constrained PCE (PC <span class="math notranslate nohighlight">\(^2\)</span>)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Definition of PDE in context of PC^2</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pde_func</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">pce</span><span class="p">):</span>
+    <span class="c1"># function inputs must be input random vector in standardized space and pce object</span>
+
+    <span class="c1"># partial derivation according to the first input variable x (second order)</span>
+    <span class="c1"># derived basis must be multiplied by constant reflecting the difference between physical and standardized space</span>
+    <span class="n">deriv_0_pce</span> <span class="o">=</span> <span class="n">derivative_basis</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">pce</span><span class="p">,</span> <span class="n">derivative_order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">leading_variable</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">transformation_multiplier</span><span class="p">(</span><span class="n">pde_data</span><span class="p">,</span>
+                                                                                                               <span class="n">leading_variable</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                                                                                               <span class="n">derivation_order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">deriv_1_pce</span> <span class="o">=</span> <span class="n">derivative_basis</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">pce</span><span class="p">,</span> <span class="n">derivative_order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">leading_variable</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">transformation_multiplier</span><span class="p">(</span><span class="n">pde_data</span><span class="p">,</span>
+                                                                                                               <span class="n">leading_variable</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                                                                                               <span class="n">derivation_order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">pde_basis</span> <span class="o">=</span> <span class="n">deriv_1_pce</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">deriv_0_pce</span>
+
+    <span class="k">return</span> <span class="n">pde_basis</span>
+
+
+<span class="c1"># Definition of the source term (zero in this example)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pde_res</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+
+<span class="c1"># Definition of the function for sampling of boundary conditions</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bc_sampling</span><span class="p">(</span><span class="n">nsim</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="c1"># BC sampling</span>
+
+    <span class="n">nsim_half</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">nsim</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nsim</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">real_ogrid_1d</span> <span class="o">=</span> <span class="n">ortho_grid</span><span class="p">(</span><span class="n">nsim_half</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">sample</span><span class="p">[:</span><span class="n">nsim_half</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nsim</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">sample</span><span class="p">[:</span><span class="n">nsim_half</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">real_ogrid_1d</span>
+
+    <span class="n">sample</span><span class="p">[</span><span class="n">nsim_half</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nsim_half</span><span class="p">)</span>
+    <span class="n">sample</span><span class="p">[</span><span class="n">nsim_half</span><span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">real_ogrid_1d</span>
+
+    <span class="k">return</span> <span class="n">sample</span>
+
+
+<span class="c1"># Definition of the function for sampling and evaluation of BC. Function is utilized for estimation of an error once</span>
+<span class="c1"># the PCE is created.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bc_res</span><span class="p">(</span><span class="n">nsim</span><span class="p">,</span> <span class="n">pce</span><span class="p">):</span>
+    <span class="n">bc_x</span> <span class="o">=</span> <span class="n">bc_sampling</span><span class="p">(</span><span class="n">nsim</span><span class="p">)</span>
+    <span class="n">bc_s</span> <span class="o">=</span> <span class="n">polynomial_chaos</span><span class="o">.</span><span class="n">Polynomials</span><span class="o">.</span><span class="n">standardize_sample</span><span class="p">(</span><span class="n">bc_x</span><span class="p">,</span> <span class="n">pce</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">distributions</span><span class="p">)</span>
+
+    <span class="n">der_order</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">deriv_0_pce</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+        <span class="n">derivative_basis</span><span class="p">(</span><span class="n">bc_s</span><span class="p">,</span> <span class="n">pce</span><span class="p">,</span> <span class="n">derivative_order</span><span class="o">=</span><span class="n">der_order</span><span class="p">,</span> <span class="n">leading_variable</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">der_order</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="n">pce</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">bc_init_x</span><span class="p">,</span> <span class="n">bc_init_y</span> <span class="o">=</span> <span class="n">init_sampling</span><span class="p">(</span><span class="n">nsim</span><span class="p">)</span>
+    <span class="n">bc_init_s</span> <span class="o">=</span> <span class="n">polynomial_chaos</span><span class="o">.</span><span class="n">Polynomials</span><span class="o">.</span><span class="n">standardize_sample</span><span class="p">(</span><span class="n">bc_init_x</span><span class="p">,</span> <span class="n">pce</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">distributions</span><span class="p">)</span>
+
+    <span class="n">der_order</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">deriv_0_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+        <span class="n">derivative_basis</span><span class="p">(</span><span class="n">bc_init_s</span><span class="p">,</span> <span class="n">pce</span><span class="p">,</span> <span class="n">derivative_order</span><span class="o">=</span><span class="n">der_order</span><span class="p">,</span> <span class="n">leading_variable</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">der_order</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="n">pce</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">der_order</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">deriv_1_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+        <span class="n">derivative_basis</span><span class="p">(</span><span class="n">bc_init_s</span><span class="p">,</span> <span class="n">pce</span><span class="p">,</span> <span class="n">derivative_order</span><span class="o">=</span><span class="n">der_order</span><span class="p">,</span> <span class="n">leading_variable</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">der_order</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="n">pce</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">deriv_0_pce</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">deriv_0_init</span> <span class="o">-</span> <span class="n">bc_init_y</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">deriv_1_init</span>
+
+
+<span class="c1"># Definition of the function for sampling of initial conditions</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">init_sampling</span><span class="p">(</span><span class="n">nsim</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">init_x</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsim</span><span class="p">)</span>
+
+    <span class="n">init_x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ortho_grid</span><span class="p">(</span><span class="n">nsim</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># initial conditions are defined for t=0</span>
+    <span class="n">init_x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nsim</span><span class="p">)</span>
+
+    <span class="n">init_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">init_x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">init_x</span><span class="p">,</span> <span class="n">init_y</span>
+
+
+<span class="c1">#  Definition of the function for sampling of virtual points (PDE is satisfied in virtual points)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">virt_sampling</span><span class="p">(</span><span class="n">nsim</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">domain_samples</span> <span class="o">=</span> <span class="n">LatinHypercubeSampling</span><span class="p">(</span><span class="n">distributions</span><span class="o">=</span><span class="n">joint</span><span class="p">,</span>
+                                            <span class="n">criterion</span><span class="o">=</span><span class="n">Centered</span><span class="p">(),</span>
+                                            <span class="n">nsamples</span><span class="o">=</span><span class="n">nsim</span><span class="p">)</span><span class="o">.</span><span class="n">_samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">domain_samples</span>
+
+
+<span class="c1"># Definition of the reference solution for an error estimation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ref_sol</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:])</span>
+</pre></div>
+</div>
+<p>Wave equation is parametrized by two deterministic input variables (coordinate <span class="math notranslate nohighlight">\(x\)</span> and time <span class="math notranslate nohighlight">\(t\)</span>)
+modeled as Uniform random variables.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of input random variables</span>
+<span class="n">nvar</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1">#   definition of a joint probability distribution</span>
+<span class="n">dist1</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dist2</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">marg</span> <span class="o">=</span> <span class="p">[</span><span class="n">dist1</span><span class="p">,</span> <span class="n">dist2</span><span class="p">]</span>
+<span class="n">joint</span> <span class="o">=</span> <span class="n">JointIndependent</span><span class="p">(</span><span class="n">marginals</span><span class="o">=</span><span class="n">marg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The physical domain is defined by two variables <span class="math notranslate nohighlight">\(x \in [0,1], t \in [0,2]\)</span></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># define geometry of physical space</span>
+
+<span class="n">geometry_xmin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">geometry_xmax</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Boundary conditions are prescribed as</p>
+<div class="math notranslate nohighlight">
+\[\frac{d u(x,0)}{d t}=0, \qquad u(0,t)=u(1,t) = 0, \qquad u(x,0) =\sin{(\pi x)}\]</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of BC samples</span>
+<span class="n">nbc</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="n">ninit</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># derivation orders of prescribed BCs</span>
+<span class="n">der_orders</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="c1"># normals associated to prescribed BCs</span>
+<span class="n">bc_normals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="c1"># sampling of BC points</span>
+<span class="n">bc_x</span> <span class="o">=</span> <span class="n">bc_sampling</span><span class="p">(</span><span class="n">nbc</span><span class="p">)</span>
+<span class="n">bc_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bc_x</span><span class="p">))</span>
+<span class="n">bc_x_init</span><span class="p">,</span> <span class="n">bc_y_init</span> <span class="o">=</span> <span class="n">init_sampling</span><span class="p">(</span><span class="n">ninit</span><span class="p">)</span>
+
+<span class="n">bc_coord</span> <span class="o">=</span> <span class="p">[</span><span class="n">bc_x</span><span class="p">,</span> <span class="n">bc_x_init</span><span class="p">,</span> <span class="n">bc_x_init</span><span class="p">]</span>
+<span class="n">bc_resy</span> <span class="o">=</span> <span class="p">[</span><span class="n">bc_y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bc_x_init</span><span class="p">)),</span> <span class="n">bc_y_init</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Here we construct an object containing general physical information (geometry, boundary conditions)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">pde_data</span> <span class="o">=</span> <span class="n">PdeData</span><span class="p">(</span><span class="n">geometry_xmax</span><span class="p">,</span> <span class="n">geometry_xmin</span><span class="p">,</span> <span class="n">der_orders</span><span class="p">,</span> <span class="n">bc_normals</span><span class="p">,</span> <span class="n">bc_coord</span><span class="p">,</span> <span class="n">bc_resy</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Further we construct an object containing PDE physical data and PC <span class="math notranslate nohighlight">\(^2\)</span> definitions of PDE</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">pde_pce</span> <span class="o">=</span> <span class="n">PdePCE</span><span class="p">(</span><span class="n">pde_data</span><span class="p">,</span> <span class="n">pde_func</span><span class="p">,</span> <span class="n">pde_source</span><span class="o">=</span><span class="n">pde_res</span><span class="p">,</span> <span class="n">boundary_conditions_evaluate</span><span class="o">=</span><span class="n">bc_res</span><span class="p">,</span>
+                 <span class="n">virtual_points_sampling</span><span class="o">=</span><span class="n">virt_sampling</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get dirichlet boundary conditions from PDE data object that are further used for construction of initial PCE object.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract dirichlet BC</span>
+<span class="n">dirichlet_bc</span> <span class="o">=</span> <span class="n">pde_data</span><span class="o">.</span><span class="n">dirichlet</span>
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">dirichlet_bc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">dirichlet_bc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Finally, p-adaptive PC <span class="math notranslate nohighlight">\(^2\)</span> is constructed using Karush-Kuhn-Tucker normal equations solved by ordinary least squares:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># construct PC^2</span>
+<span class="n">least_squares</span> <span class="o">=</span> <span class="n">LeastSquareRegression</span><span class="p">()</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">best_err</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">):</span>
+    <span class="n">PCEorder</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="n">polynomial_basis</span> <span class="o">=</span> <span class="n">TotalDegreeBasis</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">PCEorder</span><span class="p">,</span> <span class="n">hyperbolic</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1">#  create initial PCE object containing basis, regression method and dirichlet BC</span>
+    <span class="n">initpce</span> <span class="o">=</span> <span class="n">PolynomialChaosExpansion</span><span class="p">(</span><span class="n">polynomial_basis</span><span class="o">=</span><span class="n">polynomial_basis</span><span class="p">,</span> <span class="n">regression_method</span><span class="o">=</span><span class="n">least_squares</span><span class="p">)</span>
+    <span class="n">initpce</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># construct a PC^2 object combining pde_data, pde_pce and initial PCE objects</span>
+    <span class="n">pcpc</span> <span class="o">=</span> <span class="n">ConstrainedPCE</span><span class="p">(</span><span class="n">pde_data</span><span class="p">,</span> <span class="n">pde_pce</span><span class="p">,</span> <span class="n">initpce</span><span class="p">)</span>
+
+    <span class="c1"># get coefficients of PC^2 by KKT-OLS</span>
+    <span class="n">pcpc</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">n_error_points</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+
+    <span class="c1"># get PC^2 error</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">pcpc</span><span class="o">.</span><span class="n">ols_err</span>
+
+    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">&lt;</span> <span class="n">best_err</span><span class="p">:</span>
+        <span class="n">best_p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="n">best_err</span> <span class="o">=</span> <span class="n">err</span>
+
+<span class="c1"># construct the PC^2 with optimal polynomial order</span>
+<span class="n">polynomial_basis</span> <span class="o">=</span> <span class="n">TotalDegreeBasis</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">best_p</span><span class="p">,</span> <span class="n">hyperbolic</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">#  create initial PCE object containing basis, regression method and dirichlet BC</span>
+<span class="n">initpce</span> <span class="o">=</span> <span class="n">PolynomialChaosExpansion</span><span class="p">(</span><span class="n">polynomial_basis</span><span class="o">=</span><span class="n">polynomial_basis</span><span class="p">,</span> <span class="n">regression_method</span><span class="o">=</span><span class="n">least_squares</span><span class="p">)</span>
+<span class="n">initpce</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># construct a PC^2 object combining pde_data, pde_pce and initial PCE objects</span>
+<span class="n">pcpc</span> <span class="o">=</span> <span class="n">ConstrainedPCE</span><span class="p">(</span><span class="n">pde_data</span><span class="p">,</span> <span class="n">pde_pce</span><span class="p">,</span> <span class="n">initpce</span><span class="p">)</span>
+
+<span class="c1"># get coefficients of PC^2 by KKT-OLS</span>
+<span class="n">pcpc</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">n_error_points</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">p adaptive results: &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best polynomial order: &#39;</span><span class="p">,</span> <span class="n">best_p</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sum of errors in PDE, BCs and training data: &#39;</span><span class="p">,</span> <span class="n">best_err</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>PC <span class="math notranslate nohighlight">\(^2\)</span> can be further used for a fast evaluation of the Wave equation. Obtained results are compared to
+an analytical reference solution in the following plot.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot the results and calculate absolute error</span>
+<span class="n">real_ogrid</span> <span class="o">=</span> <span class="n">ortho_grid</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">nvar</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="n">real_ogrid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">real_ogrid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="n">yy_val_pce</span> <span class="o">=</span> <span class="n">pcpc</span><span class="o">.</span><span class="n">initial_pce</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">real_ogrid</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">yy_val_true</span> <span class="o">=</span> <span class="n">ref_sol</span><span class="p">(</span><span class="n">real_ogrid</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">abs_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yy_val_true</span> <span class="o">-</span> <span class="n">yy_val_pce</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Comparison to the reference solution:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean squared error of PC^2: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">abs_err</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">vmin</span> <span class="o">=</span> <span class="n">yy_val_pce</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">vmax</span> <span class="o">=</span> <span class="n">yy_val_pce</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">yy_val_pce</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">real_ogrid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">real_ogrid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pcpc</span><span class="o">.</span><span class="n">virtual_x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pcpc</span><span class="o">.</span><span class="n">virtual_x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">bc_x_init</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">bc_x_init</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">cmap_err</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Reds</span>
+<span class="n">abs_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yy_val_true</span> <span class="o">-</span> <span class="n">yy_val_pce</span><span class="p">)</span>
+<span class="n">vmin_err</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">vmax_err</span> <span class="o">=</span> <span class="n">abs_err</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">norm_err</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin_err</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax_err</span><span class="p">)</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="n">cmap_err</span><span class="p">(</span><span class="n">norm_err</span><span class="p">(</span><span class="n">abs_err</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">real_ogrid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">real_ogrid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PC$^2$ approximation&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;coordinate $x$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;time $t$&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Absolute error&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;coordinate $x$&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="n">norm_err</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_err</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-surrogates-pce-pce-wave-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/surrogates/pce/pce_wave.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo46.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/4dd3cea0fb0652b8eaa99bc38a9ec75b/pce_wave.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">pce_wave.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/8cbff787de7e94d1385f4fdaf5c43bf7/pce_wave.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">pce_wave.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/f3e7d4423cf20081bffa0df505e189af/pce_wave.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">pce_wave.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pce_euler_UQ.html" class="btn btn-neutral float-left" title="Physics-Informed PCE: Uncertainty Quantification of Euler Beam" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../surrogates/pce/physics_informed.html" class="btn btn-neutral float-right" title="Physics-informed Polynomial Chaos Expansion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

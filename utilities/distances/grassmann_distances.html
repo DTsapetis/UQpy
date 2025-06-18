@@ -1,0 +1,523 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grassmann Distances &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Kernels" href="../kernels/index.html" />
+    <link rel="prev" title="Euclidean Distances" href="euclidean_distances.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Utilities</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"> Distances</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#distance-class">Distance Class</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#types-of-distances">Types of Distances</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="euclidean_distances.html"> Euclidean Distances</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"> Grassmannian Distances</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kernels/index.html"> Kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grassmann_point.html"> GrassmannPoint</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Distances</a></li>
+      <li class="breadcrumb-item active">Grassmann Distances</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/utilities/distances/grassmann_distances.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="grassmann-distances">
+<h1>Grassmann Distances<a class="headerlink" href="#grassmann-distances" title="Link to this heading"></a></h1>
+<p>The Grassmannian (or Riemannian) distance assigns a nonnegative value to measure distance between a pair of subspaces
+<span class="math notranslate nohighlight">\(\mathbf{X}_0, \mathbf{X}_1 \in \mathbb{R}^{n \times p}\)</span> on the Grassmann manifold <span class="math notranslate nohighlight">\(\mathcal{G}(p, n)\)</span>.
+Formally, a Grassmann distance measures the length of the geodesic path connecting the two points on
+<span class="math notranslate nohighlight">\(\mathcal{G}(p, n)\)</span> where all distances are a function of the principal angles between subspaces. <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>
+introduces various Grassmann distances derived from the principal angles <span id="id1">[<a class="reference internal" href="../../bibliography.html#id11" title="Gene H. Golub and Charles F. Van Loan. Matrix Computations. The Johns Hopkins University Press, third edition, 1996.">74</a>]</span>.</p>
+<div class="math notranslate nohighlight">
+\[0 \leq \theta_1 \leq \theta_2 \leq \ldots \leq \theta_p \leq \pi/2,\]</div>
+<p>Practically, the principal angles can be calculated from the singular value decomposition (SVD) of
+<span class="math notranslate nohighlight">\(\mathbf{X}_0^T\mathbf{X}_1\)</span>, as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{X}_0^T\mathbf{X}_1 = \mathbf{U}\cos(\Theta)\mathbf{V}'\]</div>
+<p>where <span class="math notranslate nohighlight">\(\cos(\Theta)=\text{diag}(\cos\theta_1, \ldots,\cos\theta_p)\)</span>. This definition of distance can be extended
+to cases where <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span> and <span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span> have different number of columns <span class="math notranslate nohighlight">\(p\)</span>. More
+information can be found in <span id="id2">[<a class="reference internal" href="../../bibliography.html#id12" title="Ke Ye and Lek-Heng Lim. Schubert varieties and distances between subspaces of different dimensions. 2016. arXiv:1407.0900.">75</a>]</span>.</p>
+<section id="grassmanniandistance-class">
+<h2>GrassmannianDistance Class<a class="headerlink" href="#grassmanniandistance-class" title="Link to this heading"></a></h2>
+<p>The abstract <a class="reference internal" href="#UQpy.utilities.distances.baseclass.GrassmannianDistance" title="UQpy.utilities.distances.baseclass.GrassmannianDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">UQpy.utilities.distances.baseclass.GrassmannianDistance</span></code></a> class is the base class for all
+Grassmannian distances in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>. It provides a blueprint for classes in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">grassmannian_distances</span></code>
+module and allows the user to define a set of methods that must be created within any child classes built
+from this abstract class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.baseclass.GrassmannianDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GrassmannianDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/baseclass/GrassmannianDistance.html#GrassmannianDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.baseclass.GrassmannianDistance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.baseclass.GrassmannianDistance.calculate_distance_matrix">
+<span class="sig-name descname"><span class="pre">calculate_distance_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/baseclass/GrassmannianDistance.html#GrassmannianDistance.calculate_distance_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.baseclass.GrassmannianDistance.calculate_distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Given a list of points that belong on a Grassmann Manifold, assemble the distance matrix between all points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]]</span>) – List of points belonging on the Grassmann Manifold. Either a list of <a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a> or
+a list of orthonormal <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>.</p></li>
+<li><p><strong>p_dim</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Number of independent p-planes of each Grassmann point.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.baseclass.GrassmannianDistance" title="UQpy.utilities.distances.baseclass.GrassmannianDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannianDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.baseclass.GrassmannianDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannianDistance</span>
+</pre></div>
+</div>
+</section>
+<section id="list-of-available-distances">
+<h2>List of Available Distances<a class="headerlink" href="#list-of-available-distances" title="Link to this heading"></a></h2>
+<p>All the distances classes below are subclasses of the <a class="reference internal" href="#UQpy.utilities.distances.baseclass.GrassmannianDistance" title="UQpy.utilities.distances.baseclass.GrassmannianDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannianDistance</span></code></a> class. New distances can be written
+as subclasses having a <code class="xref py py-meth docutils literal notranslate"><span class="pre">compute_distance()</span></code> method.</p>
+</section>
+<section id="asimov-distance">
+<h2>Asimov Distance<a class="headerlink" href="#asimov-distance" title="Link to this heading"></a></h2>
+<p>The Asimov distance between two subspaces defined by the orthonormal matrices, <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d_A(\mathbf{X}_0,\mathbf{X}_1) = \cos^{-1}||\mathbf{X}_0^T\mathbf{X}_1||_2 = \max(\Theta)\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.AsimovDistance" title="UQpy.utilities.distances.grassmannian_distances.AsimovDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsimovDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.grassmannian_distances.AsimovDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsimovDistance</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.AsimovDistance" title="UQpy.utilities.distances.grassmannian_distances.AsimovDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsimovDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.AsimovDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AsimovDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/AsimovDistance.html#AsimovDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.AsimovDistance" title="Link to this definition"></a></dt>
+<dd><p>A class to calculate the Asimov distance between two Grassmann points.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.AsimovDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/AsimovDistance.html#AsimovDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.AsimovDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Asimov distance between two points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the first point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.AsimovDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">AsimovDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.AsimovDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+<section id="binet-cauchy-distance">
+<h2>Binet-Cauchy Distance<a class="headerlink" href="#binet-cauchy-distance" title="Link to this heading"></a></h2>
+<p>The Binet-Cauchy distance between two subspaces defined by the orthonormal matrices, <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d_{BC}(\mathbf{X}_0,\mathbf{X}_1) = \left[1-(\det\mathbf{X}_0^T\mathbf{X}_1)^2\right]^{1/2} = \left[1-\prod_{l}\cos^2(\Theta_l)\right]^{1/2}\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance" title="UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinetCauchyDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">BinetCauchyDistance</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance" title="UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinetCauchyDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BinetCauchyDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/BinetCauchyDistance.html#BinetCauchyDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance" title="Link to this definition"></a></dt>
+<dd><p>A class to calculate the Binet-Cauchy distance between two Grassmann points.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/BinetCauchyDistance.html#BinetCauchyDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Binet-Cauchy distance between two points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the first point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">BinetCauchyDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.BinetCauchyDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+<section id="fubini-study-distance">
+<h2>Fubini-Study Distance<a class="headerlink" href="#fubini-study-distance" title="Link to this heading"></a></h2>
+<p>The Fubini-Study distance between two subspaces defined by the orthonormal matrices, <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d_{FS}(\mathbf{X}_0,\mathbf{X}_1) = \cos^{-1}\left(\prod_{l}\cos(\Theta_l)\right)\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance" title="UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">FubiniStudyDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">FubiniStudyDistance</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance" title="UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">FubiniStudyDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FubiniStudyDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/FubiniStudyDistance.html#FubiniStudyDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance" title="Link to this definition"></a></dt>
+<dd><p>A class to calculate the Fubini-Study distance between two Grassmann points.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/FubiniStudyDistance.html#FubiniStudyDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Fubini-Study distance between two points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the first point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">FubiniStudyDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.FubiniStudyDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+<section id="geodesic-distance">
+<h2>Geodesic Distance<a class="headerlink" href="#geodesic-distance" title="Link to this heading"></a></h2>
+<p>The Geodesic (or Arc-length) distance between two subspaces defined by the orthonormal matrices, <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span>
+and <span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d_{G}(\mathbf{X}_0,\mathbf{X}_1) = ||\boldsymbol\Theta ||_2 = \left(\sum \Theta^2_l\right)^{1/2}\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.GeodesicDistance" title="UQpy.utilities.distances.grassmannian_distances.GeodesicDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeodesicDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.grassmannian_distances.GeodesicDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeodesicDistance</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the class <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.GeodesicDistance" title="UQpy.utilities.distances.grassmannian_distances.GeodesicDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeodesicDistance</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.GeodesicDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GeodesicDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/GeodesicDistance.html#GeodesicDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.GeodesicDistance" title="Link to this definition"></a></dt>
+<dd><p>A class to calculate the Geodesic distance between two Grassmann points.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.GeodesicDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/GeodesicDistance.html#GeodesicDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.GeodesicDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Geodesic distance between two points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the first point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.GeodesicDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">GeodesicDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.GeodesicDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+<section id="martin-distance">
+<h2>Martin Distance<a class="headerlink" href="#martin-distance" title="Link to this heading"></a></h2>
+<p>The Martin distance between two subspaces defined by the orthonormal matrices, <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span>
+and <span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d_{M}(\mathbf{X}_0,\mathbf{X}_1) = \left[\log\prod_{l}1/\cos^2(\Theta_l)\right]^{1/2}\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.MartinDistance" title="UQpy.utilities.distances.grassmannian_distances.MartinDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">MartinDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.grassmannian_distances.MartinDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">MartinDistance</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.MartinDistance" title="UQpy.utilities.distances.grassmannian_distances.MartinDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">MartinDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.MartinDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MartinDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/MartinDistance.html#MartinDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.MartinDistance" title="Link to this definition"></a></dt>
+<dd><p>A class to calculate the Martin distance between two Grassmann points.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.MartinDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/MartinDistance.html#MartinDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.MartinDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Martin distance between two points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the first point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.MartinDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">MartinDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.MartinDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+<section id="procrustes-distance">
+<h2>Procrustes Distance<a class="headerlink" href="#procrustes-distance" title="Link to this heading"></a></h2>
+<p>The Procrustes distance between two subspaces defined by the orthonormal matrices, <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span>
+and <span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d_{P}(\mathbf{X}_0,\mathbf{X}_1) = ||\mathbf{X}_0\mathbf{U}-\mathbf{X}_1\mathbf{V} ||_F = 2\left[\sum_{l}\sin^2(\Theta_l/2)\right]^{1/2}\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance" title="UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcrustesDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcrustesDistance</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance" title="UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcrustesDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ProcrustesDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/ProcrustesDistance.html#ProcrustesDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance" title="Link to this definition"></a></dt>
+<dd><p>A class to calculate the Procrustes distance between two Grassmann points.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/ProcrustesDistance.html#ProcrustesDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Procrustes distance between two points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the first point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">ProcrustesDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.ProcrustesDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+<section id="projection-distance">
+<h2>Projection Distance<a class="headerlink" href="#projection-distance" title="Link to this heading"></a></h2>
+<p>The Projection distance between two subspaces defined by the orthonormal matrices, <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span>
+and <span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d_{Pr}(\mathbf{X}_0,\mathbf{X}_1) = ||\mathbf{X}_0\mathbf{X}_0^T-\mathbf{X}_1\mathbf{X}_1^T ||_2 =  \left(\sum_{l} \sin^2(\Theta_l)\right)^{1/2}\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.ProjectionDistance" title="UQpy.utilities.distances.grassmannian_distances.ProjectionDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectionDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.grassmannian_distances.ProjectionDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectionDistance</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.ProjectionDistance" title="UQpy.utilities.distances.grassmannian_distances.ProjectionDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectionDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.ProjectionDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ProjectionDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/ProjectionDistance.html#ProjectionDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.ProjectionDistance" title="Link to this definition"></a></dt>
+<dd><p>A class to calculate the Projection distance between two Grassmann points.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.ProjectionDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/ProjectionDistance.html#ProjectionDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.ProjectionDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Projection distance between two points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the first point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.ProjectionDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">ProjectionDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.ProjectionDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+<section id="spectral-distance">
+<h2>Spectral Distance<a class="headerlink" href="#spectral-distance" title="Link to this heading"></a></h2>
+<p>The Spectral distance between two subspaces defined by the orthonormal matrices, <span class="math notranslate nohighlight">\(\mathbf{X}_0\)</span>
+and <span class="math notranslate nohighlight">\(\mathbf{X}_1\)</span>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d_{S}(\mathbf{X}_0,\mathbf{X}_1) = ||\mathbf{X}_0\mathbf{U}-\mathbf{X}_1\mathbf{V} ||_2 = 2\sin( \max(\Theta_l)/2)\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.SpectralDistance" title="UQpy.utilities.distances.grassmannian_distances.SpectralDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectralDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.grassmannian_distances.SpectralDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralDistance</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.grassmannian_distances.SpectralDistance" title="UQpy.utilities.distances.grassmannian_distances.SpectralDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectralDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.SpectralDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SpectralDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/SpectralDistance.html#SpectralDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.SpectralDistance" title="Link to this definition"></a></dt>
+<dd><p>A class to calculate the Spectral distance between two Grassmann points.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.SpectralDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/grassmannian_distances/SpectralDistance.html#SpectralDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.SpectralDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Spectral distance between two points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the first point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span>) – Orthonormal matrix representing the second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.grassmannian_distances.SpectralDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">SpectralDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.utilities.distances.grassmannian_distances.SpectralDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="euclidean_distances.html" class="btn btn-neutral float-left" title="Euclidean Distances" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../kernels/index.html" class="btn btn-neutral float-right" title="Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

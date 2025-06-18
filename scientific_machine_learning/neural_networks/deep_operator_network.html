@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deep Operator Network (DeepONet) &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Deep Operator Network Examples" href="../../auto_examples/scientific_machine_learning/deep_operator_network/index.html" />
+    <link rel="prev" title="Neural Network Baseclass" href="neural_network_parent.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Scientific Machine Learning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#functional">Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#layers">Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#losses">Losses</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#neural-networks">Neural Networks</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html"> Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#neural-operators-theory">Neural Operators - Theory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#neural-operators-practice">Neural Operators - Practice</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#list-of-neural-networks">List of Neural Networks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="neural_network_parent.html"> Neural Network Base Class</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Deep Operator Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="feed_forward_neural_network.html"> Feed Forward Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fourier_neural_operator.html"> Fourier Neural Operator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unet_neural_network.html"> U-net Neural Network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#trainers">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Scientific Machine Learning</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Neural Networks</a></li>
+      <li class="breadcrumb-item active">Deep Operator Network (DeepONet)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/scientific_machine_learning/neural_networks/deep_operator_network.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deep-operator-network-deeponet">
+<h1>Deep Operator Network (DeepONet)<a class="headerlink" href="#deep-operator-network-deeponet" title="Link to this heading"></a></h1>
+<p>Implementation of the Deep Operator Network (DeepONet) as defined by Lu et al <span id="id1">[<a class="reference internal" href="../../bibliography.html#id76" title="Lu Lu, Pengzhan Jin, Guofei Pang, Zhongqiang Zhang, and George Em Karniadakis. Learning nonlinear operators via deeponet based on the universal approximation theorem of operators. Nature Machine Intelligence, 3:218–229, 2021. URL: https://doi.org/10.1038/s42256-021-00302-5.">42</a>]</span>.
+The deep operator network is defined by its branch and trunk networks, as shown below.</p>
+<figure class="align-center" id="id2">
+<a class="with-border reference internal image-reference" href="../../_images/deep_operator_network_diagram.png"><img alt="A diagram showing the architecture of a deep operator network." class="with-border" src="../../_images/deep_operator_network_diagram.png" style="width: 600px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The architecture of a generic deep operator network.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The <a class="reference internal" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork" title="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeepOperatorNetwork</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.scientific_machine_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeepOperatorNetwork</span>
+</pre></div>
+</div>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DeepOperatorNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trunk_network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/neural_networks/DeepOperatorNetwork.html#DeepOperatorNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork" title="Link to this definition"></a></dt>
+<dd><p>Construct a Deep Operator Network via its branch and trunk networks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>branch_network</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>) – Encodes mapping of the function <span class="math notranslate nohighlight">\(f(x)\)</span></p></li>
+<li><p><strong>trunk_network</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>) – Encodes mapping of the domain <span class="math notranslate nohighlight">\(y\)</span> for <span class="math notranslate nohighlight">\(\mathcal{L}f(y)\)</span></p></li>
+<li><p><strong>out_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of channels produced by the Deep Operator Network</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The last layer of the branch and trunk network must have the same number of neurons so the last
+dimension of their outputs match, i.e. both outputs have shape <span class="math notranslate nohighlight">\((*, \text{width})\)</span>.
+Additionally, <span class="math notranslate nohighlight">\(\text{width}\)</span> must be divisible by <span class="math notranslate nohighlight">\(C_\text{out}\)</span>.</p>
+</div>
+<p>Shape:</p>
+<ul>
+<li><p>Input: Two tensors representing <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(f(x)\)</span></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Branch Network (<span class="math notranslate nohighlight">\(f(x)\)</span>): Any shape (can be different from trunk)</p></li>
+<li><p>Trunk Network (<span class="math notranslate nohighlight">\(x\)</span>): Any shape (can be different from branch)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Intermediary: The output from the branch and trunk network must be of shapes <span class="math notranslate nohighlight">\((*, \text{width})\)</span> and <span class="math notranslate nohighlight">\((*, \text{width})\)</span>.
+Where <span class="math notranslate nohighlight">\(*\)</span> refers to any broadcastable dimensions.
+Both the tensors are viewed reshaped as <span class="math notranslate nohighlight">\((*, C_\text{out}. \frac{\text{width}}{C_\text{out}}\)</span> before the dot product is computed.</p></li>
+<li><p>Output: Tensor of shape <span class="math notranslate nohighlight">\((*, C_\text{out})\)</span></p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/scientific_machine_learning/neural_networks/DeepOperatorNetwork.html#DeepOperatorNetwork.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute the dot product of branch and trunk outputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Input to the <code class="code docutils literal notranslate"><span class="pre">trunk_network</span></code></p></li>
+<li><p><strong>f_x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span>) – Input to the <code class="code docutils literal notranslate"><span class="pre">branch_network</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dot product of the branch and trunk outputs</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If incompatible trunk and branch outputs are encountered. See Shape for details.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.summary" title="Link to this definition"></a></dt>
+<dd><p>Call <code class="docutils literal notranslate"><span class="pre">torchinfo.summary()</span></code> on <code class="docutils literal notranslate"><span class="pre">self</span></code>.
+See <a class="reference external" href="https://github.com/TylerYep/torchinfo?tab=readme-ov-file#documentation">torchinfo documentation</a>
+for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Keyword arguments passed to <code class="docutils literal notranslate"><span class="pre">torchinfo.summary</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Model statistics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.count_parameters">
+<span class="sig-name descname"><span class="pre">count_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.count_parameters" title="Link to this definition"></a></dt>
+<dd><p>Get the total number of parameters that require a gradient computation in the model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.drop">
+<span class="sig-name descname"><span class="pre">drop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.drop" title="Link to this definition"></a></dt>
+<dd><p>Set dropping mode.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method and <code class="docutils literal notranslate"><span class="pre">self.dropping</span></code> only affects UQpy’s dropout layers</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code> perform dropout, otherwise act as the identity function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.sample" title="Link to this definition"></a></dt>
+<dd><p>Set sampling mode.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method and <code class="docutils literal notranslate"><span class="pre">self.sampling</span></code> only affects UQpy’s Bayesian layers</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code> sample from distributions, otherwise use distribution means.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">self</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.is_deterministic">
+<span class="sig-name descname"><span class="pre">is_deterministic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.is_deterministic" title="Link to this definition"></a></dt>
+<dd><p>Check if neural network is behaving deterministically or probabilistically.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This flag may be incorrect if the model has sources of randomness that do not depend on the attributes
+<code class="docutils literal notranslate"><span class="pre">training</span></code>, <code class="docutils literal notranslate"><span class="pre">dropping</span></code>, or <code class="docutils literal notranslate"><span class="pre">sampling</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">sampling</span></code>, <code class="docutils literal notranslate"><span class="pre">dropping</span></code>, and <code class="docutils literal notranslate"><span class="pre">training</span></code> are all <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+Otherwise, returns <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.set_deterministic">
+<span class="sig-name descname"><span class="pre">set_deterministic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.set_deterministic" title="Link to this definition"></a></dt>
+<dd><p>Set training, dropping, and sampling to the <em>opposite</em> of <code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p>
+<p>This is equivalent to</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="ow">not</span> <span class="n">mode</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="ow">not</span> <span class="n">mode</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="ow">not</span> <span class="n">mode</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the model has sources of randomness that do not depend on the <code class="docutils literal notranslate"><span class="pre">training</span></code>, <code class="docutils literal notranslate"><span class="pre">dropping</span></code>, or <code class="docutils literal notranslate"><span class="pre">sampling</span></code>
+attributes, they will not be affected.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.branch_network">
+<span class="sig-prename descclassname"><span class="pre">DeepOperatorNetwork.</span></span><span class="sig-name descname"><span class="pre">branch_network</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">nn.Module</span></em><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.branch_network" title="Link to this definition"></a></dt>
+<dd><p>Architecture of the branch neural network defined by a <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.trunk_network">
+<span class="sig-prename descclassname"><span class="pre">DeepOperatorNetwork.</span></span><span class="sig-name descname"><span class="pre">trunk_network</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">nn.Module</span></em><a class="headerlink" href="#UQpy.scientific_machine_learning.neural_networks.DeepOperatorNetwork.trunk_network" title="Link to this definition"></a></dt>
+<dd><p>Architecture of the trunk neural network defined by a <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code></p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/scientific_machine_learning/deep_operator_network/index.html">All Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/scientific_machine_learning/deep_operator_network/integral_1d.html">Integral 1D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/scientific_machine_learning/deep_operator_network/linear_elastic.html">Linear Elastic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/scientific_machine_learning/deep_operator_network/bayesian_linear_elastic.html">Bayesian Linear Elastic</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="neural_network_parent.html" class="btn btn-neutral float-left" title="Neural Network Baseclass" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../auto_examples/scientific_machine_learning/deep_operator_network/index.html" class="btn btn-neutral float-right" title="Deep Operator Network Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

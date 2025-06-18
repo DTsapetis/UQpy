@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ImportanceSampling &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Importance Sampling Examples" href="../auto_examples/sampling/importance_sampling/index.html" />
+    <link rel="prev" title="Parallel Tempering for Bayesian Inference and Reliability analyses" href="../auto_examples/sampling/tempering/parallel_tempering.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sampling</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="monte_carlo.html"> Monte Carlo Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="latin_hypercube.html"> Latin Hypercube Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stratified_sampling.html"> True Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refined_stratified_sampling.html"> Refined Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simplex.html"> Simplex Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akmcs.html"> Adaptive Kriging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theta_criterion.html"> Theta Criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcmc/index.html"> Markov Chain Monte Carlo</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Importance Sampling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#importancesampling-class">ImportanceSampling Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sampling</a></li>
+      <li class="breadcrumb-item active">ImportanceSampling</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sampling/importance_sampling.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="importancesampling">
+<h1>ImportanceSampling<a class="headerlink" href="#importancesampling" title="Link to this heading"></a></h1>
+<p>Importance sampling (IS) is based on the idea of sampling from an alternate distribution and reweighting the samples to be representative of the target distribution (perhaps concentrating sampling in certain regions of the input space that are of greater importance). This often enables efficient evaluations of expectations <span class="math notranslate nohighlight">\(E_{ \textbf{x} \sim p} [ f(\textbf{x}) ]\)</span> where <span class="math notranslate nohighlight">\(f( \textbf{x})\)</span> is small outside of a small region of the input space. To this end, a sample <span class="math notranslate nohighlight">\(\textbf{x}\)</span> is drawn from a proposal distribution <span class="math notranslate nohighlight">\(q(\textbf{x})\)</span> and re-weighted to correct for the discrepancy between the sampling distribution <span class="math notranslate nohighlight">\(q\)</span> and the true distribution <span class="math notranslate nohighlight">\(p\)</span>. The weight of the sample is computed as</p>
+<div class="math notranslate nohighlight">
+\[w(\textbf{x}) = \frac{p(\textbf{x})}{q(\textbf{x})}\]</div>
+<p>If <span class="math notranslate nohighlight">\(p\)</span> is only known up to a constant, i.e., one can only evaluate <span class="math notranslate nohighlight">\(\tilde{p}(\textbf{x})\)</span>, where <span class="math notranslate nohighlight">\(p(\textbf{x})=\frac{\tilde{p}(\textbf{x})}{Z}\)</span>, IS can be used by further normalizing the weights (self-normalized IS). The following figure shows the weighted samples obtained when using IS to estimate a 2D Gaussian target distribution <span class="math notranslate nohighlight">\(p\)</span>, sampling from a uniform proposal distribution <span class="math notranslate nohighlight">\(q\)</span>.</p>
+<a class="reference internal image-reference" href="../_images/SampleMethods_IS_samples.png"><img alt="IS weighted samples" class="align-center" src="../_images/SampleMethods_IS_samples.png" style="width: 220.8px; height: 226.4px;" />
+</a>
+<section id="importancesampling-class">
+<h2>ImportanceSampling Class<a class="headerlink" href="#importancesampling-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.ImportanceSampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImportanceSampling</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.ImportanceSampling">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ImportanceSampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdf_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_pdf_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/ImportanceSampling.html#ImportanceSampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.ImportanceSampling" title="Link to this definition"></a></dt>
+<dd><p>Sample from a user-defined target density using importance sampling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdf_target</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Callable that evaluates the pdf of the target distribution. Either <cite>log_pdf_target</cite> or
+<cite>pdf_target</cite> must be specified (the former is preferred).</p></li>
+<li><p><strong>log_pdf_target</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Callable that evaluates the log-pdf of the target distribution. Either <cite>log_pdf_target</cite>
+or <cite>pdf_target</cite> must be specified (the former is preferred).</p></li>
+<li><p><strong>args_target</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></span>) – Positional arguments of the target log_pdf / pdf callable.</p></li>
+<li><p><strong>proposal</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>]</span>) – Proposal to sample from. This <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> object must have an <a class="reference internal" href="../distributions/distribution_parent.html#rvs" title="rvs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rvs()</span></code></a> method
+and a <cite>log_pdf</cite> (or pdf) method.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – <p>Random seed used to initialize the pseudo-random number generator. Default is
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+<p>If an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">int</span></code></a> is provided, this sets the seed for an object of <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code></a>. Otherwise,
+the object itself can be passed directly.</p>
+</p></li>
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples to generate - see <a class="reference internal" href="#UQpy.sampling.ImportanceSampling.run" title="UQpy.sampling.ImportanceSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method. If not <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>, the <a class="reference internal" href="#UQpy.sampling.ImportanceSampling.run" title="UQpy.sampling.ImportanceSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>
+method is called when the object is created. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.ImportanceSampling.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/ImportanceSampling.html#ImportanceSampling.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.ImportanceSampling.run" title="Link to this definition"></a></dt>
+<dd><p>Generate and weight samples.</p>
+<p>This function samples from the proposal and appends samples to existing ones (if any). It then weights the
+samples as <code class="code docutils literal notranslate"><span class="pre">log_w_unnormalized)</span> <span class="pre">=</span> <span class="pre">log(target)-log(proposal)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of weighted samples to generate.</p>
+</dd>
+</dl>
+<p>This function has no returns, but it updates the output attributes <a class="reference internal" href="#UQpy.sampling.ImportanceSampling.samples" title="UQpy.sampling.ImportanceSampling.samples"><code class="xref py py-attr docutils literal notranslate"><span class="pre">samples</span></code></a>,
+<a class="reference internal" href="#UQpy.sampling.ImportanceSampling.unnormalized_log_weights" title="UQpy.sampling.ImportanceSampling.unnormalized_log_weights"><code class="xref py py-attr docutils literal notranslate"><span class="pre">unnormalized_log_weights</span></code></a> and <a class="reference internal" href="#UQpy.sampling.ImportanceSampling.weights" title="UQpy.sampling.ImportanceSampling.weights"><code class="xref py py-attr docutils literal notranslate"><span class="pre">weights</span></code></a> of the <a class="reference internal" href="#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a> object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.ImportanceSampling.resample">
+<span class="sig-name descname"><span class="pre">resample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'multinomial'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/ImportanceSampling.html#ImportanceSampling.resample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.ImportanceSampling.resample" title="Link to this definition"></a></dt>
+<dd><p>Resample to get a set of un-weighted samples that represent the target pdf.</p>
+<p>Utility function that creates a set of un-weighted samples from a set of weighted samples. Can be useful for
+plotting for instance.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.ImportanceSampling.resample" title="UQpy.sampling.ImportanceSampling.resample"><code class="xref py py-meth docutils literal notranslate"><span class="pre">resample()</span></code></a> method is not called automatically when instantiating the <a class="reference internal" href="#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a>
+class or when invoking its <a class="reference internal" href="#UQpy.sampling.ImportanceSampling.run" title="UQpy.sampling.ImportanceSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Resampling method, as of V4 only multinomial resampling is supported. Default: ‘multinomial’.</p></li>
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of un-weighted samples to generate. Default: None (sets <cite>nsamples</cite> equal to the
+number of existing weighted samples).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.ImportanceSampling.samples">
+<span class="sig-prename descclassname"><span class="pre">ImportanceSampling.</span></span><span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.ImportanceSampling.samples" title="Link to this definition"></a></dt>
+<dd><p>Set of samples, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">dimensions)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.ImportanceSampling.unnormalized_log_weights">
+<span class="sig-prename descclassname"><span class="pre">ImportanceSampling.</span></span><span class="sig-name descname"><span class="pre">unnormalized_log_weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.ImportanceSampling.unnormalized_log_weights" title="Link to this definition"></a></dt>
+<dd><p>Unnormalized log weights, i.e., <code class="code docutils literal notranslate"><span class="pre">log_w(x)</span> <span class="pre">=</span> <span class="pre">log_target(x)</span> <span class="pre">-</span> <span class="pre">log_proposal(x)</span></code>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of 
+shape <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.ImportanceSampling.weights">
+<span class="sig-prename descclassname"><span class="pre">ImportanceSampling.</span></span><span class="sig-name descname"><span class="pre">weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.ImportanceSampling.weights" title="Link to this definition"></a></dt>
+<dd><p>Importance weights, weighted so that they sum up to 1, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.ImportanceSampling.unweighted_samples">
+<span class="sig-prename descclassname"><span class="pre">ImportanceSampling.</span></span><span class="sig-name descname"><span class="pre">unweighted_samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.ImportanceSampling.unweighted_samples" title="Link to this definition"></a></dt>
+<dd><p>Set of un-weighted samples (useful for instance for plotting), computed by calling the <a class="reference internal" href="#UQpy.sampling.ImportanceSampling.resample" title="UQpy.sampling.ImportanceSampling.resample"><code class="xref py py-meth docutils literal notranslate"><span class="pre">resample()</span></code></a> 
+method</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/sampling/importance_sampling/index.html">Importance Sampling Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/sampling/tempering/parallel_tempering.html" class="btn btn-neutral float-left" title="Parallel Tempering for Bayesian Inference and Reliability analyses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/sampling/importance_sampling/index.html" class="btn btn-neutral float-right" title="Importance Sampling Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

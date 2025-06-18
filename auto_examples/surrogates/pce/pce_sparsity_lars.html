@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyperbolic truncation and Least Angle Regression &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Physics-Informed PCE: Uncertainty Quantification of Euler Beam" href="pce_euler_UQ.html" />
+    <link rel="prev" title="Camel function (3 random inputs, scalar output)" href="pce_camel.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/gpr.html"> Gaussian Process Regression</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../surrogates/polynomial_chaos.html"> Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/polynomial_bases.html"> Polynomial Bases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/polynomials.html"> Polynomials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/regressions.html"> Regressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/pce.html"> Polynomial Chaos Expansion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html"> Physics-informed Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#pdedata-class">PdeData class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#pdepce-class">PdePce class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#constrainedpce-class">ConstrainedPCE class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#reducedpce-class">ReducedPCE Class</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/index.html">Surrogates</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/polynomial_chaos.html">Polynomial Chaos Expansion - PCE</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/pce/pce.html">PolynomialChaosExpansion Class</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Polynomial Chaos Expansion Examples</a></li>
+      <li class="breadcrumb-item active">Hyperbolic truncation and Least Angle Regression</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/surrogates/pce/pce_sparsity_lars.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-surrogates-pce-pce-sparsity-lars-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="hyperbolic-truncation-and-least-angle-regression">
+<span id="sphx-glr-auto-examples-surrogates-pce-pce-sparsity-lars-py"></span><h1>Hyperbolic truncation and Least Angle Regression<a class="headerlink" href="#hyperbolic-truncation-and-least-angle-regression" title="Link to this heading"></a></h1>
+<p>In this example, we approximate the well-known Ishigami function with a total-degree Polynomial Chaos Expansion further
+reduced by hyperbolic truncation. In order to reduce the number of basis functions, we use the best-model selection
+algorithm based on Least Angle Regression.</p>
+<p>Import necessary libraries.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uniform</span><span class="p">,</span> <span class="n">JointIndependent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>We then define the Ishigami function, which reads:</p>
+<div class="math notranslate nohighlight">
+\[f(x_1, x_2, x_3) = \sin(x_1) + a \sin^2(x_2) + b x_3^4 \sin(x_1)\]</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ishigami</span><span class="p">(</span><span class="n">xx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ishigami function&quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">term1</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sin.html#numpy.sin" title="numpy.sin" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">sin</span></a><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">term2</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sin.html#numpy.sin" title="numpy.sin" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">sin</span></a><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">term3</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="n">xx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sin.html#numpy.sin" title="numpy.sin" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">sin</span></a><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">term1</span> <span class="o">+</span> <span class="n">term2</span> <span class="o">+</span> <span class="n">term3</span>
+</pre></div>
+</div>
+<p>The Ishigami function has three independent random inputs, which are uniformly distributed in
+interval <span class="math notranslate nohighlight">\([-\pi, \pi]\)</span>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># input distributions</span>
+<span class="n">dist1</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=-</span><a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a><span class="p">)</span>
+<span class="n">dist2</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=-</span><a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a><span class="p">)</span>
+<span class="n">dist3</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=-</span><a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a><span class="p">)</span>
+<span class="n">marg</span> <span class="o">=</span> <span class="p">[</span><span class="n">dist1</span><span class="p">,</span> <span class="n">dist2</span><span class="p">,</span> <span class="n">dist3</span><span class="p">]</span>
+<span class="n">joint</span> <span class="o">=</span> <span class="n">JointIndependent</span><span class="p">(</span><span class="n">marginals</span><span class="o">=</span><span class="n">marg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now define our complete PCE, which will be further used for the best model selection algorithm.</p>
+<p>We must now select a polynomial basis. Here we opt for a total-degree (TD) basis, such that the univariate
+polynomials have a maximum degree equal to <span class="math notranslate nohighlight">\(P\)</span> and all multivariate polynomial have a total-degree
+(sum of degrees of corresponding univariate polynomials) at most equal to <span class="math notranslate nohighlight">\(P\)</span>. The size of the basis
+is then given by</p>
+<div class="math notranslate nohighlight">
+\[\frac{(N+P)!}{N! P!}\]</div>
+<p>where <span class="math notranslate nohighlight">\(N\)</span> is the number of random inputs (here, <span class="math notranslate nohighlight">\(N=3\)</span>).</p>
+<p>Note that the size of the basis is highly dependent both on <span class="math notranslate nohighlight">\(N\)</span> and <span class="math notranslate nohighlight">\(P\)</span>. It is generally advisable
+that the experimental design has <span class="math notranslate nohighlight">\(2-10\)</span> times more data points than the number of PCE polynomials. This might
+lead to curse of dimensionality and thus we will utilize the best model selection algorithm based on
+Least Angle Regression.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># maximum polynomial degree</span>
+<span class="n">P</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="c1"># construct total-degree polynomial basis</span>
+<span class="n">polynomial_basis</span> <span class="o">=</span> <span class="n">TotalDegreeBasis</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We must now compute the PCE coefficients. For that we first need a training sample of input random variable
+realizations and the corresponding model outputs. These two data sets form what is also known as an
+‘’experimental design’’. In case of adaptive construction of PCE by the best model selection algorithm, size of
+ED is given apriori and the most suitable basis functions are adaptively selected.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create training data</span>
+<span class="n">sample_size</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of experimental design:&#39;</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
+
+<span class="c1"># realizations of random inputs</span>
+<span class="n">xx_train</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+<span class="c1"># corresponding model outputs</span>
+<span class="n">yy_train</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">ishigami</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xx_train</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>We now fit the PCE coefficients by solving a regression problem. Here we opt for the <code class="code docutils literal notranslate"><span class="pre">_np.linalg.lstsq_</span></code> method,
+which is based on the <code class="code docutils literal notranslate"><span class="pre">_dgelsd_</span></code> solver of LAPACK. This original PCE class will be used for further selection of
+the best basis functions.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># fit model</span>
+<span class="n">least_squares</span> <span class="o">=</span> <span class="n">LeastSquareRegression</span><span class="p">()</span>
+<span class="n">pce</span> <span class="o">=</span> <span class="n">PolynomialChaosExpansion</span><span class="p">(</span><span class="n">polynomial_basis</span><span class="o">=</span><span class="n">polynomial_basis</span><span class="p">,</span> <span class="n">regression_method</span><span class="o">=</span><span class="n">least_squares</span><span class="p">)</span>
+<span class="n">pce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xx_train</span><span class="p">,</span> <span class="n">yy_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once we have created the PCE containing all basis functions generated by TD algorithm, it is possible to reduce
+the number of basis functions by LAR algorithm. The best model selection algorithm in UQPy is based on results
+of LAR adding basis functions to active set one-by-one until the target accuracy is obtained. Approximation
+error is measured by leave-one-out error <span class="math notranslate nohighlight">\(Q^2\)</span> on given ED in <span class="math notranslate nohighlight">\([0,1]\)</span>. Target error represents the target
+accuracy measured by <span class="math notranslate nohighlight">\(Q^2\)</span>.</p>
+<p>Note that if the target error is too high (close to 1), there is a risk of over-fitting. Therefore, we must check
+the over-fitting by empirical rule: if the three steps of LAR in row lead to decreasing accuracy - stop the
+algorithm. It is recommended to always check the over-fitting.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the size of the basis</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of the full set of PCE basis:&#39;</span><span class="p">,</span> <span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials_number</span><span class="p">)</span>
+
+<span class="n">target_error</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">CheckOverfitting</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">pceLAR</span> <span class="o">=</span> <span class="n">polynomial_chaos</span><span class="o">.</span><span class="n">regressions</span><span class="o">.</span><span class="n">LeastAngleRegression</span><span class="o">.</span><span class="n">model_selection</span><span class="p">(</span><span class="n">pce</span><span class="p">,</span> <span class="n">target_error</span><span class="p">,</span> <span class="n">CheckOverfitting</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of the LAR PCE basis:&#39;</span><span class="p">,</span> <span class="n">pceLAR</span><span class="o">.</span><span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials_number</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By simply post-processing the PCE’s terms, we are able to get estimates regarding the mean and standard deviation of
+the model output.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">mean_est</span><span class="p">,</span> <span class="n">var_est</span> <span class="o">=</span> <span class="n">pceLAR</span><span class="o">.</span><span class="n">get_moments</span><span class="p">(</span><span class="n">higher</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PCE mean estimate:&#39;</span><span class="p">,</span> <span class="n">mean_est</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PCE variance estimate:&#39;</span><span class="p">,</span> <span class="n">var_est</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is possible to obtain skewness and kurtosis (3rd and 4th moments), though it might be computationally demanding
+for high <span class="math notranslate nohighlight">\(N\)</span> and <span class="math notranslate nohighlight">\(P\)</span>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">mean_est</span><span class="p">,</span> <span class="n">var_est</span><span class="p">,</span> <span class="n">skew_est</span><span class="p">,</span> <span class="n">kurt_est</span> <span class="o">=</span> <span class="n">pceLAR</span><span class="o">.</span><span class="n">get_moments</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PCE mean estimate:&#39;</span><span class="p">,</span> <span class="n">mean_est</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PCE variance estimate:&#39;</span><span class="p">,</span> <span class="n">var_est</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PCE skewness estimate:&#39;</span><span class="p">,</span> <span class="n">skew_est</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PCE kurtosis estimate:&#39;</span><span class="p">,</span> <span class="n">kurt_est</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Similarly to the statistical moments, we can very simply estimate the Sobol sensitivity indices, which quantify the
+importance of the input random variables in terms of impact on the model output.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pce_sensitivity</span> <span class="o">=</span> <span class="n">PceSensitivity</span><span class="p">(</span><span class="n">pceLAR</span><span class="p">)</span>
+<span class="n">pce_sensitivity</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">sobol_first</span> <span class="o">=</span> <span class="n">pce_sensitivity</span><span class="o">.</span><span class="n">first_order_indices</span>
+<span class="n">sobol_total</span> <span class="o">=</span> <span class="n">pce_sensitivity</span><span class="o">.</span><span class="n">total_order_indices</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;First-order Sobol indices:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sobol_first</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total-order Sobol indices:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sobol_total</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The accuracy of PCE is typically measured by leave-one-out error <span class="math notranslate nohighlight">\(Q^2\)</span> on given ED. Moreover, we will test that
+also by computing the mean absolute error (MAE) between the PCE’s predictions and the true model outputs, given a
+validation sample of <span class="math notranslate nohighlight">\(10^5\)</span> data points.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples_val</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">xx_val</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples_val</span><span class="p">)</span>
+<span class="n">yy_val</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">ishigami</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xx_val</span><span class="p">])</span>
+
+<span class="n">yy_val_pce</span> <span class="o">=</span> <span class="n">pceLAR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xx_val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yy_val</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">-</span> <span class="n">yy_val_pce</span><span class="p">)</span>
+<span class="n">MAE</span> <span class="o">=</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples_val</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean absolute error:&#39;</span><span class="p">,</span> <span class="n">MAE</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Leave-one-out cross validation on ED:&#39;</span><span class="p">,</span> <span class="n">pceLAR</span><span class="o">.</span><span class="n">leaveoneout_error</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>For the comparison, we can check results of PCE solved by OLS without the model selection algorithm. Note that, it is
+necessary to use 2−10 times more data points than the number of PCE polynomials.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># validation data sets</span>
+<a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.seed.html#numpy.random.seed" title="numpy.random.seed" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">999</span><span class="p">)</span>  <span class="c1"># fix random seed for reproducibility</span>
+<span class="n">n_samples_val</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">xx_val</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples_val</span><span class="p">)</span>
+<span class="n">yy_val</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">ishigami</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xx_val</span><span class="p">])</span>
+
+<span class="n">mae</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># to hold MAE for increasing polynomial degree</span>
+<span class="k">for</span> <span class="n">degree</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+    <span class="c1"># define PCE</span>
+    <span class="n">polynomial_basis</span> <span class="o">=</span> <span class="n">TotalDegreeBasis</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+    <span class="n">least_squares</span> <span class="o">=</span> <span class="n">LeastSquareRegression</span><span class="p">()</span>
+    <span class="n">pce_metamodel</span> <span class="o">=</span> <span class="n">PolynomialChaosExpansion</span><span class="p">(</span><span class="n">polynomial_basis</span><span class="o">=</span><span class="n">polynomial_basis</span><span class="p">,</span> <span class="n">regression_method</span><span class="o">=</span><span class="n">least_squares</span><span class="p">)</span>
+
+    <span class="c1"># create training data</span>
+    <a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.seed.html#numpy.random.seed" title="numpy.random.seed" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># fix random seed for reproducibility</span>
+    <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pce_metamodel</span><span class="o">.</span><span class="n">polynomials_number</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">xx_train</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+    <span class="n">yy_train</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">ishigami</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xx_train</span><span class="p">])</span>
+
+    <span class="c1"># fit PCE coefficients</span>
+    <span class="n">pce_metamodel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xx_train</span><span class="p">,</span> <span class="n">yy_train</span><span class="p">)</span>
+
+    <span class="c1"># compute mean absolute validation error</span>
+    <span class="n">yy_val_pce</span> <span class="o">=</span> <span class="n">pce_metamodel</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xx_val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yy_val</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">-</span> <span class="n">yy_val_pce</span><span class="p">)</span>
+    <span class="n">mae</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples_val</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of ED:&#39;</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Polynomial degree:&#39;</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean absolute error:&#39;</span><span class="p">,</span> <span class="n">mae</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In case of high-dimensional input and/or high <span class="math notranslate nohighlight">\(P\)</span> it is also beneficial to reduce the TD basis set by hyperbolic
+truncation. The hyperbolic truncation reduces higher-order interaction terms in dependence to parameter <span class="math notranslate nohighlight">\(q\)</span> in
+interval <span class="math notranslate nohighlight">\((0,1)\)</span>. The set of multi indices <span class="math notranslate nohighlight">\(\alpha\)</span> is reduced as follows:</p>
+<p><span class="math notranslate nohighlight">\(\alpha\in \mathbb{N}^{N}: || \boldsymbol{\alpha}||_q \equiv \Big( \sum_{i=1}^{N} \alpha_i^q \Big)^{1/q} \leq P\)</span></p>
+<p>Note that <span class="math notranslate nohighlight">\(q=1\)</span> leads to full TD set.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of the full set of PCE basis:&#39;</span><span class="p">,</span> <span class="n">TotalDegreeBasis</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">polynomials_number</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">polynomial_basis_hyperbolic</span> <span class="o">=</span> <span class="n">TotalDegreeBasis</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="c1"># check the size of the basis</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of the hyperbolic full set of PCE basis:&#39;</span><span class="p">,</span> <span class="n">polynomial_basis_hyperbolic</span><span class="o">.</span><span class="n">polynomials_number</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The reduction of the full set size significantly reduces the necessary number of data points in ED for non-adaptive
+PCE. However, it is suitable only for mathematical models without significant higher-order interaction terms.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">pce</span> <span class="o">=</span> <span class="n">PolynomialChaosExpansion</span><span class="p">(</span><span class="n">polynomial_basis</span><span class="o">=</span><span class="n">polynomial_basis_hyperbolic</span><span class="p">,</span> <span class="n">regression_method</span><span class="o">=</span><span class="n">least_squares</span><span class="p">)</span>
+<span class="n">pce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xx_train</span><span class="p">,</span> <span class="n">yy_train</span><span class="p">)</span>
+<span class="n">yy_val_pce</span> <span class="o">=</span> <span class="n">pce</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xx_val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yy_val</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">-</span> <span class="n">yy_val_pce</span><span class="p">)</span>
+<span class="n">MAE</span> <span class="o">=</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples_val</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean absolute error:&#39;</span><span class="p">,</span> <span class="n">MAE</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Leave-one-out cross validation on ED:&#39;</span><span class="p">,</span> <span class="n">pce</span><span class="o">.</span><span class="n">leaveoneout_error</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-surrogates-pce-pce-sparsity-lars-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/surrogates/pce/pce_sparsity_lars.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo46.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/a96017200540194425a28e5fa64b85b2/pce_sparsity_lars.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">pce_sparsity_lars.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/74f61091a6c3f753f479194c7c631c55/pce_sparsity_lars.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">pce_sparsity_lars.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/6d043f0ef1fea7dbe0d842576f65923c/pce_sparsity_lars.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">pce_sparsity_lars.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pce_camel.html" class="btn btn-neutral float-left" title="Camel function (3 random inputs, scalar output)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pce_euler_UQ.html" class="btn btn-neutral float-right" title="Physics-Informed PCE: Uncertainty Quantification of Euler Beam" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

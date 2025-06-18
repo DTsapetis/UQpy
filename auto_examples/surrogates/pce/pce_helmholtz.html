@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2D Helmholtz eigenvalues (2 random inputs, vector-valued output) &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Ishigami function (3 random inputs, scalar output)" href="pce_ishigami.html" />
+    <link rel="prev" title="Exponential function (3 random inputs, scalar output)" href="pce_exponential.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../surrogates/gpr.html"> Gaussian Process Regression</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../surrogates/polynomial_chaos.html"> Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/polynomial_bases.html"> Polynomial Bases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/polynomials.html"> Polynomials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/regressions.html"> Regressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../surrogates/pce/pce.html"> Polynomial Chaos Expansion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html"> Physics-informed Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#pdedata-class">PdeData class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#pdepce-class">PdePce class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#constrainedpce-class">ConstrainedPCE class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#reducedpce-class">ReducedPCE Class</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../surrogates/pce/physics_informed.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/index.html">Surrogates</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/polynomial_chaos.html">Polynomial Chaos Expansion - PCE</a></li>
+          <li class="breadcrumb-item"><a href="../../../surrogates/pce/pce.html">PolynomialChaosExpansion Class</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Polynomial Chaos Expansion Examples</a></li>
+      <li class="breadcrumb-item active">2D Helmholtz eigenvalues (2 random inputs, vector-valued output)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/surrogates/pce/pce_helmholtz.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-surrogates-pce-pce-helmholtz-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="d-helmholtz-eigenvalues-2-random-inputs-vector-valued-output">
+<span id="sphx-glr-auto-examples-surrogates-pce-pce-helmholtz-py"></span><h1>2D Helmholtz eigenvalues (2 random inputs, vector-valued output)<a class="headerlink" href="#d-helmholtz-eigenvalues-2-random-inputs-vector-valued-output" title="Link to this heading"></a></h1>
+<p>In this example, PCE is used to generate a surrogate model for a given set of 2D data for a numerical model with
+multi-dimensional outputs.</p>
+<p>Import necessary libraries.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normal</span><span class="p">,</span> <span class="n">JointIndependent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>The analytical function below describes the eigenvalues of the 2D Helmholtz equation on a square.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analytical_eigenvalues_2d</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span> <span class="n">lx</span><span class="p">,</span> <span class="n">ly</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the first Ne eigenvalues of a rectangular waveguide with</span>
+<span class="sd">    dimensions lx, ly</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Ne : integer</span>
+<span class="sd">         number of eigenvalues.</span>
+<span class="sd">    lx : float</span>
+<span class="sd">         length in x direction.</span>
+<span class="sd">    ly : float</span>
+<span class="sd">         length in y direction.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ev : numpy 1d array</span>
+<span class="sd">         the Ne eigenvalues</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ev</span> <span class="o">=</span> <span class="p">[(</span><span class="n">m</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">/</span> <span class="n">lx</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">/</span> <span class="n">ly</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ne</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+          <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ne</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">ev</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ev</span><span class="p">[:</span><span class="n">Ne</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Create a distribution object.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">pdf_lx</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="n">pdf_ly</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">margs</span> <span class="o">=</span> <span class="p">[</span><span class="n">pdf_lx</span><span class="p">,</span> <span class="n">pdf_ly</span><span class="p">]</span>
+<span class="n">joint</span> <span class="o">=</span> <span class="n">JointIndependent</span><span class="p">(</span><span class="n">marginals</span><span class="o">=</span><span class="n">margs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Define the number of input dimensions and choose the number of output dimensions (number of eigenvalues).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">dim_in</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">dim_out</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<p>Construct PCE models by varying the maximum degree of polynomials (and therefore the number of polynomial basis) and
+compute the validation error for all resulting models.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># construct PCE surrogate models</span>
+<span class="k">for</span> <span class="n">max_degree</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total degree: &#39;</span><span class="p">,</span> <span class="n">max_degree</span><span class="p">)</span>
+    <span class="n">polynomial_basis</span> <span class="o">=</span> <span class="n">TotalDegreeBasis</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">max_degree</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of basis:&#39;</span><span class="p">,</span> <span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials_number</span><span class="p">)</span>
+    <span class="c1"># training data</span>
+    <span class="n">sampling_coeff</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sampling coefficient: &#39;</span><span class="p">,</span> <span class="n">sampling_coeff</span><span class="p">)</span>
+    <a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.seed.html#numpy.random.seed" title="numpy.random.seed" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/math.html#math.ceil" title="math.ceil" class="sphx-glr-backref-module-math sphx-glr-backref-type-py-function"><span class="n">math</span><span class="o">.</span><span class="n">ceil</span></a><span class="p">(</span><span class="n">sampling_coeff</span> <span class="o">*</span> <span class="n">polynomial_basis</span><span class="o">.</span><span class="n">polynomials_number</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training data: &#39;</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">xx</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">yy</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">analytical_eigenvalues_2d</span><span class="p">(</span><span class="n">dim_out</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xx</span><span class="p">])</span>
+
+    <span class="c1"># fit model</span>
+    <span class="n">least_squares</span> <span class="o">=</span> <span class="n">LeastSquareRegression</span><span class="p">()</span>
+    <span class="n">pce_metamodel</span> <span class="o">=</span> <span class="n">PolynomialChaosExpansion</span><span class="p">(</span><span class="n">polynomial_basis</span><span class="o">=</span><span class="n">polynomial_basis</span><span class="p">,</span> <span class="n">regression_method</span><span class="o">=</span><span class="n">least_squares</span><span class="p">)</span>
+    <span class="n">pce_metamodel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+
+    <span class="c1"># coefficients</span>
+    <span class="c1"># print(&#39;PCE coefficients: &#39;, pce.C)</span>
+
+    <span class="c1"># validation errors</span>
+    <a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.seed.html#numpy.random.seed" title="numpy.random.seed" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">999</span><span class="p">)</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">x_val</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">y_val</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">analytical_eigenvalues_2d</span><span class="p">(</span><span class="n">dim_out</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_val</span><span class="p">])</span>
+    <span class="n">y_val_pce</span> <span class="o">=</span> <span class="n">pce_metamodel</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
+    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">((</span><span class="n">y_val</span> <span class="o">-</span> <span class="n">y_val_pce</span><span class="p">)</span> <span class="o">/</span> <span class="n">y_val</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Relative absolute errors: &#39;</span><span class="p">,</span> <span class="n">errors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Plot errors.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">errors</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><span class="n">errors</span><span class="p">)[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">),</span> <span class="n">errors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s1">&#39;--o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;pol. degree: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Moment estimation (directly estimated from the last PCE metamodel).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean PCE estimate:&#39;</span><span class="p">,</span> <span class="n">pce_metamodel</span><span class="o">.</span><span class="n">get_moments</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Variance PCE estimate:&#39;</span><span class="p">,</span> <span class="n">pce_metamodel</span><span class="o">.</span><span class="n">get_moments</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-surrogates-pce-pce-helmholtz-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/surrogates/pce/pce_helmholtz.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo46.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/3d441e19fbb658b7d62aa501f445e886/pce_helmholtz.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">pce_helmholtz.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/6309f1abda8b18ba458551bec264783e/pce_helmholtz.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">pce_helmholtz.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/fb5a4b2ea5e8263077ff0350de94e4fd/pce_helmholtz.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">pce_helmholtz.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pce_exponential.html" class="btn btn-neutral float-left" title="Exponential function (3 random inputs, scalar output)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pce_ishigami.html" class="btn btn-neutral float-right" title="Ishigami function (3 random inputs, scalar output)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

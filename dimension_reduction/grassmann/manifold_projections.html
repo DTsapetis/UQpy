@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grassmann Projections &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Grassmann Operations" href="grassmann_operations.html" />
+    <link rel="prev" title="Grassmann manifold" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Dimension Reduction</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"> Grassmann manifold</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Grassmann Projections</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection"><code class="docutils literal notranslate"><span class="pre">GrassmannProjection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#svd-projection">SVD Projection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="grassmann_operations.html"> Grassmann Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grassmann_interpolation.html"> Grassmann Interpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/dimension_reduction/grassmann/index.html"> Grassmann Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dmaps.html"> Diffusion maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pod.html"> POD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hosvd.html"> HOSVD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Dimension Reduction</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Grassmann manifold</a></li>
+      <li class="breadcrumb-item active">Grassmann Projections</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/dimension_reduction/grassmann/manifold_projections.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="grassmann-projections">
+<h1>Grassmann Projections<a class="headerlink" href="#grassmann-projections" title="Link to this heading"></a></h1>
+<p>A collection of methods to project data on the Grassmann manifold.</p>
+<p>The abstract <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection" title="UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannProjection</span></code></a> class is the parent class that allows the user to define methods for
+projection of data onto the Grassmann manifold. These projection methods must be created within child classes built from
+this abstract class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GrassmannProjection</span></span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/projections/baseclass/GrassmannProjection.html#GrassmannProjection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection" title="Link to this definition"></a></dt>
+<dd><p>The parent class to all classes used to project data onto the Grassmann manifold.</p>
+</dd></dl>
+
+<p>The <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection" title="UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannProjection</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannProjection</span>
+</pre></div>
+</div>
+<p>The user may create a new Grassmann projection method by subclassing <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection" title="UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannProjection</span></code></a>. Any such class
+must create points with type <a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>.</p>
+<section id="svd-projection">
+<h2>SVD Projection<a class="headerlink" href="#svd-projection" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.dimension_reduction.SVDProjection" title="UQpy.dimension_reduction.SVDProjection"><code class="xref py py-class docutils literal notranslate"><span class="pre">SVDProjection</span></code></a> class is used to project each data point of a given dataset onto a Grassmann manifold using
+the Singular Value Decomposition (SVD). The SVD factorizes a matrix <span class="math notranslate nohighlight">\(\mathbf{X}\in \mathbb{R}^{n \times m}\)</span> into
+three matrices:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{X} =  \mathbf{U}  \mathbf{\Sigma}  \mathbf{V}^\intercal\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{V}\)</span> are the matrices of left and right eigenvectors, respectively and
+<span class="math notranslate nohighlight">\(\mathbf{\Sigma}\)</span> is a diagonal matrix containing the eigenvalues. Since <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{V}\)</span>
+are orthonormal matrices we consider them to be representatives of the data point on the Grassmann manifold. The
+<code class="xref py py-class docutils literal notranslate"><span class="pre">SvdProjection</span></code> class allows the user to define the Grassmann manifold <span class="math notranslate nohighlight">\(\mathcal{G}(p, n)\)</span> on which the
+data will reside by selecting the number of <span class="math notranslate nohighlight">\(p-\)</span> planes, i.e., the rank of matrix <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> is equal to
+the number of <span class="math notranslate nohighlight">\(p-\)</span> planes.</p>
+<p>The <a class="reference internal" href="#UQpy.dimension_reduction.SVDProjection" title="UQpy.dimension_reduction.SVDProjection"><code class="xref py py-class docutils literal notranslate"><span class="pre">SVDProjection</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.SVDProjection</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVDProjection</span>
+</pre></div>
+</div>
+<p>A description of the class signature is shown below:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.SVDProjection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SVDProjection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/projections/SVDProjection.html#SVDProjection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.SVDProjection" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Raw data given as a list of matrices.</p></li>
+<li><p><strong>p</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – <p>Number of independent p-planes of each Grassmann point.
+Options:</p>
+<p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">int</span></code></a>: Integer specifying the number of p-planes</p>
+<dl>
+<dt><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">str</span></code></a>:</dt><dd><p><cite>”max”</cite>: Set p equal to the maximum rank of all provided data matrices</p>
+<p><cite>”min”</cite>: Set p equal to the minimum rank of all provided data matrices</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>tol</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Tolerance on the SVD</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.SVDProjection.u">
+<span class="sig-prename descclassname"><span class="pre">SVDProjection.</span></span><span class="sig-name descname"><span class="pre">u</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.dimension_reduction.SVDProjection.u" title="Link to this definition"></a></dt>
+<dd><p>Left singular vectors from the SVD of each sample in <cite>data</cite> representing a point on the Grassmann 
+manifold.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.SVDProjection.sigma">
+<span class="sig-prename descclassname"><span class="pre">SVDProjection.</span></span><span class="sig-name descname"><span class="pre">sigma</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.dimension_reduction.SVDProjection.sigma" title="Link to this definition"></a></dt>
+<dd><p>Singular values from the SVD of each sample in <cite>data</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.SVDProjection.v">
+<span class="sig-prename descclassname"><span class="pre">SVDProjection.</span></span><span class="sig-name descname"><span class="pre">v</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.dimension_reduction.SVDProjection.v" title="Link to this definition"></a></dt>
+<dd><p>Right singular vectors from the SVD of each sample in <cite>data</cite> representing a point on the Grassmann 
+manifold.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Grassmann manifold" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="grassmann_operations.html" class="btn btn-neutral float-right" title="Grassmann Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

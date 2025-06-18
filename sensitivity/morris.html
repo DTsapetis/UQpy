@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morris method &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Morris Screening" href="../auto_examples/sensitivity/morris/index.html" />
+    <link rel="prev" title="Toy multioutput function" href="../auto_examples/sensitivity/generalised_sobol/generalised_sobol_multioutput.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="chatterjee.html"> Chatterjee Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cramer_von_mises.html"> Cramér-von Mises Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generalised_sobol.html"> Generalised Sobol Sensitivity</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Morris Sensitivity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#morris-class">Morris Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pce.html"> Polynomial Chaos Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sobol.html"> Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sensitivity</a></li>
+      <li class="breadcrumb-item active">Morris method</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sensitivity/morris.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="morris-method">
+<h1>Morris method<a class="headerlink" href="#morris-method" title="Link to this heading"></a></h1>
+<p>The Morris method is a so-called one-at-a-time (OAT) screening method that is known to achieve a good trade-off between
+accuracy and efficiency, and can serve to identify the few important factors in models with many factors. The method is
+based on calculating for each input a number of incremental ratios, called Elementary Effects (EE), from which basic
+statistics are computed to derive sensitivity information <span id="id1">[<a class="reference internal" href="../bibliography.html#id60" title="Francesca Campolongo, Jessica Cariboni, and Andrea Saltelli. An effective screening design for sensitivity analysis of large models. Environmental Modelling &amp; Software, 22(10):1509-1518, 2007. Modelling, computer-assisted simulations, and mapping of dangerous phenomena for hazard assessment. URL: https://www.sciencedirect.com/science/article/pii/S1364815206002805, doi:https://doi.org/10.1016/j.envsoft.2006.10.004.">51</a>]</span>.</p>
+<p>For each input <span class="math notranslate nohighlight">\(X_{k}\)</span>, the elementary effect is computed as:</p>
+<div class="math notranslate nohighlight">
+\[EE_{k} = \frac{Y(X_{1}, ..., X_{k}+\Delta, ..., X_{d})-Y(X_{1}, ..., X_{k}, ..., X_{d})}{\Delta}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Delta\)</span> is chosen so that <span class="math notranslate nohighlight">\(X_{k}+\Delta\)</span> is still in the allowable domain for every dimension k.</p>
+<p>The key idea of the original Morris method (current implementation) is to initiate trajectories from various “nominal” points <span class="math notranslate nohighlight">\(X\)</span> randomly selected over the grid and then gradually advancing one <span class="math notranslate nohighlight">\(\Delta\)</span> at a time between each model evaluation (one at a time OAT design), along a different dimension of the parameter space selected randomly (see an example of 5 trajectories in a 2D space on the left plot of the figure below). For <span class="math notranslate nohighlight">\(r\)</span> trajectories (usually set <span class="math notranslate nohighlight">\(r\)</span> between 5 and 50), the number of simulations required is <span class="math notranslate nohighlight">\(r (d+1)\)</span>.</p>
+<p>The following sensitivity indices are computed from the elementary effects:</p>
+<div class="math notranslate nohighlight">
+\[\mu_{k}^{\star} = \frac{1}{r} \sum_{i=1}^{r} \vert EE_{k}^{r} \vert\]</div>
+<div class="math notranslate nohighlight">
+\[\sigma_{k} = \sqrt{ \frac{1}{r} \sum_{i=1}^{r} \left( EE_{k}^{r} - \mu_{k} \right)^{2}}\]</div>
+<p>These indices allow differentiation between three groups of inputs (see example in the right plot on the figure below):</p>
+<ul class="simple">
+<li><p>Parameters with non-influential effects, i.e., the parameters that have relatively small values of both <span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span> and <span class="math notranslate nohighlight">\(\sigma_{k}\)</span>.</p></li>
+<li><p>Parameters with linear and/or additive effects, i.e., the parameters that have a relatively large value of <span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span> and relatively small value of <span class="math notranslate nohighlight">\(\sigma_{k}\)</span> (the magnitude of the effect <span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span> is consistently large, regardless of the other parameter values, i.e., no interaction).</p></li>
+<li><p>Parameters with nonlinear and/or interaction effects, i.e., the parameters that have a relatively small value of <span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span> and a relatively large value of <span class="math notranslate nohighlight">\(\sigma_{k}\)</span> (large value of <span class="math notranslate nohighlight">\(\sigma_{k}\)</span> indicates that the effect can be large or small depending on the other values of parameters at which the model is evaluated, indicates potential interaction between parameters).</p></li>
+</ul>
+<img alt="../_images/morris_indices.png" class="align-left" src="../_images/morris_indices.png" />
+<section id="morris-class">
+<h2>Morris Class<a class="headerlink" href="#morris-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sensitivity.MorrisSensitivity" title="UQpy.sensitivity.MorrisSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">MorrisSensitivity</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.MorrisSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">MorrisSensitivity</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sensitivity.MorrisSensitivity">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MorrisSensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runmodel_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_levels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trajectories</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize_dispersion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/MorrisSensitivity.html#MorrisSensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.MorrisSensitivity" title="Link to this definition"></a></dt>
+<dd><p>Compute sensitivity indices based on the Morris screening method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>runmodel_object</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a></span>) – The computational model. It should be of type <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>. The
+output QoI can be a scalar or vector of length <code class="code docutils literal notranslate"><span class="pre">ny</span></code>, then the sensitivity indices of all <code class="code docutils literal notranslate"><span class="pre">ny</span></code> outputs are
+computed independently.</p></li>
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="../distributions/joint_from_independent.html#UQpy.distributions.collection.JointIndependent" title="UQpy.distributions.collection.JointIndependent.JointIndependent"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointIndependent</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>]</span>) – List of <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> objects corresponding to each random variable, or
+<a class="reference internal" href="../distributions/joint_from_independent.html#UQpy.distributions.collection.JointIndependent" title="UQpy.distributions.collection.JointIndependent"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointIndependent</span></code></a> object (multivariate RV with independent marginals).</p></li>
+<li><p><strong>n_levels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of levels that define the grid over the hypercube where evaluation points are
+sampled. Must be an integer <span class="math notranslate nohighlight">\(\ge 3\)</span>.</p></li>
+<li><p><strong>delta</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Size of the jump between two consecutive evaluation points, must be a multiple of delta should be
+in <code class="code docutils literal notranslate"><span class="pre">{1/(n_levels-1),</span> <span class="pre">...,</span> <span class="pre">1-1/(n_levels-1)}</span></code>.
+Default: <span class="math notranslate nohighlight">\(delta=\frac{levels\_number}{2 * (levels\_number-1)}\)</span> if <cite>n_levels</cite> is even,
+<span class="math notranslate nohighlight">\(delta=0.5\)</span> if n_levels is odd.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+<li><p><strong>n_trajectories</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of random trajectories, usually chosen between <span class="math notranslate nohighlight">\(5\)</span> and <span class="math notranslate nohighlight">\(10\)</span>.
+The number of model evaluations is <code class="code docutils literal notranslate"><span class="pre">n_trajectories</span> <span class="pre">*</span> <span class="pre">(d+1)</span></code>. If None, the <cite>Morris</cite> object is created
+but not run (see <a class="reference internal" href="#UQpy.sensitivity.MorrisSensitivity.run" title="UQpy.sensitivity.MorrisSensitivity.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method)</p></li>
+<li><p><strong>maximize_dispersion</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – <p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">True</span></code></a>, generate a large number of design trajectories and keep the ones
+that maximize dispersion between all trajectories, allows for a better coverage of the input space.</p>
+<p>Default <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.MorrisSensitivity.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_trajectories</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/MorrisSensitivity.html#MorrisSensitivity.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.MorrisSensitivity.run" title="Link to this definition"></a></dt>
+<dd><p>Run the Morris indices evaluation.</p>
+<p>The code first sample trajectories in the unit hypercube and transform them to the physical space (see method
+<a class="reference internal" href="#UQpy.sensitivity.MorrisSensitivity.sample_trajectories" title="UQpy.sensitivity.MorrisSensitivity.sample_trajectories"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_trajectories()</span></code></a>), then runs the forward model to compute the elementary effects,
+and finally computes the sensitivity indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_trajectories</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of random trajectories. Usually chosen between <span class="math notranslate nohighlight">\(5\)</span> and <span class="math notranslate nohighlight">\(10\)</span>.
+The number of model evaluations is <code class="code docutils literal notranslate"><span class="pre">n_trajectories</span> <span class="pre">*</span> <span class="pre">(d+1)</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.MorrisSensitivity.sample_trajectories">
+<span class="sig-name descname"><span class="pre">sample_trajectories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_trajectories</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize_dispersion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/MorrisSensitivity.html#MorrisSensitivity.sample_trajectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.MorrisSensitivity.sample_trajectories" title="Link to this definition"></a></dt>
+<dd><p>Create the trajectories, first in the unit hypercube then transform them in the physical space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_trajectories</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of random trajectories. Usually chosen between <span class="math notranslate nohighlight">\(5\)</span> and <span class="math notranslate nohighlight">\(10\)</span>.
+The number of model evaluations is <code class="code docutils literal notranslate"><span class="pre">n_trajectories</span> <span class="pre">*</span> <span class="pre">(d+1)</span></code>.</p></li>
+<li><p><strong>maximize_dispersion</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">True</span></code></a>, generate a large number of design trajectories and keep the ones
+that maximize dispersion between all trajectories, allows for a better coverage of the input space.
+Default <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.MorrisSensitivity.trajectories_unit_hypercube">
+<span class="sig-prename descclassname"><span class="pre">MorrisSensitivity.</span></span><span class="sig-name descname"><span class="pre">trajectories_unit_hypercube</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sensitivity.MorrisSensitivity.trajectories_unit_hypercube" title="Link to this definition"></a></dt>
+<dd><p>Trajectories in the unit hypercube, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_trajectories,</span> <span class="pre">d+1,</span> <span class="pre">d)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.MorrisSensitivity.trajectories_physical_space">
+<span class="sig-prename descclassname"><span class="pre">MorrisSensitivity.</span></span><span class="sig-name descname"><span class="pre">trajectories_physical_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sensitivity.MorrisSensitivity.trajectories_physical_space" title="Link to this definition"></a></dt>
+<dd><p>Trajectories in the physical space, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_trajectories,</span> <span class="pre">d+1,</span> <span class="pre">d)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.MorrisSensitivity.elementary_effects">
+<span class="sig-prename descclassname"><span class="pre">MorrisSensitivity.</span></span><span class="sig-name descname"><span class="pre">elementary_effects</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sensitivity.MorrisSensitivity.elementary_effects" title="Link to this definition"></a></dt>
+<dd><p>Elementary effects <span class="math notranslate nohighlight">\(EE_{k}\)</span>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_trajectories,</span> <span class="pre">d,</span> <span class="pre">ny)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.MorrisSensitivity.mustar_indices">
+<span class="sig-prename descclassname"><span class="pre">MorrisSensitivity.</span></span><span class="sig-name descname"><span class="pre">mustar_indices</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sensitivity.MorrisSensitivity.mustar_indices" title="Link to this definition"></a></dt>
+<dd><p>First Morris sensitivity index <span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(d,</span> <span class="pre">ny)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.MorrisSensitivity.sigma_indices">
+<span class="sig-prename descclassname"><span class="pre">MorrisSensitivity.</span></span><span class="sig-name descname"><span class="pre">sigma_indices</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sensitivity.MorrisSensitivity.sigma_indices" title="Link to this definition"></a></dt>
+<dd><p>Second Morris sensitivity index <span class="math notranslate nohighlight">\(\sigma_{k}\)</span>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(d,</span> <span class="pre">ny)</span></code></p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/sensitivity/morris/index.html">Morris Examples</a></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Subclassing the Morris class.</strong>
+The user can subclass the Morris class to implement algorithms with better sampling of the trajectories for instance.
+In order to do so, the user can simply overwrite the <code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_trajectories()</span></code> method, which should take as inputs the
+number of trajectories <cite>trajectories_number</cite> and any other user-defined input (transferred from the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> method as <cite>kwargs</cite>).</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/sensitivity/generalised_sobol/generalised_sobol_multioutput.html" class="btn btn-neutral float-left" title="Toy multioutput function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/sensitivity/morris/index.html" class="btn btn-neutral float-right" title="Morris Screening" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Euclidean Kernels &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Grassmannian Kernels" href="grassmann_kernels.html" />
+    <link rel="prev" title="Kernels" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Utilities</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../distances/index.html"> Distances</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"> Kernels</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#kernel-class">Kernel Class</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#types-of-kernels">Types of Kernels</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#"> Euclidean Kernels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grassmann_kernels.html"> Grassmannian Kernels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sum_product_kernels.html"> Sum and Product Kernels</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../grassmann_point.html"> GrassmannPoint</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Kernels</a></li>
+      <li class="breadcrumb-item active">Euclidean Kernels</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/utilities/kernels/euclidean_kernels.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="euclidean-kernels">
+<h1>Euclidean Kernels<a class="headerlink" href="#euclidean-kernels" title="Link to this heading"></a></h1>
+<section id="euclidean-kernel-class">
+<h2>Euclidean Kernel Class<a class="headerlink" href="#euclidean-kernel-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.utilities.kernels.baseclass.EuclideanKernel" title="UQpy.utilities.kernels.baseclass.EuclideanKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">EuclideanKernel</span></code></a> class is the parent class for all Euclidean kernels. It is imported using the following
+command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.kernels.baseclass.EuclideanKernel</span><span class="w"> </span><span class="kn">import</span> <span class="n">EuclideanKernel</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.kernels.baseclass.EuclideanKernel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EuclideanKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_parameter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/kernels/baseclass/EuclideanKernel.html#EuclideanKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.kernels.baseclass.EuclideanKernel" title="Link to this definition"></a></dt>
+<dd><p>This is a blueprint for Euclidean kernels implemented in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">kernels</span></code> module .</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.kernels.baseclass.EuclideanKernel.calculate_kernel_matrix">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.utilities.kernels.baseclass.EuclideanKernel.calculate_kernel_matrix" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that needs to be implemented by the user when creating a new Covariance function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="gaussian-kernel">
+<h2>Gaussian Kernel<a class="headerlink" href="#gaussian-kernel" title="Link to this heading"></a></h2>
+<p>The Gaussian kernel is defined by:</p>
+<div class="math notranslate nohighlight">
+\[k(\mathbf{x}_i,\mathbf{x}_j) = \exp\left(\dfrac{||\mathbf{x}_i-\mathbf{x}_j||^2}{2\epsilon^2}\right)\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.kernels.GaussianKernel" title="UQpy.utilities.kernels.GaussianKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianKernel</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.kernels.GaussianKernel</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianKernel</span>
+</pre></div>
+</div>
+<p>One can use the following to instantiate the <a class="reference internal" href="#UQpy.utilities.kernels.GaussianKernel" title="UQpy.utilities.kernels.GaussianKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianKernel</span></code></a> class.</p>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.kernels.GaussianKernel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_parameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/kernels/GaussianKernel.html#GaussianKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.kernels.GaussianKernel" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> – Scale parameter of the Gaussian kernel</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.kernels.GaussianKernel.optimize_parameters">
+<span class="sig-name descname"><span class="pre">optimize_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_nearest_neighbors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cutoff_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/kernels/GaussianKernel.html#GaussianKernel.optimize_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.kernels.GaussianKernel.optimize_parameters" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Set of data points.</p></li>
+<li><p><strong>tolerance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Tolerance below which the Gaussian kernel is assumed to be zero.</p></li>
+<li><p><strong>n_nearest_neighbors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of neighbors to use for cut-off estimation.</p></li>
+<li><p><strong>n_cutoff_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples to use for cut-off estimation.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. If an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">int</span></code></a> is
+provided, this sets the seed for an object of <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code></a>. Otherwise, the
+object itself can be passed directly.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.kernels.GaussianKernel.kernel_matrix">
+<span class="sig-prename descclassname"><span class="pre">GaussianKernel.</span></span><span class="sig-name descname"><span class="pre">kernel_matrix</span></span><a class="headerlink" href="#UQpy.utilities.kernels.GaussianKernel.kernel_matrix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Kernels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="grassmann_kernels.html" class="btn btn-neutral float-right" title="Grassmannian Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

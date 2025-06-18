@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grassmann Operations &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Interpolation" href="grassmann_interpolation.html" />
+    <link rel="prev" title="Grassmann Projections" href="manifold_projections.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Dimension Reduction</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"> Grassmann manifold</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="manifold_projections.html"> Grassmann Projections</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Grassmann Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exponential-map">Exponential Map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logarithmic-map">Logarithmic Map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#karcher-mean">Karcher mean</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frechet-variance">Frechet variance</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="grassmann_interpolation.html"> Grassmann Interpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/dimension_reduction/grassmann/index.html"> Grassmann Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dmaps.html"> Diffusion maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pod.html"> POD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hosvd.html"> HOSVD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Dimension Reduction</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Grassmann manifold</a></li>
+      <li class="breadcrumb-item active">Grassmann Operations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/dimension_reduction/grassmann/grassmann_operations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="grassmann-operations">
+<h1>Grassmann Operations<a class="headerlink" href="#grassmann-operations" title="Link to this heading"></a></h1>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> supports several operations on the Grassmann manifold. These operations are defined as methods of the
+<a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class described herein.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GrassmannOperations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grassmann_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel=&lt;UQpy.utilities.kernels.grassmannian_kernels.ProjectionKernel.ProjectionKernel</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p='max'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization_method='GradientDescent'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance=&lt;UQpy.utilities.distances.grassmannian_distances.GeodesicDistance.GeodesicDistance</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/GrassmannOperations.html#GrassmannOperations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="Link to this definition"></a></dt>
+<dd><p>The <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class can used in two ways. In the first case, the user can invoke the
+initializer by providing all the required input data. The class will then automatically calculate the
+kernel matrix, distance matrix, karcher mean, and frechet variance of the input Grassmann points. Alternatively,
+the user may invoke each of the static methods individually and calculate only the required quantities, without
+having to instantiate a new object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grassmann_points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]]</span>) – Data points projected on the Grassmann manifold</p></li>
+<li><p><strong>kernel</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../../utilities/kernels/grassmann_kernels.html#UQpy.utilities.kernels.baseclass.GrassmannianKernel" title="UQpy.utilities.kernels.baseclass.GrassmannianKernel.GrassmannianKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannianKernel</span></code></a></span>) – Kernel to be used to evaluate the kernel matrix of the given Grassmann points</p></li>
+<li><p><strong>p</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Rank of the Grassmann projected points.</p></li>
+<li><p><strong>optimization_method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – <p>String that defines the optimization method for computation of the Karcher mean.</p>
+<p>Options: <cite>“GradientDescent”</cite>, <cite>“StochasticGradientDescent”</cite></p>
+</p></li>
+<li><p><strong>distance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../../utilities/distances/grassmann_distances.html#UQpy.utilities.distances.baseclass.GrassmannianDistance" title="UQpy.utilities.distances.baseclass.GrassmannianDistance.GrassmannianDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannianDistance</span></code></a></span>) – Distance measure to be used for the optimization in computation of the Karcher mean and Frechet
+variance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<p>The following sections introduce the methods available in the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class with a brief
+introduction to their theory and their specifications in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>.</p>
+</section>
+<section id="exponential-map">
+<h2>Exponential Map<a class="headerlink" href="#exponential-map" title="Link to this heading"></a></h2>
+<p>For point <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> on the Grassmann manifold <span class="math notranslate nohighlight">\(\mathcal{G}(p,n)\)</span>, we can define the tangent space
+<span class="math notranslate nohighlight">\(\mathcal{T}_{\mathbf{X}, \mathcal{G}(p,n)}\)</span> as the set of all matrices <span class="math notranslate nohighlight">\(\mathbf{\Gamma}\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{T}_{\mathbf{X}, \mathcal{G}(p,n)} = \{\mathbf{\Gamma} \in \mathbb{R}^{n \times p} :\mathbf{\Gamma}^T\mathbf{X}=\mathbf{0}\}\]</div>
+<p>Consider two points <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span> on <span class="math notranslate nohighlight">\(\mathcal{G}(p, n)\)</span> and the tangent space
+<span class="math notranslate nohighlight">\(\mathcal{T}_{\mathbf{X}, \mathcal{G}(p,n)}\)</span> at <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>. The  geodesic, which refers to the shortest
+curve on the manifold connecting the two points, is defined as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\Gamma} = \mathbf{U}\mathbf{S}\mathbf{V}^T\]</div>
+<div class="math notranslate nohighlight">
+\[\Phi(t)=\mathrm{span}\left[\left(\mathbf{X}\mathbf{V}\mathrm{cos}(t\mathbf{S})+\mathbf{U}\mathrm{sin}(t\mathbf{S})\right)\mathbf{V}^T\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{\Phi}(0)=\mathbf{X}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{\Phi}(1)=\mathbf{Y}\)</span>.</p>
+<p>The exponential map, denoted as
+<span class="math notranslate nohighlight">\(\mathrm{exp}_{\mathbf{X}}(\mathbf{\Gamma}): \mathcal{T}_{\mathbf{X}, \mathcal{G}(p,n)}  \rightarrow \mathcal{G}(p, n)\)</span>, maps a tangent vector <span class="math notranslate nohighlight">\(\mathbf{\Gamma} \in \mathcal{T}_{\mathbf{X}, \mathcal{G}(p,n)}\)</span> to the endpoint <span class="math notranslate nohighlight">\(\mathbf{Y}=\Phi(1)\)</span> of the unique geodesic <span class="math notranslate nohighlight">\(\Phi\)</span> that emanates from <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> in the direction <span class="math notranslate nohighlight">\(\mathbf{\Gamma}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{exp}_{\mathbf{X}}(\mathbf{\Gamma})\equiv\mathbf{Y}\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbf{Y} = \mathrm{exp}_{\mathbf{X}}(\mathbf{U}\mathbf{S}\mathbf{V}^T) = \mathbf{X}\mathbf{V}\mathrm{cos}\left(\mathbf{S}\right)\mathbf{Q}^T+\mathbf{U}\mathrm{sin}\left(\mathbf{S}\right)\mathbf{Q}^T\]</div>
+<p>The exponential map is implemented in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> through the static <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exp_map()</span></code></a> method.</p>
+<p>To use the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exp_map()</span></code></a> method, one needs to import the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class from the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy.dimension_reduction.grassmann_manifold</span></code> module as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.grassmann_manifold</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannOperations</span>
+</pre></div>
+</div>
+<p>Since <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exp_map()</span></code></a> is a static method, it does not require instantiation of the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GrassmannOperations.</span></span><span class="sig-name descname"><span class="pre">exp_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/GrassmannOperations.html#GrassmannOperations.exp_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map" title="Link to this definition"></a></dt>
+<dd><p>Maps tangent vector(s) to the endpoint of a unique geodesic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tangent_points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Tangent vector(s).</p></li>
+<li><p><strong>reference_point</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]</span>) – Origin of the tangent space.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Point(s) on the Grassmann manifold.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="logarithmic-map">
+<h2>Logarithmic Map<a class="headerlink" href="#logarithmic-map" title="Link to this heading"></a></h2>
+<p>The logarithmic map, denoted as
+<span class="math notranslate nohighlight">\(\mathrm{log}_\mathbf{X}(\mathbf{Y}):\mathcal{G}(p, n) \rightarrow  \mathcal{T}_{\mathbf{X}\mathcal{G}(p,n)}\)</span> maps
+the endpoint <span class="math notranslate nohighlight">\(\mathbf{Y}=\Phi(1)\)</span> of the unique geodesic <span class="math notranslate nohighlight">\(\Phi\)</span> that emanates from <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> to a tangent vector <span class="math notranslate nohighlight">\(\mathbf{\Gamma} \in \mathcal{T}_{\mathbf{X}, \mathcal{G}(p,n)}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{log}_\mathbf{X}(\mathbf{Y})\equiv \mathbf{\Gamma} = \mathbf{U}\mathrm{tan}^{-1}\left(\mathbf{S}\right)\mathbf{V}^T\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{U}, \mathbf{S}, \mathbf{V}\)</span> are define as in the exponential map above.</p>
+<p>To use the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.log_map" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.log_map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_map()</span></code></a> method, one needs to import the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class from the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy.dimension_reduction.grassmann_manifold</span></code> module as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.grassmann_manifold</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannOperations</span>
+</pre></div>
+</div>
+<p>Since <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.log_map" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.log_map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_map()</span></code></a> is a static method, it does not require instantiation of the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.log_map">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GrassmannOperations.</span></span><span class="sig-name descname"><span class="pre">log_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grassmann_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/GrassmannOperations.html#GrassmannOperations.log_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.log_map" title="Link to this definition"></a></dt>
+<dd><p>Maps the endpoint of the unique geodesic from <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> to tangent vector(s)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grassmann_points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]]</span>) – Point(s) on the Grassmann manifold.</p></li>
+<li><p><strong>reference_point</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]</span>) – Origin of the tangent space.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Point(s) on the tangent space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="karcher-mean">
+<h2>Karcher mean<a class="headerlink" href="#karcher-mean" title="Link to this heading"></a></h2>
+<p>For a set of points <span class="math notranslate nohighlight">\(\{\mathbf{X}_i\}_{i=1}^N\)</span>  on <span class="math notranslate nohighlight">\(\mathcal{G}(p,n)\)</span> the Karcher mean is defined as the
+solution of the following minimization problem:</p>
+<div class="math notranslate nohighlight">
+\[\mu = \arg_{\mathbf{Y}} \mathrm{min}\left(\frac{1}{N}\sum_{i=1}^N d(\mathbf{X}_i, \mathbf{Y})^2\right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(d(\cdot)\)</span> is a Grassmann distance measure and <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span> is a reference point on <span class="math notranslate nohighlight">\(\mathcal{G}(p,n)\)</span>.</p>
+<p>To use the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean"><code class="xref py py-meth docutils literal notranslate"><span class="pre">karcher_mean()</span></code></a> method, one needs to import the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class from the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy.dimension_reduction.grassmann_manifold</span></code> module as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.grassmann_manifold</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannOperations</span>
+</pre></div>
+</div>
+<p>Since <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean"><code class="xref py py-meth docutils literal notranslate"><span class="pre">karcher_mean()</span></code></a> is a static method, it does not require instantiation of the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a>
+class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GrassmannOperations.</span></span><span class="sig-name descname"><span class="pre">karcher_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grassmann_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceleration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/GrassmannOperations.html#GrassmannOperations.karcher_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maximum_iterations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of iterations performed by the optimization algorithm.</p></li>
+<li><p><strong>tolerance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Tolerance used as the convergence criterion of the optimization.</p></li>
+<li><p><strong>acceleration</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Boolean flag used in combination with <code class="code docutils literal notranslate"><span class="pre">GradientDescent</span></code> optimization method which
+activates the Nesterov acceleration scheme</p></li>
+<li><p><strong>grassmann_points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]]</span>) – Point(s) on the Grassmann manifold.</p></li>
+<li><p><strong>optimization_method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – <p>String that defines the optimization method.</p>
+<p>Options: <cite>“GradientDescent”</cite>, <cite>“StochasticGradientDescent”</cite></p>
+</p></li>
+<li><p><strong>distance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../../utilities/distances/grassmann_distances.html#UQpy.utilities.distances.baseclass.GrassmannianDistance" title="UQpy.utilities.distances.baseclass.GrassmannianDistance.GrassmannianDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannianDistance</span></code></a></span>) – Distance measure to be used for the optimization.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> offers two methods for solving this optimization, the <code class="xref py py-class docutils literal notranslate"><span class="pre">GradientDescent</span></code> and the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticGradientDescent</span></code>. Both are implemented as private methods of the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a>
+class.</p>
+</section>
+<section id="frechet-variance">
+<h2>Frechet variance<a class="headerlink" href="#frechet-variance" title="Link to this heading"></a></h2>
+<p>For a set of points <span class="math notranslate nohighlight">\(\{\mathbf{X}_i\}_{i=1}^N\)</span>  on <span class="math notranslate nohighlight">\(\mathcal{G}(p,n)\)</span> the Frechet variance is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\sigma_{f}^2 = \frac{1}{N}\sum_{i=1}^N d(\mathbf{X}_i, \mu)^2\]</div>
+<p>where <span class="math notranslate nohighlight">\(d(\cdot)\)</span> is a Grassmann distance measure and <span class="math notranslate nohighlight">\(\mu\)</span> is the Karcher mean of set of points <span class="math notranslate nohighlight">\(\{\mathbf{X}_i\}_{i=1}^N\)</span> on <span class="math notranslate nohighlight">\(\mathcal{G}(p,n)\)</span>.</p>
+<p>To use the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.frechet_variance" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.frechet_variance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">frechet_variance()</span></code></a> method, one needs to import the <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class from the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy.dimension_reduction.grassmann_manifold</span></code> module as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.grassmann_manifold</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannOperations</span>
+</pre></div>
+</div>
+<p>Since <a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.frechet_variance" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.frechet_variance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">frechet_variance()</span></code></a> is a static method, it does not require instantiation of the
+<a class="reference internal" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.frechet_variance">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GrassmannOperations.</span></span><span class="sig-name descname"><span class="pre">frechet_variance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grassmann_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/GrassmannOperations.html#GrassmannOperations.frechet_variance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.frechet_variance" title="Link to this definition"></a></dt>
+<dd><p>Variance measure of the Grassman distance in relation to the Karcher mean.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grassmann_points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]]</span>) – Point(s) on the Grassmann manifold</p></li>
+<li><p><strong>reference_point</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]</span>) – Reference point for the Frechet variance (<span class="math notranslate nohighlight">\(\mu\)</span>). Typically assigned as the
+Karcher mean.</p></li>
+<li><p><strong>distance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../../utilities/distances/grassmann_distances.html#UQpy.utilities.distances.baseclass.GrassmannianDistance" title="UQpy.utilities.distances.baseclass.GrassmannianDistance.GrassmannianDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannianDistance</span></code></a></span>) – Distance measure to be used in the variance calculation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="manifold_projections.html" class="btn btn-neutral float-left" title="Grassmann Projections" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="grassmann_interpolation.html" class="btn btn-neutral float-right" title="Interpolation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

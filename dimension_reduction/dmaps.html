@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diffusion Maps &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Diffusion Maps Examples" href="../auto_examples/dimension_reduction/diffusion_maps/index.html" />
+    <link rel="prev" title="Karcher" href="../auto_examples/dimension_reduction/grassmann/plot_grassmann_karcher.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Dimension Reduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="grassmann/index.html"> Grassmann manifold</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Diffusion maps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#diffusionmaps-class">DiffusionMaps Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pod.html"> POD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hosvd.html"> HOSVD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Dimension Reduction</a></li>
+      <li class="breadcrumb-item active">Diffusion Maps</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/dimension_reduction/dmaps.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="diffusion-maps">
+<h1>Diffusion Maps<a class="headerlink" href="#diffusion-maps" title="Link to this heading"></a></h1>
+<p>Diffusion Maps (<span id="id1">Coifman and Lafon [<a class="reference internal" href="../bibliography.html#id2" title="Ronald R. Coifman and Stéphane Lafon. Diffusion maps. Applied and Computational Harmonic Analysis, 21(1):5-30, 2006. Special Issue: Diffusion Maps and Wavelets. URL: https://www.sciencedirect.com/science/article/pii/S1063520306000546, doi:https://doi.org/10.1016/j.acha.2006.04.006.">3</a>]</span>) is a nonlinear dimension reduction technique used to learn (i.e., parametrize)
+a manifold from some data. Diffusion maps are based on the assumption that the data is represented in a high-dimensional
+space, while the points lie on or close to a low-dimensional manifold. The algorithm operates by defining a graph over
+the data. On this graph a random walk is defined with a Markov transition probability determined by a distance between
+data points. An eigendecomposition of the Markov transition probability matrix is used to obtain lower-dimensional
+coordinates that reveal the instrinsic structure of the data.</p>
+<p>The <a class="reference internal" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps" title="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffusionMaps</span></code></a> class also implements the parsimonious Diffusion Maps representation from
+<span id="id2">Dsilva <em>et al.</em> [<a class="reference internal" href="../bibliography.html#id59" title="Carmeline J Dsilva, Ronen Talmon, Ronald R Coifman, and Ioannis G Kevrekidis. Parsimonious representation of nonlinear dynamical systems through manifold learning: a chemotaxis case study. Applied and Computational Harmonic Analysis, 44(3):759–773, 2018.">4</a>]</span>.</p>
+<section id="diffusionmaps-class">
+<h2>DiffusionMaps Class<a class="headerlink" href="#diffusionmaps-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps" title="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffusionMaps</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.diffusion_maps.DiffusionMaps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffusionMaps</span>
+</pre></div>
+</div>
+<p>One can use the following method to instantiate the <a class="reference internal" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps" title="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffusionMaps</span></code></a> class.</p>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DiffusionMaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_eigenvectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/dimension_reduction/diffusion_maps/DiffusionMaps.html#DiffusionMaps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_matrix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Kernel matrix defining the similarity between the data points. Either <cite>kernel_matrix</cite> or
+both <cite>data</cite> and <cite>kernel</cite> parameters must be provided. In the former case, <cite>kernel_matrix</cite> is precomputed
+using a <code class="xref py py-class docutils literal notranslate"><span class="pre">Kernel</span></code> class. In the second case the <cite>kernel_matrix</cite> is internally and used for the
+evaluation of the <a class="reference internal" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps" title="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.DiffusionMaps"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffusionMaps</span></code></a>. In case all three of the aforementioned parameters are provided,
+then <a class="reference internal" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps" title="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.DiffusionMaps"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffusionMaps</span></code></a> will be fitted only using the <cite>kernel_matrix</cite></p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]]</span>) – Set of data points. Either <cite>kernel_matrix</cite> or both <cite>data</cite> and <cite>kernel</cite> parameters must be
+provided.</p></li>
+<li><p><strong>kernel</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../utilities/kernels/index.html#UQpy.utilities.kernels.baseclass.Kernel" title="UQpy.utilities.kernels.baseclass.Kernel.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kernel</span></code></a></span>) – Kernel object used to compute the kernel matrix defining similarity between the data points.
+Either <cite>kernel_matrix</cite> or both <cite>data</cite> and <cite>kernel</cite> parameters must be provided.</p></li>
+<li><p><strong>alpha</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – A scalar that corresponds to different diffusion operators. <cite>alpha</cite> should be between zero and
+one.</p></li>
+<li><p><strong>n_eigenvectors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of eigenvectors to retain.</p></li>
+<li><p><strong>is_sparse</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Work with sparse matrices to improve computational performance.</p></li>
+<li><p><strong>n_neighbors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – If <code class="code docutils literal notranslate"><span class="pre">is_sparse</span> <span class="pre">is</span> <span class="pre">True</span></code>, defines the number of nearest neighbors to use when making
+matrices sparse.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. If an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">int</span></code></a> is
+provided, this sets the seed for an object of <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code></a>. Otherwise, the
+object itself can be passed directly.</p></li>
+<li><p><strong>t</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Time exponent.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious">
+<span class="sig-name descname"><span class="pre">parsimonious</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/dimension_reduction/diffusion_maps/DiffusionMaps.html#DiffusionMaps.parsimonious"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious" title="Link to this definition"></a></dt>
+<dd><p>Selection of independent vectors for parsimonious data manifold embedding, based on
+local regression.  The eigenvectors with the largest residuals are considered for the
+embedding. The scale of the kernel used for the local linear regression is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scale</span> <span class="o">=</span> <span class="n">median</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dim</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of eigenvectors to select with largest residuals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.transition_matrix">
+<span class="sig-prename descclassname"><span class="pre">DiffusionMaps.</span></span><span class="sig-name descname"><span class="pre">transition_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.transition_matrix" title="Link to this definition"></a></dt>
+<dd><p>Markov Transition Probability Matrix.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.diffusion_coordinates">
+<span class="sig-prename descclassname"><span class="pre">DiffusionMaps.</span></span><span class="sig-name descname"><span class="pre">diffusion_coordinates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.diffusion_coordinates" title="Link to this definition"></a></dt>
+<dd><p>Coordinates of the data in the diffusion space.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.eigenvectors">
+<span class="sig-prename descclassname"><span class="pre">DiffusionMaps.</span></span><span class="sig-name descname"><span class="pre">eigenvectors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.eigenvectors" title="Link to this definition"></a></dt>
+<dd><p>Eigenvectors of the transition probability matrix.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.eigenvalues">
+<span class="sig-prename descclassname"><span class="pre">DiffusionMaps.</span></span><span class="sig-name descname"><span class="pre">eigenvalues</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></em><a class="headerlink" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.eigenvalues" title="Link to this definition"></a></dt>
+<dd><p>Eigenvalues of the transition probability matrix.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious_indices">
+<span class="sig-prename descclassname"><span class="pre">DiffusionMaps.</span></span><span class="sig-name descname"><span class="pre">parsimonious_indices</span></span><a class="headerlink" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious_indices" title="Link to this definition"></a></dt>
+<dd><p>Indices of the most important eigenvectors. This attribute will only be populated if the 
+<a class="reference internal" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious" title="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parsimonious()</span></code></a>  method is invoked.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious_residuals">
+<span class="sig-prename descclassname"><span class="pre">DiffusionMaps.</span></span><span class="sig-name descname"><span class="pre">parsimonious_residuals</span></span><a class="headerlink" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious_residuals" title="Link to this definition"></a></dt>
+<dd><p>Residuals calculated from the Parsimonious Representation. This attribute will only be populated if the 
+<a class="reference internal" href="#UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious" title="UQpy.dimension_reduction.diffusion_maps.DiffusionMaps.parsimonious"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parsimonious()</span></code></a>  method is invoked.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/dimension_reduction/diffusion_maps/index.html">Diffusion Maps Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/dimension_reduction/grassmann/plot_grassmann_karcher.html" class="btn btn-neutral float-left" title="Karcher" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/dimension_reduction/diffusion_maps/index.html" class="btn btn-neutral float-right" title="Diffusion Maps Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

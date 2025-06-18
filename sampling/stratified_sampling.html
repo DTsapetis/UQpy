@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stratified Sampling &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="True Stratified Sampling Examples" href="../auto_examples/sampling/true_stratified_sampling/index.html" />
+    <link rel="prev" title="Adding New Latin Hypercube Design Criteria" href="latin_hypercube/lhs_user_criterion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sampling</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="monte_carlo.html"> Monte Carlo Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="latin_hypercube.html"> Latin Hypercube Sampling</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> True Stratified Sampling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stratifiedsampling-class">StratifiedSampling Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#strata">Strata</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="strata/strata_class.html"> Strata Base Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strata/rectangular_strata.html"> Rectangular Strata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strata/delaunay_strata.html"> Delaunay Strata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strata/voronoi_strata.html"> Voronoi Strata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strata/adding_new_strata.html"> Adding a new Strata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="refined_stratified_sampling.html"> Refined Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simplex.html"> Simplex Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="akmcs.html"> Adaptive Kriging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theta_criterion.html"> Theta Criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcmc/index.html"> Markov Chain Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importance_sampling.html"> Importance Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sampling</a></li>
+      <li class="breadcrumb-item active">Stratified Sampling</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sampling/stratified_sampling.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stratified-sampling">
+<h1>Stratified Sampling<a class="headerlink" href="#stratified-sampling" title="Link to this heading"></a></h1>
+<p>Stratified sampling is a variance reduction technique that divides the parameter space into a set of disjoint and space-filling strata. Samples are then drawn from these strata in order to improve the space-filling properties of the sample design. Stratified sampling allows for unequally weighted samples, such that a Monte Carlo estimator of the quantity <span class="math notranslate nohighlight">\(E[Y]\)</span> takes the following form:</p>
+<div class="math notranslate nohighlight">
+\[E[Y] \approx \sum_{i=1}^N w_i Y_i\]</div>
+<p>where <span class="math notranslate nohighlight">\(w_i\)</span> are the sample weights and <span class="math notranslate nohighlight">\(Y_i\)</span> are the model evaluations. The individual sample weights are computed as:</p>
+<div class="math notranslate nohighlight">
+\[w_i = \dfrac{V_{i}}{N_{i}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(V_{i}\le 1\)</span> is the volume of stratum <span class="math notranslate nohighlight">\(i\)</span> in the unit hypercube (i.e. the probability that a random sample will fall in stratum <span class="math notranslate nohighlight">\(i\)</span>) and <span class="math notranslate nohighlight">\(N_{i}\)</span> is the number of samples drawn from stratum <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<section id="stratifiedsampling-class">
+<h2>StratifiedSampling Class<a class="headerlink" href="#stratifiedsampling-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> class is the parent class for stratified sampling. The various
+<a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> classes generate random samples from a specified probability distribution(s) using
+stratified sampling with strata specified by an object of one of the <a class="reference internal" href="strata/strata_class.html#UQpy.sampling.stratified_sampling.strata.baseclass.Strata" title="UQpy.sampling.stratified_sampling.strata.baseclass.Strata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strata</span></code></a> classes.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">StratifiedSampling</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.refinement.StratifiedSampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedSampling</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.stratified_sampling.TrueStratifiedSampling">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TrueStratifiedSampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strata_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples_per_stratum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/stratified_sampling/TrueStratifiedSampling.html#TrueStratifiedSampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="Link to this definition"></a></dt>
+<dd><p>Class for Stratified Sampling (<span id="id1">[<a class="reference internal" href="../bibliography.html#id23" title="K.D. Tocher. The Art of Simulation. Electrical engineering series. English Universities Press, 1963. URL: https://books.google.com/books?id=ccEvAAAAYAAJ.">18</a>]</span>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionContinuous1D</span></code>, <a class="reference internal" href="../distributions/joint_from_independent.html#UQpy.distributions.collection.JointIndependent" title="UQpy.distributions.collection.JointIndependent.JointIndependent"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointIndependent</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionContinuous1D</span></code>]]</span>) – List of <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> objects corresponding to each random variable.</p></li>
+<li><p><strong>strata_object</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="strata/strata_class.html#UQpy.sampling.stratified_sampling.strata.baseclass.Strata" title="UQpy.sampling.stratified_sampling.strata.baseclass.Strata.Strata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strata</span></code></a></span>) – Defines the stratification of the unit hypercube. This must be provided and must be an
+object of a <a class="reference internal" href="strata/strata_class.html#UQpy.sampling.stratified_sampling.strata.baseclass.Strata" title="UQpy.sampling.stratified_sampling.strata.baseclass.Strata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strata</span></code></a> child class: <code class="xref py py-class docutils literal notranslate"><span class="pre">Rectangular</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Voronoi</span></code>, or <code class="xref py py-class docutils literal notranslate"><span class="pre">Delaunay</span></code>.</p></li>
+<li><p><strong>nsamples_per_stratum</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Specifies the number of samples in each stratum. This must be either an
+integer, in which case an equal number of samples are drawn from each stratum, or a list. If it is provided as
+a list, the length of the list must be equal to the number of strata.
+If <cite>nsamples_per_stratum</cite> is provided when the class is defined, the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will be executed
+automatically.  If neither <cite>nsamples_per_stratum</cite> or <cite>nsamples</cite> are provided when the class is
+defined, the user must call the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method to perform stratified sampling.</p></li>
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Specify the total number of samples. If <cite>nsamples</cite> is specified, the samples will
+be drawn in proportion to the volume of the strata. Thus, each stratum will contain
+<code class="code docutils literal notranslate"><span class="pre">round(V_i*</span> <span class="pre">nsamples)</span></code> samples.
+If <cite>nsamples</cite> is provided when the class is defined, the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will be executed
+automatically.  If neither <cite>nsamples_per_stratum</cite> or <cite>nsamples</cite> are provided when the class is
+defined, the user must call the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method to perform stratified sampling.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.
+If an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">int</span></code></a> is provided, this sets the seed for an object of <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code></a>. Otherwise,
+the object itself can be passed directly.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.transform_samples">
+<span class="sig-name descname"><span class="pre">transform_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/stratified_sampling/TrueStratifiedSampling.html#TrueStratifiedSampling.transform_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.transform_samples" title="Link to this definition"></a></dt>
+<dd><p>Transform samples in the unit hypercube <span class="math notranslate nohighlight">\([0, 1]^n\)</span> to the prescribed distribution using the inverse CDF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>samples01</strong> – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the generated samples on <span class="math notranslate nohighlight">\([0, 1]^n\)</span>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the generated samples following the prescribed distribution.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples_per_stratum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/stratified_sampling/TrueStratifiedSampling.html#TrueStratifiedSampling.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="Link to this definition"></a></dt>
+<dd><p>Executes stratified sampling.</p>
+<p>This method performs the sampling for each of the child classes by running two methods:
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">create_samplesu01()</span></code>, and <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.transform_samples" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.transform_samples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">transform_samples()</span></code></a>. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">create_samplesu01()</span></code> method is
+unique to each child class and therefore must be overwritten when a new child class is defined. The
+<a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.transform_samples" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.transform_samples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">transform_samples()</span></code></a> method is common to all stratified sampling classes and is therefore defined by the
+parent class. It does not need to be modified.</p>
+<p>If <cite>nsamples</cite> or <cite>nsamples_per_stratum</cite> is provided when the class is defined, the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>
+method will be executed automatically.  If neither <cite>nsamples_per_stratum</cite> or <cite>nsamples</cite> are provided
+when the class is defined, the user must call the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method to perform stratified sampling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nsamples_per_stratum</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Specifies the number of samples in each stratum. This must be either an
+integer, in which case an equal number of samples are drawn from each stratum, or a list. If it is provided as
+a list, the length of the list must be equal to the number of strata.
+If <cite>nsamples_per_stratum</cite> is provided when the class is defined, the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will be executed
+automatically.  If neither <cite>nsamples_per_stratum</cite> or <cite>nsamples</cite> are provided when the class is
+defined, the user must call the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method to perform stratified sampling.</p></li>
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Specify the total number of samples. If <cite>nsamples</cite> is specified, the samples will
+be drawn in proportion to the volume of the strata. Thus, each stratum will contain
+<code class="code docutils literal notranslate"><span class="pre">round(V_i*nsamples)</span></code> samples where <span class="math notranslate nohighlight">\(V_i \le 1\)</span> is the volume of stratum <cite>i</cite> in the unit
+hypercube.
+If <cite>nsamples</cite> is provided when the class is defined, the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will be executed
+automatically.  If neither <cite>nsamples_per_stratum</cite> or <cite>nsamples</cite> are provided when the class is
+defined, the user must call the <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method to perform stratified sampling.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.weights">
+<span class="sig-prename descclassname"><span class="pre">TrueStratifiedSampling.</span></span><span class="sig-name descname"><span class="pre">weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.weights" title="Link to this definition"></a></dt>
+<dd><p>Individual sample weights.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.samples">
+<span class="sig-prename descclassname"><span class="pre">TrueStratifiedSampling.</span></span><span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.samples" title="Link to this definition"></a></dt>
+<dd><p>The generated samples following the prescribed distribution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.stratified_sampling.TrueStratifiedSampling.samplesU01">
+<span class="sig-prename descclassname"><span class="pre">TrueStratifiedSampling.</span></span><span class="sig-name descname"><span class="pre">samplesU01</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.samplesU01" title="Link to this definition"></a></dt>
+<dd><p>The generated samples on the unit hypercube.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/sampling/true_stratified_sampling/index.html">True Stratified Sampling Examples</a></li>
+</ul>
+</div>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> supports several stratified sampling variations that vary from conventional stratified sampling designs
+to advanced gradient informed methods for adaptive stratified sampling. These class structures facilitate a highly flexible and varied range of stratified
+sampling designs that can be extended in a straightforward way. Specifically, the existing classes allow stratification
+of n-dimensional parameter spaces based on three common spatial discretizations: a rectilinear decomposition into
+hyper-rectangles (orthotopes), a Voronoi decomposition, and a Delaunay decomposition. This structure is based on three classes:</p>
+<p>1. The <a class="reference internal" href="strata/strata_class.html#UQpy.sampling.stratified_sampling.strata.baseclass.Strata" title="UQpy.sampling.stratified_sampling.strata.baseclass.Strata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strata</span></code></a> class defines the geometric structure of the stratification of the parameter space and it has
+three existing subclasses - <code class="xref py py-class docutils literal notranslate"><span class="pre">Rectangular</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Voronoi</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">Delaunay</span></code> that correspond to
+geometric decompositions of the parameter space based on rectilinear strata of orthotopes, strata composed of Voronoi
+cells, and strata composed of Delaunay simplexes respectively. These classes live in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy.sampling.stratified_sampling.strata</span></code> folder.</p>
+<ol class="arabic simple" start="2">
+<li><p>The <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> class defines a set of subclasses used to draw samples from strata defined by a <a class="reference internal" href="strata/strata_class.html#UQpy.sampling.stratified_sampling.strata.baseclass.Strata" title="UQpy.sampling.stratified_sampling.strata.baseclass.Strata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strata</span></code></a> class object.</p></li>
+<li><p>The <a class="reference internal" href="refined_stratified_sampling.html#UQpy.sampling.RefinedStratifiedSampling" title="UQpy.sampling.RefinedStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">RefinedStratifiedSampling</span></code></a> class defines a set of subclasses for refinement of <a class="reference internal" href="#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> stratified sampling designs.</p></li>
+</ol>
+</section>
+</section>
+<section id="strata">
+<h2>Strata<a class="headerlink" href="#strata" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="strata/strata_class.html"> Strata Base Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strata/rectangular_strata.html"> Rectangular Strata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strata/delaunay_strata.html"> Delaunay Strata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strata/voronoi_strata.html"> Voronoi Strata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strata/adding_new_strata.html"> Adding a new Strata</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="latin_hypercube/lhs_user_criterion.html" class="btn btn-neutral float-left" title="Adding New Latin Hypercube Design Criteria" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/sampling/true_stratified_sampling/index.html" class="btn btn-neutral float-right" title="True Stratified Sampling Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

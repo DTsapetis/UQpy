@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCMC &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Markov Chain Monte Carlo Sampling Examples" href="../../auto_examples/sampling/mcmc/index.html" />
+    <link rel="prev" title="Polynomial Chaos Expansion example: Active Learning for Multiple Surrogate Models" href="../../auto_examples/sampling/theta_criterion/pce_theta_criterion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Sampling</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../monte_carlo.html"> Monte Carlo Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../latin_hypercube.html"> Latin Hypercube Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stratified_sampling.html"> True Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refined_stratified_sampling.html"> Refined Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simplex.html"> Simplex Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../akmcs.html"> Adaptive Kriging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theta_criterion.html"> Theta Criterion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Markov Chain Monte Carlo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mcmc-class">MCMC Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#list-of-mcmc-algorithms">List of MCMC algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mh.html"> Metropolis Hastings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mmh.html"> Modified Metropolis Hastings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dram.html"> DRAM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dream.html"> DREAM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stretch.html"> Stretch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tempering.html">Tempering MCMC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tempering.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-new-mcmc-algorithms">Adding New MCMC Algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../importance_sampling.html"> Importance Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Sampling</a></li>
+      <li class="breadcrumb-item active">MCMC</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/sampling/mcmc/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mcmc">
+<h1>MCMC<a class="headerlink" href="#mcmc" title="Link to this heading"></a></h1>
+<p>The goal of Markov Chain Monte Carlo is to draw samples from some probability distribution
+<span class="math notranslate nohighlight">\(p(x)=\frac{\tilde{p}(x)}{Z}\)</span>, where <span class="math notranslate nohighlight">\(\tilde{p}(x)\)</span> is known but <span class="math notranslate nohighlight">\(Z\)</span> is hard to compute (this will
+often be the case when using Bayes’ theorem for instance). In order to do this, the theory of a Markov chain, a
+stochastic model that describes a sequence of states in which the probability of a state depends only on the previous
+state, is combined with a Monte Carlo simulation method, see e.g. (<span id="id1">[<a class="reference internal" href="../../bibliography.html#id32" title="Andrew Gelman, John B. Carlin, Hal S. Stern, David B. Dunson, Aki Vehtari, and Donald B. Rubin. Bayesian Data Analysis. Chapman and Hall/CRC, November 2013. URL: https://doi.org/10.1201/b16018, doi:10.1201/b16018.">27</a>]</span>, <span id="id2">[<a class="reference internal" href="../../bibliography.html#id33" title="Ralph Smith. Uncertainty quantification : Theory, Implementation, and Applications. Society for Industrial and Applied Mathematics, Philadelphia, 2013. ISBN 978-1-611973-21-1.">10</a>]</span>). More specifically, a Markov Chain is
+built and sampled from whose stationary distribution is the target distribution <span class="math notranslate nohighlight">\(p(x)\)</span>.  For instance, the
+Metropolis-Hastings (MH) algorithm goes as follows:</p>
+<ul class="simple">
+<li><p>initialize with a seed sample <span class="math notranslate nohighlight">\(x_{0}\)</span></p></li>
+<li><dl class="simple">
+<dt>walk the chain: for <span class="math notranslate nohighlight">\(k=0,...\)</span> do:</dt><dd><ul>
+<li><p>sample candidate <span class="math notranslate nohighlight">\(x^{\star} \sim Q(\cdot \vert x_{k})\)</span> for a given Markov transition probability <span class="math notranslate nohighlight">\(Q\)</span></p></li>
+<li><p>accept candidate (set <span class="math notranslate nohighlight">\(x_{k+1}=x^{\star}\)</span>) with probability <span class="math notranslate nohighlight">\(\alpha(x^{\star} \vert x_{k})\)</span>, otherwise propagate last sample <span class="math notranslate nohighlight">\(x_{k+1}=x_{k}\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\alpha(x^{\star} \vert x_{k}):= \min \left\{ \frac{\tilde{p}(x^{\star})}{\tilde{p}(x)}\cdot \frac{Q(x \vert x^{\star})}{Q(x^{\star} \vert x)}, 1 \right\}\]</div>
+<p>The transition probability <span class="math notranslate nohighlight">\(Q\)</span> is chosen by the user (see input <cite>proposal</cite> of the MH algorithm, and careful
+attention must be given to that choice as it plays a major role in the accuracy and efficiency of the algorithm. The
+following figure shows samples accepted (blue) and rejected (red) when trying to sample from a 2d Gaussian distribution
+using MH, for different scale parameters of the proposal distribution. If the scale is too small, the space is not well
+explored; if the scale is too large, many candidate samples will be rejected, yielding a very inefficient algorithm.
+As a rule of thumb, an acceptance rate of 10%-50% could be targeted.</p>
+<a class="reference internal image-reference" href="../../_images/SampleMethods_MCMC_samples.png"><img alt="IS weighted samples" class="align-center" src="../../_images/SampleMethods_MCMC_samples.png" style="width: 740.8000000000001px; height: 256.0px;" />
+</a>
+<p>Finally, samples from the target distribution will be generated only when the chain has converged to its stationary
+distribution, after a so-called burn-in period. Thus the user would often reject the first few samples (see input
+<cite>nburn</cite>). Also, the chain yields correlated samples; thus to obtain i.i.d. samples from the target distribution,
+the user should keep only one out of n samples (see input <cite>jump</cite>). This means that the code will perform in total
+<code class="code docutils literal notranslate"><span class="pre">burn_length</span> <span class="pre">+</span> <span class="pre">jump</span> <span class="pre">*</span> <span class="pre">N</span></code> evaluations of the target pdf to yield N i.i.d. samples from the target distribution (for the MH
+algorithm with a single chain).</p>
+<p>The parent class for all MCMC algorithms is the <a class="reference internal" href="#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> class, which defines the inputs that are common to all
+MCMC algorithms, along with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> method that is being called to run the chain. Any given MCMC algorithm is a
+child class of MCMC that overwrites the main <code class="xref py py-meth docutils literal notranslate"><span class="pre">run_one_iteration()</span></code> method.</p>
+<section id="mcmc-class">
+<h2>MCMC Class<a class="headerlink" href="#mcmc-class" title="Link to this heading"></a></h2>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MCMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_pdf_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burn_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jump</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_chains</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_log_pdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concatenate_chains</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/baseclass/MCMC.html#MCMC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC" title="Link to this definition"></a></dt>
+<dd><p>Generate samples from arbitrary user-specified probability density function using Markov Chain Monte Carlo.</p>
+<p>This is the parent class for all MCMC algorithms. This parent class only provides the framework for
+MCMC and cannot be used directly for sampling. Sampling is done by calling the child class for the specific
+MCMC algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dimension</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – A scalar value defining the dimension of target density function. Either <em>dimension</em>
+and <em>n_chains</em> or <em>seed</em> must be provided.</p></li>
+<li><p><strong>pdf_target</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – <p>Target density function from which to draw random samples. Either <cite>pdf_target</cite> or
+<cite>log_pdf_target</cite> must be provided (the latter should be preferred for better numerical stability).
+If <cite>pdf_target</cite> is a callable, it refers to the joint pdf to sample from, it must take at least one
+input <code class="code docutils literal notranslate"><span class="pre">x</span></code>, which are the point(s) at which to evaluate the pdf. Within MCMC the <cite>pdf_target</cite> is
+evaluated as:</p>
+<p><code class="code docutils literal notranslate"><span class="pre">p(x)</span> <span class="pre">=</span> <span class="pre">pdf_target(x,</span> <span class="pre">*args_target)</span></code> where <code class="code docutils literal notranslate"><span class="pre">x</span></code> is a ndarray of shape <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">dimension)</span></code>
+and <cite>args_target</cite> are additional positional arguments that are provided to MCMC via its
+<cite>args_target</cite> input.
+If <code class="code docutils literal notranslate"><span class="pre">pdf_target</span></code> is a list of callables, it refers to independent marginals to sample from. The marginal
+in dimension <code class="code docutils literal notranslate"><span class="pre">j</span></code> is evaluated as: <code class="code docutils literal notranslate"><span class="pre">p_j(xj)</span> <span class="pre">=</span> <span class="pre">pdf_target[j](xj,</span> <span class="pre">*args_target[j])</span></code> where <code class="code docutils literal notranslate"><span class="pre">x</span></code>
+is a ndarray of shape <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">dimension)</span></code></p>
+</p></li>
+<li><p><strong>log_pdf_target</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Logarithm of the target density function from which to draw random samples. Either
+<cite>pdf_target</cite> or <cite>log_pdf_target</cite> must be provided (the latter should be preferred for better numerical
+stability).</p></li>
+<li><p><strong>args_target</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>]</span>) – Positional arguments of the pdf / log-pdf target function. See <cite>pdf_target</cite></p></li>
+<li><p><strong>seed</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>]</span>) – Seed of the Markov chain(s), shape <code class="docutils literal notranslate"><span class="pre">(nchains,</span> <span class="pre">dimension)</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">zeros(nchains,</span>
+<span class="pre">dimension)</span></code>. If <cite>seed</cite> is not provided, both <cite>nchains</cite> and <cite>dimension</cite> must be provided.</p></li>
+<li><p><strong>burn_length</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Length of burn-in - i.e., number of samples at the beginning of the chain to discard (note:
+no thinning during burn-in). Default is <span class="math notranslate nohighlight">\(0\)</span>, no burn-in.</p></li>
+<li><p><strong>jump</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Thinning parameter, used to reduce correlation between samples. Setting <code class="code docutils literal notranslate"><span class="pre">jump=n</span></code> corresponds
+to skipping <code class="code docutils literal notranslate"><span class="pre">n-1</span></code> states between accepted states of the chain. Default is <span class="math notranslate nohighlight">\(1\)</span> (no thinning).</p></li>
+<li><p><strong>n_chains</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – The number of Markov chains to generate. Either <cite>dimension</cite> and <cite>nchains</cite> or <cite>seed</cite> must
+be provided.</p></li>
+<li><p><strong>save_log_pdf</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Boolean that indicates whether to save log-pdf values along with the samples.
+Default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">False</span></code></a></p></li>
+<li><p><strong>concatenate_chains</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Boolean that indicates whether to concatenate the chains after a run, i.e., samples
+are stored as an <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(nsamples</span> <span class="pre">*</span> <span class="pre">nchains,</span> <span class="pre">dimension)</span></code> if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">True</span></code></a>,
+<code class="docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">nchains,</span> <span class="pre">dimension)</span></code> if <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">False</span></code></a>. Default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">True</span></code></a></p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.
+If an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">int</span></code></a> is provided, this sets the seed for an object of <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code></a>. Otherwise,
+the object itself can be passed directly.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples_per_chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/baseclass/MCMC.html#MCMC.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC.run" title="Link to this definition"></a></dt>
+<dd><p>Run the mcmc algorithm.</p>
+<p>This function samples from the mcmc chains and appends samples to existing ones (if any).
+This method leverages the <a class="reference internal" href="#UQpy.sampling.mcmc.MCMC.run_one_iteration" title="UQpy.sampling.mcmc.MCMC.run_one_iteration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_one_iteration()</span></code></a> method that is specific to each algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples to generate.</p></li>
+<li><p><strong>nsamples_per_chain</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – number of samples to generate per chain.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Either <cite>nsamples</cite> or <cite>nsamples_per_chain</cite> must be provided (not both). Not that if <cite>nsamples</cite>
+is not a multiple of <cite>n_chains</cite>, <cite>nsamples</cite> is set to the next largest integer that is a multiple of
+<cite>n_chains</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC.run_one_iteration">
+<span class="sig-name descname"><span class="pre">run_one_iteration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_log_pdf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/sampling/mcmc/baseclass/MCMC.html#MCMC.run_one_iteration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC.run_one_iteration" title="Link to this definition"></a></dt>
+<dd><p>Run one iteration of the mcmc algorithm, starting at <cite>current_state</cite>.</p>
+<p>This method is over-written for each different mcmc algorithm. It must return the new state and
+associated log-pdf, which will be passed as inputs to the <a class="reference internal" href="#UQpy.sampling.mcmc.MCMC.run_one_iteration" title="UQpy.sampling.mcmc.MCMC.run_one_iteration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_one_iteration()</span></code></a> method at the next
+iteration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Current state of the chain(s), <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_chains,</span> <span class="pre">dimension)</span></code>.</p></li>
+<li><p><strong>current_log_pdf</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Log-pdf of the current state of the chain(s), <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="docutils literal notranslate"><span class="pre">(n_chains,</span> <span class="pre">)</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New state of the chain(s) and Log-pdf of the new state of the chain(s)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC.evaluate_log_target">
+<span class="sig-prename descclassname"><span class="pre">MCMC.</span></span><span class="sig-name descname"><span class="pre">evaluate_log_target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></em><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC.evaluate_log_target" title="Link to this definition"></a></dt>
+<dd><p>It is a callable that evaluates the log-pdf of the target distribution at a given point <strong>x</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC.evaluate_log_target_marginals">
+<span class="sig-prename descclassname"><span class="pre">MCMC.</span></span><span class="sig-name descname"><span class="pre">evaluate_log_target_marginals</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></em><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC.evaluate_log_target_marginals" title="Link to this definition"></a></dt>
+<dd><p>It is a callable that evaluates the log-pdf of the target marginal distributions at a given point <strong>x</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC.samples">
+<span class="sig-prename descclassname"><span class="pre">MCMC.</span></span><span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC.samples" title="Link to this definition"></a></dt>
+<dd><p>Set of MCMC samples following the target distribution, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape 
+<code class="code docutils literal notranslate"><span class="pre">(nsamples</span> <span class="pre">*</span> <span class="pre">n_chains,</span> <span class="pre">dimension)</span></code>
+or <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">n_chains,</span> <span class="pre">dimension)</span></code> (see input <cite>concatenate_chains</cite>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC.log_pdf_values">
+<span class="sig-prename descclassname"><span class="pre">MCMC.</span></span><span class="sig-name descname"><span class="pre">log_pdf_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC.log_pdf_values" title="Link to this definition"></a></dt>
+<dd><p>Values of the log pdf for the accepted samples, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape 
+<code class="code docutils literal notranslate"><span class="pre">(n_chains</span> <span class="pre">*</span> <span class="pre">nsamples,)</span></code> or  <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">n_chains)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC.nsamples_per_chain">
+<span class="sig-prename descclassname"><span class="pre">MCMC.</span></span><span class="sig-name descname"><span class="pre">nsamples_per_chain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC.nsamples_per_chain" title="Link to this definition"></a></dt>
+<dd><p>Total number of samples per chain; Similar to the attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">nsamples</span></code>, it is updated during 
+iterations as new samples are saved.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.mcmc.MCMC.iterations_number">
+<span class="sig-prename descclassname"><span class="pre">MCMC.</span></span><span class="sig-name descname"><span class="pre">iterations_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#UQpy.sampling.mcmc.MCMC.iterations_number" title="Link to this definition"></a></dt>
+<dd><p>Total number of iterations, updated on-the-fly as the algorithm proceeds. It is related to number of samples 
+as <code class="code docutils literal notranslate"><span class="pre">iterations_number=burn_length+jump*nsamples_per_chain</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/sampling/mcmc/index.html">Markov Chain Monte Carlo Sampling Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="list-of-mcmc-algorithms">
+<h2>List of MCMC algorithms<a class="headerlink" href="#list-of-mcmc-algorithms" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mh.html"> Metropolis Hastings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mmh.html"> Modified Metropolis Hastings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dram.html"> DRAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dream.html"> DREAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stretch.html"> Stretch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempering.html">Tempering MCMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempering.html#examples">Examples</a></li>
+</ul>
+</div>
+</section>
+<section id="adding-new-mcmc-algorithms">
+<h2>Adding New MCMC Algorithms<a class="headerlink" href="#adding-new-mcmc-algorithms" title="Link to this heading"></a></h2>
+<p>In order to add a new MCMC algorithm, a user must create a child class of <code class="xref py py-meth docutils literal notranslate"><span class="pre">MCMC()</span></code>, and overwrite the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">run_one_iteration()</span></code> method that propagates all the chains forward one iteration. Such a new class may use any
+number of additional inputs compared to the <a class="reference internal" href="#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> base class. The reader is encouraged to have a look at the
+<a class="reference internal" href="mh.html#UQpy.sampling.mcmc.MetropolisHastings" title="UQpy.sampling.mcmc.MetropolisHastings"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetropolisHastings</span></code></a> class and its code to better understand how a particular algorithm should fit the general framework.</p>
+<p>A useful note is that the user has access to a number of useful attributes / utility methods as the algorithm proceeds, such as:</p>
+<ul class="simple">
+<li><p>the attribute <code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate_log_target()</span></code> (and possibly <code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate_log_target_marginals()</span></code> if marginals were provided) is created at initialization. It is a callable that simply evaluates the log-pdf of the target distribution at a given point <strong>x</strong>. It can be called within the code of a new sampler as <code class="docutils literal notranslate"><span class="pre">log_pdf_value</span> <span class="pre">=</span> <span class="pre">self.evaluate_log_target(x)</span></code>.</p></li>
+<li><p>the <code class="xref py py-attr docutils literal notranslate"><span class="pre">samples_number</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">samples_number_per_chain</span></code> attributes indicate the number of samples that have been stored up to the current iteration (i.e., they are updated dynamically as the algorithm proceeds),</p></li>
+<li><p>the <code class="xref py py-attr docutils literal notranslate"><span class="pre">samples</span></code> attribute contains all previously stored samples. Cautionary note: <code class="code docutils literal notranslate"><span class="pre">self.samples</span></code> also contains trailing zeros, for samples yet to be stored, thus to access all previously stored samples at a given iteration the user must call <code class="docutils literal notranslate"><span class="pre">self.samples[:self.nsamples_per_chain]</span></code>, which will return an <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of size <code class="code docutils literal notranslate"><span class="pre">(self.nsamples_per_chain,</span> <span class="pre">self.nchains,</span> <span class="pre">self.dimension)</span></code> ,</p></li>
+<li><p>the <code class="xref py py-attr docutils literal notranslate"><span class="pre">log_pdf_values</span></code> attribute contains all previously stored log target values. Same cautionary note as above,</p></li>
+<li><p>the <code class="xref py py-meth docutils literal notranslate"><span class="pre">_update_acceptance_rate()</span></code> method updates the <code class="xref py py-attr docutils literal notranslate"><span class="pre">acceptance_rate</span></code> attribute of the sampler, given a (list of) boolean(s) indicating if the candidate state(s) were accepted at a given iteration,</p></li>
+<li><p>the <code class="xref py py-meth docutils literal notranslate"><span class="pre">_check_methods_proposal()</span></code> method checks whether a given proposal is adequate (i.e., has <a class="reference internal" href="../../distributions/distribution_parent.html#rvs" title="rvs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rvs()</span></code></a> and <a class="reference internal" href="../../distributions/distribution_parent.html#log_pdf" title="log_pdf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_pdf()</span></code></a>/<a class="reference internal" href="../../distributions/distribution_parent.html#pdf" title="pdf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pdf()</span></code></a> methods).</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../auto_examples/sampling/theta_criterion/pce_theta_criterion.html" class="btn btn-neutral float-left" title="Polynomial Chaos Expansion example: Active Learning for Multiple Surrogate Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../auto_examples/sampling/mcmc/index.html" class="btn btn-neutral float-right" title="Markov Chain Monte Carlo Sampling Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

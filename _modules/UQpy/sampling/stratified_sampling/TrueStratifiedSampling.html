@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sampling.stratified_sampling.TrueStratifiedSampling &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sampling.stratified_sampling.TrueStratifiedSampling</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sampling.stratified_sampling.TrueStratifiedSampling</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.random</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomState</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.baseclass.StratifiedSampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedSampling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributionContinuous1D</span><span class="p">,</span> <span class="n">JointIndependent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.strata</span><span class="w"> </span><span class="kn">import</span> <span class="n">RectangularStrata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.strata.baseclass.Strata</span><span class="w"> </span><span class="kn">import</span> <span class="n">Strata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="TrueStratifiedSampling">
+<a class="viewcode-back" href="../../../../sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TrueStratifiedSampling</span><span class="p">(</span><span class="n">StratifiedSampling</span><span class="p">):</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">distributions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionContinuous1D</span><span class="p">,</span> <span class="n">JointIndependent</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">DistributionContinuous1D</span><span class="p">]],</span>
+        <span class="n">strata_object</span><span class="p">:</span> <span class="n">Strata</span><span class="p">,</span>
+        <span class="n">nsamples_per_stratum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">nsamples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="p">:</span> <span class="n">RandomStateType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class for Stratified Sampling (:cite:`StratifiedSampling1`).</span>
+
+<span class="sd">        :param distributions: List of :class:`.Distribution` objects corresponding to each random variable.</span>
+<span class="sd">        :param strata_object: Defines the stratification of the unit hypercube. This must be provided and must be an</span>
+<span class="sd">         object of a :class:`.Strata` child class: :class:`.Rectangular`, :class:`.Voronoi`, or :class:`.Delaunay`.</span>
+<span class="sd">        :param nsamples_per_stratum: Specifies the number of samples in each stratum. This must be either an</span>
+<span class="sd">         integer, in which case an equal number of samples are drawn from each stratum, or a list. If it is provided as</span>
+<span class="sd">         a list, the length of the list must be equal to the number of strata.</span>
+<span class="sd">         If `nsamples_per_stratum` is provided when the class is defined, the :meth:`run` method will be executed</span>
+<span class="sd">         automatically.  If neither `nsamples_per_stratum` or `nsamples` are provided when the class is</span>
+<span class="sd">         defined, the user must call the :meth:`run` method to perform stratified sampling.</span>
+<span class="sd">        :param nsamples: Specify the total number of samples. If `nsamples` is specified, the samples will</span>
+<span class="sd">         be drawn in proportion to the volume of the strata. Thus, each stratum will contain</span>
+<span class="sd">         :code:`round(V_i* nsamples)` samples.</span>
+<span class="sd">         If `nsamples` is provided when the class is defined, the :meth:`run` method will be executed</span>
+<span class="sd">         automatically.  If neither `nsamples_per_stratum` or `nsamples` are provided when the class is</span>
+<span class="sd">         defined, the user must call the :meth:`run` method to perform stratified sampling.</span>
+<span class="sd">        :param random_state: Random seed used to initialize the pseudo-random number generator. Default is :any:`None`.</span>
+<span class="sd">         If an :any:`int` is provided, this sets the seed for an object of :class:`numpy.random.RandomState`. Otherwise,</span>
+<span class="sd">         the object itself can be passed directly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Individual sample weights.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span> <span class="o">=</span> <span class="n">strata_object</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span> <span class="o">=</span> <span class="n">nsamples_per_stratum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsamples</span> <span class="o">=</span> <span class="n">nsamples</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span><span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The generated samples following the prescribed distribution.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samplesU01</span><span class="p">:</span><span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The generated samples on the unit hypercube.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span> <span class="o">=</span> <span class="n">distributions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">RandomState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">RandomState</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;UQpy: random_state must be None, an int or an np.random.RandomState object.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span><span class="o">.</span><span class="n">random_state</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span><span class="p">,</span> <span class="n">RectangularStrata</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span><span class="o">.</span><span class="n">check_centered</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Stratified_sampling object is created&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples_per_stratum</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span><span class="p">,</span>
+                     <span class="n">nsamples</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nsamples</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TrueStratifiedSampling.transform_samples">
+<a class="viewcode-back" href="../../../../sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.transform_samples">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples01</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform samples in the unit hypercube :math:`[0, 1]^n` to the prescribed distribution using the inverse CDF.</span>
+
+<span class="sd">        :param samples01: :class:`numpy.ndarray` containing the generated samples on :math:`[0, 1]^n`.</span>
+
+<span class="sd">        :return: :class:`numpy.ndarray` containing the generated samples following the prescribed distribution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">samples_u_to_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">samples01</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples01</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">samples_u_to_x</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">icdf</span><span class="p">(</span><span class="n">samples01</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">samples_u_to_x</span></div>
+
+
+<div class="viewcode-block" id="TrueStratifiedSampling.run">
+<a class="viewcode-back" href="../../../../sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">nsamples_per_stratum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">nsamples</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">PositiveInteger</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes stratified sampling.</span>
+
+<span class="sd">        This method performs the sampling for each of the child classes by running two methods:</span>
+<span class="sd">        :meth:`create_samplesu01`, and :meth:`transform_samples`. The :meth:`create_samplesu01` method is</span>
+<span class="sd">        unique to each child class and therefore must be overwritten when a new child class is defined. The</span>
+<span class="sd">        :meth:`transform_samples` method is common to all stratified sampling classes and is therefore defined by the</span>
+<span class="sd">        parent class. It does not need to be modified.</span>
+
+<span class="sd">        If `nsamples` or `nsamples_per_stratum` is provided when the class is defined, the :meth:`run`</span>
+<span class="sd">        method will be executed automatically.  If neither `nsamples_per_stratum` or `nsamples` are provided</span>
+<span class="sd">        when the class is defined, the user must call the :meth:`run` method to perform stratified sampling.</span>
+
+<span class="sd">        :param nsamples_per_stratum: Specifies the number of samples in each stratum. This must be either an</span>
+<span class="sd">         integer, in which case an equal number of samples are drawn from each stratum, or a list. If it is provided as</span>
+<span class="sd">         a list, the length of the list must be equal to the number of strata.</span>
+<span class="sd">         If `nsamples_per_stratum` is provided when the class is defined, the :meth:`run` method will be executed</span>
+<span class="sd">         automatically.  If neither `nsamples_per_stratum` or `nsamples` are provided when the class is</span>
+<span class="sd">         defined, the user must call the :meth:`run` method to perform stratified sampling.</span>
+<span class="sd">        :param nsamples: Specify the total number of samples. If `nsamples` is specified, the samples will</span>
+<span class="sd">         be drawn in proportion to the volume of the strata. Thus, each stratum will contain</span>
+<span class="sd">         :code:`round(V_i*nsamples)` samples where :math:`V_i \le 1` is the volume of stratum `i` in the unit</span>
+<span class="sd">         hypercube.</span>
+<span class="sd">         If `nsamples` is provided when the class is defined, the :meth:`run` method will be executed</span>
+<span class="sd">         automatically.  If neither `nsamples_per_stratum` or `nsamples` are provided when the class is</span>
+<span class="sd">         defined, the user must call the :meth:`run` method to perform stratified sampling.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span> <span class="o">=</span> <span class="n">nsamples_per_stratum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsamples</span> <span class="o">=</span> <span class="n">nsamples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run_checks</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Performing Stratified Sampling&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_unit_hypercube_samples</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform_samples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samplesU01</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Stratified Sampling is completed&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_checks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span><span class="o">.</span><span class="n">volume</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsamples</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span><span class="p">]</span> <span class="o">*</span> \
+                                                  <span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;UQpy: Length of &#39;nsamples_per_stratum&#39; must match the number of strata.&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsamples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;UQpy: &#39;nsamples_per_stratum&#39; must be an integer or a list.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_unit_hypercube_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">samples_in_strata</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strata_object</span><span class="o">.</span><span class="n">sample_strata</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nsamples_per_stratum</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samplesU01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">samples_in_strata</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

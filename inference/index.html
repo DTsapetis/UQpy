@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inference &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="InferenceModel" href="inference_models.html" />
+    <link rel="prev" title="User-defined Rosenbrock distribution" href="../auto_examples/distributions/user_defined/plot_user_defined.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Inference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="inference_models.html"> Inference Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mle.html"> Maximum Likelihood Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_parameter_estimation.html"> Bayes Parameter Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info_model_selection.html"> Information Theoretic Model Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_model_selection.html"> Bayes Model Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Inference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/inference/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="inference">
+<h1>Inference<a class="headerlink" href="#inference" title="Link to this heading"></a></h1>
+<p>This module contains classes and functions for statistical inference from data.</p>
+<p>The module currently contains the
+following classes:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a>: Define a probabilistic model for inference.</p></li>
+<li><p><a class="reference internal" href="info_model_selection.html#UQpy.inference.InformationModelSelection" title="UQpy.inference.InformationModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationModelSelection</span></code></a>: Perform model selection using information theoretic criteria.</p></li>
+<li><p><a class="reference internal" href="bayes_model_selection.html#UQpy.inference.BayesModelSelection" title="UQpy.inference.BayesModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesModelSelection</span></code></a>: Estimate model posterior probabilities.</p></li>
+<li><p><a class="reference internal" href="bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a>: Perform Bayesian parameter estimation (estimate posterior density) via <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> or <a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a>.</p></li>
+<li><p><a class="reference internal" href="mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a>: Compute maximum likelihood parameter estimate.</p></li>
+</ul>
+<p>The goal in inference can be twofold: 1) given a model, parameterized by parameter vector <span class="math notranslate nohighlight">\(\theta\)</span>, and some
+data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>, learn the value of the parameter vector that best explains the data; 2) given a set of
+candidate models <span class="math notranslate nohighlight">\(\lbrace m_{i} \rbrace_{i=1:M}\)</span> and some data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>, learn which model best
+explains the data. <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> currently supports the following inference algorithms for parameter estimation
+(see e.g. <span id="id1">[<a class="reference internal" href="../bibliography.html#id33" title="Ralph Smith. Uncertainty quantification : Theory, Implementation, and Applications. Society for Industrial and Applied Mathematics, Philadelphia, 2013. ISBN 978-1-611973-21-1.">10</a>]</span> for theory on parameter estimation in frequentist vs. Bayesian frameworks):</p>
+<ul class="simple">
+<li><p>Maximum Likelihood estimation,</p></li>
+<li><p>Bayesian approach: estimation of posterior pdf via sampling methods (<a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a>/<a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a>).</p></li>
+</ul>
+<p>and the following algorithms for model selection:</p>
+<ul class="simple">
+<li><p>Model selection using information theoretic criteria,</p></li>
+<li><p>Bayesian model class selection, i.e., estimation of model posterior probabilities.</p></li>
+</ul>
+<p>The capabilities of <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> and associated classes are summarized in the following figure.</p>
+<a class="reference internal image-reference" href="../_images/Inference_schematic.png"><img alt="../_images/Inference_schematic.png" class="align-left" src="../_images/Inference_schematic.png" style="width: 584.8000000000001px; height: 333.6px;" />
+</a>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/distributions/user_defined/plot_user_defined.html" class="btn btn-neutral float-left" title="User-defined Rosenbrock distribution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="inference_models.html" class="btn btn-neutral float-right" title="InferenceModel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

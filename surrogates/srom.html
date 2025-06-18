@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stochatic Reduced Order Models - SROMs &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Stochastic Reduced Order Examples" href="../auto_examples/surrogates/srom/index.html" />
+    <link rel="prev" title="Surrogates" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Stochastic Reduced Order Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#srom-class">SROM Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpr.html"> Gaussian Process Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_chaos.html"> Polynomial Chaos Expansion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Surrogates</a></li>
+      <li class="breadcrumb-item active">Stochatic Reduced Order Models - SROMs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/surrogates/srom.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stochatic-reduced-order-models-sroms">
+<h1>Stochatic Reduced Order Models - SROMs<a class="headerlink" href="#stochatic-reduced-order-models-sroms" title="Link to this heading"></a></h1>
+<p>A SROM is a sample-based surrogate for probability models. An SROM takes a set of samples and attributes of a distribution and optimizes the sample probability weights according to the method in <span id="id1">[<a class="reference internal" href="../bibliography.html#id52" title="M. Grigoriu. Reduced order models for random functions. application to stochastic problems. Applied Mathematical Modelling, 33(1):161-175, 2009. URL: https://www.sciencedirect.com/science/article/pii/S0307904X07002818, doi:https://doi.org/10.1016/j.apm.2007.10.023.">68</a>]</span>. More specifically, an SROM constructs a reduce order model for arbitrary random variables <cite>X</cite> as follows.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\tilde{X} =  \begin{cases} x_1 &amp; probability \text{  }p_1^{(opt)} \\ &amp; \vdots \\ x_m &amp; probability \text{  }p_m^{(opt)} \end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tilde{X}\)</span> is defined by an arbitrary set of samples <span class="math notranslate nohighlight">\(x_1, \dots, x_m\)</span> defined over the same support as <span class="math notranslate nohighlight">\(X\)</span> (but not necessarily drawn from its probability distribution) and their assigned probability weights. The probability weights are defined such that the total error between the sample empirical probability distribution, moments and correlation of <span class="math notranslate nohighlight">\(\tilde{X}\)</span> and those of the random variable <cite>X</cite> is minimized. This optimization problem can be express as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}&amp; \min_{\mathbf{p}}  \sum_{u=1}^3 \alpha_u e_u(\mathbf{p}) \\ &amp; \text{s.t.} \sum_{k=1}^m p_k =1 \quad and \quad p_k \geq 0, \quad k=1,2,\dots,m\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha_1\)</span>, <span class="math notranslate nohighlight">\(\alpha_2\)</span>, <span class="math notranslate nohighlight">\(\alpha_3 \geq 0\)</span> are constants defining the relative importance of the marginal distribution, moments and correlation error between the reduce order model and actual random variables in the objective function.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}&amp;  e_{1}(p)=\sum\limits_{i=1}^d \sum\limits_{k=1}^m w_{F}(x_{k,i};i)(\hat{F}_{i}(x_{k,i})-F_{i}(x_{k,i}))^2  \\ &amp; e_{2}(p)=\sum\limits_{i=1}^d \sum\limits_{r=1}^2 w_{\mu}(r;i)(\hat{\mu}(r;i)-\mu(r;i))^2 \\ &amp; e_{3}(p)=\sum\limits_{i,j=1,...,d ; j&gt;i}  w_{R}(i,j)(\hat{R}(i,j)-R(i,j))^2\end{split}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(F(x_{k,i})\)</span> and <span class="math notranslate nohighlight">\(\hat{F}(x_{k,i})\)</span> denote the marginal cumulative distributions of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{\tilde{X}}\)</span> (reduced order model) evaluated at point <span class="math notranslate nohighlight">\(x_{k,i}\)</span>, <span class="math notranslate nohighlight">\(\mu(r; i)\)</span> and <span class="math notranslate nohighlight">\(\hat{\mu}(r; i)\)</span> are the marginal moments of order <cite>r</cite> for variable <cite>i</cite>, and <span class="math notranslate nohighlight">\(R(i,j)\)</span> and <span class="math notranslate nohighlight">\(\hat{R}(i,j)\)</span> are correlation matrices of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{\tilde{X}}\)</span> evaluted for components <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_j\)</span>. Note also that <cite>m</cite> is the number of sample points and <cite>d</cite> is the number of random variables.</p>
+<section id="srom-class">
+<h2>SROM Class<a class="headerlink" href="#srom-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM" title="UQpy.surrogates.stochastic_reduced_order_models.SROM"><code class="xref py py-class docutils literal notranslate"><span class="pre">SROM</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.stochastic_reduced_order_models.SROM</span><span class="w"> </span><span class="kn">import</span> <span class="n">SROM</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.stochastic_reduced_order_models.SROM">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_moments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_correlation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/surrogates/stochastic_reduced_order_models/SROM.html#SROM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM" title="Link to this definition"></a></dt>
+<dd><p>Stochastic Reduced Order Model(stochastic_reduced_order_models) provide a low-dimensional, discrete
+approximation of a given random quantity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – An array/list of samples corresponding to the points at which the
+stochastic_reduced_order_models is defined.</p></li>
+<li><p><strong>target_distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>]</span>) – A list of distribution objects for each random variable.</p></li>
+<li><p><strong>moments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – A list containing first and second order moment about origin of all random variables.</p></li>
+<li><p><strong>weights_errors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – A list of weights associated with the error in distribution, moments and correlation.
+This corresponds to a list of the values <span class="math notranslate nohighlight">\(a_{u}\)</span> in the objective function above.
+Default: weights_errors = <span class="math notranslate nohighlight">\([1, 0.2, 0]\)</span></p></li>
+<li><p><strong>weights_distribution</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – A list or array containing weights associated with matching the distribution at
+each sample value.
+<cite>weights_distribution</cite> is an array or list of shape <code class="code docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">d)</span></code> where each weight corresponds to the weight
+<span class="math notranslate nohighlight">\(w_F(x_{k,i}; i)\)</span> assigned for matching the distribution of component <code class="code docutils literal notranslate"><span class="pre">i</span></code> at sample point
+<span class="math notranslate nohighlight">\(x_{k,i}\)</span>.
+If <cite>weights_distribution</cite> is <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">d)</span></code>, it is assumed that each sample is equally weighted according
+to the corresponding weight for its distribution.
+Default: An array of shape <code class="code docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">d)</span></code> with all elements equal to <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p><strong>weights_moments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – An list or array containing weights associated with matching the moments about the
+origin for each component.
+<cite>weights_moments</cite> is a list or array of shape <cite>(2, d), where each weight corresponds to the weight
+:math:`w_{mu}(r; i)</cite> assigned for matching the moment of order <span class="math notranslate nohighlight">\(r = 1, 2\)</span> for component <code class="code docutils literal notranslate"><span class="pre">i</span></code>.
+If <cite>weights_moments</cite> is <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">d)</span></code>, it is assumed that moments of all order are equally weighted.
+Default: <code class="code docutils literal notranslate"><span class="pre">weights_moments</span> <span class="pre">=</span> <span class="pre">[[1/(moment[0][i]^2)],</span> <span class="pre">[1/(moment[1][i]^2)]]</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">...,</span> <span class="pre">d</span></code>.</p></li>
+<li><p><strong>weights_correlation</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – A list or array containing weights associated with matching the correlation of the
+random variables. <cite>weights_correlation</cite> is a list or array of shape <code class="code docutils literal notranslate"><span class="pre">(d,</span> <span class="pre">d)</span></code> where each weight
+corresponds to the weight <span class="math notranslate nohighlight">\(w_R(i, j)\)</span> assigned for matching the correlation between component <code class="code docutils literal notranslate"><span class="pre">i</span></code>
+and component <code class="code docutils literal notranslate"><span class="pre">j</span></code>
+Default: <code class="code docutils literal notranslate"><span class="pre">weights_correlation</span> <span class="pre">=</span> <span class="pre">(d,</span> <span class="pre">d)</span></code> array with all elements equal to <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p><strong>properties</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – <p>A list of booleans declaring the properties to be matched in the reduced order model.</p>
+<ul>
+<li><p><code class="code docutils literal notranslate"><span class="pre">properties[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> matches the marginal distributions</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">properties[1]</span> <span class="pre">=</span> <span class="pre">True</span></code> matches the mean values</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">properties[2]</span> <span class="pre">=</span> <span class="pre">True</span></code> matches the mean square</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">properties[3]</span> <span class="pre">=</span> <span class="pre">True</span></code> matches the correlation</p></li>
+</ul>
+</p></li>
+<li><p><strong>correlation</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Correlation matrix between random variables.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.stochastic_reduced_order_models.SROM.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weights_errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_moments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_correlation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/surrogates/stochastic_reduced_order_models/SROM.html#SROM.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM.run" title="Link to this definition"></a></dt>
+<dd><p>Execute the stochastic reduced order model in the <a class="reference internal" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM" title="UQpy.surrogates.stochastic_reduced_order_models.SROM.SROM"><code class="xref py py-class docutils literal notranslate"><span class="pre">SROM</span></code></a> class.</p>
+<p>The <a class="reference internal" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM.run" title="UQpy.surrogates.stochastic_reduced_order_models.SROM.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is the function that computes the probability weights corresponding to the sample. If
+<cite>properties</cite> is provided, the <a class="reference internal" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM.run" title="UQpy.surrogates.stochastic_reduced_order_models.SROM.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is automatically called when the <a class="reference internal" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM" title="UQpy.surrogates.stochastic_reduced_order_models.SROM.SROM"><code class="xref py py-class docutils literal notranslate"><span class="pre">SROM</span></code></a>
+object is defined. The user may also call the <a class="reference internal" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM.run" title="UQpy.surrogates.stochastic_reduced_order_models.SROM.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method directly to generate samples. The <a class="reference internal" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM.run" title="UQpy.surrogates.stochastic_reduced_order_models.SROM.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>
+method of the <a class="reference internal" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM" title="UQpy.surrogates.stochastic_reduced_order_models.SROM.SROM"><code class="xref py py-class docutils literal notranslate"><span class="pre">SROM</span></code></a> class can be invoked many times with different weights parameters and
+each time computed probability weights are overwritten.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weights_errors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – A list of weights associated with the error in distribution, moments and correlation.
+This corresponds to a list of the values <span class="math notranslate nohighlight">\(a_{u}\)</span> in the objective function above.
+Default: weights_errors = <span class="math notranslate nohighlight">\([1, 0.2, 0]\)</span></p></li>
+<li><p><strong>weights_distribution</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – A list or array containing weights associated with matching the distribution at
+each sample value.
+<cite>weights_distribution</cite> is an array or list of shape <code class="code docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">d)</span></code> where each weight corresponds to the weight
+<span class="math notranslate nohighlight">\(w_F(x_{k,i}; i)\)</span> assigned for matching the distribution of component <code class="code docutils literal notranslate"><span class="pre">i</span></code> at sample point
+<span class="math notranslate nohighlight">\(x_{k,i}\)</span>.
+If <cite>weights_distribution</cite> is <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">d)</span></code>, it is assumed that each sample is equally weighted according
+to the corresponding weight for its distribution.
+Default: An array of shape <code class="code docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">d)</span></code> with all elements equal to <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p><strong>weights_moments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – An list or array containing weights associated with matching the moments about the
+origin for each component.
+<cite>weights_moments</cite> is a list or array of shape <code class="code docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">d)</span></code>, where each weight corresponds to the weight
+<span class="math notranslate nohighlight">\(w_{\mu}(r; i)\)</span> assigned for matching the moment of order <span class="math notranslate nohighlight">\(r = 1, 2\)</span> for component <code class="code docutils literal notranslate"><span class="pre">i</span></code>.
+If <cite>weights_moments</cite> is <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">d)</span></code>, it is assumed that moments of all order are equally weighted.
+Default: <code class="code docutils literal notranslate"><span class="pre">weights_moments</span> <span class="pre">=</span> <span class="pre">[[1/(moment[0][i]^2)],</span> <span class="pre">[1/(moment[1][i]^2)]]</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">...,</span> <span class="pre">d</span></code>.</p></li>
+<li><p><strong>weights_correlation</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – A list or array containing weights associated with matching the correlation of the
+random variables.
+<cite>weights_correlation</cite> is a list or array of shape <code class="code docutils literal notranslate"><span class="pre">(d,</span> <span class="pre">d)</span></code> where each weight corresponds to the weight
+<span class="math notranslate nohighlight">\(w_R(i, j)\)</span> assigned for matching the correlation between component <code class="code docutils literal notranslate"><span class="pre">i</span></code> and component <code class="code docutils literal notranslate"><span class="pre">j</span></code>
+Default: <code class="code docutils literal notranslate"><span class="pre">weights_correlation</span> <span class="pre">=</span> <span class="pre">(d,</span> <span class="pre">d)</span></code> array with all elements equal to <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p><strong>properties</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – <p>A list of booleans declaring the properties to be matched in the reduced order model.</p>
+<ul>
+<li><p><code class="code docutils literal notranslate"><span class="pre">properties[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> matches the marginal distributions</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">properties[1]</span> <span class="pre">=</span> <span class="pre">True</span></code> matches the mean values</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">properties[2]</span> <span class="pre">=</span> <span class="pre">True</span></code> matches the mean square</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">properties[3]</span> <span class="pre">=</span> <span class="pre">True</span></code> matches the correlation</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.surrogates.stochastic_reduced_order_models.SROM.sample_weights">
+<span class="sig-prename descclassname"><span class="pre">SROM.</span></span><span class="sig-name descname"><span class="pre">sample_weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.surrogates.stochastic_reduced_order_models.SROM.sample_weights" title="Link to this definition"></a></dt>
+<dd><p>The probability weights defining discrete approximation of continuous random variables.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/surrogates/srom/index.html">Stochastic Reduced Order Model Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Surrogates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/surrogates/srom/index.html" class="btn btn-neutral float-right" title="Stochastic Reduced Order Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scientific Machine Learning &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bayesian Quickstart Training" href="../auto_examples/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_training.html" />
+    <link rel="prev" title="Rosenbrock distribution" href="../auto_examples/sampling/importance_sampling/plot_importance_sampling_rosenbrock.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scientific Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_training.html"> Bayesian Quickstart Training</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_testing.html"> Bayesian Quickstart Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#functional">Functional</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="functional/index.html"> Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functional/losses.html"> Losses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functional/spectral_conv.html"> Spectral Convolutions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#layers">Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="layers/index.html"> Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers/bayesian_baseclass.html"> Bayesian Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers/bayesian_layers.html"> Bayesian Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers/dropout_baseclass.html"> Dropout Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers/dropout_layers.html"> Dropout Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers/fourier_layers.html"> Fourier Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers/normalizers.html"> Normalizer Layers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#losses">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="losses.html"> Loss Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#neural-networks">Neural Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="neural_networks/index.html"> Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_networks/neural_network_parent.html"> Neural Network Base Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_networks/deep_operator_network.html"> Deep Operator Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_networks/feed_forward_neural_network.html"> Feed Forward Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_networks/fourier_neural_operator.html"> Fourier Neural Operator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_networks/unet_neural_network.html"> U-net Neural Network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#trainers">Trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="trainers/index.html"> Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trainers/trainer.html"> Trainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trainers/bbb_trainer.html"> BBBTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trainers/hmc_trainer.html"> HMCTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scientific Machine Learning</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scientific_machine_learning/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scientific-machine-learning">
+<h1>Scientific Machine Learning<a class="headerlink" href="#scientific-machine-learning" title="Link to this heading"></a></h1>
+<p>This module contains functionality for Scientific Machine Learning methods supported in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>.
+This package focuses on supervised machine learning, specifically on the architecture and training of neural networks.</p>
+<p>This module is <em>not</em> intended as a standalone package for neural networks.
+It is designed as an extension of <a class="reference external" href="https://pytorch.org/">PyTorch</a> and, as much as practical,
+we borrow their syntax and notation to implement UQ methods in a compatible way.
+For example, the Bayesian counterpart of torch’s <code class="xref py py-class docutils literal notranslate"><span class="pre">Linear</span></code> layer is UQpy’s <a class="reference internal" href="layers/bayesian_layers.html#UQpy.scientific_machine_learning.layers.BayesianLinear" title="UQpy.scientific_machine_learning.layers.BayesianLinear"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesianLinear</span></code></a> layer,
+which uses similar inputs.</p>
+<figure class="align-center" id="id1">
+<a class="with-border reference internal image-reference" href="../_images/uq4ml.png"><img alt="A diagram showing uncertainty quantification improving machine learning, and machine learning informing uncertainty quantification." class="with-border" src="../_images/uq4ml.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The relationship between UQ4ML and ML4UQ.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The module contains the following parent classes for neural networks:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="layers/bayesian_baseclass.html#UQpy.scientific_machine_learning.baseclass.NormalBayesianLayer" title="UQpy.scientific_machine_learning.baseclass.NormalBayesianLayer"><code class="xref py py-class docutils literal notranslate"><span class="pre">NormalBayesianLayer</span></code></a>: Parent class to all Bayesian layers. Subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></p></li>
+<li><p><a class="reference internal" href="layers/dropout_baseclass.html#UQpy.scientific_machine_learning.baseclass.ProbabilisticDropoutLayer" title="UQpy.scientific_machine_learning.baseclass.ProbabilisticDropoutLayer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProbabilisticDropoutLayer</span></code></a>: Parent class to all Dropout layers. Subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></p></li>
+<li><p><a class="reference internal" href="layers/index.html#UQpy.scientific_machine_learning.baseclass.Layer" title="UQpy.scientific_machine_learning.baseclass.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>: Parent class to all Neural Network Layers. Subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.</p></li>
+<li><p><a class="reference internal" href="losses.html#UQpy.scientific_machine_learning.baseclass.Loss" title="UQpy.scientific_machine_learning.baseclass.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">Loss</span></code></a>: Parent class to all Loss functions. Subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.</p></li>
+<li><p><a class="reference internal" href="neural_networks/neural_network_parent.html#UQpy.scientific_machine_learning.baseclass.NeuralNetwork" title="UQpy.scientific_machine_learning.baseclass.NeuralNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralNetwork</span></code></a>: Parent class to all Neural Networks and Neural Operators.  Subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.</p></li>
+</ul>
+<p>Consistent with PyTorch’s architecture, those classes and their subclasses primarily organize and store tensors and parameters.
+The bulk of the computation is done by the methods in the <code class="docutils literal notranslate"><span class="pre">functional</span></code> folder.
+For example, the <code class="docutils literal notranslate"><span class="pre">GaussianKullbackLeiblerDivergence</span></code> class is used to define the divergence for a Bayesian neural
+network, but hands off the actual divergence computation <code class="docutils literal notranslate"><span class="pre">functional.gaussian_kullback_leibler_divergence</span></code>.</p>
+<p>To prevent naming conflicts with the common torch imports, we recommend importing this module as the following.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">UQpy.scientific_machine_learning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sml</span>  <span class="c1"># jokingly pronounced &#39;smile&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">UQpy.scientific_machine_learning.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">func</span>
+</pre></div>
+</div>
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_training.html"> Bayesian Quickstart Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_testing.html"> Bayesian Quickstart Testing</a></li>
+</ul>
+</div>
+</section>
+<section id="functional">
+<h2>Functional<a class="headerlink" href="#functional" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="functional/index.html"> Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functional/losses.html"> Losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functional/spectral_conv.html"> Spectral Convolutions</a></li>
+</ul>
+</div>
+</section>
+<section id="layers">
+<h2>Layers<a class="headerlink" href="#layers" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="layers/index.html"> Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layers/bayesian_baseclass.html"> Bayesian Base Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layers/bayesian_layers.html"> Bayesian Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layers/dropout_baseclass.html"> Dropout Base Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layers/dropout_layers.html"> Dropout Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layers/fourier_layers.html"> Fourier Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layers/normalizers.html"> Normalizer Layers</a></li>
+</ul>
+</div>
+</section>
+<section id="losses">
+<h2>Losses<a class="headerlink" href="#losses" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="losses.html"> Loss Functions</a></li>
+</ul>
+</div>
+</section>
+<section id="neural-networks">
+<h2>Neural Networks<a class="headerlink" href="#neural-networks" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="neural_networks/index.html"> Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neural_networks/neural_network_parent.html"> Neural Network Base Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neural_networks/deep_operator_network.html"> Deep Operator Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neural_networks/feed_forward_neural_network.html"> Feed Forward Neural Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neural_networks/fourier_neural_operator.html"> Fourier Neural Operator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neural_networks/unet_neural_network.html"> U-net Neural Network</a></li>
+</ul>
+</div>
+</section>
+<section id="trainers">
+<h2>Trainers<a class="headerlink" href="#trainers" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="trainers/index.html"> Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainers/trainer.html"> Trainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainers/bbb_trainer.html"> BBBTrainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trainers/hmc_trainer.html"> HMCTrainer</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/sampling/importance_sampling/plot_importance_sampling_rosenbrock.html" class="btn btn-neutral float-left" title="Rosenbrock distribution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_training.html" class="btn btn-neutral float-right" title="Bayesian Quickstart Training" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

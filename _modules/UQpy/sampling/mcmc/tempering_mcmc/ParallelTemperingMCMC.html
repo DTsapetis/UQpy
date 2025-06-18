@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sampling.mcmc.tempering_mcmc.ParallelTemperingMCMC &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../../index.html">
+            
+              <img src="../../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sampling.mcmc.tempering_mcmc.ParallelTemperingMCMC</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sampling.mcmc.tempering_mcmc.ParallelTemperingMCMC</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">logsumexp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">trapezoid</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetropolisHastings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc.baseclass.MCMC</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc.tempering_mcmc.baseclass.TemperingMCMC</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemperingMCMC</span>
+
+
+<div class="viewcode-block" id="ParallelTemperingMCMC">
+<a class="viewcode-back" href="../../../../../sampling/mcmc/tempering.html#UQpy.sampling.mcmc.ParallelTemperingMCMC">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParallelTemperingMCMC</span><span class="p">(</span><span class="n">TemperingMCMC</span><span class="p">):</span>
+
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_iterations_between_sweeps</span><span class="p">:</span> <span class="n">PositiveInteger</span><span class="p">,</span>
+                 <span class="n">pdf_intermediate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_pdf_intermediate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args_pdf_intermediate</span><span class="o">=</span><span class="p">(),</span>
+                 <span class="n">distribution_reference</span><span class="p">:</span> <span class="n">Distribution</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">save_log_pdf</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">nsamples_per_chain</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="p">:</span> <span class="n">RandomStateType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tempering_parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">n_tempering_parameters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">samplers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MCMC</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">MCMC</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class for Parallel-Tempering MCMC.</span>
+
+<span class="sd">        :param save_log_pdf: boolean, see :class:`MCMC` documentation. Importantly, this needs to be set to True if</span>
+<span class="sd">         one wants to evaluate the normalization constant via thermodynamic integration.</span>
+<span class="sd">        :param n_iterations_between_sweeps: number of iterations (sampling steps) between sweeps between chains.</span>
+<span class="sd">        :param tempering_parameters: tempering parameters, as a list of N floats increasing from 0. to 1. Either</span>
+<span class="sd">         `tempering_parameters` or `n_tempering_parameters` should be provided</span>
+<span class="sd">        :param n_tempering_parameters: number of tempering levels N, the tempering parameters are selected to follow</span>
+<span class="sd">         a geometric suite by default</span>
+<span class="sd">        :param samplers: :class:`MCMC` object or list of such objects: MCMC samplers used to sample the parallel</span>
+<span class="sd">         chains. If only one object is provided, the same MCMC sampler is used for all chains. Default to running a</span>
+<span class="sd">         simple MH algorithm, where the proposal covariance for a given chain is inversely proportional to the</span>
+<span class="sd">         tempering parameter.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pdf_intermediate</span><span class="o">=</span><span class="n">pdf_intermediate</span><span class="p">,</span> <span class="n">log_pdf_intermediate</span><span class="o">=</span><span class="n">log_pdf_intermediate</span><span class="p">,</span>
+                         <span class="n">args_pdf_intermediate</span><span class="o">=</span><span class="n">args_pdf_intermediate</span><span class="p">,</span> <span class="n">distribution_reference</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">save_log_pdf</span><span class="o">=</span><span class="n">save_log_pdf</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">samplers</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samplers</span> <span class="o">=</span> <span class="p">[</span><span class="n">samplers</span><span class="o">.</span><span class="n">__copy__</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tempering_parameters</span><span class="p">))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samplers</span> <span class="o">=</span> <span class="n">samplers</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">distribution_reference</span> <span class="o">=</span> <span class="n">distribution_reference</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_reference</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preprocess_reference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution_reference</span><span class="p">)</span>
+
+        <span class="c1"># Initialize PT specific inputs: niter_between_sweeps and temperatures</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iterations_between_sweeps</span> <span class="o">=</span> <span class="n">n_iterations_between_sweeps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span> <span class="o">=</span> <span class="n">tempering_parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_tempering_parameters</span> <span class="o">=</span> <span class="n">n_tempering_parameters</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_tempering_parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;UQpy: either input tempering_parameters or n_tempering_parameters should be provided.&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tempering_parameters</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_tempering_parameters</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;UQpy: input n_tempering_parameters should be a integer &gt;= 2.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                                             <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tempering_parameters</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+              <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="mf">1.</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">))</span>
+                <span class="c1"># or float(self.temperatures[0]) != 1.</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;UQpy: tempering_parameters should be a list of floats in [0, 1], starting at 0. and increasing to 1.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_tempering_parameters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">)</span>
+
+        <span class="c1"># default value</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sampler</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samplers</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sampler</span><span class="p">,</span> <span class="n">MetropolisHastings</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sampler</span><span class="o">.</span><span class="n">proposal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointIndependent</span><span class="p">,</span> <span class="n">Normal</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">samplers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">__copy__</span><span class="p">(</span><span class="n">proposal_is_symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                    <span class="n">proposal</span><span class="o">=</span><span class="n">JointIndependent</span><span class="p">(</span>
+                                                        <span class="p">[</span><span class="n">Normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">[</span><span class="n">i</span><span class="p">]))]</span> <span class="o">*</span>
+                                                        <span class="n">sampler</span><span class="o">.</span><span class="n">dimension</span><span class="p">))</span>
+
+        <span class="c1"># Initialize algorithm outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_samples</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of samples from the intermediate tempering levels. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Samples from the target distribution (tempering parameter = 1). &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_pdf_values</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Log pdf values of saved samples from the target. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thermodynamic_integration_results</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Results of the thermodynamic integration (see method `evaluate_normalization_constant`). &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of MCMC samplers, one per tempering level. &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">temper_param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">):</span>
+            <span class="n">log_pdf_target</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">temper_param</span><span class="o">=</span><span class="n">temper_param</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_reference</span><span class="p">(</span>
+                <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">temper_param</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samplers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">__copy__</span><span class="p">(</span><span class="n">log_pdf_target</span><span class="o">=</span><span class="n">log_pdf_target</span><span class="p">,</span> <span class="n">concatenate_chains</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                <span class="n">save_log_pdf</span><span class="o">=</span><span class="n">save_log_pdf</span><span class="p">,</span>
+                                                                <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">UQpy: Initialization of &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39; algorithm complete.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># If nsamples is provided, run the algorithm</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nsamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">nsamples_per_chain</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">,</span> <span class="n">nsamples_per_chain</span><span class="o">=</span><span class="n">nsamples_per_chain</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ParallelTemperingMCMC.run">
+<a class="viewcode-back" href="../../../../../sampling/mcmc/tempering.html#UQpy.sampling.mcmc.ParallelTemperingMCMC.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">nsamples_per_chain</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the MCMC algorithm.</span>
+
+<span class="sd">        This function samples from the MCMC chains and appends samples to existing ones (if any). This method</span>
+<span class="sd">        leverages the `run_iterations` method specific to each of the samplers.</span>
+
+<span class="sd">        :param nsamples: Number of samples to generate from the target (the same number of samples will be generated</span>
+<span class="sd">         for all intermediate distributions).</span>
+<span class="sd">        :param nsamples_per_chain: Number of samples per chain to generate from the target. Either</span>
+<span class="sd">         `nsamples` or `nsamples_per_chain` must be provided (not both)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">current_state</span><span class="p">,</span> <span class="n">current_log_pdf</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">final_ns_per_chain</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mcmc_sampler</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">evaluate_log_target</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">evaluate_log_target_marginals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">,</span> <span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">evaluate_log_target_marginals</span><span class="p">,)</span> <span class="o">=</span> \
+                    <span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">_preprocess_target</span><span class="p">(</span><span class="n">pdf_</span><span class="o">=</span><span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">pdf_target</span><span class="p">,</span>
+                                                    <span class="n">log_pdf_</span><span class="o">=</span><span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">log_pdf_target</span><span class="p">,</span>
+                                                    <span class="n">args</span><span class="o">=</span><span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">args_target</span><span class="p">)</span>
+            <span class="n">ns</span><span class="p">,</span> <span class="n">ns_per_chain</span><span class="p">,</span> <span class="n">current_state_t</span><span class="p">,</span> <span class="n">current_log_pdf_t</span> <span class="o">=</span> <span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">_initialize_samples</span><span class="p">(</span>
+                <span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">,</span> <span class="n">nsamples_per_chain</span><span class="o">=</span><span class="n">nsamples_per_chain</span><span class="p">)</span>
+            <span class="n">current_state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_state_t</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+            <span class="n">current_log_pdf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_log_pdf_t</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">final_ns_per_chain</span> <span class="o">=</span> <span class="n">ns_per_chain</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;UQpy: Running MCMC...&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Run nsims iterations of the MCMC algorithm, starting at current_state</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nsamples_per_chain</span> <span class="o">&lt;</span> <span class="n">final_ns_per_chain</span><span class="p">:</span>
+            <span class="c1"># update the total number of iterations</span>
+
+            <span class="c1"># run one iteration of MCMC algorithms at various temperatures</span>
+            <span class="n">new_state</span><span class="p">,</span> <span class="n">new_log_pdf</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">sampler</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">):</span>
+                <span class="n">sampler</span><span class="o">.</span><span class="n">iterations_number</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">new_state_t</span><span class="p">,</span> <span class="n">new_log_pdf_t</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">run_one_iteration</span><span class="p">(</span>
+                    <span class="n">current_state</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">current_log_pdf</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+                <span class="n">new_state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_state_t</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+                <span class="n">new_log_pdf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_log_pdf_t</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+            <span class="c1"># Do sweeps if necessary</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">iterations_number</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iterations_between_sweeps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tempering_parameters</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="n">log_accept</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">(</span><span class="n">new_state</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">(</span><span class="n">new_state</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">(</span><span class="n">new_state</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">(</span><span class="n">new_state</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+                    <span class="k">for</span> <span class="n">nc</span><span class="p">,</span> <span class="n">log_accept_chain</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">log_accept</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">log_accept_chain</span><span class="p">:</span>
+                            <span class="n">new_state</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">nc</span><span class="p">],</span> <span class="n">new_state</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">nc</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_state</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">nc</span><span class="p">],</span> <span class="n">new_state</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">nc</span><span class="p">]</span>
+                            <span class="n">new_log_pdf</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">nc</span><span class="p">],</span> <span class="n">new_log_pdf</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">nc</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_log_pdf</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">nc</span><span class="p">],</span> <span class="n">new_log_pdf</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">nc</span><span class="p">]</span>
+
+            <span class="c1"># Update the chain, only if burn-in is over and the sample is not being jumped over</span>
+            <span class="c1"># also increase the current number of samples and samples_per_chain</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">iterations_number</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">burn_length</span> <span class="ow">and</span> \
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">iterations_number</span> <span class="o">-</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">burn_length</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">jump</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">sampler</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">):</span>
+                    <span class="n">sampler</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">sampler</span><span class="o">.</span><span class="n">nsamples_per_chain</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">new_state</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_log_pdf</span><span class="p">:</span>
+                        <span class="n">sampler</span><span class="o">.</span><span class="n">log_pdf_values</span><span class="p">[</span><span class="n">sampler</span><span class="o">.</span><span class="n">nsamples_per_chain</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">new_log_pdf</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                    <span class="n">sampler</span><span class="o">.</span><span class="n">nsamples_per_chain</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">sampler</span><span class="o">.</span><span class="n">samples_counter</span> <span class="o">+=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">n_chains</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;UQpy: MCMC run successfully !&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Concatenate chains maybe</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">concatenate_chains</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">mcmc_sampler</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">):</span>
+                <span class="n">mcmc_sampler</span><span class="o">.</span><span class="n">_concatenate_chains</span><span class="p">()</span>
+
+        <span class="c1"># Samples connect to posterior samples, i.e. the chain with beta=1.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">sampler</span><span class="o">.</span><span class="n">samples</span> <span class="k">for</span> <span class="n">sampler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">samples</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_log_pdf</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_pdf_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">log_pdf_values</span></div>
+
+
+<div class="viewcode-block" id="ParallelTemperingMCMC.evaluate_normalization_constant">
+<a class="viewcode-back" href="../../../../../sampling/mcmc/tempering.html#UQpy.sampling.mcmc.ParallelTemperingMCMC.evaluate_normalization_constant">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_normalization_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_potential</span><span class="p">,</span> <span class="n">log_Z0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">nsamples_from_p0</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate normalization constant :math:`Z_1`.</span>
+
+<span class="sd">        The function returns an approximation of :math:`Z_1`, and saves intermediate results</span>
+<span class="sd">        (value of :math:`\ln{Z_0}`, list of tempering parameters used in integration, and values of the associated</span>
+<span class="sd">        expected potentials.</span>
+
+<span class="sd">        :param compute_potential: Function that takes three inputs: :code:`x` (sample points where to evaluate the</span>
+<span class="sd">         potential), :code:`log_factor_tempered_values` (values of the log intermediate factors evaluated at points</span>
+<span class="sd">         :code:`x`), :code:`temper_param` (tempering parameter) and evaluates the potential:</span>
+<span class="sd">        :param log_Z0: Value of :math:`\ln{Z_{0}}` (float), if unknwon, see `nsamples_from_p0`.</span>
+<span class="sd">        :param nsamples_from_p0: number of samples from the reference distribution to sample to evaluate</span>
+<span class="sd">         :math:`\ln{Z_{0}}`. Used only if input `log_Z0` is not provided.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_log_pdf</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;UQpy: the evidence cannot be computed when save_log_pdf is set to False.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">log_Z0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">nsamples_from_p0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;UQpy: input log_Z0 or nsamples_from_p0 should be provided.&#39;</span><span class="p">)</span>
+        <span class="c1"># compute average of log_target for the target at various temperatures</span>
+        <span class="n">log_pdf_averages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">temper_param</span><span class="p">,</span> <span class="n">sampler</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcmc_samplers</span><span class="p">)):</span>
+            <span class="n">log_factor_values</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">log_pdf_values</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_reference</span><span class="p">(</span><span class="n">sampler</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+            <span class="n">potential_values</span> <span class="o">=</span> <span class="n">compute_potential</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">sampler</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">temper_param</span><span class="o">=</span><span class="n">temper_param</span><span class="p">,</span> <span class="n">log_intermediate_values</span><span class="o">=</span><span class="n">log_factor_values</span><span class="p">)</span>
+            <span class="n">log_pdf_averages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">potential_values</span><span class="p">))</span>
+
+        <span class="c1"># use quadrature to integrate between 0 and 1</span>
+        <span class="n">temper_param_list_for_integration</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">))</span>
+        <span class="n">log_pdf_averages</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">log_pdf_averages</span><span class="p">)</span>
+        <span class="n">int_value</span> <span class="o">=</span> <span class="n">trapezoid</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">temper_param_list_for_integration</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">log_pdf_averages</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">log_Z0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">samples_p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_reference</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples_from_p0</span><span class="p">)</span>
+            <span class="n">log_Z0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">nsamples_from_p0</span><span class="p">)</span> <span class="o">+</span> <span class="n">logsumexp</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">samples_p0</span><span class="p">,</span> <span class="n">temper_param</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">thermodynamic_integration_results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;log_Z0&#39;</span><span class="p">:</span> <span class="n">log_Z0</span><span class="p">,</span> <span class="s1">&#39;temper_param_list&#39;</span><span class="p">:</span> <span class="n">temper_param_list_for_integration</span><span class="p">,</span>
+            <span class="s1">&#39;expect_potentials&#39;</span><span class="p">:</span> <span class="n">log_pdf_averages</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">int_value</span> <span class="o">+</span> <span class="n">log_Z0</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

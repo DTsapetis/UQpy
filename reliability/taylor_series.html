@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taylor Series &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FORM" href="form.html" />
+    <link rel="prev" title="Subset Simulation for a SDOF resonance problem" href="../auto_examples/reliability/subset_simulation/subset_resonance.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reliability</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="subset.html"> Subset Simulation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Taylor Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="form.html"> FORM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inverse_form.html"> InverseFORM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sorm.html"> SORM</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reliability</a></li>
+      <li class="breadcrumb-item active">Taylor Series</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reliability/taylor_series.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="taylor-series">
+<h1>Taylor Series<a class="headerlink" href="#taylor-series" title="Link to this heading"></a></h1>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">TaylorSeries</span></code> is a class that calculates the reliability  of a model using the First Order Reliability Method
+(FORM), Inverse First Order Reliability Method (InverseFORM) or Second Order Reliability Method (SORM) based on the
+first-order and second-order Taylor series expansion approximation of the performance function, respectively
+(<span id="id1">[<a class="reference internal" href="../bibliography.html#id21" title="Rüdiger Rackwitz and Bernd Flessler. Structural reliability under combined random load sequences. Computers &amp; Structures, 9(5):489-494, 1978. URL: https://www.sciencedirect.com/science/article/pii/0045794978900469, doi:https://doi.org/10.1016/0045-7949(78)90046-9.">14</a>]</span>, <span id="id2">[<a class="reference internal" href="../bibliography.html#id71" title="Xiaoping Du. Probabilistic engineering design, chapter 7, first order and second reliability methods. https://pdesign.sitehost.iu.edu/me360/ch7.pdf, 2005.">15</a>]</span>, <span id="id3">[<a class="reference internal" href="../bibliography.html#id22" title="K. Breitung and M. Hohenbichler. Asymptotic approximations for multivariate integrals with an application to multinormal probabilities. Journal of Multivariate Analysis, 30(1):80-97, 1989. URL: https://www.sciencedirect.com/science/article/pii/0047259X89900894, doi:https://doi.org/10.1016/0047-259X(89)90089-4.">16</a>]</span>).</p>
+<a class="reference internal image-reference" href="../_images/Reliability_FORM.png"><img alt="Graphical representation of the FORM." class="align-center" src="../_images/Reliability_FORM.png" style="width: 496.0px; height: 401.6px;" />
+</a>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">TaylorSeries</span></code> class is the parent class of the <a class="reference internal" href="form.html#UQpy.reliability.taylor_series.FORM" title="UQpy.reliability.taylor_series.FORM"><code class="xref py py-class docutils literal notranslate"><span class="pre">FORM</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">InverseFORM</span></code>, and <a class="reference internal" href="sorm.html#UQpy.reliability.taylor_series.SORM" title="UQpy.reliability.taylor_series.SORM"><code class="xref py py-class docutils literal notranslate"><span class="pre">SORM</span></code></a>
+classes that perform the FORM, InverseFORM, and SORM, respectively.
+These classes can be imported in a python script using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.reliability.taylor_series</span><span class="w"> </span><span class="kn">import</span> <span class="n">FORM</span><span class="p">,</span> <span class="n">InverseFORM</span><span class="p">,</span> <span class="n">SORM</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="form.html"> FORM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inverse_form.html"> InverseFORM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sorm.html"> SORM</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/reliability/subset_simulation/subset_resonance.html" class="btn btn-neutral float-left" title="Subset Simulation for a SDOF resonance problem" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="form.html" class="btn btn-neutral float-right" title="FORM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

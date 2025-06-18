@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morris Screening &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Auxiliary file" href="local_pfn.html" />
+    <link rel="prev" title="Morris method" href="../../../sensitivity/morris.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/chatterjee.html"> Chatterjee Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/cramer_von_mises.html"> Cramér-von Mises Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/generalised_sobol.html"> Generalised Sobol Sensitivity</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sensitivity/morris.html"> Morris Sensitivity</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../sensitivity/morris.html#morris-class">Morris Class</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../sensitivity/morris.html#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sensitivity/morris.html#attributes">Attributes</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../sensitivity/morris.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/pce.html"> Polynomial Chaos Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/sobol.html"> Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../sensitivity/index.html">Sensitivity</a></li>
+          <li class="breadcrumb-item"><a href="../../../sensitivity/morris.html">Morris method</a></li>
+      <li class="breadcrumb-item active">Morris Screening</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/sensitivity/morris/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="morris-screening">
+<h1>Morris Screening<a class="headerlink" href="#morris-screening" title="Link to this heading"></a></h1>
+<p>Consider a model of the sort <span class="math notranslate nohighlight">\(Y=h(X)\)</span>, <span class="math notranslate nohighlight">\(Y\)</span> is assumed to be scalar, <span class="math notranslate nohighlight">\(X=[X_{1}, ..., X_{d}]\)</span>.</p>
+<p>For each input <span class="math notranslate nohighlight">\(X_{k}\)</span>, the elementary effect is computed as:</p>
+<div class="math notranslate nohighlight">
+\[EE_{k} = \frac{Y(X_{1}, ..., X_{k}+\Delta, ..., X_{d})-Y(X_{1}, ..., X_{k}, ..., X_{d})}{\Delta}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Delta\)</span> is chosen so that <span class="math notranslate nohighlight">\(X_{k}+\Delta\)</span> is still in the allowable domain for every dimension <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p>The key idea of the original Morris method is to initiate trajectories from various “nominal” points X randomly
+selected over the grid and then gradually advancing one <span class="math notranslate nohighlight">\(\Delta\)</span> at a time between each model evaluation
+(one at a time OAT design), along a different dimension of the parameter space selected randomly. For <span class="math notranslate nohighlight">\(r\)</span> trajectories
+(usually set <span class="math notranslate nohighlight">\(r\)</span> between 5 and 50), the number of simulations required is <span class="math notranslate nohighlight">\(r (d+1)\)</span>.</p>
+<p>Sensitivity indices are computed as:</p>
+<div class="math notranslate nohighlight">
+\[\mu_{k}^{\star} = \frac{1}{r} \sum_{i=1}^{r} \vert EE_{k}^{r} \vert\]</div>
+<div class="math notranslate nohighlight">
+\[\sigma_{k} = \sqrt{ \frac{1}{r} \sum_{i=1}^{r} \left( EE_{k}^{r} - \mu_{k} \right)^{2}}\]</div>
+<p>It allows differentiation between three groups of inputs:
+- Parameters with non-influential effects, i.e., the parameters that have relatively small values of both
+<span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span> and <span class="math notranslate nohighlight">\(\sigma_{k}\)</span>.
+- Parameters with linear and/or additive effects, i.e., the parameters that have a relatively large value of
+<span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span> and relatively small value of <span class="math notranslate nohighlight">\(\sigma_{k}\)</span> (the magnitude of the effect
+<span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span> is consistently large, regardless of the other parameter values, i.e., no interaction).
+- Parameters with nonlinear and/or interaction effects, i.e., the parameters that have a relatively small value of
+<span class="math notranslate nohighlight">\(\mu_{k}^{\star}\)</span> and a relatively large value of <span class="math notranslate nohighlight">\(\sigma_{k}\)</span> (large value of <span class="math notranslate nohighlight">\(\sigma_{k}\)</span> indicates that the
+effect can be large or small depending on the other values of parameters at which the model is evaluated,
+ndicates potential interaction between parameters).</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file"><img alt="" src="../../../_images/sphx_glr_local_pfn_thumb3.png" />
+<p><a class="reference internal" href="local_pfn.html#sphx-glr-auto-examples-sensitivity-morris-local-pfn-py"><span class="std std-ref">Auxiliary file</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="ranking of input parameters:"><img alt="" src="../../../_images/sphx_glr_plot_morris_nonlinearities_thumb.png" />
+<p><a class="reference internal" href="plot_morris_nonlinearities.html#sphx-glr-auto-examples-sensitivity-morris-plot-morris-nonlinearities-py"><span class="std std-ref">Function with nonlinearities / parameter dependencies</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Function with nonlinearities / parameter dependencies</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="To be compared with results from &quot;An effective screening design for sensitivity analysis of large models&quot;, Campolongo et al, 2007"><img alt="" src="../../../_images/sphx_glr_plot_12_dimensional_gfunction_thumb.png" />
+<p><a class="reference internal" href="plot_12_dimensional_gfunction.html#sphx-glr-auto-examples-sensitivity-morris-plot-12-dimensional-gfunction-py"><span class="std std-ref">12-dimensional g-function</span></a></p>
+  <div class="sphx-glr-thumbnail-title">12-dimensional g-function</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="2-dimensional g-function"><img alt="" src="../../../_images/sphx_glr_plot_morris_2d_gfunction_thumb.png" />
+<p><a class="reference internal" href="plot_morris_2d_gfunction.html#sphx-glr-auto-examples-sensitivity-morris-plot-morris-2d-gfunction-py"><span class="std std-ref">2-dimensional g-function</span></a></p>
+  <div class="sphx-glr-thumbnail-title">2-dimensional g-function</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/c15adbce76d092daa7bc69bfc44913b6/morris_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">morris_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/2b6c9e1559b76cd0111ef8aba5f6ea61/morris_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">morris_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../../sensitivity/morris.html" class="btn btn-neutral float-left" title="Morris method" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="local_pfn.html" class="btn btn-neutral float-right" title="Auxiliary file" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

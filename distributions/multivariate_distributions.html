@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List of Multivariate Distributions &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Joint from independent marginals" href="joint_from_independent.html" />
+    <link rel="prev" title="Distributions ND" href="distributions_multivariate.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Distributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="distribution_parent.html"> Parent Distribution Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions_continuous_1d.html"> Distributions Continuous 1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions_discrete_1d.html"> Distributions Discrete 1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.html"> Copulas</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="distributions_multivariate.html"> Distributions ND</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> List of multivariate distributions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#multinomial">Multinomial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multivariate-normal">Multivariate Normal</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="joint_from_independent.html"> Joint from independent marginals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="joint_from_marginals_copula.html"> Joint from marginals and copula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/distributions/multivariate/index.html"> Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_defined_distributions.html"> User Defined Distributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Distributions</a></li>
+          <li class="breadcrumb-item"><a href="distributions_multivariate.html">Distributions ND</a></li>
+      <li class="breadcrumb-item active">List of Multivariate Distributions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/distributions/multivariate_distributions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="list-of-multivariate-distributions">
+<h1>List of Multivariate Distributions<a class="headerlink" href="#list-of-multivariate-distributions" title="Link to this heading"></a></h1>
+<section id="multinomial">
+<h2>Multinomial<a class="headerlink" href="#multinomial" title="Link to this heading"></a></h2>
+<p>Multinomial distribution having probability mass function</p>
+<div class="math notranslate nohighlight">
+\[f(x) = \dfrac{n!}{x_1!\dots x_k!}p_1^{x_1}\dots p_k^{x_k}\]</div>
+<p>for <span class="math notranslate nohighlight">\(x=\{x_1,\dots,x_k\}\)</span> where each <span class="math notranslate nohighlight">\(x_i\)</span> is a non-negative integer and <span class="math notranslate nohighlight">\(\sum_i x_i = n\)</span>.</p>
+<p>The <a class="reference internal" href="#UQpy.distributions.collection.Multinomial" title="UQpy.distributions.collection.Multinomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Multinomial</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.collection.Multinomial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Multinomial</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.distributions.collection.Multinomial">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Multinomial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/collection/Multinomial.html#Multinomial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.collection.Multinomial" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – number of trials</p></li>
+<li><p><strong>p</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – probability of a trial falling into each category; should sum to 1</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The following methods are available for <a class="reference internal" href="#UQpy.distributions.collection.Multinomial" title="UQpy.distributions.collection.Multinomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Multinomial</span></code></a>:</p>
+<p><a class="reference internal" href="distribution_parent.html#pmf" title="pmf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pmf()</span></code></a>, <a class="reference internal" href="distribution_parent.html#log_pmf" title="log_pmf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_pmf()</span></code></a>, <a class="reference internal" href="distribution_parent.html#rvs" title="rvs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rvs()</span></code></a>, <a class="reference internal" href="distribution_parent.html#moments" title="moments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">moments()</span></code></a> .</p>
+</section>
+<hr class="docutils" />
+<section id="multivariate-normal">
+<h2>Multivariate Normal<a class="headerlink" href="#multivariate-normal" title="Link to this heading"></a></h2>
+<p>Multivariate normal distribution having probability density function</p>
+<div class="math notranslate nohighlight">
+\[f(x) = \dfrac{1}{\sqrt{(2\pi)^k\det\Sigma}}\exp{-\dfrac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the mean vector, <span class="math notranslate nohighlight">\(\Sigma\)</span> is the covariance matrix, and <span class="math notranslate nohighlight">\(k\)</span> is the dimension of
+<cite>x</cite>.</p>
+<p>The <a class="reference internal" href="#UQpy.distributions.collection.MultivariateNormal" title="UQpy.distributions.collection.MultivariateNormal"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultivariateNormal</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.collection.MultivariateNormal</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultivariateNormal</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.distributions.collection.MultivariateNormal">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultivariateNormal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/collection/MultivariateNormal.html#MultivariateNormal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.collection.MultivariateNormal" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>]</span>) – mean vector, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(dimension,</span> <span class="pre">)</span></code></p></li>
+<li><p><strong>cov</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>]]</span>) – covariance, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(dimension,</span> <span class="pre">)</span></code> or
+<code class="code docutils literal notranslate"><span class="pre">(dimension,</span> <span class="pre">dimension)</span></code>. Default is 1.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The following methods are available for <a class="reference internal" href="#UQpy.distributions.collection.MultivariateNormal" title="UQpy.distributions.collection.MultivariateNormal"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultivariateNormal</span></code></a> :</p>
+<p><a class="reference internal" href="distribution_parent.html#pdf" title="pdf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pdf()</span></code></a>, <a class="reference internal" href="distribution_parent.html#log_pdf" title="log_pdf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_pdf()</span></code></a>, <a class="reference internal" href="distribution_parent.html#rvs" title="rvs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rvs()</span></code></a>, <a class="reference internal" href="distribution_parent.html#fit" title="fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a>, <a class="reference internal" href="distribution_parent.html#moments" title="moments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">moments()</span></code></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="distributions_multivariate.html" class="btn btn-neutral float-left" title="Distributions ND" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="joint_from_independent.html" class="btn btn-neutral float-right" title="Joint from independent marginals" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karhunen Loève Expansion for Multi-Dimensional Fields &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Karhunen Loeve Expansion 2D Examples" href="../auto_examples/stochastic_processes/karhunen_loeve_2d/index.html" />
+    <link rel="prev" title="Karhunen Loeve Expansion" href="../auto_examples/stochastic_processes/karhunen_loeve_1d/plot_karhunen_loeve_1d.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Stochastic Process</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spectral_representation.html"> Spectral Representation Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bispectral_representation.html"> Bispectral Representation Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="karhunen_loeve_1d.html"> Karhunen Loeve Expansion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Karhunen Loeve Expansion 2D</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#karhunenloeve2d-class">KarhunenLoeve2D Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="translation.html"> Translation Processes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Stochastic Process</a></li>
+      <li class="breadcrumb-item active">Karhunen Loève Expansion for Multi-Dimensional Fields</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/stochastic_process/karhunen_loeve_2d.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="karhunen-loeve-expansion-for-multi-dimensional-fields">
+<h1>Karhunen Loève Expansion for Multi-Dimensional Fields<a class="headerlink" href="#karhunen-loeve-expansion-for-multi-dimensional-fields" title="Link to this heading"></a></h1>
+<p>The Karhunen Loève Expansion expands the stochastic field as follows:</p>
+<div class="math notranslate nohighlight">
+\[A(x, t) = \sum_{n=1}^{\infty} \sum_{k=1}^{\infty}\eta_{nk}(\theta) \sqrt{\lambda_n(x)} f_n(t, x) \sqrt{\mu_{nk}} g_{nk}(x)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\eta_{nk}(\theta)\)</span> are uncorrelated standardized normal random variables and <span class="math notranslate nohighlight">\(\lambda_n(x)\)</span> and <span class="math notranslate nohighlight">\(f_n(x, t)\)</span> are the eigenvalues and eigenvectors repsectively of the “quasi” one dimensional covariance function <span class="math notranslate nohighlight">\(C(x, t_1, t_2)\)</span>. <span class="math notranslate nohighlight">\(\mu_{nk}\)</span> and <span class="math notranslate nohighlight">\(g_{nk}(x)\)</span> are the eigenvalues and eigenvectors of the derived “one” dimensional covariance function <span class="math notranslate nohighlight">\(H(x_1, x_2)\)</span>. Additional details regarding the simulation formula can be found
+at <span id="id1">[<a class="reference internal" href="../bibliography.html#id70" title="Zhibao Zheng and Hongzhe Dai. Simulation of multi-dimensional random fields by karhunen–loève expansion. Computer Methods in Applied Mechanics and Engineering, 324:221-247, 2017. URL: https://www.sciencedirect.com/science/article/pii/S0045782516318692, doi:https://doi.org/10.1016/j.cma.2017.05.022.">67</a>]</span></p>
+<section id="karhunenloeve2d-class">
+<h2>KarhunenLoeve2D Class<a class="headerlink" href="#karhunenloeve2d-class" title="Link to this heading"></a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeve2D</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.stochastic_process.KarhunenLoeveExpansionTwoDimension2D</span><span class="w"> </span><span class="kn">import</span> <span class="n">KarhunenLoeveExpansion</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.KarhunenLoeveExpansion2D">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KarhunenLoeveExpansion2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresholds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/stochastic_process/KarhunenLoeveExpansion2D.html#KarhunenLoeveExpansion2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D" title="Link to this definition"></a></dt>
+<dd><p>A class to simulate two dimensional stochastic fields from a given auto-correlation function based on the
+Karhunen-Loeve Expansion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples of the stochastic field to be simulated.
+The <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.run" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is automatically called if <cite>n_samples</cite> is provided. If <cite>n_samples</cite> is not
+provided, then the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.KarhunenLoeveExpansion2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeveExpansion2D</span></code></a> object is created but samples are not generated.</p></li>
+<li><p><strong>correlation_function</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – The correlation function of the stochastic process of size
+<code class="code docutils literal notranslate"><span class="pre">(n_time_intervals_dim1,</span> <span class="pre">n_time_intervals_dim1,</span> <span class="pre">n_time_intervals_dim2,</span> <span class="pre">n_time_intervals_dim2)</span></code></p></li>
+<li><p><strong>time_intervals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – The length of time discretizations.</p></li>
+<li><p><strong>thresholds</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – The threshold number of eigenvalues to be used in the expansion for two dimensions.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+<li><p><strong>random_variables</strong> – The random variables used to generate the stochastic field.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.KarhunenLoeveExpansion2D.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/stochastic_process/KarhunenLoeveExpansion2D.html#KarhunenLoeveExpansion2D.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.run" title="Link to this definition"></a></dt>
+<dd><p>Execute the random sampling in the <a class="reference internal" href="karhunen_loeve_1d.html#UQpy.stochastic_process.KarhunenLoeveExpansion" title="UQpy.stochastic_process.KarhunenLoeveExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeveExpansion</span></code></a> class.</p>
+<p>The <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.run" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is the function that performs random sampling in the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.KarhunenLoeveExpansion2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeveExpansion2D</span></code></a>
+class. If <cite>n_samples</cite> is provided when the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.KarhunenLoeveExpansion2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeveExpansion2D</span></code></a> object is defined, the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.run" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>
+method is automatically called. The user may also call the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.run" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method directly to generate samples.
+The <code class="xref py py-meth docutils literal notranslate"><span class="pre">run`()</span></code> method of the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.KarhunenLoeveExpansion2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeveExpansion2D</span></code></a> class can be invoked many times and each time
+the generated samples are appended to the existing samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_samples</strong> – Number of samples of the stochastic process to be simulated.
+If the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.run" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is invoked multiple times, the newly generated samples will be appended to the
+existing samples.</p>
+</dd>
+</dl>
+<p>The <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.run" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method has no returns, although it creates and/or appends the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.samples" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D.samples"><code class="xref py py-attr docutils literal notranslate"><span class="pre">samples</span></code></a> attribute of
+the <a class="reference internal" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D" title="UQpy.stochastic_process.KarhunenLoeveExpansion2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeveExpansion2D</span></code></a> class.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.KarhunenLoeveExpansion2D.samples">
+<span class="sig-prename descclassname"><span class="pre">KarhunenLoeveExpansion2D.</span></span><span class="sig-name descname"><span class="pre">samples</span></span><a class="headerlink" href="#UQpy.stochastic_process.KarhunenLoeveExpansion2D.samples" title="Link to this definition"></a></dt>
+<dd><p>Array of generated samples.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/stochastic_processes/karhunen_loeve_2d/index.html">Karhunen Loeve Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/stochastic_processes/karhunen_loeve_1d/plot_karhunen_loeve_1d.html" class="btn btn-neutral float-left" title="Karhunen Loeve Expansion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/stochastic_processes/karhunen_loeve_2d/index.html" class="btn btn-neutral float-right" title="Karhunen Loeve Expansion 2D Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

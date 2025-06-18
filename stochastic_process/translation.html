@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Non-Gaussian Translation Processes &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Translation Examples" href="../auto_examples/stochastic_processes/translation/index.html" />
+    <link rel="prev" title="Karhunen Loeve Expansion 2 Dimesional" href="../auto_examples/stochastic_processes/karhunen_loeve_2d/plot_karhunen_loeve_2d.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Stochastic Process</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spectral_representation.html"> Spectral Representation Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bispectral_representation.html"> Bispectral Representation Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="karhunen_loeve_1d.html"> Karhunen Loeve Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="karhunen_loeve_2d.html"> Karhunen Loeve Expansion 2D</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Translation Processes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#translation-class">Translation Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#inverse-translation-class">Inverse Translation Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Attributes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Stochastic Process</a></li>
+      <li class="breadcrumb-item active">Non-Gaussian Translation Processes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/stochastic_process/translation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="non-gaussian-translation-processes">
+<h1>Non-Gaussian Translation Processes<a class="headerlink" href="#non-gaussian-translation-processes" title="Link to this heading"></a></h1>
+<p>A translation processes results from the nonlinear transformation of a Gaussian stochastic process. The standard
+translation process, introduced and extensively studied by Grigoriu <span id="id1">[<a class="reference internal" href="../bibliography.html#id49" title="Mircea Grigoriu. Applied non-gaussian processes : examples, theory, simulation, linear random vibration, and matlab solutions. In Applied non-Gaussian processes : examples, theory, simulation, linear random vibration, and MATLAB solutions. 1995.">64</a>]</span> and implemented in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> arises from
+the pointwise transformation of a Gaussian process through the inverse cumulative distribution function of a specified
+marginal probability distribution as:</p>
+<div class="math notranslate nohighlight">
+\[X(t) = F^{-1}(\Phi(Y(t)))\]</div>
+<p>where <span class="math notranslate nohighlight">\(Y(x)\)</span> is a Gaussian random process with zero mean and unit standard deviation, <span class="math notranslate nohighlight">\(\Phi(x)\)</span> is the
+standard normal cumulative distribution function and <span class="math notranslate nohighlight">\(F^{-1}(\cdot)\)</span> is the inverse cumulative distribution
+function of the prescribed non-Gaussian probability distribution.</p>
+<p>The nonlinear translation in the equation above has the effect of distorting the correlation of the stochastic process.
+That is, if the Gaussian process has correlation function <span class="math notranslate nohighlight">\(\rho(\tau)\)</span> where <span class="math notranslate nohighlight">\(\tau=t_2-t_1\)</span> is a time lag,
+then the non-Gaussian correlation function of the process <span class="math notranslate nohighlight">\(X(t)\)</span> can be computed as:</p>
+<div class="math notranslate nohighlight">
+\[\xi(\tau) = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} F^{-1}(\Phi(y_1)) F^{-1}(\Phi(y_2)) \phi(y_1, y_2; \rho(\tau)) dy_1 dy_2\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi(y_1, y_2; \rho(\tau))\)</span> is the bivariate normal probability density function having correlation
+<span class="math notranslate nohighlight">\(\rho(\tau)\)</span>. This operation is known as correlation distortion and is not, in general, invertible. That is, given
+the non-Gaussian correlation function <span class="math notranslate nohighlight">\(\xi(\tau)\)</span> and an arbitrarily prescribed non-Gaussian probability
+distribution with cdf <span class="math notranslate nohighlight">\(F(x)\)</span>, it is not always possible to identify a corresponding Gaussian process having
+correlation function <span class="math notranslate nohighlight">\(\rho(\tau)\)</span> that can be translated to this non-Gaussian process through the equations
+above <span id="id2">[<a class="reference internal" href="../bibliography.html#id49" title="Mircea Grigoriu. Applied non-gaussian processes : examples, theory, simulation, linear random vibration, and matlab solutions. In Applied non-Gaussian processes : examples, theory, simulation, linear random vibration, and MATLAB solutions. 1995.">64</a>]</span>.</p>
+<p>This gives rise to the challenge of inverse translation process modeling, where the objective is to find the an
+underlying Gaussian process and its correlation function such that it maps as closely as possible to the desired
+non-Gaussian stochastic process with its arbitrarily prescribed distribution and correlation function. This problem is
+solved in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> using the Iterative Translation Approximation Method (ITAM) developed in <span id="id3">[<a class="reference internal" href="../bibliography.html#id50" title="M.D. Shields and G. Deodatis. A simple and efficient methodology to approximate a general non-gaussian stationary stochastic vector process by a translation process with applications in wind velocity simulation. Probabilistic Engineering Mechanics, 31:19-29, 2013. URL: https://www.sciencedirect.com/science/article/pii/S0266892012000549, doi:https://doi.org/10.1016/j.probengmech.2012.10.003.">65</a>]</span> for processes
+described by their power spectrum (and using <a class="reference internal" href="spectral_representation.html#UQpy.stochastic_process.SpectralRepresentation" title="UQpy.stochastic_process.SpectralRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectralRepresentation</span></code></a> for simulation) and in <span id="id4">[<a class="reference internal" href="../bibliography.html#id51" title="Hwanpyo Kim and Michael Shields. Modeling strongly non-gaussian non-stationary stochastic processes using the iterative translation approximation method and karhunen-loeve expansion. Computers &amp; Structures, 161:31-42, 08 2015. doi:10.1016/j.compstruc.2015.08.010.">66</a>]</span> for processes
+described through their correlation function (and using <a class="reference internal" href="karhunen_loeve_1d.html#UQpy.stochastic_process.KarhunenLoeveExpansion" title="UQpy.stochastic_process.KarhunenLoeveExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeveExpansion</span></code></a> for simulation). This is implemented
+in the <code class="xref py py-class docutils literal notranslate"><span class="pre">InverseTranslation</span></code> class.</p>
+<p>The <a class="reference internal" href="#UQpy.stochastic_process.Translation" title="UQpy.stochastic_process.Translation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Translation</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.stochastic_process.Translation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Translation</span>
+</pre></div>
+</div>
+<section id="translation-class">
+<h2>Translation Class<a class="headerlink" href="#translation-class" title="Link to this heading"></a></h2>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.Translation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Translation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_frequency_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power_spectrum_gaussian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_function_gaussian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_gaussian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/stochastic_process/Translation.html#Translation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.stochastic_process.Translation" title="Link to this definition"></a></dt>
+<dd><p>A class to translate Gaussian Stochastic Processes to non-Gaussian Stochastic Processes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a></span>) – An instance of the UQpy <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> class defining the marginal distribution to
+which the Gaussian stochastic process should be translated to.</p></li>
+<li><p><strong>time_interval</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – The value of time discretization.</p></li>
+<li><p><strong>frequency_interval</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – The value of frequency discretization.</p></li>
+<li><p><strong>n_time_intervals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – The number of time discretizations.</p></li>
+<li><p><strong>n_frequency_intervals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – The number of frequency discretizations.</p></li>
+<li><p><strong>power_spectrum_gaussian</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – The power spectrum of the gaussian stochastic process to be translated.
+<cite>power_spectrum_gaussian</cite> must be of size <code class="code docutils literal notranslate"><span class="pre">(n_frequency_intervals)</span></code>.</p></li>
+<li><p><strong>correlation_function_gaussian</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – The auto correlation function of the Gaussian stochastic process to be
+translated. Either the power spectrum or the auto correlation function of the gaussian stochastic process needs
+to be defined. <cite>correlation_function_gaussian</cite> must be of size <code class="code docutils literal notranslate"><span class="pre">(n_time_intervals)</span></code>.</p></li>
+<li><p><strong>samples_gaussian</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Samples of Gaussian stochastic process to be translated.
+<cite>samples_gaussian</cite> is optional. If no samples are passed, the <a class="reference internal" href="#UQpy.stochastic_process.Translation" title="UQpy.stochastic_process.Translation.Translation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Translation</span></code></a> class will compute the
+correlation distortion.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.Translation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples_gaussian</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/stochastic_process/Translation.html#Translation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.stochastic_process.Translation.run" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>samples_gaussian</strong> – Samples of Gaussian stochastic process to be translated.
+<cite>samples_gaussian</cite> is optional. If samples are provided at the object initialization then the run method is
+executed automatically. If no samples are passed, the <a class="reference internal" href="#UQpy.stochastic_process.Translation" title="UQpy.stochastic_process.Translation.Translation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Translation</span></code></a> class will compute the
+correlation distortion and the use needs to execute the run method manually in order to compute non-gaussian
+samples.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.Translation.correlation_function_non_gaussian">
+<span class="sig-prename descclassname"><span class="pre">Translation.</span></span><span class="sig-name descname"><span class="pre">correlation_function_non_gaussian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">callable</span></code></em><a class="headerlink" href="#UQpy.stochastic_process.Translation.correlation_function_non_gaussian" title="Link to this definition"></a></dt>
+<dd><p>The correlation function of the translated non-Gaussian stochastic processes obtained by distorting the 
+Gaussian correlation function.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.Translation.power_spectrum_non_gaussian">
+<span class="sig-prename descclassname"><span class="pre">Translation.</span></span><span class="sig-name descname"><span class="pre">power_spectrum_non_gaussian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.stochastic_process.Translation.power_spectrum_non_gaussian" title="Link to this definition"></a></dt>
+<dd><p>The power spectrum of the translated non-Gaussian stochastic processes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.Translation.samples_gaussian">
+<span class="sig-prename descclassname"><span class="pre">Translation.</span></span><span class="sig-name descname"><span class="pre">samples_gaussian</span></span><a class="headerlink" href="#UQpy.stochastic_process.Translation.samples_gaussian" title="Link to this definition"></a></dt>
+<dd><p>Translated non-Gaussian stochastic process from Gaussian samples.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.Translation.scaled_correlation_function_non_gaussian">
+<span class="sig-prename descclassname"><span class="pre">Translation.</span></span><span class="sig-name descname"><span class="pre">scaled_correlation_function_non_gaussian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">callable</span></code></em><a class="headerlink" href="#UQpy.stochastic_process.Translation.scaled_correlation_function_non_gaussian" title="Link to this definition"></a></dt>
+<dd><p>This obtained by scaling the correlation function of the non-Gaussian stochastic processes to make the
+correlation at ‘0’ lag to be 1</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/stochastic_processes/translation/index.html">Translation Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="inverse-translation-class">
+<h2>Inverse Translation Class<a class="headerlink" href="#inverse-translation-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.stochastic_process.InverseTranslation" title="UQpy.stochastic_process.InverseTranslation"><code class="xref py py-class docutils literal notranslate"><span class="pre">InverseTranslation</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.stochastic_process.InverseTranslation</span><span class="w"> </span><span class="kn">import</span> <span class="n">InverseTranslation</span>
+</pre></div>
+</div>
+<section id="id5">
+<h3>Methods<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.InverseTranslation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InverseTranslation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_time_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_frequency_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_function_non_gaussian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power_spectrum_non_gaussian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_non_gaussian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentage_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/stochastic_process/InverseTranslation.html#InverseTranslation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.stochastic_process.InverseTranslation" title="Link to this definition"></a></dt>
+<dd><p>A class to perform Iterative Translation Approximation Method to find the underlying  Gaussian Stochastic
+Processes which upon translation would yield the necessary non-Gaussian Stochastic Processes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a></span>) – An instance of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">Distributions</span></code> class defining the marginal
+distribution of the non-Gaussian stochastic process.</p></li>
+<li><p><strong>time_interval</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – The value of time discretization.</p></li>
+<li><p><strong>frequency_interval</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – The value of frequency discretization.</p></li>
+<li><p><strong>n_time_intervals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – The number of time discretizations.</p></li>
+<li><p><strong>n_frequency_intervals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – The number of frequency discretizations.</p></li>
+<li><p><strong>correlation_function_non_gaussian</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – The auto correlation function of the non-Gaussian stochastic
+processes. Either the power spectrum or the auto correlation function of the Gaussian stochastic process needs
+to be defined.</p></li>
+<li><p><strong>power_spectrum_non_gaussian</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – The power spectrum of the non-Gaussian stochastic processes.</p></li>
+<li><p><strong>samples_non_gaussian</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Samples of non-Gaussian stochastic processes.
+<cite>samples_non_gaussian</cite> is optional. If no samples are passed, the <a class="reference internal" href="#UQpy.stochastic_process.InverseTranslation" title="UQpy.stochastic_process.InverseTranslation.InverseTranslation"><code class="xref py py-class docutils literal notranslate"><span class="pre">InverseTranslation</span></code></a> class will
+compute the underlying Gaussian correlation using the ITAM.</p></li>
+<li><p><strong>percentage_error</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.InverseTranslation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples_non_gaussian</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/stochastic_process/InverseTranslation.html#InverseTranslation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.stochastic_process.InverseTranslation.run" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>samples_non_gaussian</strong> – Samples of non-Gaussian stochastic processes. If samples are provided at the
+initialization, then the run method is executed automatically. If no samples are passed at the
+initialization, the <a class="reference internal" href="#UQpy.stochastic_process.InverseTranslation" title="UQpy.stochastic_process.InverseTranslation.InverseTranslation"><code class="xref py py-class docutils literal notranslate"><span class="pre">InverseTranslation</span></code></a> class will compute the underlying Gaussian correlation using
+the ITAM and the run method needs to be manually executed by the user.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id6">
+<h3>Attributes<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.InverseTranslation.correlation_function_gaussian">
+<span class="sig-prename descclassname"><span class="pre">InverseTranslation.</span></span><span class="sig-name descname"><span class="pre">correlation_function_gaussian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.stochastic_process.InverseTranslation.correlation_function_gaussian" title="Link to this definition"></a></dt>
+<dd><p>The correlation function of the inverse translated Gaussian stochastic processes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.InverseTranslation.power_spectrum_gaussian">
+<span class="sig-prename descclassname"><span class="pre">InverseTranslation.</span></span><span class="sig-name descname"><span class="pre">power_spectrum_gaussian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.stochastic_process.InverseTranslation.power_spectrum_gaussian" title="Link to this definition"></a></dt>
+<dd><p>The power spectrum of the inverse translated Gaussian stochastic processes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.stochastic_process.InverseTranslation.samples_gaussian">
+<span class="sig-prename descclassname"><span class="pre">InverseTranslation.</span></span><span class="sig-name descname"><span class="pre">samples_gaussian</span></span><a class="headerlink" href="#UQpy.stochastic_process.InverseTranslation.samples_gaussian" title="Link to this definition"></a></dt>
+<dd><p>The inverse translated Gaussian samples from the non-Gaussian samples.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/stochastic_processes/karhunen_loeve_2d/plot_karhunen_loeve_2d.html" class="btn btn-neutral float-left" title="Karhunen Loeve Expansion 2 Dimesional" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/stochastic_processes/translation/index.html" class="btn btn-neutral float-right" title="Translation Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

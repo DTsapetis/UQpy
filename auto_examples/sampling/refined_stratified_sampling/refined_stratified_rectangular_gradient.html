@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rectangular Refined Stratified Sampling - Gradient Enhanced Refinement &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Simplex" href="../../../sampling/simplex.html" />
+    <link rel="prev" title="Voronoi Refined Stratified Sampling - Gradient Enhanced Refinement" href="refined_stratified_voronoi_gradient.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../sampling/index.html">Sampling</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../sampling/monte_carlo.html"> Monte Carlo Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sampling/latin_hypercube.html"> Latin Hypercube Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sampling/stratified_sampling.html"> True Stratified Sampling</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sampling/refined_stratified_sampling.html"> Refined Stratified Sampling</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#refined-stratified-sampling-class">Refined Stratified Sampling Class</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#attributes">Attributes</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#stratification-refinement-algorithms">Stratification Refinement Algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sampling/simplex.html"> Simplex Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sampling/akmcs.html"> Adaptive Kriging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sampling/theta_criterion.html"> Theta Criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sampling/mcmc/index.html"> Markov Chain Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sampling/importance_sampling.html"> Importance Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../sampling/index.html">Sampling</a></li>
+          <li class="breadcrumb-item"><a href="../../../sampling/refined_stratified_sampling.html">Refined Stratified Sampling</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Refined Stratified Sampling Examples</a></li>
+      <li class="breadcrumb-item active">Rectangular Refined Stratified Sampling - Gradient Enhanced Refinement</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/sampling/refined_stratified_sampling/refined_stratified_rectangular_gradient.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-sampling-refined-stratified-sampling-refined-stratified-rectangular-gradient-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="rectangular-refined-stratified-sampling-gradient-enhanced-refinement">
+<span id="sphx-glr-auto-examples-sampling-refined-stratified-sampling-refined-stratified-rectangular-gradient-py"></span><h1>Rectangular Refined Stratified Sampling - Gradient Enhanced Refinement<a class="headerlink" href="#rectangular-refined-stratified-sampling-gradient-enhanced-refinement" title="Link to this heading"></a></h1>
+<p>In this example, Stratified sampling is used to generate samples from Uniform distribution and sample expansion is done
+adaptively using Refined Stratified Sampling.</p>
+<p>Import the necessary libraries. Here we import standard libraries such as numpy, matplotlib and other necessary
+library for plots, but also need to import the <a class="reference internal" href="../../../sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a>, <a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#UQpy.sampling.RefinedStratifiedSampling" title="UQpy.sampling.RefinedStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">RefinedStratifiedSampling</span></code></a>
+and <code class="xref py py-class docutils literal notranslate"><span class="pre">Kriging</span></code> class from <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrueStratifiedSampling</span><span class="p">,</span> <span class="n">RefinedStratifiedSampling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.RunModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uniform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">cm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearLocator</span><span class="p">,</span> <span class="n">FormatStrFormatter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.strata</span><span class="w"> </span><span class="kn">import</span> <span class="n">RectangularStrata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.MinimizeOptimizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinimizeOptimizer</span>
+</pre></div>
+</div>
+<p>Create a distribution object.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">marginals</span> <span class="o">=</span> <span class="p">[</span><span class="n">Uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">),</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Create a strata object.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">strata</span> <span class="o">=</span> <span class="n">RectangularStrata</span><span class="p">(</span><span class="n">strata_number</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Run stratified sampling.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">TrueStratifiedSampling</span><span class="p">(</span><span class="n">distributions</span><span class="o">=</span><span class="n">marginals</span><span class="p">,</span> <span class="n">strata_object</span><span class="o">=</span><span class="n">strata</span><span class="p">,</span> <span class="n">nsamples_per_stratum</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">initial_samples</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This plot shows the samples and strata generated by the <a class="reference internal" href="../../../sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> class.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig1</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">strata_object</span><span class="o">.</span><span class="n">plot_2d</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;STS samples U(0,1) and space stratification&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">samples</span><span class="p">[:</span><span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">samples</span><span class="p">[:</span><span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>RunModel class is used to estimate the function value at sample points generated using
+<a class="reference internal" href="../../../sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> class.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rmodel</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;local_python_model_function.py&#39;</span><span class="p">,</span> <span class="n">vec</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This figure shows the actual function defined in python model script.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rmodel1</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;local_python_model_function.py&#39;</span><span class="p">,</span> <span class="n">vec</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">rmodel1</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">x1</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+<span class="n">x1v</span><span class="p">,</span> <span class="n">x2v</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html#numpy.meshgrid" title="numpy.meshgrid" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span></a><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="n">y_act</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">([</span><span class="n">num</span><span class="p">,</span> <span class="n">num</span><span class="p">])</span>
+<span class="n">r1model</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;local_python_model_function.py&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+        <span class="n">r1model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([[</span><span class="n">x1v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">x2v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]]),</span> <span class="n">append_samples</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">y_act</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">r1model</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig1</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="c1"># Plot for estimated values</span>
+<span class="n">surf</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x1v</span><span class="p">,</span> <span class="n">x2v</span><span class="p">,</span> <span class="n">y_act</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># Customize the z axis.</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">zaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">LinearLocator</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">zaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">FormatStrFormatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%.02f</span><span class="s1">&#39;</span><span class="p">))</span>
+<span class="c1"># Add a color bar which maps values to colors.</span>
+<span class="n">fig1</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">surf</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Kriging</span></code> class generated a surrogate model using <a class="reference internal" href="../../../sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> samples and function value
+at those points.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.regression_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">RBF</span>
+
+<span class="n">bounds</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">GaussianProcessRegression</span><span class="p">(</span><span class="n">regression_model</span><span class="o">=</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">kernel</span><span class="o">=</span><span class="n">RBF</span><span class="p">(),</span>
+                              <span class="n">optimizer</span><span class="o">=</span><span class="n">MinimizeOptimizer</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">),</span>
+                              <span class="n">hyperparameters</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="n">optimizations_number</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">K</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">rmodel1</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">hyperparameters</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This figure shows the surrogate model generated using <code class="xref py py-class docutils literal notranslate"><span class="pre">Kriging</span></code> class from initial samples.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">num</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">x1</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+<span class="n">x1v</span><span class="p">,</span> <span class="n">x2v</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html#numpy.meshgrid" title="numpy.meshgrid" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span></a><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">([</span><span class="n">num</span><span class="p">,</span> <span class="n">num</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">x1v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">x2v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]))</span>
+
+<span class="n">fig2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig2</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="c1"># Plot for estimated values</span>
+<span class="n">kr</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot_wireframe</span><span class="p">(</span><span class="n">x1v</span><span class="p">,</span> <span class="n">x2v</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Kriging interpolate&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot for scattered data</span>
+<span class="n">ID</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">scatter3D</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">rmodel1</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Input data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">kr</span><span class="p">,</span> <span class="n">ID</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A <a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#UQpy.sampling.RefinedStratifiedSampling" title="UQpy.sampling.RefinedStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">RefinedStratifiedSampling</span></code></a> class object is initiated by using the <a class="reference internal" href="../../../sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a>,
+<a class="reference internal" href="../../../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Kriging</span></code> object.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientEnhancedRefinement</span>
+<span class="n">refinement</span> <span class="o">=</span> <span class="n">GradientEnhancedRefinement</span><span class="p">(</span><span class="n">strata</span><span class="o">=</span><span class="n">strata</span><span class="p">,</span> <span class="n">runmodel_object</span><span class="o">=</span><span class="n">rmodel</span><span class="p">,</span> <span class="n">surrogate</span><span class="o">=</span><span class="n">K</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">RefinedStratifiedSampling</span><span class="p">(</span><span class="n">stratified_sampling</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">refinement_algorithm</span><span class="o">=</span><span class="n">refinement</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After initiating the <a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#UQpy.sampling.RefinedStratifiedSampling" title="UQpy.sampling.RefinedStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">RefinedStratifiedSampling</span></code></a> class object, new samples are generated using the
+<code class="code docutils literal notranslate"><span class="pre">refinedStratifiedSampling.sample</span></code> method.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">z</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This figure shows the final samples generated using <a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#UQpy.sampling.RefinedStratifiedSampling" title="UQpy.sampling.RefinedStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">RefinedStratifiedSampling</span></code></a> class, where red dots shows
+the initial samples.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig3</span> <span class="o">=</span> <span class="n">strata</span><span class="o">.</span><span class="n">plot_2d</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">initial_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">initial_samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">samplesU01</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">z</span><span class="o">.</span><span class="n">samplesU01</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;gx&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Kriging</span></code> class is used to generate a surrogate model using final samples from
+<a class="reference internal" href="../../../sampling/refined_stratified_sampling.html#UQpy.sampling.RefinedStratifiedSampling" title="UQpy.sampling.RefinedStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">RefinedStratifiedSampling</span></code></a> class.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">hyperparameters</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">hyperparameters</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">K2</span> <span class="o">=</span> <span class="n">GaussianProcessRegression</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">RBF</span><span class="p">(),</span>
+                               <span class="n">optimizer</span><span class="o">=</span><span class="n">MinimizeOptimizer</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">),</span>
+                               <span class="n">hyperparameters</span><span class="o">=</span><span class="n">hyperparameters</span><span class="p">,</span>
+                               <span class="n">noise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">K2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">z</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">rmodel</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This figure shows the final surrogate model, generated using 200 samples.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">([</span><span class="n">num</span><span class="p">,</span> <span class="n">num</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">K2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">x1v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">x2v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="n">fig4</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">a4</span> <span class="o">=</span> <span class="n">fig4</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="c1"># Plot for estimated values</span>
+<span class="n">kr</span> <span class="o">=</span> <span class="n">a4</span><span class="o">.</span><span class="n">plot_wireframe</span><span class="p">(</span><span class="n">x1v</span><span class="p">,</span> <span class="n">x2v</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Kriging interpolate&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot for scattered data</span>
+<span class="n">ID</span> <span class="o">=</span> <span class="n">a4</span><span class="o">.</span><span class="n">scatter3D</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">z</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">rmodel</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Input data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">kr</span><span class="p">,</span> <span class="n">ID</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<a href="https://docs.python.org/3/library/shutil.html#shutil.rmtree" title="shutil.rmtree" class="sphx-glr-backref-module-shutil sphx-glr-backref-type-py-function"><span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span></a><span class="p">(</span><span class="n">rmodel</span><span class="o">.</span><span class="n">model_dir</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/shutil.html#shutil.rmtree" title="shutil.rmtree" class="sphx-glr-backref-module-shutil sphx-glr-backref-type-py-function"><span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span></a><span class="p">(</span><span class="n">r1model</span><span class="o">.</span><span class="n">model_dir</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/shutil.html#shutil.rmtree" title="shutil.rmtree" class="sphx-glr-backref-module-shutil sphx-glr-backref-type-py-function"><span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span></a><span class="p">(</span><span class="n">rmodel1</span><span class="o">.</span><span class="n">model_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-sampling-refined-stratified-sampling-refined-stratified-rectangular-gradient-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/sampling/refined_stratified_sampling/refined_stratified_rectangular_gradient.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo21.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/c7e93d46e1ec6c0701f6490519f664fa/refined_stratified_rectangular_gradient.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">refined_stratified_rectangular_gradient.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/86ee34b5401471e73882f6c2cbf1e854/refined_stratified_rectangular_gradient.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">refined_stratified_rectangular_gradient.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/6bde83054751453a1229c26422c9a6d0/refined_stratified_rectangular_gradient.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">refined_stratified_rectangular_gradient.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="refined_stratified_voronoi_gradient.html" class="btn btn-neutral float-left" title="Voronoi Refined Stratified Sampling - Gradient Enhanced Refinement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../sampling/simplex.html" class="btn btn-neutral float-right" title="Simplex" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

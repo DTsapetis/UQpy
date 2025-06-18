@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polynomials &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Calculation of the PCE coefficients" href="regressions.html" />
+    <link rel="prev" title="Polynomial Bases" href="polynomial_bases.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpr.html"> Gaussian Process Regression</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../polynomial_chaos.html"> Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="polynomial_bases.html"> Polynomial Bases</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Polynomials</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials"><code class="docutils literal notranslate"><span class="pre">Polynomials</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#legendre-class">Legendre Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hermite-class">Hermite Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#polynomialsnd-class">PolynomialsND Class</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="regressions.html"> Regressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pce.html"> Polynomial Chaos Expansion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_informed.html"> Physics-informed Polynomial Chaos Expansion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Surrogates</a></li>
+          <li class="breadcrumb-item"><a href="../polynomial_chaos.html">Polynomial Chaos Expansion - PCE</a></li>
+      <li class="breadcrumb-item active">Polynomials</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/surrogates/pce/polynomials.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="polynomials">
+<h1>Polynomials<a class="headerlink" href="#polynomials" title="Link to this heading"></a></h1>
+<p>Different families of univariate polynomials can be used for the PCE method. These polynomials must always be orthonormal
+with respect to the arbitrary distribution. In UQpy, two families of polynomials are currently available that can be
+used from their corresponding classes, namely the <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.polynomials.Legendre" title="UQpy.surrogates.polynomial_chaos.polynomials.Legendre"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legendre</span></code></a> and <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.polynomials.Hermite" title="UQpy.surrogates.polynomial_chaos.polynomials.Hermite"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hermite</span></code></a> polynomial class, appropriate for
+data generated from a Uniform and a Normal distribution respectively.</p>
+<p>The <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials" title="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials"><code class="xref py py-class docutils literal notranslate"><span class="pre">Polynomials</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polynomials</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Polynomials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials" title="Link to this definition"></a></dt>
+<dd><p>Class for polynomials used for the polynomial_chaos method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>]]</span>) – Object from a distribution class.</p></li>
+<li><p><strong>degree</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum degree of the polynomials.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.standardize_sample">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">standardize_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials.standardize_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.standardize_sample" title="Link to this definition"></a></dt>
+<dd><p>Static method: Standardize data based on the joint probability distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Input data generated from a joint probability distribution.</p></li>
+<li><p><strong>joint_distribution</strong> – joint probability distribution from <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> distribution object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Standardized data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.standardize_pdf">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">standardize_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials.standardize_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.standardize_pdf" title="Link to this definition"></a></dt>
+<dd><p>Static method: PDF of standardized distributions associated to Hermite or Legendre polynomials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Input data generated from a joint probability distribution</p></li>
+<li><p><strong>joint_distribution</strong> – joint probability distribution from <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> distribution object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Value of standardized PDF calculated for x</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.standardize_normal">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">standardize_normal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials.standardize_normal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.standardize_normal" title="Link to this definition"></a></dt>
+<dd><p>Static method: Standardize data based on the standard normal distribution <span class="math notranslate nohighlight">\(\mathcal{N}(0,1)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tensor</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Input data generated from a normal distribution.</p></li>
+<li><p><strong>mean</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Mean value of the original normal distribution.</p></li>
+<li><p><strong>std</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Standard deviation of the original normal distribution.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Standardized data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.normalized">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normalized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf_st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials.normalized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.normalized" title="Link to this definition"></a></dt>
+<dd><p>Calculates design matrix and normalized polynomials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degree</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – polynomial degree</p></li>
+<li><p><strong>samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Input samples.</p></li>
+<li><p><strong>a</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Left bound of the support the distribution.</p></li>
+<li><p><strong>b</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Right bound of the support of the distribution.</p></li>
+<li><p><strong>pdf_st</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Pdf function generated from <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> distribution object.</p></li>
+<li><p><strong>p</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – List containing the orthogonal polynomials generated with scipy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Design matrix,normalized polynomials</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.get_mean">
+<span class="sig-name descname"><span class="pre">get_mean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials.get_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.get_mean" title="Link to this definition"></a></dt>
+<dd><p>Returns a <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">float</span></code></a> with the mean of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> distribution object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.get_std">
+<span class="sig-name descname"><span class="pre">get_std</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials.get_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.get_std" title="Link to this definition"></a></dt>
+<dd><p>Returns a <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">float</span></code></a> with the variance of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> distribution object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.location">
+<span class="sig-name descname"><span class="pre">location</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials.location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.location" title="Link to this definition"></a></dt>
+<dd><p>Returns a <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">float</span></code></a> with the location of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> distribution object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.scale">
+<span class="sig-name descname"><span class="pre">scale</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/baseclass/Polynomials.html#Polynomials.scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials.scale" title="Link to this definition"></a></dt>
+<dd><p>Returns a <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">float</span></code></a> with the scale of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> distribution object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="legendre-class">
+<h2>Legendre Class<a class="headerlink" href="#legendre-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.polynomials.Legendre" title="UQpy.surrogates.polynomial_chaos.polynomials.Legendre"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legendre</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.polynomials.Legendre</span><span class="w"> </span><span class="kn">import</span> <span class="n">Legendre</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.Legendre">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Legendre</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/Legendre.html#Legendre"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.Legendre" title="Link to this definition"></a></dt>
+<dd><p>Class of univariate polynomials appropriate for data generated from a uniform distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degree</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum degree of the polynomials.</p></li>
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>]]</span>) – Distribution object of the generated samples.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.Legendre.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/Legendre.html#Legendre.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.Legendre.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Calculates the normalized Legendre polynomials evaluated at sample points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Α list of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> with the design matrix and the
+normalized polynomials.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="hermite-class">
+<h2>Hermite Class<a class="headerlink" href="#hermite-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.polynomials.Hermite" title="UQpy.surrogates.polynomial_chaos.polynomials.Hermite"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hermite</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.polynomials.Hermite</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hermite</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.Hermite">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Hermite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/Hermite.html#Hermite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.Hermite" title="Link to this definition"></a></dt>
+<dd><p>Class of univariate polynomials appropriate for data generated from a normal distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degree</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum degree of the polynomials.</p></li>
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>]]</span>) – Distribution object of the generated samples.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.Hermite.get_polys">
+<span class="sig-name descname"><span class="pre">get_polys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/Hermite.html#Hermite.get_polys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.Hermite.get_polys" title="Link to this definition"></a></dt>
+<dd><p>Calculates the normalized Hermite polynomials evaluated at sample points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Α list of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> with the design matrix and the
+normalized polynomials.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="polynomialsnd-class">
+<h2>PolynomialsND Class<a class="headerlink" href="#polynomialsnd-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.polynomials.PolynomialsND" title="UQpy.surrogates.polynomial_chaos.polynomials.PolynomialsND"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialsND</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.polynomials.PolynomialsND</span><span class="w"> </span><span class="kn">import</span> <span class="n">PolynomialsND</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.PolynomialsND">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PolynomialsND</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/PolynomialsND.html#PolynomialsND"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.PolynomialsND" title="Link to this definition"></a></dt>
+<dd><p>Class for multivariate Wiener-Askey chaos polynomials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributions</strong> – Joint probability distribution.</p></li>
+<li><p><strong>multi_index</strong> – Polynomial multi-degree (multi-index).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.polynomials.PolynomialsND.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/polynomials/PolynomialsND.html#PolynomialsND.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.polynomials.PolynomialsND.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluate Nd chaos polynomial on the given data set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>eval_data</strong> – Points upon which the ND chaos polynomial will be evaluated.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Evaluations of the ND chaos polynomial.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="polynomial_bases.html" class="btn btn-neutral float-left" title="Polynomial Bases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="regressions.html" class="btn btn-neutral float-right" title="Calculation of the PCE coefficients" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

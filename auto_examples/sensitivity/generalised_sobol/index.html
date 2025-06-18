@@ -1,0 +1,184 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generalised Sobol Sensitivity indices &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="References" href="local_multioutput.html" />
+    <link rel="prev" title="Generalised Sobol indices" href="../../../sensitivity/generalised_sobol.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/chatterjee.html"> Chatterjee Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/cramer_von_mises.html"> Cramér-von Mises Sensitivity</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sensitivity/generalised_sobol.html"> Generalised Sobol Sensitivity</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../sensitivity/generalised_sobol.html#generalised-sobol-class">Generalised Sobol Class</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../sensitivity/generalised_sobol.html#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sensitivity/generalised_sobol.html#attributes">Attributes</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../sensitivity/generalised_sobol.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/morris.html"> Morris Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/pce.html"> Polynomial Chaos Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/sobol.html"> Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sensitivity/index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../sensitivity/index.html">Sensitivity</a></li>
+          <li class="breadcrumb-item"><a href="../../../sensitivity/generalised_sobol.html">Generalised Sobol indices</a></li>
+      <li class="breadcrumb-item active">Generalised Sobol Sensitivity indices</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/sensitivity/generalised_sobol/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generalised-sobol-sensitivity-indices">
+<h1>Generalised Sobol Sensitivity indices<a class="headerlink" href="#generalised-sobol-sensitivity-indices" title="Link to this heading"></a></h1>
+<p>These examples serve as a guide for using the GSI sensitivity module. They have been taken from various papers to enable validation of the implementation and have been referenced accordingly.</p>
+<ol class="arabic">
+<li><p><strong>Mechanical oscillator ODE</strong></p>
+<blockquote>
+<div><p>The GSI sensitivity indices are computed for a mechanical oscillator governed by a second-order differential equation <span id="id1">[<a class="reference internal" href="../../../bibliography.html#id64" title="Fabrice Gamboa, Alexandre Janon, Thierry Klein, and Agnès Lagnoux. Sensitivity analysis for multidimensional and functional outputs. Electronic Journal of Statistics, 8(1):575 – 603, 2014. URL: https://doi.org/10.1214/14-EJS895, doi:10.1214/14-EJS895.">50</a>]</span>. The model outputs the displacement of the oscillator for a given time period. Unlike the pointwise-in-time Sobol indices, which provide the sensitivity of the model parameters at each point in time, the GSI indices summarise the sensitivities of the model parameters over the entire time period.</p>
+</div></blockquote>
+</li>
+<li><p><strong>Toy example</strong></p>
+<blockquote>
+<div><p>The GSI sensitivity indices are computed for a toy model whose analytical solution is given in <span id="id2">[<a class="reference internal" href="../../../bibliography.html#id64" title="Fabrice Gamboa, Alexandre Janon, Thierry Klein, and Agnès Lagnoux. Sensitivity analysis for multidimensional and functional outputs. Electronic Journal of Statistics, 8(1):575 – 603, 2014. URL: https://doi.org/10.1214/14-EJS895, doi:10.1214/14-EJS895.">50</a>]</span>.</p>
+</div></blockquote>
+</li>
+</ol>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="References ----------"><img alt="" src="../../../_images/sphx_glr_local_multioutput_thumb.png" />
+<p><span class="xref std std-ref">sphx_glr_auto_examples_sensitivity_generalised_sobol_local_multioutput.py</span></p>
+  <div class="sphx-glr-thumbnail-title">This is the toy example with multiple outputs from [1]_.</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file"><img alt="" src="../../../_images/sphx_glr_local_mechanical_oscillator_ODE_thumb.png" />
+<p><a class="reference internal" href="local_mechanical_oscillator_ODE.html#sphx-glr-auto-examples-sensitivity-generalised-sobol-local-mechanical-oscillator-ode-py"><span class="std std-ref">Auxiliary file</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Mechanical oscillator model (multioutput)"><img alt="" src="../../../_images/sphx_glr_generalised_sobol_mechanical_oscillator_ODE_thumb.png" />
+<p><a class="reference internal" href="generalised_sobol_mechanical_oscillator_ODE.html#sphx-glr-auto-examples-sensitivity-generalised-sobol-generalised-sobol-mechanical-oscillator-ode-py"><span class="std std-ref">Mechanical oscillator model (multioutput)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Mechanical oscillator model (multioutput)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Toy multioutput function"><img alt="" src="../../../_images/sphx_glr_generalised_sobol_multioutput_thumb.png" />
+<p><a class="reference internal" href="generalised_sobol_multioutput.html#sphx-glr-auto-examples-sensitivity-generalised-sobol-generalised-sobol-multioutput-py"><span class="std std-ref">Toy multioutput function</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Toy multioutput function</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/89a5d6afd3e73b297b224710b3dd114d/generalised_sobol_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">generalised_sobol_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/974b5dee74ad00b01a20764348c640f4/generalised_sobol_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">generalised_sobol_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../../sensitivity/generalised_sobol.html" class="btn btn-neutral float-left" title="Generalised Sobol indices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="local_multioutput.html" class="btn btn-neutral float-right" title="References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

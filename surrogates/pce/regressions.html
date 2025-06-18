@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculation of the PCE coefficients &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PolynomialChaosExpansion Class" href="pce.html" />
+    <link rel="prev" title="Polynomials" href="polynomials.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpr.html"> Gaussian Process Regression</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../polynomial_chaos.html"> Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="polynomial_bases.html"> Polynomial Bases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polynomials.html"> Polynomials</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Regressions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#least-squares-regression">Least Squares Regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lasso-regression">Lasso Regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ridge-regression">Ridge Regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lar-regression">LAR Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pce.html"> Polynomial Chaos Expansion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_informed.html"> Physics-informed Polynomial Chaos Expansion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Surrogates</a></li>
+          <li class="breadcrumb-item"><a href="../polynomial_chaos.html">Polynomial Chaos Expansion - PCE</a></li>
+      <li class="breadcrumb-item active">Calculation of the PCE coefficients</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/surrogates/pce/regressions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="calculation-of-the-pce-coefficients">
+<h1>Calculation of the PCE coefficients<a class="headerlink" href="#calculation-of-the-pce-coefficients" title="Link to this heading"></a></h1>
+<p>Several methods exist for the calculation of the PCE coefficients. In UQpy, three non-intrusive methods can be used,
+namely the Least Squares regression (<code class="xref py py-class docutils literal notranslate"><span class="pre">LeastSquaresRegression</span></code> class), the LASSO regression
+(<a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.regressions.LassoRegression" title="UQpy.surrogates.polynomial_chaos.regressions.LassoRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">LassoRegression</span></code></a> class) and Ridge
+regression (<a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.regressions.RidgeRegression" title="UQpy.surrogates.polynomial_chaos.regressions.RidgeRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">RidgeRegression</span></code></a> class) methods.</p>
+<section id="least-squares-regression">
+<h2>Least Squares Regression<a class="headerlink" href="#least-squares-regression" title="Link to this heading"></a></h2>
+<p>Least Squares regression is a method for estimating the parameters of a linear regression model. The goal is to minimize the sum of squares of the differences of the observed dependent variable and the predictions of the regression model. In other words, we seek for the vector <span class="math notranslate nohighlight">\(\beta\)</span>, that approximatively solves the equation <span class="math notranslate nohighlight">\(X \beta \approx y\)</span>. If matrix <span class="math notranslate nohighlight">\(X\)</span> is square then the solution is exact.</p>
+<p>If we assume that the system cannot be solved exactly, since the number of equations <span class="math notranslate nohighlight">\(n\)</span> is not equal to the number of unknowns <span class="math notranslate nohighlight">\(p\)</span>, we are seeking the solution that is associated with the smallest difference between the right-hand-side and left-hand-side of the equation. Therefore, we are looking for the solution that satisfies the following</p>
+<div class="math notranslate nohighlight">
+\[\hat{\beta} = \underset{\beta}{\arg\min} \| y - X \beta \|_{2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\| \cdot \|_{2}\)</span> is the standard <span class="math notranslate nohighlight">\(L^{2}\)</span> norm in the <span class="math notranslate nohighlight">\(n\)</span>-dimensional Eucledian space <span class="math notranslate nohighlight">\(\mathbb{R}^{n}\)</span>. The above function is also known as the cost function of the linear regression.</p>
+<p>The equation may be under-, well-, or over-determined. In the context of Polynomial Chaos Expansion (PCE) the computed
+vector corresponds to the polynomial coefficients. The above method can be used from the class <code class="xref py py-class docutils literal notranslate"><span class="pre">LeastSquaresRegression</span></code>.</p>
+<section id="leastsquares-class">
+<h3>LeastSquares Class<a class="headerlink" href="#leastsquares-class" title="Link to this heading"></a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">LeastSquaresRegression</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.regressions.LeastSquareRegression</span><span class="w"> </span><span class="kn">import</span> <span class="n">LeastSquareRegression</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.LeastSquareRegression">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LeastSquareRegression</span></span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/LeastSquareRegression.html#LeastSquareRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.LeastSquareRegression" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.LeastSquareRegression.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">design_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/LeastSquareRegression.html#LeastSquareRegression.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.LeastSquareRegression.run" title="Link to this definition"></a></dt>
+<dd><p>Least squares solution to compute the polynomial_chaos coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the training points (samples).</p></li>
+<li><p><strong>y</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the model evaluations (labels) at the training points.</p></li>
+<li><p><strong>design_matrix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – matrix containing the evaluation of the polynomials at the input points <strong>x</strong>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the polynomial_chaos coefficients.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="lasso-regression">
+<h2>Lasso Regression<a class="headerlink" href="#lasso-regression" title="Link to this heading"></a></h2>
+<p>A drawback of using Least Squares regression for calculating the PCE coefficients, is that this method considers all the
+features (polynomials) to be equally relevant for the prediction. This technique often results to overfitting and
+complex models that do not have the ability to generalize well on unseen data. For this reason, the Least Absolute
+Shrinkage and Selection Operator or LASSO can be employed (from the <code class="xref py py-class docutils literal notranslate"><span class="pre">LassoRegression</span></code> class). This method,
+introduces an <span class="math notranslate nohighlight">\(L_{1}\)</span> penalty term (which encourages sparsity) in the loss function of linear regression as follows</p>
+<div class="math notranslate nohighlight">
+\[\hat{\beta} = \underset{\beta}{\arg\min} \{ \frac{1}{N} \| y - X \beta \|_{2} + \lambda \| \beta \|_{1} \}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda\)</span> is called the regularization strength.</p>
+<p>Parameter <span class="math notranslate nohighlight">\(\lambda\)</span> controls the level of penalization. When it is close to zero, Lasso regression is identical to Least Squares regression, while in the extreme case when it is set to be infinite all coefficients are equal to zero.</p>
+<p>The Lasso regression model needs to be trained on the data, and for this gradient descent is used for the optimization of coefficients. In gradient descent, the gradient of the loss function with respect to the weights/coefficients <span class="math notranslate nohighlight">\(\nabla Loss_{\beta}\)</span> is used and deducted from <span class="math notranslate nohighlight">\(\beta^{i}\)</span> at each iteration as follows</p>
+<div class="math notranslate nohighlight">
+\[\beta^{i+1} = \beta^{i} - \epsilon \nabla Loss_{\beta}^{i}\]</div>
+<p>where <span class="math notranslate nohighlight">\(i\)</span> is the iteration step, and <span class="math notranslate nohighlight">\(\epsilon\)</span> is the learning rate (gradient descent step) with a value larger than zero.</p>
+<section id="lasso-regression-class">
+<h3>Lasso Regression Class<a class="headerlink" href="#lasso-regression-class" title="Link to this heading"></a></h3>
+<p>The <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.regressions.LassoRegression" title="UQpy.surrogates.polynomial_chaos.regressions.LassoRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">LassoRegression</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.regressions.LassoRegression</span><span class="w"> </span><span class="kn">import</span> <span class="n">LassoRegression</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.LassoRegression">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LassoRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/LassoRegression.html#LassoRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.LassoRegression" title="Link to this definition"></a></dt>
+<dd><p>Class to calculate the polynomial_chaos coefficients with the Least Absolute Shrinkage
+and Selection Operator (LASSO) method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>learning_rate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Size of steps for the gradient descent.</p></li>
+<li><p><strong>iterations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of iterations of the optimization algorithm.</p></li>
+<li><p><strong>penalty</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Penalty parameter controls the strength of regularization. When it
+is close to zero, then the Lasso regression converges to the linear
+regression, while when it goes to infinity, polynomial_chaos coefficients
+converge to zero.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.LassoRegression.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">design_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/LassoRegression.html#LassoRegression.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.LassoRegression.run" title="Link to this definition"></a></dt>
+<dd><p>Implements the LASSO method to compute the polynomial_chaos coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the training points (samples).</p></li>
+<li><p><strong>y</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the model evaluations (labels) at the training points.</p></li>
+<li><p><strong>design_matrix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – matrix containing the evaluation of the polynomials at the input points <strong>x</strong>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Weights (polynomial_chaos coefficients)  and Bias of the regressor</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="ridge-regression">
+<h2>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Link to this heading"></a></h2>
+<p>Ridge regression (also known as <span class="math notranslate nohighlight">\(L_{2}\)</span> regularization) is another variation of the linear regression method and a special case of the Tikhonov regularization. Similarly to the Lasso regression, it introduces an additional penalty term, however Ridge regression uses an <span class="math notranslate nohighlight">\(L_{2}\)</span> norm in the loss function as follows</p>
+<div class="math notranslate nohighlight">
+\[\hat{\beta} = \underset{\beta}{\arg\min} \{ \frac{1}{N} \| y - X \beta \|_{2} + \lambda \| \beta \|_{2} \}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda\)</span> is called the regularization strength.</p>
+<p>Due to the penalization of terms, Ridge regression constructs models that are less prone to overfitting. The level of
+penalization is similarly controlled by the hyperparameter <span class="math notranslate nohighlight">\(\lambda\)</span> and the coefficients are optimized with
+gradient descent. The Ridge regression method can be used from the <cite>.RidgeRegression</cite> class.</p>
+<section id="ridge-class">
+<h3>Ridge Class<a class="headerlink" href="#ridge-class" title="Link to this heading"></a></h3>
+<p>The <a class="reference internal" href="../../sensitivity/pce.html#UQpy.sensitivity.PceSensitivity" title="UQpy.sensitivity.PceSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">PceSensitivity</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.PceSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">PceSensitivity</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.RidgeRegression">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RidgeRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/RidgeRegression.html#RidgeRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.RidgeRegression" title="Link to this definition"></a></dt>
+<dd><p>Class to calculate the polynomial_chaos coefficients with the Ridge regression method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>learning_rate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Size of steps for the gradient descent.</p></li>
+<li><p><strong>iterations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of iterations of the optimization algorithm.</p></li>
+<li><p><strong>penalty</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Penalty parameter controls the strength of regularization. When it
+is close to zero, then the ridge regression converges to the linear
+regression, while when it goes to infinity, polynomial_chaos coefficients
+converge to zero.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.RidgeRegression.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">design_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/RidgeRegression.html#RidgeRegression.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.RidgeRegression.run" title="Link to this definition"></a></dt>
+<dd><p>Implements the LASSO method to compute the polynomial_chaos coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the training points (samples).</p></li>
+<li><p><strong>y</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the model evaluations (labels) at the training points.</p></li>
+<li><p><strong>design_matrix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – matrix containing the evaluation of the polynomials at the input points <strong>x</strong>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Weights (polynomial_chaos coefficients)  and Bias of the regressor</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="lar-regression">
+<h2>LAR Regression<a class="headerlink" href="#lar-regression" title="Link to this heading"></a></h2>
+<p>Least Angle Regression <span id="id1">[<a class="reference internal" href="../../bibliography.html#id5" title="Bradley Efron, Trevor Hastie, Iain Johnstone, and Robert Tibshirani. Least angle regression. The Annals of Statistics, 32(2):407–451, 2004. doi:10.2307/3448465.">71</a>]</span> (known as LAR or LARS) is related to a forward stepwise model-selection algorithm and it represents an efficient algorithm for fitting a penalized model similarly to LASSO. However, LAR does not need any hyper parameter <span class="math notranslate nohighlight">\(\lambda\)</span> and thus it can be used for an automatic detection of the best linear regression model for given experimental design. The most correlated predictor with the quantity of interest is identified in the first step of the algorithm. Further it takes the largest possible step until some other predictor is equally correlated with the residual, and LAR continues in the direction equiangular between the two predictors.</p>
+<p>Number of LAR steps is equal to  number of unknowns, since it adds one predictor to the active set in each step. This characteristic can be utilized for the iterative algorithm selecting the most accurate surrogate model from large number of candidates <span id="id2">[<a class="reference internal" href="../../bibliography.html#id6" title="Géraud Blatman and Bruno Sudret. Adaptive sparse polynomial chaos expansion based on least angle regression. Journal of Computational Physics, 230(6):2345–2367, 2011. doi:10.1016/j.jcp.2010.12.021.">70</a>]</span> obtained by Least Squares using function from the <code class="xref py py-class docutils literal notranslate"><span class="pre">LeastAngleRegression</span></code> class.</p>
+<section id="leastangleregression-class">
+<h3>LeastAngleRegression Class<a class="headerlink" href="#leastangleregression-class" title="Link to this heading"></a></h3>
+<p>The <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression" title="UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeastAngleRegression</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression</span><span class="w"> </span><span class="kn">import</span> <span class="n">LeastAngleRegression</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LeastAngleRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_intercept</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_nonzero_coefs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/LeastAngleRegression.html#LeastAngleRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression" title="Link to this definition"></a></dt>
+<dd><p>Class to select the best model approximation and calculate the polynomial_chaos coefficients with the Least Angle 
+Regression method combined with ordinary least squares.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_nonzero_coefs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of non-zero coefficients.</p></li>
+<li><p><strong>fit_intercept</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to calculate the intercept for this model. Recommended false for PCE, since
+intercept is included in basis functions.</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Sets the verbosity amount.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">design_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/LeastAngleRegression.html#LeastAngleRegression.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression.run" title="Link to this definition"></a></dt>
+<dd><p>Implements the LAR method to compute the polynomial_chaos coefficients. 
+Recommended only for model_selection algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the training points (samples).</p></li>
+<li><p><strong>y</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the model evaluations (labels) at the training points.</p></li>
+<li><p><strong>design_matrix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – matrix containing the evaluation of the polynomials at the input points <strong>x</strong>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Beta (polynomial_chaos coefficients)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression.model_selection">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pce_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_overfitting</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/regressions/LeastAngleRegression.html#LeastAngleRegression.model_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.regressions.LeastAngleRegression.model_selection" title="Link to this definition"></a></dt>
+<dd><p>LARS model selection algorithm for given TargetError of approximation
+measured by Cross validation: Leave-one-out error (1 is perfect approximation). Option to check overfitting by 
+empirical rule: if three steps in a row have a decreasing accuracy, stop the algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pce_object</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion" title="UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.PolynomialChaosExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code></a></span>) – existing target PCE for model_selection</p></li>
+<li><p><strong>target_error</strong> – Target error of an approximation (stoping criterion).</p></li>
+<li><p><strong>check_overfitting</strong> – Whether to check over-fitting by empirical rule.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>copy of input PolynomialChaosExpansion containing the best possible model for given data identified by LARs</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="polynomials.html" class="btn btn-neutral float-left" title="Polynomials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pce.html" class="btn btn-neutral float-right" title="PolynomialChaosExpansion Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

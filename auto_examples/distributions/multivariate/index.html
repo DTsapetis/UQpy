@@ -1,0 +1,170 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distributions ND Examples &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Multivariate normal distribution" href="plot_multivariate_normal.html" />
+    <link rel="prev" title="Joint from marginals and copula" href="../../../distributions/joint_from_marginals_copula.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../distributions/index.html">Distributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../distributions/distribution_parent.html"> Parent Distribution Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../distributions/distributions_continuous_1d.html"> Distributions Continuous 1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../distributions/distributions_discrete_1d.html"> Distributions Discrete 1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../distributions/copulas.html"> Copulas</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../distributions/distributions_multivariate.html"> Distributions ND</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../distributions/multivariate_distributions.html"> List of multivariate distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../distributions/joint_from_independent.html"> Joint from independent marginals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../distributions/joint_from_marginals_copula.html"> Joint from marginals and copula</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plot_multivariate_normal.html">Multivariate normal distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plot_multivariate_copulas.html">Multivariate from independent marginals and copula</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plot_joint_independent.html">Multivariate from independent marginals</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../distributions/user_defined_distributions.html"> User Defined Distributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../distributions/index.html">Distributions</a></li>
+          <li class="breadcrumb-item"><a href="../../../distributions/distributions_multivariate.html">Distributions ND</a></li>
+      <li class="breadcrumb-item active">Distributions ND Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/distributions/multivariate/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="distributions-nd-examples">
+<h1>Distributions ND Examples<a class="headerlink" href="#distributions-nd-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This examples shows the use of the multivariate normal distributions class. In particular:"><img alt="" src="../../../_images/sphx_glr_plot_multivariate_normal_thumb.png" />
+<p><a class="reference internal" href="plot_multivariate_normal.html#sphx-glr-auto-examples-distributions-multivariate-plot-multivariate-normal-py"><span class="std std-ref">Multivariate normal distribution</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Multivariate normal distribution</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Multivariate from independent marginals and copula"><img alt="" src="../../../_images/sphx_glr_plot_multivariate_copulas_thumb.png" />
+<p><a class="reference internal" href="plot_multivariate_copulas.html#sphx-glr-auto-examples-distributions-multivariate-plot-multivariate-copulas-py"><span class="std std-ref">Multivariate from independent marginals and copula</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Multivariate from independent marginals and copula</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This examples shows the use of the multivariate normal distribution class. In particular:"><img alt="" src="../../../_images/sphx_glr_plot_joint_independent_thumb.png" />
+<p><a class="reference internal" href="plot_joint_independent.html#sphx-glr-auto-examples-distributions-multivariate-plot-joint-independent-py"><span class="std std-ref">Multivariate from independent marginals</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Multivariate from independent marginals</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/de5191a2ee2b05672d51bfd4d66646c6/multivariate_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">multivariate_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/54fafbb16ff47324acc8e6f1c6b81144/multivariate_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">multivariate_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../../distributions/joint_from_marginals_copula.html" class="btn btn-neutral float-left" title="Joint from marginals and copula" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plot_multivariate_normal.html" class="btn btn-neutral float-right" title="Multivariate normal distribution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

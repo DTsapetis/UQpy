@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POD on Diffusion Equation 2D &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Higher-order Singular Value Decomposition" href="../../../dimension_reduction/hosvd.html" />
+    <link rel="prev" title="POD on data" href="pod_1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../dimension_reduction/grassmann/index.html"> Grassmann manifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dimension_reduction/dmaps.html"> Diffusion maps</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../dimension_reduction/pod.html"> POD</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../dimension_reduction/pod.html#pod-class">POD Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dimension_reduction/pod.html#implementations">Implementations</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../dimension_reduction/pod.html#examples">Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">POD Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dimension_reduction/hosvd.html"> HOSVD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+          <li class="breadcrumb-item"><a href="../../../dimension_reduction/pod.html">Proper Orthogonal Decomposition</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Proper Orthogonal Decomposition Examples</a></li>
+      <li class="breadcrumb-item active">POD on Diffusion Equation 2D</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/dimension_reduction/pod/pod_diffusion.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-dimension-reduction-pod-pod-diffusion-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="pod-on-diffusion-equation-2d">
+<span id="sphx-glr-auto-examples-dimension-reduction-pod-pod-diffusion-py"></span><h1>POD on Diffusion Equation 2D<a class="headerlink" href="#pod-on-diffusion-equation-2d" title="Link to this heading"></a></h1>
+<p>In this example, the diffusion equation is solved and then methods from the POD class are used to decompose the output
+solutions/dataset and extract its basis functions which can be used for the reconstruction of the solution.</p>
+<section id="d-diffusion-equation">
+<h2>2D Diffusion equation<a class="headerlink" href="#d-diffusion-equation" title="Link to this heading"></a></h2>
+<p><span class="math notranslate nohighlight">\(\frac{\partial U}{\partial t}=D\bigg(\frac{\partial^2 U}{\partial x^2}+\frac{\partial^2 U}{\partial y^2}\bigg)\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(D\)</span> is the diffusion coefficient. <span class="math notranslate nohighlight">\(U\)</span> describes the behavior of the particles in Brownian motion,
+resulting from their random movements and collisions.</p>
+<section id="problem-description">
+<h3>Problem description:<a class="headerlink" href="#problem-description" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>A 2D metal plate is initially at temperature <span class="math notranslate nohighlight">\(T_{cool}\)</span>.</p></li>
+<li><p>A disc of a specified size inside the plate is at temperature <span class="math notranslate nohighlight">\(T_{hot}\)</span>.</p></li>
+<li><p>Suppose that the edges of the plate are held fixed at <span class="math notranslate nohighlight">\(T_{cool}\)</span>.</p></li>
+<li><p>The diffusion equation is applied to follow the evolution of the temperature of the plate.</p></li>
+</ul>
+<p>Import the necessary libraries. Here we import standard libraries such as numpy, matplotlib, and we also import the
+POD class from UQpy.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction</span><span class="w"> </span><span class="kn">import</span> <span class="n">DirectPOD</span><span class="p">,</span> <span class="n">SnapshotPOD</span><span class="p">,</span> <span class="n">HigherOrderSVD</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">DiffusionEquation</span><span class="w"> </span><span class="kn">import</span> <span class="n">diffusion</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+</pre></div>
+</div>
+<p>The diffusion equation is solved by calling the ‘diffusion’ function and a dataset (list) is obtained. To run this function the following need to be specified:
+- <span class="math notranslate nohighlight">\(w, h\)</span> - Plate size, <span class="math notranslate nohighlight">\((mm)\)</span></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(dx, dy\)</span> - Intervals in <span class="math notranslate nohighlight">\(x-, y-\)</span> directions, <span class="math notranslate nohighlight">\((mm)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(D\)</span> - Thermal diffusivity, <span class="math notranslate nohighlight">\((mm^2/s)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(T_{cool}, T_{hot}\)</span> - Plate and disc temperature</p></li>
+<li><p><span class="math notranslate nohighlight">\(r, cx, cy\)</span> - Initial conditions - ring of inner radius <span class="math notranslate nohighlight">\(r\)</span>, width <span class="math notranslate nohighlight">\(dr\)</span> centered at <span class="math notranslate nohighlight">\((cx,cy) (mm)\)</span></p></li>
+<li><p><cite>nsteps</cite> - Number of time steps</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">h</span> <span class="o">=</span> <span class="mf">5.</span>
+<span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span>
+<span class="n">D</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">Tcool</span><span class="p">,</span> <span class="n">Thot</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">700</span>
+<span class="n">r</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span>
+<span class="n">nsteps</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">Data</span> <span class="o">=</span> <span class="n">diffusion</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Tcool</span><span class="p">,</span> <span class="n">Thot</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">nsteps</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The Direct POD method is used to reconstruct the data for different values of spatial modes. Full reconstruction is
+achieved when the number of modes chosen equals the number of dimensions. Since the dataset for this problem is large,
+the Snapshot POD is recommended as the decomposition will be performed much faster.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">start_time</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span>
+
+<span class="n">n_modes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="n">Data_modes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">n_mode</span> <span class="ow">in</span> <span class="n">n_modes</span><span class="p">:</span>
+    <span class="n">pod</span> <span class="o">=</span> <span class="n">DirectPOD</span><span class="p">(</span><span class="n">solution_snapshots</span><span class="o">=</span><span class="n">Data</span><span class="p">,</span> <span class="n">n_modes</span><span class="o">=</span><span class="n">n_mode</span><span class="p">)</span>
+    <span class="n">Data_reconstr</span> <span class="o">=</span> <span class="n">pod</span><span class="o">.</span><span class="n">reconstructed_solution</span>
+    <span class="n">Data_reduced</span> <span class="o">=</span> <span class="n">pod</span><span class="o">.</span><span class="n">reduced_solution</span>
+    <span class="n">Data_modes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Data_reconstr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">frame</span><span class="p">])</span>
+    <span class="k">del</span> <span class="n">Data_reconstr</span>
+
+<span class="n">elapsed_time</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/time.html#time.time" title="time.time" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">time</span></a><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<a href="https://docs.python.org/3/library/time.html#time.strftime" title="time.strftime" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">strftime</span></a><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">,</span> <a href="https://docs.python.org/3/library/time.html#time.gmtime" title="time.gmtime" class="sphx-glr-backref-module-time sphx-glr-backref-type-py-function"><span class="n">time</span><span class="o">.</span><span class="n">gmtime</span></a><span class="p">(</span><span class="n">elapsed_time</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Elapsed time: &#39;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Comparison of input and reduced solution.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot input solution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Data</span><span class="p">[</span><span class="n">frame</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">),</span> <span class="n">vmin</span><span class="o">=</span><span class="n">Tcool</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">Thot</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Input solution&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Plot reduced solution</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n_modes</span><span class="p">)):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Data_modes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">),</span> <span class="n">vmin</span><span class="o">=</span><span class="n">Tcool</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">Thot</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Mode </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_modes</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+<span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
+<span class="n">cbar_ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$T$ / K&#39;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Reconstructed solution&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-dimension-reduction-pod-pod-diffusion-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/dimension_reduction/pod/pod_diffusion.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo3.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/fbb24a03c179ca6cdd8fc5d76e47f656/pod_diffusion.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">pod_diffusion.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/4b2af16c44383150a3278b072991cce2/pod_diffusion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">pod_diffusion.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/f4129b2ef447a8be4e0ddcfbe03178b5/pod_diffusion.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">pod_diffusion.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pod_1.html" class="btn btn-neutral float-left" title="POD on data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../dimension_reduction/hosvd.html" class="btn btn-neutral float-right" title="Higher-order Singular Value Decomposition" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

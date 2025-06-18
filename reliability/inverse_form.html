@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inverse FORM &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Inverse FORM Examples" href="../auto_examples/reliability/inverse_form/index.html" />
+    <link rel="prev" title="3. FORM - Structural Reliability" href="../auto_examples/reliability/form/FORM_structural_reliability.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reliability</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="subset.html"> Subset Simulation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="taylor_series.html"> Taylor Series</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="form.html"> FORM</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> InverseFORM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sorm.html"> SORM</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reliability</a></li>
+          <li class="breadcrumb-item"><a href="taylor_series.html">Taylor Series</a></li>
+      <li class="breadcrumb-item active">Inverse FORM</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reliability/inverse_form.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="inverse-form">
+<h1>Inverse FORM<a class="headerlink" href="#inverse-form" title="Link to this heading"></a></h1>
+<p>In FORM <span id="id1">[<a class="reference internal" href="../bibliography.html#id71" title="Xiaoping Du. Probabilistic engineering design, chapter 7, first order and second reliability methods. https://pdesign.sitehost.iu.edu/me360/ch7.pdf, 2005.">15</a>]</span>, the performance function is linearized according to</p>
+<div class="math notranslate nohighlight">
+\[G(\textbf{U})  \approx  G(\textbf{U}^\star) + \nabla G(\textbf{U}^\star)(\textbf{U}-\textbf{U}^\star)^\intercal\]</div>
+<p>where <span class="math notranslate nohighlight">\(\textbf{U}^\star\)</span> is the expansion point, <span class="math notranslate nohighlight">\(G(\textbf{U})\)</span> is the performance function evaluated in
+the standard normal space and <span class="math notranslate nohighlight">\(\nabla G(\textbf{U}^\star)\)</span> is the gradient of <span class="math notranslate nohighlight">\(G(\textbf{U})\)</span> evaluated at
+<span class="math notranslate nohighlight">\(\textbf{U}^\star\)</span>. The probability failure is approximated as</p>
+<div class="math notranslate nohighlight">
+\[p_{fail} = \Phi(-\beta_{HL})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Phi(\cdot)\)</span> is the standard normal cumulative distribution function and <span class="math notranslate nohighlight">\(\beta_{HL}=||\textbf{U}^*||\)</span>
+is the norm of the design point known as the Hasofer-Lind reliability index.</p>
+<p>The goal of the inverse FORM algorithm is to find a design point <span class="math notranslate nohighlight">\(\textbf{U}^\star\)</span> that minimizes the performance
+function <span class="math notranslate nohighlight">\(G(\textbf{U})\)</span> and lies on the hypersphere defined by <span class="math notranslate nohighlight">\(||\textbf{U}^*|| = \beta_{HL}\)</span>, or
+equivalently <span class="math notranslate nohighlight">\(||\textbf{U}^*|| = -\Phi^{-1}(p_{fail})\)</span>. The default convergence criteria used for this algorithm
+are:</p>
+<div class="math notranslate nohighlight">
+\[\text{tolerance}_{\textbf{U}}:\ ||\textbf{U}_i - \textbf{U}_{i-1}||_2 \leq 10^{-3}\]</div>
+<div class="math notranslate nohighlight">
+\[\text{tolerance}_{\nabla G(\textbf{U})}:\ ||\nabla G(\textbf{U}_i)- \nabla G(\textbf{U}_{i-1})||_2 \leq 10^{-3}\]</div>
+<p><strong>Problem Statement</strong></p>
+<p>Compute <span class="math notranslate nohighlight">\(u^* = \text{argmin}\ G(\textbf{U})\)</span> such that <span class="math notranslate nohighlight">\(||\textbf{U}||=\beta\)</span>.</p>
+<p>The feasibility criteria <span class="math notranslate nohighlight">\(||\textbf{U}||=\beta\)</span> may be equivalently defined as
+<span class="math notranslate nohighlight">\(\beta = -\Phi^{-1}(p_{fail})\)</span>, where <span class="math notranslate nohighlight">\(\Phi^{-1}(\cdot)\)</span> is the inverse standard normal CDF.</p>
+<p><strong>Algorithm</strong></p>
+<p>This method implements a gradient descent algorithm to solve the optimization problem within the tolerances specified by
+<code class="code docutils literal notranslate"><span class="pre">tolerance_u</span></code> and <code class="code docutils literal notranslate"><span class="pre">tolerance_gradient</span></code>.</p>
+<ol class="arabic simple" start="0">
+<li><p>Define <span class="math notranslate nohighlight">\(u_0\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> directly or <span class="math notranslate nohighlight">\(\beta=-\Phi^{-1}(p_\text{fail})\)</span></p></li>
+<li><p>Set <span class="math notranslate nohighlight">\(u=u_0\)</span> and <span class="math notranslate nohighlight">\(\text{converged}=False\)</span></p></li>
+<li><dl class="simple">
+<dt>While not <span class="math notranslate nohighlight">\(\text{converged}\)</span>:</dt><dd><ol class="loweralpha simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha = \frac{\nabla G(u)}{|| \nabla G(u) ||}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(u_{new} = - \alpha \beta\)</span></p></li>
+<li><dl class="simple">
+<dt>If <span class="math notranslate nohighlight">\(||u_{new} - u || \leq \text{tolerance}_u\)</span> and/or <span class="math notranslate nohighlight">\(|| \nabla G(u_{new}) - \nabla G(u) || \leq \text{tolerance}_{\nabla G(u)}\)</span>;</dt><dd><p>set <span class="math notranslate nohighlight">\(\text{converged}=True\)</span></p>
+</dd>
+<dt>else;</dt><dd><p><span class="math notranslate nohighlight">\(u = u_{new}\)</span></p>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+<p>The <a class="reference internal" href="#UQpy.reliability.taylor_series.InverseFORM" title="UQpy.reliability.taylor_series.InverseFORM"><code class="xref py py-class docutils literal notranslate"><span class="pre">InverseFORM</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.reliability.taylor_series</span><span class="w"> </span><span class="kn">import</span> <span class="n">InverseFORM</span>
+</pre></div>
+</div>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InverseFORM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runmodel_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_fail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_u</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corr_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corr_z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance_u</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance_gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/reliability/taylor_series/InverseFORM.html#InverseFORM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM" title="Link to this definition"></a></dt>
+<dd><p>Class to perform the Inverse First Order Reliability Method.</p>
+<p>Each time <a class="reference internal" href="#UQpy.reliability.taylor_series.InverseFORM.run" title="UQpy.reliability.taylor_series.InverseFORM.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> is called the results are appended to the class attributes.
+By default, <code class="code docutils literal notranslate"><span class="pre">tolerance_u</span></code> and <code class="code docutils literal notranslate"><span class="pre">tolerance_gradient</span></code> must be satisfied for convergence.
+Specifying a tolerance as <code class="code docutils literal notranslate"><span class="pre">None</span></code> will ignore that criteria, but both cannot be <code class="code docutils literal notranslate"><span class="pre">None</span></code>.
+This is a child class of the <code class="xref py py-class docutils literal notranslate"><span class="pre">TaylorSeries</span></code> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>]]</span>) – Marginal probability distributions of each random variable. Must be of
+type <code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionContinuous1D</span></code> or <a class="reference internal" href="../distributions/joint_from_independent.html#UQpy.distributions.collection.JointIndependent" title="UQpy.distributions.collection.JointIndependent"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointIndependent</span></code></a>.</p></li>
+<li><p><strong>runmodel_object</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a></span>) – The computational model. Must be of type <code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code>.</p></li>
+<li><p><strong>p_fail</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Probability of failure defining the feasibility criteria as <span class="math notranslate nohighlight">\(||u||=-\Phi^{-1}(p_{fail})\)</span>.
+Default: <span class="math notranslate nohighlight">\(0.05\)</span>. Set to <code class="code docutils literal notranslate"><span class="pre">None</span></code> to use <code class="code docutils literal notranslate"><span class="pre">beta</span></code> as the feasibility criteria.
+Only one of <code class="code docutils literal notranslate"><span class="pre">p_fail</span></code> or <code class="code docutils literal notranslate"><span class="pre">beta</span></code> may be provided.</p></li>
+<li><p><strong>beta</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Hasofer-Lind reliability index defining the feasibility criteria as <span class="math notranslate nohighlight">\(||u|| = \beta\)</span>.
+Default: <code class="code docutils literal notranslate"><span class="pre">None</span></code>.
+Only one of <code class="code docutils literal notranslate"><span class="pre">p_fail</span></code> or <code class="code docutils literal notranslate"><span class="pre">beta</span></code> may be provided.</p></li>
+<li><p><strong>seed_x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Point in the parameter space <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> to start from.
+Only one of <code class="code docutils literal notranslate"><span class="pre">seed_x</span></code> or <code class="code docutils literal notranslate"><span class="pre">seed_u</span></code> may be provided.
+If either <code class="code docutils literal notranslate"><span class="pre">seed_u</span></code> or <code class="code docutils literal notranslate"><span class="pre">seed_x</span></code> is provided, then the <a class="reference internal" href="#UQpy.reliability.taylor_series.InverseFORM.run" title="UQpy.reliability.taylor_series.InverseFORM.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will be executed automatically.</p></li>
+<li><p><strong>seed_u</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Point in the uncorrelated standard normal space <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> to start from.
+Only one of <code class="code docutils literal notranslate"><span class="pre">seed_x</span></code> or <code class="code docutils literal notranslate"><span class="pre">seed_u</span></code> may be provided.
+If either <code class="code docutils literal notranslate"><span class="pre">seed_u</span></code> or <code class="code docutils literal notranslate"><span class="pre">seed_x</span></code> is provided, then the <a class="reference internal" href="#UQpy.reliability.taylor_series.InverseFORM.run" title="UQpy.reliability.taylor_series.InverseFORM.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will be executed automatically.</p></li>
+<li><p><strong>df_step</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Finite difference step in standard normal space. Default: <span class="math notranslate nohighlight">\(0.01\)</span></p></li>
+<li><p><strong>corr_x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Correlation matrix <span class="math notranslate nohighlight">\(\mathbf{C_X}\)</span> of the random vector <span class="math notranslate nohighlight">\(\mathbf{X}\)</span></p></li>
+<li><p><strong>corr_z</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Correlation matrix <span class="math notranslate nohighlight">\(\mathbf{C_Z}\)</span> of the random vector <span class="math notranslate nohighlight">\(\mathbf{Z}\)</span>
+Default: <code class="code docutils literal notranslate"><span class="pre">corr_z</span></code> is the identity matrix.</p></li>
+<li><p><strong>max_iterations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of iterations for the <cite>HLRF</cite> algorithm. Default: <span class="math notranslate nohighlight">\(100\)</span></p></li>
+<li><p><strong>tolerance_u</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Convergence threshold for criterion <span class="math notranslate nohighlight">\(||\mathbf{U}_i - \mathbf{U}_{i-1}||_2 \leq\)</span>
+<code class="code docutils literal notranslate"><span class="pre">tolerance_u</span></code> of the <cite>HLRF</cite> algorithm.
+Default: <span class="math notranslate nohighlight">\(1.0e-3\)</span></p></li>
+<li><p><strong>tolerance_gradient</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Convergence threshold for criterion
+<span class="math notranslate nohighlight">\(||\nabla G(\mathbf{U}_i)- \nabla G(\mathbf{U}_{i-1})||_2 \leq\)</span> <code class="code docutils literal notranslate"><span class="pre">tolerance_gradient</span></code>
+of the <cite>HLRF</cite> algorithm.
+Default: <span class="math notranslate nohighlight">\(1.0e-3\)</span></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_u</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/reliability/taylor_series/InverseFORM.html#InverseFORM.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.run" title="Link to this definition"></a></dt>
+<dd><p>Runs the inverse FORM algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed_x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Point in the parameter space <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> to start from.
+Only one of <code class="code docutils literal notranslate"><span class="pre">seed_x</span></code> or <code class="code docutils literal notranslate"><span class="pre">seed_u</span></code> may be provided.
+If neither is provided, the zero vector in <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> space is the seed.</p></li>
+<li><p><strong>seed_u</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Point in the uncorrelated standard normal space <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> to start from.
+Only one of <code class="code docutils literal notranslate"><span class="pre">seed_x</span></code> or <code class="code docutils literal notranslate"><span class="pre">seed_u</span></code> may be provided.
+If neither is provided, the zero vector in <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> space is the seed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.alpha">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">alpha</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.alpha" title="Link to this definition"></a></dt>
+<dd><p>Normalized gradient vector in <span class="math notranslate nohighlight">\(\textbf{U}\)</span> space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.alpha_record">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">alpha_record</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.alpha_record" title="Link to this definition"></a></dt>
+<dd><p>Record of <span class="math notranslate nohighlight">\(\alpha=\frac{\nabla G(u)}{||\nabla G(u)||}\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.beta">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.beta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.beta_record">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">beta_record</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.beta_record" title="Link to this definition"></a></dt>
+<dd><p>Record of Hasofer-Lind reliability index that defines the feasibility criteria 
+<span class="math notranslate nohighlight">\(||\textbf{U}||=\beta_{HL}\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.design_point_u">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">design_point_u</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.design_point_u" title="Link to this definition"></a></dt>
+<dd><p>Design point in the standard normal space <span class="math notranslate nohighlight">\(\textbf{U}\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.design_point_x">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">design_point_x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.design_point_x" title="Link to this definition"></a></dt>
+<dd><p>Design point in the parameter space <span class="math notranslate nohighlight">\(\textbf{X}\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.error_record">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">error_record</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.error_record" title="Link to this definition"></a></dt>
+<dd><p>Record of the final error defined by 
+<span class="math notranslate nohighlight">\(error_u = ||u_{new} - u||\)</span> and <span class="math notranslate nohighlight">\(error_{\nabla G(u)} = || \nabla G(u_{new}) - \nabla G(u)||\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.iteration_record">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">iteration_record</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.iteration_record" title="Link to this definition"></a></dt>
+<dd><p>Record of the number of iterations before algorithm termination</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.taylor_series.InverseFORM.failure_probability_record">
+<span class="sig-prename descclassname"><span class="pre">InverseFORM.</span></span><span class="sig-name descname"><span class="pre">failure_probability_record</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.taylor_series.InverseFORM.failure_probability_record" title="Link to this definition"></a></dt>
+<dd><p>Record of the probability of failure defined by <span class="math notranslate nohighlight">\(p_{fail} = \Phi(-\beta_{HL})\)</span></p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/reliability/inverse_form/index.html">InverseFORM Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/reliability/form/FORM_structural_reliability.html" class="btn btn-neutral float-left" title="3. FORM - Structural Reliability" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/reliability/inverse_form/index.html" class="btn btn-neutral float-right" title="Inverse FORM Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copula &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Distributions ND" href="distributions_multivariate.html" />
+    <link rel="prev" title="Distribution Discrete 1D example" href="../auto_examples/distributions/discrete_1d/plot_distribution_discrete_1D.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Distributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="distribution_parent.html"> Parent Distribution Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions_continuous_1d.html"> Distributions Continuous 1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions_discrete_1d.html"> Distributions Discrete 1D</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Copulas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#copula-class">Copula Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#list-of-copulas">List of Copulas</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#clayton">Clayton</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frank">Frank</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gumbel">Gumbel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="distributions_multivariate.html"> Distributions ND</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_defined_distributions.html"> User Defined Distributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Distributions</a></li>
+      <li class="breadcrumb-item active">Copula</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/distributions/copulas.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="copula">
+<h1>Copula<a class="headerlink" href="#copula" title="Link to this heading"></a></h1>
+<section id="copula-class">
+<h2>Copula Class<a class="headerlink" href="#copula-class" title="Link to this heading"></a></h2>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.distributions.baseclass.Copula">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Copula</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ordered_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/baseclass/Copula.html#Copula"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.baseclass.Copula" title="Link to this definition"></a></dt>
+<dd><p>Define a copula for a multivariate distribution whose dependence structure is defined with a copula.
+This class is used in support of the <a class="reference internal" href="joint_from_marginals_copula.html#UQpy.distributions.collection.JointCopula" title="UQpy.distributions.collection.JointCopula"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointCopula</span></code></a> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ordered_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span>) – List of parameter names</p></li>
+<li><p><strong>kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span>) – Parameters of the copula.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.distributions.baseclass.Copula.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/baseclass/Copula.html#Copula.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.baseclass.Copula.get_parameters" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the parameter names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.distributions.baseclass.Copula.update_parameters">
+<span class="sig-name descname"><span class="pre">update_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/baseclass/Copula.html#Copula.update_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.baseclass.Copula.update_parameters" title="Link to this definition"></a></dt>
+<dd><p>Given a dictionary with keys the names and values the new parameter values,
+the method updates the current values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span>) – Dictionary containing the updated parameter values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.distributions.baseclass.Copula.check_marginals">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_marginals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">marginals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/baseclass/Copula.html#Copula.check_marginals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.baseclass.Copula.check_marginals" title="Link to this definition"></a></dt>
+<dd><p>Perform some checks on the marginals, raise errors if necessary.</p>
+<p>As an example, Archimedian copulas are only defined for bi-variate continuous distributions, thus this method
+checks that marginals is of length 2 and continuous, and raise an error if that is not the case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>marginals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionContinuous1D</span></code>]</span>) – List of 1D continuous distributions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.distributions.baseclass.Copula.parameters">
+<span class="sig-prename descclassname"><span class="pre">Copula.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></em><a class="headerlink" href="#UQpy.distributions.baseclass.Copula.parameters" title="Link to this definition"></a></dt>
+<dd><p>Parameters of the copula.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.distributions.baseclass.Copula.ordered_parameters">
+<span class="sig-prename descclassname"><span class="pre">Copula.</span></span><span class="sig-name descname"><span class="pre">ordered_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></em><a class="headerlink" href="#UQpy.distributions.baseclass.Copula.ordered_parameters" title="Link to this definition"></a></dt>
+<dd><p>List of parameter names</p>
+</dd></dl>
+
+</section>
+</section>
+<hr class="docutils" />
+<section id="list-of-copulas">
+<h2>List of Copulas<a class="headerlink" href="#list-of-copulas" title="Link to this heading"></a></h2>
+<section id="clayton">
+<h3>Clayton<a class="headerlink" href="#clayton" title="Link to this heading"></a></h3>
+<p>Clayton copula having cumulative distribution function</p>
+<div class="math notranslate nohighlight">
+\[F(u_1, u_2) = \max(u_1^{-\Theta} + u_2^{-\Theta} - 1, 0)^{-1/{\Theta}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(u_1 = F_1(x_1), u_2 = F_2(x_2)\)</span> are uniformly distributed on the interval <cite>[0, 1]</cite>.</p>
+<p>The <a class="reference internal" href="#UQpy.distributions.copulas.Clayton" title="UQpy.distributions.copulas.Clayton"><code class="xref py py-class docutils literal notranslate"><span class="pre">Clayton</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.copulas.Clayton</span><span class="w"> </span><span class="kn">import</span> <span class="n">Clayton</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.distributions.copulas.Clayton">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Clayton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/copulas/Clayton.html#Clayton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.copulas.Clayton" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Parameter of the Clayton copula, real number in <span class="math notranslate nohighlight">\([1, +\infty)\)</span></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.distributions.copulas.Clayton.evaluate_cdf">
+<span class="sig-name descname"><span class="pre">evaluate_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit_uniform_samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/copulas/Clayton.html#Clayton.evaluate_cdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.copulas.Clayton.evaluate_cdf" title="Link to this definition"></a></dt>
+<dd><p>Compute the copula cdf <span class="math notranslate nohighlight">\(C(u_1, u_2, ..., u_d)\)</span> for a <cite>d</cite>-variate uniform distribution.</p>
+<p>For a generic multivariate distribution with marginal cdfs <span class="math notranslate nohighlight">\(F_1, ..., F_d\)</span> the joint cdf is computed as:</p>
+<p><span class="math notranslate nohighlight">\(F(x_1, ..., x_d) = C(u_1, u_2, ..., u_d)\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(u_i = F_i(x_i)\)</span> is uniformly distributed. This computation is performed in the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">JointCopula.cdf()</span></code> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unit_uniform_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Points (uniformly distributed) at which to evaluate the copula cdf, must be of
+shape <code class="code docutils literal notranslate"><span class="pre">(npoints,</span> <span class="pre">dimension)</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Values of the cdf.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="frank">
+<h3>Frank<a class="headerlink" href="#frank" title="Link to this heading"></a></h3>
+<p>Frank copula having cumulative distribution function</p>
+<p><span class="math notranslate nohighlight">\(F(u_1, u_2) = -\dfrac{1}{\Theta} \log(1+\dfrac{(\exp(-\Theta u_1)-1)(\exp(-\Theta u_2)-1)}{\exp(-\Theta)-1})\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(u_1 = F_1(x_1), u_2 = F_2(x_2)\)</span> are uniformly distributed on the interval <cite>[0, 1]</cite>.</p>
+<p>The <a class="reference internal" href="#UQpy.distributions.copulas.Frank" title="UQpy.distributions.copulas.Frank"><code class="xref py py-class docutils literal notranslate"><span class="pre">Frank</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.copulas.Frank</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frank</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.distributions.copulas.Frank">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Frank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/copulas/Frank.html#Frank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.copulas.Frank" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Parameter of the copula, real number in <span class="math notranslate nohighlight">\(\mathbb{R}\)</span></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.distributions.copulas.Frank.evaluate_cdf">
+<span class="sig-name descname"><span class="pre">evaluate_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit_uniform_samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/copulas/Frank.html#Frank.evaluate_cdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.copulas.Frank.evaluate_cdf" title="Link to this definition"></a></dt>
+<dd><p>Compute the copula cdf <span class="math notranslate nohighlight">\(C(u_1, u_2, ..., u_d)\)</span> for a <cite>d</cite>-variate uniform distribution.</p>
+<p>For a generic multivariate distribution with marginal cdfs <span class="math notranslate nohighlight">\(F_1, ..., F_d\)</span> the joint cdf is computed as:</p>
+<p><span class="math notranslate nohighlight">\(F(x_1, ..., x_d) = C(u_1, u_2, ..., u_d)\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(u_i = F_i(x_i)\)</span> is uniformly distributed. This computation is performed in the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">JointCopula.cdf()</span></code> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unit_uniform_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Points (uniformly distributed) at which to evaluate the copula cdf, must be of
+shape <code class="code docutils literal notranslate"><span class="pre">(npoints,</span> <span class="pre">dimension)</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Values of the cdf.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="gumbel">
+<h3>Gumbel<a class="headerlink" href="#gumbel" title="Link to this heading"></a></h3>
+<p>Gumbel copula having cumulative distribution function</p>
+<div class="math notranslate nohighlight">
+\[F(u_1, u_2) = \exp(-(-\log(u_1))^{\Theta} + (-\log(u_2))^{\Theta})^{1/{\Theta}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(u_1 = F_1(x_1), u_2 = F_2(x_2)\)</span> are uniformly distributed on the interval <cite>[0, 1]</cite>.</p>
+<p>The <a class="reference internal" href="#UQpy.distributions.copulas.Gumbel" title="UQpy.distributions.copulas.Gumbel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gumbel</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.collection.Gumbel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gumbel</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.distributions.copulas.Gumbel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Gumbel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/copulas/Gumbel.html#Gumbel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.copulas.Gumbel" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Parameter of the Gumbel copula, real number in <span class="math notranslate nohighlight">\([1, +\infty)\)</span>.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.distributions.copulas.Gumbel.evaluate_cdf">
+<span class="sig-name descname"><span class="pre">evaluate_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit_uniform_samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/copulas/Gumbel.html#Gumbel.evaluate_cdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.copulas.Gumbel.evaluate_cdf" title="Link to this definition"></a></dt>
+<dd><p>Compute the copula cdf <span class="math notranslate nohighlight">\(C(u_1, u_2, ..., u_d)\)</span> for a <cite>d</cite>-variate uniform distribution.</p>
+<p>For a generic multivariate distribution with marginal cdfs <span class="math notranslate nohighlight">\(F_1, ..., F_d\)</span> the joint cdf is computed as:</p>
+<p><span class="math notranslate nohighlight">\(F(x_1, ..., x_d) = C(u_1, u_2, ..., u_d)\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(u_i = F_i(x_i)\)</span> is uniformly distributed. This computation is performed in the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">JointCopula.cdf()</span></code> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unit_uniform_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Points (uniformly distributed) at which to evaluate the copula cdf, must be of
+shape <code class="code docutils literal notranslate"><span class="pre">(npoints,</span> <span class="pre">dimension)</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Values of the cdf.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.distributions.copulas.Gumbel.evaluate_pdf">
+<span class="sig-name descname"><span class="pre">evaluate_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit_uniform_samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/distributions/copulas/Gumbel.html#Gumbel.evaluate_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.distributions.copulas.Gumbel.evaluate_pdf" title="Link to this definition"></a></dt>
+<dd><p>Compute the copula pdf <span class="math notranslate nohighlight">\(c(u_1, u_2, ..., u_d)\)</span> for a <cite>d</cite>-variate uniform distribution.</p>
+<p>For a generic multivariate distribution with marginals pdfs <span class="math notranslate nohighlight">\(f_1, ..., f_d\)</span> and marginals cdfs
+<span class="math notranslate nohighlight">\(F_1, ..., F_d\)</span>, the joint pdf is computed as:</p>
+<p><span class="math notranslate nohighlight">\(f(x_1, ..., x_d) = c(u_1, u_2, ..., u_d) f_1(x_1) ... f_d(x_d)\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(u_i = F_i(x_i)\)</span> is uniformly distributed. This computation is performed in the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">JointCopula.pdf()</span></code> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unit_uniform_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Points (uniformly distributed) at which to evaluate the copula pdf, must be of
+shape <code class="code docutils literal notranslate"><span class="pre">(npoints,</span> <span class="pre">dimension)</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Values of the copula pdf term.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/distributions/discrete_1d/plot_distribution_discrete_1D.html" class="btn btn-neutral float-left" title="Distribution Discrete 1D example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distributions_multivariate.html" class="btn btn-neutral float-right" title="Distributions ND" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

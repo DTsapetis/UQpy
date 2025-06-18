@@ -1,0 +1,182 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RunModel Examples &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Third-party - Single job - LS Dyna" href="ls_dyna_example_singlejob.html" />
+    <link rel="prev" title="RunModel" href="../../runmodel_doc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#architecture-workflow">Architecture &amp; Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#examples-template-files">Examples &amp; Template Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#pythonmodel-class">PythonModel Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#thirdpartymodel-class">ThirdPartyModel Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runmodel_doc.html#runmodel-class">RunModel Class</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../runmodel_doc.html#examples">Examples</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">RunModel Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ls_dyna_example_singlejob.html">Third-party - Single job - LS Dyna</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ls_dyna_example_multijob.html">Third-party - Multi-job - LS Dyna</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opensees_example.html">Third-party - OpenSees</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cluster_script_example.html">Cluster Script Example for Third-party</a></li>
+<li class="toctree-l4"><a class="reference internal" href="abaqus_example.html">Third-party - Abaqus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="python_example.html">Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="matlab_example.html">Third-party - Matlab</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../runmodel_doc.html">RunModel</a></li>
+      <li class="breadcrumb-item active">RunModel Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/auto_examples/RunModel/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="runmodel-examples">
+<h1>RunModel Examples<a class="headerlink" href="#runmodel-examples" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Third-party - Single job - LS Dyna"><img alt="" src="../../_images/sphx_glr_ls_dyna_example_singlejob_thumb.png" />
+<p><a class="reference internal" href="ls_dyna_example_singlejob.html#sphx-glr-auto-examples-runmodel-ls-dyna-example-singlejob-py"><span class="std std-ref">Third-party - Single job - LS Dyna</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Third-party - Single job - LS Dyna</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Third-party - Multi-job - LS Dyna"><img alt="" src="../../_images/sphx_glr_ls_dyna_example_multijob_thumb.png" />
+<p><a class="reference internal" href="ls_dyna_example_multijob.html#sphx-glr-auto-examples-runmodel-ls-dyna-example-multijob-py"><span class="std std-ref">Third-party - Multi-job - LS Dyna</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Third-party - Multi-job - LS Dyna</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Third-party - OpenSees"><img alt="" src="../../_images/sphx_glr_opensees_example_thumb.png" />
+<p><a class="reference internal" href="opensees_example.html#sphx-glr-auto-examples-runmodel-opensees-example-py"><span class="std std-ref">Third-party - OpenSees</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Third-party - OpenSees</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Cluster Script Example for Third-party"><img alt="" src="../../_images/sphx_glr_cluster_script_example_thumb.png" />
+<p><a class="reference internal" href="cluster_script_example.html#sphx-glr-auto-examples-runmodel-cluster-script-example-py"><span class="std std-ref">Cluster Script Example for Third-party</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Cluster Script Example for Third-party</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Third-party - Abaqus"><img alt="" src="../../_images/sphx_glr_abaqus_example_thumb.png" />
+<p><a class="reference internal" href="abaqus_example.html#sphx-glr-auto-examples-runmodel-abaqus-example-py"><span class="std std-ref">Third-party - Abaqus</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Third-party - Abaqus</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Python"><img alt="" src="../../_images/sphx_glr_python_example_thumb.png" />
+<p><a class="reference internal" href="python_example.html#sphx-glr-auto-examples-runmodel-python-example-py"><span class="std std-ref">Python</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Python</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Third-party - Matlab"><img alt="" src="../../_images/sphx_glr_matlab_example_thumb.png" />
+<p><a class="reference internal" href="matlab_example.html#sphx-glr-auto-examples-runmodel-matlab-example-py"><span class="std std-ref">Third-party - Matlab</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Third-party - Matlab</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b672276172b72c3b7a8e13596252e19e/RunModel_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">RunModel_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/007fb6490b1581b7cb1ac16866fc7538/RunModel_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">RunModel_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../runmodel_doc.html" class="btn btn-neutral float-left" title="RunModel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ls_dyna_example_singlejob.html" class="btn btn-neutral float-right" title="Third-party - Single job - LS Dyna" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

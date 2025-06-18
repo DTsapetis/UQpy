@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatterjee indices &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chatterjee indices" href="../auto_examples/sensitivity/chatterjee/index.html" />
+    <link rel="prev" title="Sensitivity" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Chatterjee Sensitivity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#chatterjee-class">Chatterjee Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cramer_von_mises.html"> Cramér-von Mises Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generalised_sobol.html"> Generalised Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="morris.html"> Morris Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pce.html"> Polynomial Chaos Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sobol.html"> Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sensitivity</a></li>
+      <li class="breadcrumb-item active">Chatterjee indices</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sensitivity/chatterjee.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="chatterjee-indices">
+<h1>Chatterjee indices<a class="headerlink" href="#chatterjee-indices" title="Link to this heading"></a></h1>
+<p>The Chatterjee index measures the strength of the relationship between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> using rank statistics <span id="id1">[<a class="reference internal" href="../bibliography.html#id61" title="Sourav Chatterjee. A new coefficient of correlation. Journal of the American Statistical Association, 116(536):2009-2022, 2021. URL: https://doi.org/10.1080/01621459.2020.1758115, arXiv:https://doi.org/10.1080/01621459.2020.1758115, doi:10.1080/01621459.2020.1758115.">47</a>]</span>.</p>
+<p>Consider <span class="math notranslate nohighlight">\(n\)</span> samples of random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, with <span class="math notranslate nohighlight">\((X_{(1)}, Y_{(1)}), \ldots,(X_{(n)}, Y_{(n)})\)</span> such that <span class="math notranslate nohighlight">\(X_{(1)} \leq \cdots \leq X_{(n)}\)</span>. Here, random variable <span class="math notranslate nohighlight">\(X\)</span> can be one of the inputs of a model and <span class="math notranslate nohighlight">\(Y\)</span> be the model response. If <span class="math notranslate nohighlight">\(X_{i}\)</span>’s have no ties, there is a unique way of doing this (case of ties is also taken into account in the implementation, see <span id="id2">[<a class="reference internal" href="../bibliography.html#id61" title="Sourav Chatterjee. A new coefficient of correlation. Journal of the American Statistical Association, 116(536):2009-2022, 2021. URL: https://doi.org/10.1080/01621459.2020.1758115, arXiv:https://doi.org/10.1080/01621459.2020.1758115, doi:10.1080/01621459.2020.1758115.">47</a>]</span>). Let <span class="math notranslate nohighlight">\(r_{i}`\)</span> be the rank of <span class="math notranslate nohighlight">\(Y_{(i)}\)</span>, that is, the number of <span class="math notranslate nohighlight">\(j\)</span> such that <span class="math notranslate nohighlight">\(Y_{(j)} \leq Y_{(i)}\)</span>.The Chatterjee index <span class="math notranslate nohighlight">\(\xi_{n}(X, Y)\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\xi_{n}(X, Y):=1-\frac{3 \sum_{i=1}^{n-1}\left|r_{i+1}-r_{i}\right|}{n^{2}-1}\]</div>
+<p>The Chatterjee index converges for <span class="math notranslate nohighlight">\(n \rightarrow \infty\)</span> to the Cramér-von Mises index and is faster to estimate than using the Pick and Freeze approach to compute the the Cramér-von Mises index.</p>
+<p>Furthermore, the Sobol indices can be efficiently estimated by leveraging the same rank statistics, which has the advantage that any sample can be used and no specific pick and freeze scheme is required.</p>
+<section id="chatterjee-class">
+<h2>Chatterjee Class<a class="headerlink" href="#chatterjee-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sensitivity.ChatterjeeSensitivity" title="UQpy.sensitivity.ChatterjeeSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChatterjeeSensitivity</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.ChatterjeeSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatterjeeSensitivity</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChatterjeeSensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runmodel_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/ChatterjeeSensitivity.html#ChatterjeeSensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity" title="Link to this definition"></a></dt>
+<dd><p>Compute sensitivity indices using the Chatterjee correlation coefficient.</p>
+<p>Using the same model evaluations, we can also estimate the Sobol indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>runmodel_object</strong> – The computational model. It should be of type <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>.         The output QoI can be a scalar or vector of length <code class="code docutils literal notranslate"><span class="pre">ny</span></code>, then the sensitivity         indices of all <code class="code docutils literal notranslate"><span class="pre">ny</span></code> outputs are computed independently.</p></li>
+<li><p><strong>distributions</strong> – List of <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> objects corresponding to each         random variable, or <a class="reference internal" href="../distributions/joint_from_independent.html#UQpy.distributions.collection.JointIndependent" title="UQpy.distributions.collection.JointIndependent"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointIndependent</span></code></a> object         (multivariate RV with independent marginals).</p></li>
+<li><p><strong>random_state</strong> – Random seed used to initialize the pseudo-random number         generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Methods:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate_sobol_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bootstrap_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.95</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/ChatterjeeSensitivity.html#ChatterjeeSensitivity.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.run" title="Link to this definition"></a></dt>
+<dd><p>Compute the sensitivity indices using the Chatterjee method. Employing the <code class="code docutils literal notranslate"><span class="pre">run</span></code> method will initialize
+<code class="code docutils literal notranslate"><span class="pre">n_samples</span></code> simulations using <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>. To compute sensitivity indices using pre-computed inputs
+and outputs, use the static methods described below.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples used to compute the Chatterjee indices.             Default is 1,000.</p></li>
+<li><p><strong>estimate_sobol_indices</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If <code class="code docutils literal notranslate"><span class="pre">True</span></code>, the Sobol indices are estimated             using the pick-and-freeze samples.</p></li>
+<li><p><strong>n_bootstrap_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of bootstrap samples used to estimate the             Sobol indices. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+<li><p><strong>confidence_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Confidence level used to compute the confidence             intervals of the Cramér-von Mises indices.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.compute_chatterjee_indices">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_chatterjee_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/ChatterjeeSensitivity.html#ChatterjeeSensitivity.compute_chatterjee_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.compute_chatterjee_indices" title="Link to this definition"></a></dt>
+<dd><p>Compute the Chatterjee sensitivity indices
+between the input random vectors <span class="math notranslate nohighlight">\(X=\left[ X_{1}, X_{2},…,X_{d} \right]\)</span>
+and output random vector Y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Input random vectors, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_variables)</span></code></p></li>
+<li><p><strong>Y</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Output random vector, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">1)</span></code></p></li>
+<li><p><strong>seed</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Seed for the random number generator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Chatterjee sensitivity indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">1)</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.rank_analog_to_pickfreeze">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rank_analog_to_pickfreeze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/ChatterjeeSensitivity.html#ChatterjeeSensitivity.rank_analog_to_pickfreeze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.rank_analog_to_pickfreeze" title="Link to this definition"></a></dt>
+<dd><p>Computing the <span class="math notranslate nohighlight">\(N(j)\)</span> for each <span class="math notranslate nohighlight">\(j \in \{1, \ldots, n\}\)</span>
+as in eq.(8) in <span id="id3">[<a class="reference internal" href="../bibliography.html#id62" title="Fabrice Gamboa, Pierre Gremaud, Thierry Klein, and Agnès Lagnoux. Global sensitivity analysis: a new generation of mighty estimators based on rank statistics. 2020. arXiv:2003.01772.">48</a>]</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the size of <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<div class="math notranslate nohighlight">
+    \begin{equation}
+        N(j):=
+        \begin{cases}
+            \pi^{-1}(\pi(j)+1) &amp;\text { if } \pi(j)+1 \leqslant n \\
+            \pi^{-1}(1) &amp;\text { if } \pi(j)=n
+        \end{cases}
+    \end{equation}</div><p>where, <span class="math notranslate nohighlight">\(\pi(j) := \mathrm{rank}(x_j)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Input random vector, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">1)</span></code></p></li>
+<li><p><strong>j</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/numbers.html#numbers.Integral" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a></span>) – Index of the sample <span class="math notranslate nohighlight">\(j \in \{1, \ldots, n\}\)</span></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\(N(j)\)</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.rank_analog_to_pickfreeze_vec">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rank_analog_to_pickfreeze_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/ChatterjeeSensitivity.html#ChatterjeeSensitivity.rank_analog_to_pickfreeze_vec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.rank_analog_to_pickfreeze_vec" title="Link to this definition"></a></dt>
+<dd><p>Computing the <span class="math notranslate nohighlight">\(N(j)\)</span> for each <span class="math notranslate nohighlight">\(j \in \{1, \ldots, n\}\)</span>
+in a vectorized manner., where <span class="math notranslate nohighlight">\(n\)</span> is the size of <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<p>This method is significantly faster than the looping version
+<code class="docutils literal notranslate"><span class="pre">rank_analog_to_pickfreeze</span></code> but is also more complicated.</p>
+<div class="math notranslate nohighlight">
+    \begin{equation}
+        N(j):=
+        \begin{cases}
+            \pi^{-1}(\pi(j)+1) &amp;\text { if } \pi(j)+1 \leqslant n \\
+            \pi^{-1}(1) &amp;\text { if } \pi(j)=n
+        \end{cases}
+    \end{equation}</div><p>where, <span class="math notranslate nohighlight">\(\pi(j) := \mathrm{rank}(x_j)\)</span></p>
+<p>Key idea: <span class="math notranslate nohighlight">\(\pi^{-1}\)</span> is rank_X.argsort() (
+<a class="reference external" href="https://rdrr.io/cran/sensitivity/src/R/sobolrank.R">see also</a>)</p>
+<p>Example:
+X = [22, 74, 44, 11, 1]</p>
+<p>N_J = [3, 5, 2, 1, 4] (1-based indexing)</p>
+<p>N_J = [2, 4, 1, 0, 3] (0-based indexing)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Input random vector, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">1)</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\(N(j)\)</span>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">1)</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.compute_Sobol_indices">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_Sobol_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A_model_evals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C_i_model_evals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/ChatterjeeSensitivity.html#ChatterjeeSensitivity.compute_Sobol_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.compute_Sobol_indices" title="Link to this definition"></a></dt>
+<dd><p>A method to estimate the first order Sobol indices using
+the Chatterjee method.</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+    \xi_{n}^{\mathrm{Sobol}}\left(X_{1}, Y\right):=
+    \frac{\frac{1}{n} \sum_{j=1}^{n} Y_{j} Y_{N(j)}-\left(\frac{1}{n} \sum_{j=1}^{n} Y_{j}\right)^{2}}
+    {\frac{1}{n} \sum_{j=1}^{n}\left(Y_{j}\right)^{2}-\left(\frac{1}{n} \sum_{j=1}^{n} Y_{j}\right)^{2}}
+\end{equation}</div><p>where the term <span class="math notranslate nohighlight">\(Y_{N(j)}\)</span> is computed using the method:<code class="docutils literal notranslate"><span class="pre">rank_analog_to_pickfreeze_vec</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A_model_evals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Model evaluations, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">1)</span></code></p></li>
+<li><p><strong>C_i_model_evals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Model evaluations, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_variables)</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>First order Sobol indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">1)</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.first_order_chatterjee_indices">
+<span class="sig-prename descclassname"><span class="pre">ChatterjeeSensitivity.</span></span><span class="sig-name descname"><span class="pre">first_order_chatterjee_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.first_order_chatterjee_indices" title="Link to this definition"></a></dt>
+<dd><p>Chatterjee sensitivity indices (First order), <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">1)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.first_order_sobol_indices">
+<span class="sig-prename descclassname"><span class="pre">ChatterjeeSensitivity.</span></span><span class="sig-name descname"><span class="pre">first_order_sobol_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.first_order_sobol_indices" title="Link to this definition"></a></dt>
+<dd><p>Sobol indices computed using the rank statistics, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">1)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.confidence_interval_chatterjee">
+<span class="sig-prename descclassname"><span class="pre">ChatterjeeSensitivity.</span></span><span class="sig-name descname"><span class="pre">confidence_interval_chatterjee</span></span><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.confidence_interval_chatterjee" title="Link to this definition"></a></dt>
+<dd><p>Confidence intervals for the Chatterjee sensitivity indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(n_variables,</span> <span class="pre">2)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.n_variables">
+<span class="sig-prename descclassname"><span class="pre">ChatterjeeSensitivity.</span></span><span class="sig-name descname"><span class="pre">n_variables</span></span><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.n_variables" title="Link to this definition"></a></dt>
+<dd><p>Number of input random variables, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.ChatterjeeSensitivity.n_samples">
+<span class="sig-prename descclassname"><span class="pre">ChatterjeeSensitivity.</span></span><span class="sig-name descname"><span class="pre">n_samples</span></span><a class="headerlink" href="#UQpy.sensitivity.ChatterjeeSensitivity.n_samples" title="Link to this definition"></a></dt>
+<dd><p>Number of samples used to estimate the sensitivity indices, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/sensitivity/chatterjee/index.html">Chatterjee Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Sensitivity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/sensitivity/chatterjee/index.html" class="btn btn-neutral float-right" title="Chatterjee indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
