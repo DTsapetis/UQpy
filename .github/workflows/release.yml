@@ -21,7 +21,7 @@ jobs:
 
         - name: Install GitVersion as .NET tool
           run: |
-            dotnet tool install --global GitVersion.Tool
+            dotnet tool install --global GitVersion.Tool --version 5.*
             dotnet tool list -g
             dotnet-gitversion /version          
 
