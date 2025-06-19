@@ -28,19 +28,12 @@ jobs:
         - name: Run GitVersion
           run: |
             dotnet-gitversion /config GitVersion.yml
+            VERSION=$(dotnet-gitversion /showvariable MajorMinorPatch)
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-        
-        # - name: Install GitVersion
-        #   uses: gittools/actions/gitversion/setup@v3.2.1
-        #   with:
-        #     versionSpec: '6.x'
-        
-        # - name: Determine Version
-        #   id: versioning_step 
-        #   uses: gittools/actions/gitversion/execute@v3.2.1
-        #   with:
-        #     useConfigFile: true
-        #     configFilePath: 'GitVersion.yml'
+        - name: Use env variable
+          run: echo "GitVersion VERSION = $VERSION"
+
 
         # - name: Display GitVersion variables (without prefix)
         #   run: |
