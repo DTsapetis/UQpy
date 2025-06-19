@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subset Simulation &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Subset Simulation Examples" href="../auto_examples/reliability/subset_simulation/index.html" />
+    <link rel="prev" title="Reliability" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reliability</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Subset Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.reliability.SubsetSimulation"><code class="docutils literal notranslate"><span class="pre">SubsetSimulation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#attributes">Attributes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.reliability.SubsetSimulation.dependent_chains_CoV"><code class="docutils literal notranslate"><span class="pre">SubsetSimulation.dependent_chains_CoV</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.reliability.SubsetSimulation.failure_probability"><code class="docutils literal notranslate"><span class="pre">SubsetSimulation.failure_probability</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.reliability.SubsetSimulation.independent_chains_CoV"><code class="docutils literal notranslate"><span class="pre">SubsetSimulation.independent_chains_CoV</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.reliability.SubsetSimulation.performance_function_per_level"><code class="docutils literal notranslate"><span class="pre">SubsetSimulation.performance_function_per_level</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.reliability.SubsetSimulation.performance_threshold_per_level"><code class="docutils literal notranslate"><span class="pre">SubsetSimulation.performance_threshold_per_level</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.reliability.SubsetSimulation.samples"><code class="docutils literal notranslate"><span class="pre">SubsetSimulation.samples</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../auto_examples/reliability/subset_simulation/index.html">Subset Simulation Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="taylor_series.html"> Taylor Series</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reliability</a></li>
+      <li class="breadcrumb-item active">Subset Simulation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reliability/subset.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="subset-simulation">
+<h1>Subset Simulation<a class="headerlink" href="#subset-simulation" title="Link to this heading"></a></h1>
+<p>In the subset simulation method <span id="id1">[<a class="reference internal" href="../bibliography.html#id20" title="Siu-Kui Au and James L. Beck. Estimation of small failure probabilities in high dimensions by subset simulation. Probabilistic Engineering Mechanics, 16(4):263-277, 2001. URL: https://www.sciencedirect.com/science/article/pii/S0266892001000194, doi:https://doi.org/10.1016/S0266-8920(01)00019-4.">13</a>]</span> the probability of failure <span class="math notranslate nohighlight">\(P_f\)</span>  is approximated by a product of probabilities
+of more frequent events. That is, the failure event <span class="math notranslate nohighlight">\(G = \{\textbf{X} \in \mathbb{R}^n:g(\textbf{X}) \leq 0\}\)</span>,
+is expressed as the of union of <cite>M</cite> nested intermediate events <span class="math notranslate nohighlight">\(G_1,G_2,\cdots,G_M\)</span> such that
+<span class="math notranslate nohighlight">\(G_1 \supset G_2 \supset \cdots \supset G_M\)</span>, and <span class="math notranslate nohighlight">\(G = \cap_{i=1}^{M} G_i\)</span>. The intermediate failure events
+are defined as <span class="math notranslate nohighlight">\(G_i=\{g(\textbf{X})\le b_i\}\)</span>, where <span class="math notranslate nohighlight">\(b_1&gt;b_2&gt;\cdots&gt;b_M=0\)</span> are non-negative thresholds selected
+such that each conditional probability <span class="math notranslate nohighlight">\(P(G_{i+1} | G_{i}),\ i=1,2,\cdots,M-1\)</span> equals a target probability value
+<span class="math notranslate nohighlight">\(p_0\)</span>. The probability of failure <span class="math notranslate nohighlight">\(P_f\)</span> is estimated as:</p>
+<div class="math notranslate nohighlight">
+\[P_f = P\left(\bigcap_{i=1}^M G_i\right) = P(G_1)\prod_{i=1}^{M-1} P(G_{i+1} | G_{i})\]</div>
+<p>where the probability <span class="math notranslate nohighlight">\(P(G_1)\)</span> is computed through Monte Carlo simulations. In order to estimate the conditional
+probabilities <span class="math notranslate nohighlight">\(P(G_{i+1}|G_i),~i=1,2,\cdots,M-1\)</span> generation of Markov Chain Monte Carlo (MCMC) samples from the
+conditional pdf <span class="math notranslate nohighlight">\(p_{\textbf{X}}(\textbf{x}|G_i)\)</span> is required. In the context of subset simulation, the Markov
+chains are constructed through a two-step acceptance/rejection criterion. Starting from a Markov chain state
+<span class="math notranslate nohighlight">\(\textbf{X}\)</span> and a proposal distribution <span class="math notranslate nohighlight">\(q(\cdot|\textbf{X})\)</span>, a candidate sample <span class="math notranslate nohighlight">\(\textbf{W}\)</span> is
+generated. In the first stage, the sample <span class="math notranslate nohighlight">\(\textbf{W}\)</span> is accepted/rejected with probability</p>
+<div class="math notranslate nohighlight">
+\[\alpha=\min\bigg\{1, \frac{p_\textbf{X}(\textbf{w})q(\textbf{x}|\textbf{W})}{p_\textbf{X}(\textbf{x})q(\textbf{w}|\textbf{X})}\bigg\}\]</div>
+<p>and in the second stage is accepted/rejected based on whether the sample belongs to the failure region <span class="math notranslate nohighlight">\(G_i\)</span>.
+<a class="reference internal" href="#UQpy.reliability.SubsetSimulation" title="UQpy.reliability.SubsetSimulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SubsetSimulation</span></code></a> can be used with any of the available (or custom) <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> classes in the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">Sampling</span></code> module.</p>
+<p>The <a class="reference internal" href="#UQpy.reliability.SubsetSimulation" title="UQpy.reliability.SubsetSimulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SubsetSimulation</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.reliability.SubsetSimulation</span><span class="w"> </span><span class="kn">import</span> <span class="n">SubsetSimulation</span>
+</pre></div>
+</div>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.reliability.SubsetSimulation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubsetSimulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runmodel_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conditional_probability</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples_per_subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/reliability/SubsetSimulation.html#SubsetSimulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.reliability.SubsetSimulation" title="Link to this definition"></a></dt>
+<dd><p>Perform Subset Simulation to estimate probability of failure.</p>
+<p>This class estimates probability of failure for a user-defined model using Subset Simulation. The class can
+use one of several MCMC algorithms to draw conditional samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>runmodel_object</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a></span>) – The computational model. It should be of type <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>.</p></li>
+<li><p><strong>sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.baseclass.MCMC.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a></span>) – Specifies the <code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code> algorithm.</p></li>
+<li><p><strong>samples_init</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – A set of samples from the specified probability distribution. These are the samples from
+the original distribution. They are not conditional samples. The samples must be an array of size
+<code class="code docutils literal notranslate"><span class="pre">samples_number_per_subset</span> <span class="pre">x</span> <span class="pre">dimension</span></code>.
+If <code class="code docutils literal notranslate"><span class="pre">samples_init</span></code> is not specified, the <a class="reference internal" href="#UQpy.reliability.SubsetSimulation" title="UQpy.reliability.SubsetSimulation.SubsetSimulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SubsetSimulation</span></code></a> class will use the <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> class
+created with the aid of <code class="code docutils literal notranslate"><span class="pre">sampling</span></code> to draw the initial samples.</p></li>
+<li><p><strong>conditional_probability</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Conditional probability for each conditional level. Default: <span class="math notranslate nohighlight">\(0.1\)</span></p></li>
+<li><p><strong>nsamples_per_subset</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples to draw in each conditional level. Default: <span class="math notranslate nohighlight">\(1000\)</span></p></li>
+<li><p><strong>max_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of allowable conditional levels. Default: <span class="math notranslate nohighlight">\(10\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.SubsetSimulation.dependent_chains_CoV">
+<span class="sig-prename descclassname"><span class="pre">SubsetSimulation.</span></span><span class="sig-name descname"><span class="pre">dependent_chains_CoV</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#UQpy.reliability.SubsetSimulation.dependent_chains_CoV" title="Link to this definition"></a></dt>
+<dd><p>Coefficient of variation of the probability of failure estimate with dependent chains.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.SubsetSimulation.failure_probability">
+<span class="sig-prename descclassname"><span class="pre">SubsetSimulation.</span></span><span class="sig-name descname"><span class="pre">failure_probability</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#UQpy.reliability.SubsetSimulation.failure_probability" title="Link to this definition"></a></dt>
+<dd><p>Probability of failure estimate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.SubsetSimulation.independent_chains_CoV">
+<span class="sig-prename descclassname"><span class="pre">SubsetSimulation.</span></span><span class="sig-name descname"><span class="pre">independent_chains_CoV</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#UQpy.reliability.SubsetSimulation.independent_chains_CoV" title="Link to this definition"></a></dt>
+<dd><p>Coefficient of variation of the probability of failure estimate assuming independent chains.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.SubsetSimulation.performance_function_per_level">
+<span class="sig-prename descclassname"><span class="pre">SubsetSimulation.</span></span><span class="sig-name descname"><span class="pre">performance_function_per_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.SubsetSimulation.performance_function_per_level" title="Link to this definition"></a></dt>
+<dd><p>A list of arrays containing the evaluation of the performance function at each sample in each conditional 
+level. The size of the list is equal to the number of levels.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.SubsetSimulation.performance_threshold_per_level">
+<span class="sig-prename descclassname"><span class="pre">SubsetSimulation.</span></span><span class="sig-name descname"><span class="pre">performance_threshold_per_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.SubsetSimulation.performance_threshold_per_level" title="Link to this definition"></a></dt>
+<dd><p>Threshold value of the performance function for each conditional level. The size of the list is equal to the 
+number of levels.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.reliability.SubsetSimulation.samples">
+<span class="sig-prename descclassname"><span class="pre">SubsetSimulation.</span></span><span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.reliability.SubsetSimulation.samples" title="Link to this definition"></a></dt>
+<dd><p>A list of arrays containing the samples in each conditional level. The size of the list is equal to the 
+number of levels.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/reliability/subset_simulation/index.html">Subset Simulation Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Reliability" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/reliability/subset_simulation/index.html" class="btn btn-neutral float-right" title="Subset Simulation Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

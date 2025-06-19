@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sampling.stratified_sampling.refinement.GradientEnhancedRefinement &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../../index.html">
+            
+              <img src="../../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sampling.stratified_sampling.refinement.GradientEnhancedRefinement</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sampling.stratified_sampling.refinement.GradientEnhancedRefinement</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegressor</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.baseclass</span><span class="w"> </span><span class="kn">import</span> <span class="n">Surrogate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.RunModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.refinement.baseclass.Refinement</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.Utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">gradient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.strata.VoronoiStrata</span><span class="w"> </span><span class="kn">import</span> <span class="n">VoronoiStrata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.stratified_sampling.strata.baseclass.Strata</span><span class="w"> </span><span class="kn">import</span> <span class="n">Strata</span>
+
+<span class="n">CompatibleSurrogate</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="n">Is</span><span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;predict&#39;</span><span class="p">)]]</span>
+
+
+<div class="viewcode-block" id="GradientEnhancedRefinement">
+<a class="viewcode-back" href="../../../../../sampling/refined_stratified_sampling.html#UQpy.sampling.stratified_sampling.refinement.GradientEnhancedRefinement">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GradientEnhancedRefinement</span><span class="p">(</span><span class="n">Refinement</span><span class="p">):</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">strata</span><span class="p">:</span> <span class="n">Strata</span><span class="p">,</span>
+        <span class="n">runmodel_object</span><span class="p">:</span> <span class="n">RunModel</span><span class="p">,</span>
+        <span class="n">surrogate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Surrogate</span><span class="p">,</span> <span class="n">GaussianProcessRegressor</span><span class="p">,</span> <span class="n">CompatibleSurrogate</span><span class="p">],</span>
+        <span class="n">nearest_points_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">qoi_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gradient-enhanced version (so-called GE-RSS) refinement algorithm. Draws samples in strata that possess both</span>
+<span class="sd">        large probability weight and have high variance.</span>
+
+<span class="sd">        :param strata: :class:`.Strata` object containing already stratified domain to be adaptively sampled using</span>
+<span class="sd">         :class:`.RefinedStratifiedSampling`</span>
+<span class="sd">        :param runmodel_object: A :class:`.RunModel` object, which is used to evaluate the model. It is used to compute</span>
+<span class="sd">         the gradient of the model in each stratum.</span>
+<span class="sd">        :param surrogate: An object defining a surrogate model.This object must have the :py:meth:`fit` and</span>
+<span class="sd">         :py:meth:`predict` methods. This parameter aids in computing the gradient.</span>
+<span class="sd">        :param nearest_points_number: Specifies the number of nearest points at which to update the gradient.</span>
+<span class="sd">        :param qoi_name: Name of the quantity of interest from the runmodel_object. If the quantity of interest is a</span>
+<span class="sd">         dictionary, this used to convert it to a list.</span>
+<span class="sd">        :param step_size: Defines the size of the step to use for gradient estimation using the central difference</span>
+<span class="sd">         method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span> <span class="o">=</span> <span class="n">runmodel_object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_size</span> <span class="o">=</span> <span class="n">step_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nearest_points_number</span> <span class="o">=</span> <span class="n">nearest_points_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qoi_name</span> <span class="o">=</span> <span class="n">qoi_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strata</span> <span class="o">=</span> <span class="n">strata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">surrogate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">surrogate</span><span class="p">,</span> <span class="s1">&#39;fit&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">surrogate</span><span class="p">,</span> <span class="s1">&#39;predict&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">surrogate</span> <span class="o">=</span> <span class="n">surrogate</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;UQpy Error: surrogate must have &#39;fit&#39; and &#39;predict&#39; methods.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_strata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samplesU01</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strata</span><span class="p">,</span> <span class="n">VoronoiStrata</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strata</span> <span class="o">=</span> <span class="n">VoronoiStrata</span><span class="p">(</span><span class="n">seeds</span><span class="o">=</span><span class="n">samplesU01</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples_number</span><span class="p">,</span> <span class="n">training_points</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dy_dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">samples_number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">training_points</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strata</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">samples_number</span><span class="p">,</span> <span class="n">training_points</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_samples</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">nsamples</span><span class="p">,</span>
+        <span class="n">samples_per_iteration</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">,</span>
+        <span class="n">dimension</span><span class="p">,</span>
+        <span class="n">samples_u01</span><span class="p">,</span>
+        <span class="n">training_points</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">points_to_add</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">samples_per_iteration</span><span class="p">,</span> <span class="n">nsamples</span> <span class="o">-</span> <span class="n">index</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">strata</span><span class="o">.</span><span class="n">estimate_gradient</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surrogate</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span>
+            <span class="n">nsamples</span><span class="p">,</span>
+            <span class="n">index</span><span class="p">,</span>
+            <span class="n">samples_u01</span><span class="p">,</span>
+            <span class="n">training_points</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_convert_qoi_tolist</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="n">strata_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strata</span><span class="o">.</span><span class="n">calculate_gradient_strata_metrics</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="n">bins2break</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">identify_bins</span><span class="p">(</span>
+            <span class="n">strata_metrics</span><span class="o">=</span><span class="n">strata_metrics</span><span class="p">,</span>
+            <span class="n">points_to_add</span><span class="o">=</span><span class="n">points_to_add</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="n">new_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strata</span><span class="o">.</span><span class="n">update_strata_and_generate_samples</span><span class="p">(</span>
+            <span class="n">dimension</span><span class="p">,</span> <span class="n">points_to_add</span><span class="p">,</span> <span class="n">bins2break</span><span class="p">,</span> <span class="n">samples_u01</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">new_points</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">samples_per_iteration</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="o">-</span><span class="n">samples_per_iteration</span><span class="p">:]),</span> <span class="n">append_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_qoi_tolist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">qoi</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)):</span>
+                <span class="n">qoi</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">qoi_name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qoi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">qoi_list</span>
+        <span class="k">return</span> <span class="n">qoi</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_estimate_gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">prediction_points</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimating gradients with a Kriging metamodel (surrogate).</span>
+<span class="sd">        **Inputs:**</span>
+<span class="sd">        * **x** (`ndarray`):</span>
+<span class="sd">            Samples in the training data.</span>
+<span class="sd">        * **y** (`ndarray`):</span>
+<span class="sd">            Function values evaluated at the samples in the training data.</span>
+<span class="sd">        * **xt** (`ndarray`):</span>
+<span class="sd">            Samples where gradients need to be evaluated.</span>
+<span class="sd">        **Outputs:**</span>
+<span class="sd">        * **gr** (`ndarray`):</span>
+<span class="sd">            First-order gradient evaluated at the points &#39;xt&#39; using central difference.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">surrogate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surrogate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">prediction_points</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surrogate</span><span class="o">.</span><span class="n">optimizations_number</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">prediction_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surrogate</span><span class="o">.</span><span class="n">predict</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearNDInterpolator</span>
+
+            <span class="n">prediction_function</span> <span class="o">=</span> <span class="n">LinearNDInterpolator</span><span class="p">(</span>
+                <span class="n">prediction_points</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">)</span><span class="o">.</span><span class="fm">__call__</span>
+
+        <span class="n">gradient_values</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span>
+            <span class="n">point</span><span class="o">=</span><span class="n">prediction_points</span><span class="p">,</span>
+            <span class="n">runmodel_object</span><span class="o">=</span><span class="n">prediction_function</span><span class="p">,</span>
+            <span class="n">order</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">,</span>
+            <span class="n">df_step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">gradient_values</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

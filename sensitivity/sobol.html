@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobol indices &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Sobol Sensitivity indices" href="../auto_examples/sensitivity/sobol/index.html" />
+    <link rel="prev" title="PCE sensitivity method" href="pce.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="chatterjee.html"> Chatterjee Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cramer_von_mises.html"> Cramér-von Mises Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generalised_sobol.html"> Generalised Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="morris.html"> Morris Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pce.html"> Polynomial Chaos Sensitivity</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Sobol Sensitivity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sobol-class">Sobol Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sensitivity</a></li>
+      <li class="breadcrumb-item active">Sobol indices</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sensitivity/sobol.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sobol-indices">
+<h1>Sobol indices<a class="headerlink" href="#sobol-indices" title="Link to this heading"></a></h1>
+<p>Sobol indices are the standard approach for performing a global sensitivity analysis.
+The indices are based on a variance decomposition of the model output. Using this decomposition allows us to assign the contribution of uncertain inputs to the variance of the model output.</p>
+<p>There are three main groups of indices:</p>
+<ul class="simple">
+<li><p>First order indices (<span class="math notranslate nohighlight">\(S_{i}\)</span>): Describe the fraction of the output variance due to a single uncertain input parameter <span class="math notranslate nohighlight">\(i\)</span>. This amount of variance can be reduced if the uncertainty in the corresponding input is eliminated.</p></li>
+<li><p>Higher order indices: Describe the fraction of the output variance due to interactions between uncertain input parameters. For example, the second order indices (<span class="math notranslate nohighlight">\(S_{ij}\)</span>) describe the fraction of the output variance due to interactions between two uncertain input parameters <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>.</p></li>
+<li><p>Total order indices (<span class="math notranslate nohighlight">\(S_{T_{i}}\)</span>): Describe the fraction of the output variance due to a single input parameter <span class="math notranslate nohighlight">\(i\)</span> and all higher order effects of the input parameter.</p></li>
+</ul>
+<p>If the first order index of an input parameter is equal to the total order index it implies that the parameter does not have any interaction effects.</p>
+<p>The Sobol indices are typically computed using the Pick-and-Freeze approach for single output and multi-output models. Since there are several variants of the Pick-and-Freeze approach, the schemes implemented to compute Sobol indices are listed below:</p>
+<p>Here, <span class="math notranslate nohighlight">\(N\)</span> is the Monte Carlo sample size and <span class="math notranslate nohighlight">\(m\)</span> is the number of input parameters in the model.</p>
+<ol class="arabic simple">
+<li><p><strong>First order indices</strong> (<span class="math notranslate nohighlight">\(S_{i}\)</span>)</p></li>
+</ol>
+<ul class="simple">
+<li><p>Janon2014: Requires <span class="math notranslate nohighlight">\(N(m + 1)\)</span> model evaluations</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\frac{\mathbb{V}\left[E\left(Y \mid X_{i}\right)\right]}{\mathbb{V}(Y)} = \frac{\operatorname{Cov}\left(Y, Y_{C_{i}}\right)}{\mathbb{V}(Y)} = \frac{ (1 / N) Y_{A} \cdot Y_{C_{i}}-f_{0}^{2}}{ (1 / N)\frac{Y_{A} \cdot Y_{A} + Y_{C_{i}} \cdot Y_{C_{i}}}{2}-f_{0}^{2}}\]</div>
+<div class="math notranslate nohighlight">
+\[y_{A}=f(A), \quad y_{C_{i}}=f(C_{i}), \quad f_{0}^{2}=\left(\frac{1}{2N} \sum_{j=1}^{N} y_{A}^{(j)} + y_{C_{i}}^{(j)} \right)^{2}\]</div>
+<p>Compared to “Sobol1993”, the “Janon2014” estimator makes more efficient use of model evaluations and produces smaller (better) confidence intervals.</p>
+<ul class="simple">
+<li><p>Sobol1993: Requires <span class="math notranslate nohighlight">\(N(m + 1)\)</span> model evaluations <span id="id1">[<a class="reference internal" href="../bibliography.html#id65" title="A. Saltelli. Global sensitivity analysis: the primer. John Wiley, 2008. ISBN 9780470059975. URL: https://onlinelibrary.wiley.com/doi/book/10.1002/9780470725184.">52</a>]</span>.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[S_{i} = \frac{\mathbb{V}\left[E\left(Y \mid X_{i}\right)\right]}{\mathbb{V}(Y)} = \frac{ (1/N) Y_{A} \cdot Y_{C_{i}}-f_{0}^{2}}{(1 / N) Y_{A} \cdot Y_{A}-f_{0}^{2}}\]</div>
+<div class="math notranslate nohighlight">
+\[y_{A}=f(A), \quad y_{C_{i}}=f(C_{i}), \quad f_{0}^{2}=\left(\frac{1}{N} \sum_{j=1}^{N} y_{A}^{(j)} \right)^{2}\]</div>
+<ul class="simple">
+<li><p>Saltelli2002: Requires <span class="math notranslate nohighlight">\(N(2m + 2)\)</span> model evaluations <span id="id2">[<a class="reference internal" href="../bibliography.html#id66" title="Andrea Saltelli. Making best use of model evaluations to compute sensitivity indices. Computer Physics Communications, 145(2):280-297, 2002. URL: https://www.sciencedirect.com/science/article/pii/S0010465502002801, doi:https://doi.org/10.1016/S0010-4655(02)00280-1.">53</a>]</span>.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Second order indices</strong> (<span class="math notranslate nohighlight">\(S_{ij}\)</span>)</p></li>
+</ol>
+<ul class="simple">
+<li><p>Saltelli2002: Requires <span class="math notranslate nohighlight">\(N(2m + 2)\)</span> model evaluations <span id="id3">[<a class="reference internal" href="../bibliography.html#id66" title="Andrea Saltelli. Making best use of model evaluations to compute sensitivity indices. Computer Physics Communications, 145(2):280-297, 2002. URL: https://www.sciencedirect.com/science/article/pii/S0010465502002801, doi:https://doi.org/10.1016/S0010-4655(02)00280-1.">53</a>]</span>.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Total order indices</strong> (<span class="math notranslate nohighlight">\(S_{T_{i}}\)</span>)</p></li>
+</ol>
+<ul class="simple">
+<li><p>Homma1996: Requires <span class="math notranslate nohighlight">\(N(m + 1)\)</span> model evaluations <span id="id4">[<a class="reference internal" href="../bibliography.html#id65" title="A. Saltelli. Global sensitivity analysis: the primer. John Wiley, 2008. ISBN 9780470059975. URL: https://onlinelibrary.wiley.com/doi/book/10.1002/9780470725184.">52</a>]</span>.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[S_{T_{i}} = 1 - \frac{\mathbb{V}\left[E\left(Y \mid \mathbf{X}_{\sim_{i}}\right)\right]}{\mathbb{V}(Y)} = 1 - \frac{ (1 / N) Y_{B} \cdot Y_{C_{i}}-f_{0}^{2}}{(1 / N) Y_{A} \cdot Y_{A}-f_{0}^{2}}\]</div>
+<div class="math notranslate nohighlight">
+\[y_{A}=f(A), \quad y_{B}=f(B), \quad y_{C_{i}}=f(C_{i}), \quad f_{0}^{2}=\left(\frac{1}{2N} \sum_{j=1}^{N} y_{A}^{(j)} + y_{B}^{(j)} \right)^{2}\]</div>
+<ul class="simple">
+<li><p>Saltelli2002: Requires <span class="math notranslate nohighlight">\(N(2m + 2)\)</span> model evaluations <span id="id5">[<a class="reference internal" href="../bibliography.html#id66" title="Andrea Saltelli. Making best use of model evaluations to compute sensitivity indices. Computer Physics Communications, 145(2):280-297, 2002. URL: https://www.sciencedirect.com/science/article/pii/S0010465502002801, doi:https://doi.org/10.1016/S0010-4655(02)00280-1.">53</a>]</span>.</p></li>
+</ul>
+<section id="sobol-class">
+<h2>Sobol Class<a class="headerlink" href="#sobol-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sensitivity.SobolSensitivity" title="UQpy.sensitivity.SobolSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">SobolSensitivity</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.SobolSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobolSensitivity</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SobolSensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runmodel_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/SobolSensitivity.html#SobolSensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity" title="Link to this definition"></a></dt>
+<dd><p>Compute Sobol sensitivity indices using the pick
+and freeze algorithm. For models with multiple outputs
+(vector-valued response), the sensitivity indices are computed for each
+output separately.
+For time-series models, the sensitivity indices are computed for each
+time instant separately. (Pointwise-in-time Sobol indices)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>runmodel_object</strong> – The computational model. It should be of type <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>.         The output QoI can be a scalar or vector of length <code class="code docutils literal notranslate"><span class="pre">ny</span></code>, then the sensitivity         indices of all <code class="code docutils literal notranslate"><span class="pre">ny</span></code> outputs are computed independently.</p></li>
+<li><p><strong>distributions</strong> – List of <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> objects corresponding to each         random variable, or <a class="reference internal" href="../distributions/joint_from_independent.html#UQpy.distributions.collection.JointIndependent" title="UQpy.distributions.collection.JointIndependent"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointIndependent</span></code></a> object         (multivariate RV with independent marginals).</p></li>
+<li><p><strong>random_state</strong> – Random seed used to initialize the pseudo-random number         generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Methods:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bootstrap_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.95</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate_second_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_order_scheme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Janon2014'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_order_scheme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Homma1996'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_order_scheme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Saltelli2002'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/SobolSensitivity.html#SobolSensitivity.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.run" title="Link to this definition"></a></dt>
+<dd><p>Compute the sensitivity indices and confidence intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples used to compute the sensitivity indices.             Default is 1,000.</p></li>
+<li><p><strong>n_bootstrap_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of bootstrap samples used to compute the             confidence intervals. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+<li><p><strong>confidence_interval</strong> – Confidence level used to compute the confidence             intervals. Default is 0.95.</p></li>
+<li><p><strong>estimate_second_order</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, the second order Sobol indices are             estimated. Default is False.</p></li>
+<li><p><strong>first_order_scheme</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Scheme used to compute the first order Sobol             indices. Default is “Janon2014”.</p></li>
+<li><p><strong>total_order_scheme</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Scheme used to compute the total order Sobol             indices. Default is “Homma1996”.</p></li>
+<li><p><strong>second_order_scheme</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Scheme used to compute the second order             Sobol indices. Default is “Saltelli2002”.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.first_order_indices">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">first_order_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.first_order_indices" title="Link to this definition"></a></dt>
+<dd><p>First order Sobol indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(n_variables, n_outputs)</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.second_order_indices">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">second_order_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.second_order_indices" title="Link to this definition"></a></dt>
+<dd><p>Second order Sobol indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(num_second_order_terms, n_outputs)</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.total_order_indices">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">total_order_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.total_order_indices" title="Link to this definition"></a></dt>
+<dd><p>Total order Sobol indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(n_variables, n_outputs)</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.first_order_confidence_interval">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">first_order_confidence_interval</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.first_order_confidence_interval" title="Link to this definition"></a></dt>
+<dd><p>Confidence intervals for the first order Sobol indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(n_variables, 2)</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.second_order_confidence_interval">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">second_order_confidence_interval</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.second_order_confidence_interval" title="Link to this definition"></a></dt>
+<dd><p>Confidence intervals for the second order Sobol indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(num_second_order_terms, 2)</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.total_order_confidence_interval">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">total_order_confidence_interval</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.total_order_confidence_interval" title="Link to this definition"></a></dt>
+<dd><p>Confidence intervals for the total order Sobol indices, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(n_variables, 2)</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.n_samples">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">n_samples</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.n_samples" title="Link to this definition"></a></dt>
+<dd><p>Number of samples used to compute the sensitivity indices, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.n_variables">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">n_variables</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.n_variables" title="Link to this definition"></a></dt>
+<dd><p>Number of model input variables, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.SobolSensitivity.is_multi_output">
+<span class="sig-prename descclassname"><span class="pre">SobolSensitivity.</span></span><span class="sig-name descname"><span class="pre">is_multi_output</span></span><a class="headerlink" href="#UQpy.sensitivity.SobolSensitivity.is_multi_output" title="Link to this definition"></a></dt>
+<dd><p>True if the model has multiple outputs, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/sensitivity/sobol/index.html">Sobol Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/sensitivity/sobol/index.html#single-output-models">Single output models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/sensitivity/sobol/index.html#multiple-output-models">Multiple output models</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pce.html" class="btn btn-neutral float-left" title="PCE sensitivity method" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/sensitivity/sobol/index.html" class="btn btn-neutral float-right" title="Sobol Sensitivity indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

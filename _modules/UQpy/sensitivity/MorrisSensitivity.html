@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sensitivity.MorrisSensitivity &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sensitivity.MorrisSensitivity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sensitivity.MorrisSensitivity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;This module contains functionality for sensitivity analysis in ``UQpy``.</span>
+
+<span class="sd">The module currently contains the following classes:</span>
+
+<span class="sd">- ``Morris``: Class to compute sensitivity indices based on the Morris method.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Annotated</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype.vale</span><span class="w"> </span><span class="kn">import</span> <span class="n">Is</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.Utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_random_state</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomStateType</span><span class="p">,</span> <span class="n">PositiveInteger</span><span class="p">,</span> <span class="n">NumpyFloatArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.RunModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunModel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">randint</span>
+
+
+<div class="viewcode-block" id="MorrisSensitivity">
+<a class="viewcode-back" href="../../../sensitivity/morris.html#UQpy.sensitivity.MorrisSensitivity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MorrisSensitivity</span><span class="p">:</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">runmodel_object</span><span class="p">:</span> <span class="n">RunModel</span><span class="p">,</span>
+            <span class="n">distributions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JointIndependent</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]],</span>
+            <span class="n">n_levels</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Is</span><span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">]],</span>
+            <span class="n">delta</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="p">:</span> <span class="n">RandomStateType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">n_trajectories</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">maximize_dispersion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute sensitivity indices based on the Morris screening method.</span>
+
+<span class="sd">        :param runmodel_object: The computational model. It should be of type :class:`.RunModel`. The</span>
+<span class="sd">         output QoI can be a scalar or vector of length :code:`ny`, then the sensitivity indices of all :code:`ny` outputs are</span>
+<span class="sd">         computed independently.</span>
+<span class="sd">        :param distributions: List of :class:`.Distribution` objects corresponding to each random variable, or</span>
+<span class="sd">         :class:`.JointIndependent` object (multivariate RV with independent marginals).</span>
+<span class="sd">        :param n_levels: Number of levels that define the grid over the hypercube where evaluation points are</span>
+<span class="sd">         sampled. Must be an integer :math:`\ge 3`.</span>
+<span class="sd">        :param delta: Size of the jump between two consecutive evaluation points, must be a multiple of delta should be</span>
+<span class="sd">         in :code:`{1/(n_levels-1), ..., 1-1/(n_levels-1)}`.</span>
+<span class="sd">         Default: :math:`delta=\\frac{levels\_number}{2 * (levels\_number-1)}` if `n_levels` is even,</span>
+<span class="sd">         :math:`delta=0.5` if n_levels is odd.</span>
+<span class="sd">        :param random_state: Random seed used to initialize the pseudo-random number generator. Default is :any:`None`.</span>
+<span class="sd">        :param n_trajectories: Number of random trajectories, usually chosen between :math:`5` and :math:`10`.</span>
+<span class="sd">         The number of model evaluations is :code:`n_trajectories * (d+1)`. If None, the `Morris` object is created</span>
+<span class="sd">         but not run (see :py:meth:`run` method)</span>
+<span class="sd">        :param maximize_dispersion: If :any:`True`, generate a large number of design trajectories and keep the ones</span>
+<span class="sd">         that maximize dispersion between all trajectories, allows for a better coverage of the input space.</span>
+
+<span class="sd">         Default :any:`False`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check RunModel object and distributions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span> <span class="o">=</span> <span class="n">runmodel_object</span>
+        <span class="n">marginals</span> <span class="o">=</span> <span class="p">(</span><span class="n">distributions</span><span class="o">.</span><span class="n">marginals</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distributions</span><span class="p">,</span> <span class="n">JointIndependent</span><span class="p">)</span> <span class="k">else</span> <span class="n">distributions</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icdfs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="s2">&quot;icdf&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">marginals</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">icdf</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">icdf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">icdfs</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one of the distributions provided has a None icdf&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">icdfs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">var_names</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of distributions provided does not match the number of RunModel variables&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">=</span> <span class="n">n_levels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_levels_delta</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">process_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maximize_dispersion</span> <span class="o">=</span> <span class="n">maximize_dispersion</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">trajectories_unit_hypercube</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trajectories in the unit hypercube, :class:`numpy.ndarray` of shape :code:`(n_trajectories, d+1, d)`&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trajectories_physical_space</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trajectories in the physical space, :class:`numpy.ndarray` of shape :code:`(n_trajectories, d+1, d)`&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elementary_effects</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Elementary effects :math:`EE_{k}`, :class:`numpy.ndarray` of shape :code:`(n_trajectories, d, ny)`.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mustar_indices</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;First Morris sensitivity index :math:`\mu_{k}^{\star}`, :class:`numpy.ndarray` of shape :code:`(d, ny)`&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_indices</span><span class="p">:</span> <span class="n">NumpyFloatArray</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Second Morris sensitivity index :math:`\sigma_{k}`, :class:`numpy.ndarray` of shape :code:`(d, ny)`&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">n_trajectories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">n_trajectories</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_levels_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># delta should be in {1/(nlevels-1), ..., 1-1/(nlevels-1)}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># delta = trial_probability / (2 * (trial_probability-1))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># delta = (trial_probability-1) / (2 * (trial_probability-1))</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+                  <span class="ow">in</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">j</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;UQpy: delta should be in {1/(nlevels-1), ..., 1-1/(nlevels-1)}&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MorrisSensitivity.run">
+<a class="viewcode-back" href="../../../sensitivity/morris.html#UQpy.sensitivity.MorrisSensitivity.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_trajectories</span><span class="p">:</span> <span class="n">PositiveInteger</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the Morris indices evaluation.</span>
+
+<span class="sd">        The code first sample trajectories in the unit hypercube and transform them to the physical space (see method</span>
+<span class="sd">        :py:meth:`sample_trajectories`), then runs the forward model to compute the elementary effects,</span>
+<span class="sd">        and finally computes the sensitivity indices.</span>
+
+<span class="sd">        :param n_trajectories: Number of random trajectories. Usually chosen between :math:`5` and :math:`10`.</span>
+<span class="sd">         The number of model evaluations is :code:`n_trajectories * (d+1)`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute trajectories and elementary effects - append if any already exist</span>
+        <span class="p">(</span><span class="n">trajectories_unit_hypercube</span><span class="p">,</span> <span class="n">trajectories_physical_space</span><span class="p">,)</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample_trajectories</span><span class="p">(</span><span class="n">n_trajectories</span><span class="o">=</span><span class="n">n_trajectories</span><span class="p">,</span> <span class="n">maximize_dispersion</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">maximize_dispersion</span><span class="p">,)</span>
+        <span class="n">elementary_effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_elementary_effects</span><span class="p">(</span><span class="n">trajectories_physical_space</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_data</span><span class="p">(</span><span class="n">elementary_effects</span><span class="p">,</span> <span class="n">trajectories_physical_space</span><span class="p">,</span> <span class="n">trajectories_unit_hypercube</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mustar_indices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elementary_effects</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">store_data</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">elementary_effects</span><span class="p">,</span>
+            <span class="n">trajectories_physical_space</span><span class="p">,</span>
+            <span class="n">trajectories_unit_hypercube</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elementary_effects</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">elementary_effects</span> <span class="o">=</span> <span class="n">elementary_effects</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trajectories_unit_hypercube</span> <span class="o">=</span> <span class="n">trajectories_unit_hypercube</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trajectories_physical_space</span> <span class="o">=</span> <span class="n">trajectories_physical_space</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">elementary_effects</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">elementary_effects</span><span class="p">,</span> <span class="n">elementary_effects</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trajectories_unit_hypercube</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">trajectories_unit_hypercube</span><span class="p">,</span>
+                                                               <span class="n">trajectories_unit_hypercube</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trajectories_physical_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">trajectories_physical_space</span><span class="p">,</span>
+                                                               <span class="n">trajectories_physical_space</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MorrisSensitivity.sample_trajectories">
+<a class="viewcode-back" href="../../../sensitivity/morris.html#UQpy.sensitivity.MorrisSensitivity.sample_trajectories">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_trajectories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_trajectories</span><span class="p">:</span> <span class="n">PositiveInteger</span><span class="p">,</span> <span class="n">maximize_dispersion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the trajectories, first in the unit hypercube then transform them in the physical space.</span>
+
+<span class="sd">        :param n_trajectories: Number of random trajectories. Usually chosen between :math:`5` and :math:`10`.</span>
+<span class="sd">         The number of model evaluations is :code:`n_trajectories * (d+1)`.</span>
+<span class="sd">        :param maximize_dispersion: If :any:`True`, generate a large number of design trajectories and keep the ones</span>
+<span class="sd">         that maximize dispersion between all trajectories, allows for a better coverage of the input space.</span>
+<span class="sd">         Default :any:`False`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">trajectories_unit_hypercube</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">perms_indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ntrajectories_all</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">n_trajectories</span> <span class="k">if</span> <span class="n">maximize_dispersion</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">n_trajectories</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntrajectories_all</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">perms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">perms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+            <span class="n">initial_state</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
+                             <span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                             <span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">))</span>
+            <span class="n">trajectory_uh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">initial_state</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">count_d</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">perms</span><span class="p">):</span>
+                <span class="n">trajectory_uh</span><span class="p">[</span><span class="n">count_d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">initial_state</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span>
+            <span class="n">trajectories_unit_hypercube</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trajectory_uh</span><span class="p">)</span>
+            <span class="n">perms_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perms</span><span class="p">)</span>
+        <span class="n">trajectories_unit_hypercube</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">trajectories_unit_hypercube</span><span class="p">)</span>  <span class="c1"># ndarray (r, d+1, d)</span>
+
+        <span class="c1"># if maximize_dispersion, compute the &#39;best&#39; trajectories</span>
+        <span class="k">if</span> <span class="n">maximize_dispersion</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">ntrajectories_all</span><span class="p">,</span> <span class="n">ntrajectories_all</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntrajectories_all</span><span class="p">):</span>
+                <span class="n">des_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">trajectories_unit_hypercube</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:][</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],[</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],)</span>
+                <span class="k">for</span> <span class="n">r2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ntrajectories_all</span><span class="p">):</span>
+                    <span class="n">des_r2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">trajectories_unit_hypercube</span><span class="p">[</span><span class="n">r2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+                                     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],)</span>
+                    <span class="n">distances</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">r2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">des_r</span> <span class="o">-</span> <span class="n">des_r2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)))</span>
+
+            <span class="c1"># try 20000 combinations of ntrajectories trajectories, keep the one that maximizes the distance</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">compute_combi_and_dist</span><span class="p">():</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">combi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ntrajectories_all</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_trajectories</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">combi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ntrajectories_all</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_trajectories</span><span class="p">)</span>
+                <span class="n">dist_combi</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="k">for</span> <span class="n">pairs</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="n">combi</span><span class="p">,</span> <span class="mi">2</span><span class="p">)):</span>
+                    <span class="n">dist_combi</span> <span class="o">+=</span> <span class="n">distances</span><span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">pairs</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">pairs</span><span class="p">)]</span> <span class="o">**</span> <span class="mi">2</span>
+                <span class="k">return</span> <span class="n">combi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dist_combi</span><span class="p">)</span>
+
+            <span class="n">comb_to_keep</span><span class="p">,</span> <span class="n">dist_comb</span> <span class="o">=</span> <span class="n">compute_combi_and_dist</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20000</span><span class="p">):</span>
+                <span class="n">comb</span><span class="p">,</span> <span class="n">new_dist_comb</span> <span class="o">=</span> <span class="n">compute_combi_and_dist</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">new_dist_comb</span> <span class="o">&gt;</span> <span class="n">dist_comb</span><span class="p">:</span>
+                    <span class="n">comb_to_keep</span><span class="p">,</span> <span class="n">dist_comb</span> <span class="o">=</span> <span class="n">comb</span><span class="p">,</span> <span class="n">new_dist_comb</span>
+            <span class="n">trajectories_unit_hypercube</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">trajectories_unit_hypercube</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">comb_to_keep</span><span class="p">])</span>
+
+        <span class="c1"># Avoid 0 and 1 cdf values</span>
+        <span class="n">trajectories_unit_hypercube</span><span class="p">[</span><span class="n">trajectories_unit_hypercube</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="n">trajectories_unit_hypercube</span><span class="p">[</span><span class="n">trajectories_unit_hypercube</span> <span class="o">&gt;</span> <span class="mf">0.99</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span>
+
+        <span class="c1"># Transform to physical space via icdf</span>
+        <span class="n">trajectories_physical_space</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">trajectory_uh</span> <span class="ow">in</span> <span class="n">trajectories_unit_hypercube</span><span class="p">:</span>
+            <span class="n">trajectory_ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">trajectory_uh</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">count_d</span><span class="p">,</span> <span class="p">(</span><span class="n">design_d</span><span class="p">,</span> <span class="n">icdf_d</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">trajectory_uh</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icdfs</span><span class="p">)):</span>
+                <span class="n">trajectory_ps</span><span class="p">[:,</span> <span class="n">count_d</span><span class="p">]</span> <span class="o">=</span> <span class="n">icdf_d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">design_d</span><span class="p">)</span>
+            <span class="n">trajectories_physical_space</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trajectory_ps</span><span class="p">)</span>
+        <span class="n">trajectories_physical_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">trajectories_physical_space</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">trajectories_unit_hypercube</span><span class="p">,</span> <span class="n">trajectories_physical_space</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_elementary_effects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trajectories_physical_space</span><span class="p">):</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">trajectories_physical_space</span><span class="o">.</span><span class="n">shape</span>
+        <span class="c1"># Run the model for all replicates</span>
+        <span class="n">elementary_effects</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">samples</span> <span class="ow">in</span> <span class="n">trajectories_physical_space</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">samples</span><span class="p">,</span> <span class="n">append_samples</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">qoi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">runmodel_object</span><span class="o">.</span><span class="n">qoi_list</span><span class="p">)</span>
+            <span class="n">el_effect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,))</span>
+            <span class="n">perms</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">bi</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">bi</span> <span class="ow">in</span> <span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">samples</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="k">for</span> <span class="n">count_d</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">perms</span><span class="p">):</span>
+                <span class="n">el_effect</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">qoi</span><span class="p">[</span><span class="n">count_d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">qoi</span><span class="p">[</span><span class="n">count_d</span><span class="p">])</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span>
+            <span class="n">elementary_effects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el_effect</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">elementary_effects</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_indices</span><span class="p">(</span><span class="n">elementary_effects</span><span class="p">):</span>
+        <span class="c1"># elementary_effects is an array of shape (r, d, ny) or (r, d)</span>
+        <span class="n">mu_star</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">elementary_effects</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">elementary_effects</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">elementary_effects</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">mu_star</span><span class="p">,</span> <span class="n">sigma</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

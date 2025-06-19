@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interpolation &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Grassmann Manifold Examples" href="../../auto_examples/dimension_reduction/grassmann/index.html" />
+    <link rel="prev" title="Grassmann Operations" href="grassmann_operations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Dimension Reduction</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"> Grassmann manifold</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="manifold_projections.html"> Grassmann Projections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grassmann_operations.html"> Grassmann Operations</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Grassmann Interpolation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/dimension_reduction/grassmann/index.html"> Grassmann Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dmaps.html"> Diffusion maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pod.html"> POD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hosvd.html"> HOSVD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Dimension Reduction</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Grassmann manifold</a></li>
+      <li class="breadcrumb-item active">Interpolation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/dimension_reduction/grassmann/grassmann_interpolation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="interpolation">
+<h1>Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading"></a></h1>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> offers the capability to interpolate points on the Grassmann <span class="math notranslate nohighlight">\(\mathcal{G}(p,n)\)</span>. Consider we have a
+set of <span class="math notranslate nohighlight">\(n+1\)</span> points <span class="math notranslate nohighlight">\((t_0, \mathbf{X}_0), ..., (t_n, \mathbf{X}_n)\)</span>, with <span class="math notranslate nohighlight">\(t_0 &lt;...&lt;t_n\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{X}_k \in \mathbb{R}^{p \times n}\)</span>,  and we want to find
+a function <span class="math notranslate nohighlight">\(p(x)\)</span> for which <span class="math notranslate nohighlight">\(p(t_k)=\mathbf{X}_k\)</span> for <span class="math notranslate nohighlight">\(k=0,..,n\)</span> where
+<span class="math notranslate nohighlight">\(x\)</span> is a continuous independent variable and <span class="math notranslate nohighlight">\(t_k\)</span> are called the nodes (or coordinates) of the interpolant.
+However, since the Grassmann manifold has a nonlinear structure, interpolation can only be performed on the tangent
+space, which is a flat inner-product space. Therefore the following steps are required to interpolate on
+<span class="math notranslate nohighlight">\(\mathcal{G}(p,n)\)</span>:</p>
+<ol class="arabic simple">
+<li><p>Calculate the Karcher mean of the given points on the manifold.</p></li>
+<li><p>Project all points onto the tangent space with origin at the Karcher mean.</p></li>
+<li><p>Perform the interpolation on the tangent space using the available methods.</p></li>
+<li><p>Map the interpolated point back onto the manifold.</p></li>
+</ol>
+<p>The <a class="reference internal" href="#UQpy.dimension_reduction.GrassmannInterpolation" title="UQpy.dimension_reduction.GrassmannInterpolation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannInterpolation</span></code></a> class provides a framework to perform these steps. To use this
+class we need to import it as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.grassmann_manifold.GrassmannInterpolation</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannInterpolation</span>
+</pre></div>
+</div>
+<p>We must then instantiate a <a class="reference internal" href="#UQpy.dimension_reduction.GrassmannInterpolation" title="UQpy.dimension_reduction.GrassmannInterpolation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannInterpolation</span></code></a> object and then invoke the <a class="reference internal" href="#UQpy.dimension_reduction.GrassmannInterpolation.interpolate_manifold" title="UQpy.dimension_reduction.GrassmannInterpolation.interpolate_manifold"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolate_manifold()</span></code></a>
+method as:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">GrassmannInterpolation</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">interpolate_manifold</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.GrassmannInterpolation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GrassmannInterpolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpolation_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifold_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GradientDescent'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/GrassmannInterpolation.html#GrassmannInterpolation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.GrassmannInterpolation" title="Link to this definition"></a></dt>
+<dd><p>A class to perform interpolation of points on the Grassmann manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interpolation_method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Surrogate</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">callable</span></code>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Type of interpolation to perform. This may be specified as a <code class="xref py py-class docutils literal notranslate"><span class="pre">Surrogate</span></code>
+object or a callable function. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>, then multi-linear interpolation is performed.</p></li>
+<li><p><strong>manifold_data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../../utilities/grassmann_point.html#UQpy.utilities.GrassmannPoint" title="UQpy.utilities.GrassmannPoint.GrassmannPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannPoint</span></code></a>]</span>) – Data points on the Grassmann manifold.</p></li>
+<li><p><strong>coordinates</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]]</span>) – Nodes of the interpolant.</p></li>
+<li><p><strong>distance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../../utilities/distances/grassmann_distances.html#UQpy.utilities.distances.baseclass.GrassmannianDistance" title="UQpy.utilities.distances.baseclass.GrassmannianDistance.GrassmannianDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannianDistance</span></code></a></span>) – Distance measure.</p></li>
+<li><p><strong>optimization_method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Optimization method for calculating the Karcher mean. See
+<a class="reference internal" href="grassmann_operations.html#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GrassmannOperations.karcher_mean()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.GrassmannInterpolation.interpolate_manifold">
+<span class="sig-name descname"><span class="pre">interpolate_manifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/dimension_reduction/grassmann_manifold/GrassmannInterpolation.html#GrassmannInterpolation.interpolate_manifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.GrassmannInterpolation.interpolate_manifold" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>point</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Point at which to interpolate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Interpolated point on the Grassmann manifold.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="grassmann_operations.html" class="btn btn-neutral float-left" title="Grassmann Operations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../auto_examples/dimension_reduction/grassmann/index.html" class="btn btn-neutral float-right" title="Grassmann Manifold Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

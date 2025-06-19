@@ -1,0 +1,167 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stochastic Process &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spectral Representation Method" href="spectral_representation.html" />
+    <link rel="prev" title="Additive function" href="../auto_examples/sensitivity/comparison/additive.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Stochastic Process</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spectral_representation.html"> Spectral Representation Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bispectral_representation.html"> Bispectral Representation Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="karhunen_loeve_1d.html"> Karhunen Loeve Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="karhunen_loeve_2d.html"> Karhunen Loeve Expansion 2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="translation.html"> Translation Processes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Stochastic Process</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/stochastic_process/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stochastic-process">
+<h1>Stochastic Process<a class="headerlink" href="#stochastic-process" title="Link to this heading"></a></h1>
+<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">stochastic_process</span></code> module consists of classes and functions to generate samples of stochastic processes from
+prescribed properties of the process (e.g. power spectrum, bispectrum and/or autocorrelation function). The existing
+classes rely on stochastic expansions taking the following general form,</p>
+<div class="math notranslate nohighlight">
+\[A(x) = \sum_{i=1}^N \theta(\omega) \phi(x),\]</div>
+<p>such that the process can be expressed in terms of a set of uncorrelated random variables, <span class="math notranslate nohighlight">\(\theta(\omega)\)</span>, and
+deterministic basis functions <span class="math notranslate nohighlight">\(\phi(x)\)</span>.</p>
+<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">stochastic_process</span></code> module supports simulation of uni-variate, multi-variate, multi-dimensional, Gaussian
+and non-Gaussian stochastic processes. Gaussian stochasitc processes can be simulated using the widely-used Spectral
+Representation Method (<span id="id1">[<a class="reference internal" href="../bibliography.html#id39" title="M. Shinozuka and C.-M. Jan. Digital simulation of random processes and its applications. Journal of Sound and Vibration, 25(1):111-128, 1972. URL: https://www.sciencedirect.com/science/article/pii/0022460X72906001, doi:https://doi.org/10.1016/0022-460X(72)90600-1.">54</a>]</span>, <span id="id2">[<a class="reference internal" href="../bibliography.html#id40" title="Masanobu Shinozuka and George Deodatis. Simulation of Stochastic Processes by Spectral Representation. Applied Mechanics Reviews, 44(4):191-204, 04 1991. URL: https://doi.org/10.1115/1.3119501, arXiv:https://asmedigitalcollection.asme.org/appliedmechanicsreviews/article-pdf/44/4/191/5435905/191\_1.pdf, doi:10.1115/1.3119501.">55</a>]</span>, <span id="id3">[<a class="reference internal" href="../bibliography.html#id41" title="Masanobu Shinozuka and George Deodatis. Simulation of Multi-Dimensional Gaussian Stochastic Fields by Spectral Representation. Applied Mechanics Reviews, 49(1):29-53, 01 1996. URL: https://doi.org/10.1115/1.3101883, arXiv:https://asmedigitalcollection.asme.org/appliedmechanicsreviews/article-pdf/49/1/29/5437403/29\_1.pdf, doi:10.1115/1.3101883.">56</a>]</span>, <span id="id4">[<a class="reference internal" href="../bibliography.html#id42" title="George Deodatis. Simulation of ergodic multivariate stochastic processes. Journal of Engineering Mechanics, 122(8):778-787, 1996. doi:10.1061/(ASCE)0733-9399(1996)122:8(778).">57</a>]</span>)
+and the Karhunen-Loeve Expansion (<span id="id5">[<a class="reference internal" href="../bibliography.html#id43" title="S. P. Huang, S. T. Quek, and K. K. Phoon. Convergence study of the truncated karhunen–loeve expansion for simulation of stochastic processes. International Journal for Numerical Methods in Engineering, 52(9):1029-1043, 2001. URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/nme.255, arXiv:https://onlinelibrary.wiley.com/doi/pdf/10.1002/nme.255, doi:https://doi.org/10.1002/nme.255.">58</a>]</span>, <span id="id6">[<a class="reference internal" href="../bibliography.html#id44" title="K.K. Phoon, S.P. Huang, and S.T. Quek. Simulation of second-order processes using karhunen–loeve expansion. Computers &amp; Structures, 80(12):1049-1060, 2002. URL: https://www.sciencedirect.com/science/article/pii/S0045794902000640, doi:https://doi.org/10.1016/S0045-7949(02)00064-0.">59</a>]</span>, <span id="id7">[<a class="reference internal" href="../bibliography.html#id45" title="Wolfgang Betz, Iason Papaioannou, and Daniel Straub. Numerical methods for the discretization of random fields by means of the karhunen–loève expansion. Computer Methods in Applied Mechanics and Engineering, 271:109-129, 2014. URL: https://www.sciencedirect.com/science/article/pii/S0045782513003502, doi:https://doi.org/10.1016/j.cma.2013.12.010.">60</a>]</span>). Non-Gaussian
+stochastic processes can be generated through higher-order spectral representations (<span id="id8">[<a class="reference internal" href="../bibliography.html#id46" title="Michael D. Shields and Hwanpyo Kim. Simulation of higher-order stochastic processes by spectral representation. Probabilistic Engineering Mechanics, 47:1-15, 2017.">61</a>]</span>, <span id="id9">[<a class="reference internal" href="../bibliography.html#id47" title="Lohit Vandanapu and Michael D. Shields. 3rd-order spectral representation method: simulation of multi-dimensional random fields and ergodic multi-variate random processes with fast fourier transform implementation. Probabilistic Engineering Mechanics, 64:103128, 2021. URL: https://www.sciencedirect.com/science/article/pii/S0266892021000126, doi:https://doi.org/10.1016/j.probengmech.2021.103128.">62</a>]</span>,
+<span id="id10">[<a class="reference internal" href="../bibliography.html#id48" title="Lohit Vandanapu and Michael D. Shields. 3rd-order spectral representation method: part ii – ergodic multi-variate random processes with fast fourier transform. 2019. arXiv:1911.10251.">63</a>]</span>) or through a
+nonlinear transformation from a Gaussian stochastic process to a prescribed marginal distribution using translation
+process theory <span id="id11">[<a class="reference internal" href="../bibliography.html#id49" title="Mircea Grigoriu. Applied non-gaussian processes : examples, theory, simulation, linear random vibration, and matlab solutions. In Applied non-Gaussian processes : examples, theory, simulation, linear random vibration, and MATLAB solutions. 1995.">64</a>]</span>. Modeling of arbitrarily distributed random processes with specified correlation and/or power
+spectrum can be performed using the Iterative Translation Approximation Method (ITAM) (<span id="id12">[<a class="reference internal" href="../bibliography.html#id50" title="M.D. Shields and G. Deodatis. A simple and efficient methodology to approximate a general non-gaussian stationary stochastic vector process by a translation process with applications in wind velocity simulation. Probabilistic Engineering Mechanics, 31:19-29, 2013. URL: https://www.sciencedirect.com/science/article/pii/S0266892012000549, doi:https://doi.org/10.1016/j.probengmech.2012.10.003.">65</a>]</span>, <span id="id13">[<a class="reference internal" href="../bibliography.html#id51" title="Hwanpyo Kim and Michael Shields. Modeling strongly non-gaussian non-stationary stochastic processes using the iterative translation approximation method and karhunen-loeve expansion. Computers &amp; Structures, 161:31-42, 08 2015. doi:10.1016/j.compstruc.2015.08.010.">66</a>]</span>) for inverse
+translation process modeling.</p>
+<p>This module contains functionality for all the stochastic process methods supported in UQpy.</p>
+<p>The module currently contains the following classes:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="spectral_representation.html#UQpy.stochastic_process.SpectralRepresentation" title="UQpy.stochastic_process.SpectralRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectralRepresentation</span></code></a>: Class for simulation of Gaussian stochastic processes and random fields using the Spectral Representation Method.</p></li>
+<li><p><a class="reference internal" href="bispectral_representation.html#UQpy.stochastic_process.BispectralRepresentation" title="UQpy.stochastic_process.BispectralRepresentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BispectralRepresentation</span></code></a>: Class for simulation of third-order non-Gaussian stochastic processes and random fields using the Bispectral Representation Method.</p></li>
+<li><p><a class="reference internal" href="karhunen_loeve_1d.html#UQpy.stochastic_process.KarhunenLoeveExpansion" title="UQpy.stochastic_process.KarhunenLoeveExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarhunenLoeveExpansion</span></code></a>: Class for simulation of stochastic processes using the Karhunen-Loeve Expansion.</p></li>
+<li><p><a class="reference internal" href="translation.html#UQpy.stochastic_process.Translation" title="UQpy.stochastic_process.Translation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Translation</span></code></a>: Class for transforming a Gaussian stochastic process to a non-Gaussian stochastic process with prescribed marginal probability distribution.</p></li>
+<li><p><a class="reference internal" href="translation.html#UQpy.stochastic_process.InverseTranslation" title="UQpy.stochastic_process.InverseTranslation"><code class="xref py py-class docutils literal notranslate"><span class="pre">InverseTranslation</span></code></a>: Call for identifying an underlying Gaussian stochastic process for a non-Gaussian process with prescribed marginal probability distribution and autocorrelation function / power spectrum.</p></li>
+</ul>
+<p>As with other modules of <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>, adding simulation methods requires the user to build a new class to support
+the desired functionality. It does not require modification of any existing classes or methods.</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/sensitivity/comparison/additive.html" class="btn btn-neutral float-left" title="Additive function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spectral_representation.html" class="btn btn-neutral float-right" title="Spectral Representation Method" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeodesicDistance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.GrassmannPoint</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannPoint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Numpy2DFloatArray</span><span class="p">,</span> <span class="n">Numpy2DFloatArrayOrthonormal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.baseclass</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannianDistance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannianKernel</span><span class="p">,</span> <span class="n">ProjectionKernel</span>
+
+
+<div class="viewcode-block" id="GrassmannOperations">
+<a class="viewcode-back" href="../../../../dimension_reduction/grassmann/grassmann_operations.html#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GrassmannOperations</span><span class="p">:</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grassmann_points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Numpy2DFloatArrayOrthonormal</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">GrassmannPoint</span><span class="p">]],</span>
+                 <span class="n">kernel</span><span class="p">:</span> <span class="n">GrassmannianKernel</span> <span class="o">=</span> <span class="n">ProjectionKernel</span><span class="p">(),</span>
+                 <span class="n">p</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+                 <span class="n">optimization_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;GradientDescent&quot;</span><span class="p">,</span>
+                 <span class="n">distance</span><span class="p">:</span> <span class="n">GrassmannianDistance</span> <span class="o">=</span> <span class="n">GeodesicDistance</span><span class="p">()):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`.GrassmannOperations` class can used in two ways. In the first case, the user can invoke the</span>
+<span class="sd">        initializer by providing all the required input data. The class will then automatically calculate the</span>
+<span class="sd">        kernel matrix, distance matrix, karcher mean, and frechet variance of the input Grassmann points. Alternatively,</span>
+<span class="sd">        the user may invoke each of the static methods individually and calculate only the required quantities, without</span>
+<span class="sd">        having to instantiate a new object.</span>
+
+<span class="sd">        :param grassmann_points: Data points projected on the Grassmann manifold</span>
+<span class="sd">        :param kernel: Kernel to be used to evaluate the kernel matrix of the given Grassmann points</span>
+<span class="sd">        :param p: Rank of the Grassmann projected points.</span>
+<span class="sd">        :param optimization_method: String that defines the optimization method for computation of the Karcher mean.</span>
+
+<span class="sd">            Options: `&quot;GradientDescent&quot;`, `&quot;StochasticGradientDescent&quot;`</span>
+<span class="sd">        :param distance: Distance measure to be used for the optimization in computation of the Karcher mean and Frechet</span>
+<span class="sd">            variance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grassmann_points</span> <span class="o">=</span> <span class="n">grassmann_points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_matrix</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grassmann_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">calculate_distance_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grassmann_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">karcher_mean</span> <span class="o">=</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">karcher_mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grassmann_points</span><span class="p">,</span> <span class="n">optimization_method</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frechet_variance</span> <span class="o">=</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">frechet_variance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grassmann_points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">karcher_mean</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_kernel_matrix</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Numpy2DFloatArrayOrthonormal</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">GrassmannPoint</span><span class="p">]],</span>
+                                <span class="n">kernel</span><span class="p">:</span> <span class="n">GrassmannianKernel</span> <span class="o">=</span> <span class="n">ProjectionKernel</span><span class="p">()):</span>
+        <span class="k">return</span> <span class="n">kernel</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GrassmannOperations.log_map">
+<a class="viewcode-back" href="../../../../dimension_reduction/grassmann/grassmann_operations.html#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.log_map">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_map</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Numpy2DFloatArrayOrthonormal</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">GrassmannPoint</span><span class="p">]],</span>
+                <span class="n">reference_point</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Numpy2DFloatArrayOrthonormal</span><span class="p">,</span> <span class="n">GrassmannPoint</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Numpy2DFloatArray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Maps the endpoint of the unique geodesic from :math:`\mathbf{X}` to tangent vector(s)</span>
+
+<span class="sd">        :param grassmann_points: Point(s) on the Grassmann manifold.</span>
+<span class="sd">        :param reference_point: Origin of the tangent space.</span>
+<span class="sd">        :return: Point(s) on the tangent space.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reference_point</span> <span class="o">=</span> <span class="n">reference_point</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reference_point</span><span class="p">,</span> <span class="n">GrassmannPoint</span><span class="p">)</span> <span class="k">else</span> <span class="n">reference_point</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.baseclass.GrassmannianDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrassmannianDistance</span>
+        <span class="n">number_of_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_points</span><span class="p">):</span>
+            <span class="n">GrassmannianDistance</span><span class="o">.</span><span class="n">check_rows</span><span class="p">(</span><span class="n">reference_point</span><span class="p">,</span> <span class="n">grassmann_points</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">reference_point</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">grassmann_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;UQpy: Point </span><span class="si">{0}</span><span class="s2"> is on G(</span><span class="si">{1}</span><span class="s2">,</span><span class="si">{2}</span><span class="s2">) - Reference is on&quot;</span>
+                                 <span class="s2">&quot; G(</span><span class="si">{1}</span><span class="s2">,</span><span class="si">{2}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">grassmann_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                      <span class="n">grassmann_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="c1"># Multiply ref by its transpose.</span>
+        <span class="n">reference_point_transpose</span> <span class="o">=</span> <span class="n">reference_point</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">m_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">reference_point</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">reference_point_transpose</span><span class="p">)</span>
+
+        <span class="n">tangent_points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_points</span><span class="p">):</span>
+            <span class="n">u_trunc</span> <span class="o">=</span> <span class="n">grassmann_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="c1"># compute: M = ((I - psi0*psi0&#39;)*psi1)*inv(psi0&#39;*psi1)</span>
+            <span class="n">m_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">reference_point_transpose</span><span class="p">,</span> <span class="n">u_trunc</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u_trunc</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">m_</span><span class="p">,</span> <span class="n">u_trunc</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">m_inv</span><span class="p">)</span>
+            <span class="n">ui</span><span class="p">,</span> <span class="n">si</span><span class="p">,</span> <span class="n">vi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">tangent_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ui</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">si</span><span class="p">))),</span> <span class="n">vi</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">tangent_points</span></div>
+
+
+<div class="viewcode-block" id="GrassmannOperations.exp_map">
+<a class="viewcode-back" href="../../../../dimension_reduction/grassmann/grassmann_operations.html#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.exp_map">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exp_map</span><span class="p">(</span><span class="n">tangent_points</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Numpy2DFloatArray</span><span class="p">],</span>
+                <span class="n">reference_point</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">GrassmannPoint</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">GrassmannPoint</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Maps tangent vector(s) to the endpoint of a unique geodesic.</span>
+
+<span class="sd">        :param tangent_points: Tangent vector(s).</span>
+<span class="sd">        :param reference_point: Origin of the tangent space.</span>
+<span class="sd">        :return: Point(s) on the Grassmann manifold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_of_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tangent_points</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_points</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">reference_point</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">tangent_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;UQpy: Point </span><span class="si">{0}</span><span class="s2"> is on G(</span><span class="si">{1}</span><span class="s2">,</span><span class="si">{2}</span><span class="s2">) - Reference is on&quot;</span>
+                                 <span class="s2">&quot; G(</span><span class="si">{1}</span><span class="s2">,</span><span class="si">{2}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">tangent_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tangent_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="c1"># Map the each point back to the manifold.</span>
+        <span class="n">manifold_points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_points</span><span class="p">):</span>
+            <span class="n">u_trunc</span> <span class="o">=</span> <span class="n">tangent_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">ui</span><span class="p">,</span> <span class="n">si</span><span class="p">,</span> <span class="n">vi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">u_trunc</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">reference_point</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">vi</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">si</span><span class="p">)))</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ui</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">si</span><span class="p">))),</span>
+                <span class="n">vi</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">x0</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">u_trunc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+                <span class="n">x0</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+            <span class="n">manifold_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">GrassmannPoint</span><span class="p">(</span><span class="n">x0</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">manifold_points</span></div>
+
+
+<div class="viewcode-block" id="GrassmannOperations.frechet_variance">
+<a class="viewcode-back" href="../../../../dimension_reduction/grassmann/grassmann_operations.html#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.frechet_variance">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">frechet_variance</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Numpy2DFloatArrayOrthonormal</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">GrassmannPoint</span><span class="p">]],</span>
+                         <span class="n">reference_point</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Numpy2DFloatArrayOrthonormal</span><span class="p">,</span> <span class="n">GrassmannPoint</span><span class="p">],</span>
+                         <span class="n">distance</span><span class="p">:</span> <span class="n">GrassmannianDistance</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Variance measure of the Grassman distance in relation to the Karcher mean.</span>
+
+<span class="sd">        :param grassmann_points: Point(s) on the Grassmann manifold</span>
+<span class="sd">        :param reference_point: Reference point for the Frechet variance (:math:`\mu`). Typically assigned as the</span>
+<span class="sd">            Karcher mean.</span>
+<span class="sd">        :param distance: Distance measure to be used in the variance calculation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p_dim</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">))]</span>
+
+        <span class="n">points_number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">)</span>
+
+        <span class="n">variance_nominator</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">points_number</span><span class="p">):</span>
+            <span class="n">distance</span><span class="o">.</span><span class="n">calculate_distance_matrix</span><span class="p">([</span><span class="n">reference_point</span><span class="p">,</span> <span class="n">grassmann_points</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">p_dim</span><span class="p">)</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">distance_matrix</span>
+            <span class="n">variance_nominator</span> <span class="o">+=</span> <span class="n">distances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">variance_nominator</span> <span class="o">/</span> <span class="n">points_number</span></div>
+
+
+<div class="viewcode-block" id="GrassmannOperations.karcher_mean">
+<a class="viewcode-back" href="../../../../dimension_reduction/grassmann/grassmann_operations.html#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations.karcher_mean">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">karcher_mean</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Numpy2DFloatArrayOrthonormal</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">GrassmannPoint</span><span class="p">]],</span>
+                     <span class="n">optimization_method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="n">GrassmannianDistance</span><span class="p">,</span>
+                     <span class="n">acceleration</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span>
+                     <span class="n">maximum_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GrassmannPoint</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param maximum_iterations: Maximum number of iterations performed by the optimization algorithm.</span>
+<span class="sd">        :param tolerance: Tolerance used as the convergence criterion of the optimization.</span>
+<span class="sd">        :param acceleration: Boolean flag used in combination with :code:`GradientDescent` optimization method which</span>
+<span class="sd">         activates the Nesterov acceleration scheme</span>
+<span class="sd">        :param grassmann_points: Point(s) on the Grassmann manifold.</span>
+<span class="sd">        :param optimization_method: String that defines the optimization method.</span>
+
+<span class="sd">            Options: `&quot;GradientDescent&quot;`, `&quot;StochasticGradientDescent&quot;`</span>
+<span class="sd">        :param distance: Distance measure to be used for the optimization.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute and test the number of input matrices necessary to compute the Karcher mean.</span>
+        <span class="n">nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nargs</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;UQpy: At least two matrices must be provided.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">optimization_method</span> <span class="o">==</span> <span class="s2">&quot;GradientDescent&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">_gradient_descent</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">maximum_iterations</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">_stochastic_gradient_descent</span><span class="p">(</span><span class="n">grassmann_points</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">maximum_iterations</span><span class="p">)</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gradient_descent</span><span class="p">(</span><span class="n">data_points</span><span class="p">,</span> <span class="n">distance_fun</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">maximum_iterations</span><span class="p">):</span>
+        <span class="c1"># acc is a boolean variable to activate the Nesterov acceleration scheme.</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">acceleration</span>
+        <span class="c1"># Error tolerance</span>
+        <span class="n">tol</span> <span class="o">=</span> <span class="n">tolerance</span>
+        <span class="c1"># Maximum number of iterations.</span>
+        <span class="n">maxiter</span> <span class="o">=</span> <span class="n">maximum_iterations</span>
+        <span class="c1"># Number of points.</span>
+        <span class="n">n_mat</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_points</span><span class="p">)</span>
+
+        <span class="c1"># =========================================</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="n">rnk</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mat</span><span class="p">)]</span>
+        <span class="n">max_rank</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rnk</span><span class="p">)</span>
+        <span class="n">fmean</span> <span class="o">=</span> <span class="p">[</span><span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">frechet_variance</span><span class="p">(</span><span class="n">data_points</span><span class="p">,</span> <span class="n">data_points</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">distance_fun</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mat</span><span class="p">)]</span>
+
+        <span class="n">index_0</span> <span class="o">=</span> <span class="n">fmean</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">fmean</span><span class="p">))</span>
+        <span class="n">mean_element</span> <span class="o">=</span> <span class="n">data_points</span><span class="p">[</span><span class="n">index_0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="n">avg_gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data_points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data_points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)[</span><span class="mi">1</span><span class="p">]])</span>
+
+        <span class="n">itera</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">avg</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">_gamma</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">acc</span><span class="p">:</span>
+            <span class="n">_gamma</span> <span class="o">=</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">log_map</span><span class="p">(</span><span class="n">grassmann_points</span><span class="o">=</span><span class="n">data_points</span><span class="p">,</span>
+                                                 <span class="n">reference_point</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mean_element</span><span class="p">))</span>
+
+            <span class="n">avg_gamma</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mat</span><span class="p">):</span>
+                <span class="n">avg_gamma</span> <span class="o">+=</span> <span class="n">_gamma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">n_mat</span>
+            <span class="n">avg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg_gamma</span><span class="p">)</span>
+
+        <span class="c1"># Main loop</span>
+        <span class="k">while</span> <span class="n">itera</span> <span class="o">&lt;=</span> <span class="n">maxiter</span><span class="p">:</span>
+            <span class="n">_gamma</span> <span class="o">=</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">log_map</span><span class="p">(</span><span class="n">grassmann_points</span><span class="o">=</span><span class="n">data_points</span><span class="p">,</span>
+                                                 <span class="n">reference_point</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mean_element</span><span class="p">))</span>
+            <span class="n">avg_gamma</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mat</span><span class="p">):</span>
+                <span class="n">avg_gamma</span> <span class="o">+=</span> <span class="n">_gamma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">n_mat</span>
+
+            <span class="n">test_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">avg_gamma</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">test_0</span> <span class="o">&lt;</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">itera</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Nesterov: Accelerated Gradient Descent</span>
+            <span class="k">if</span> <span class="n">acc</span><span class="p">:</span>
+                <span class="n">avg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg_gamma</span><span class="p">)</span>
+                <span class="n">l0</span> <span class="o">=</span> <span class="n">l</span>
+                <span class="n">l1</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="n">l</span><span class="p">))</span>
+                <span class="n">ls</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">l0</span><span class="p">)</span> <span class="o">/</span> <span class="n">l1</span>
+                <span class="n">step</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ls</span><span class="p">)</span> <span class="o">*</span> <span class="n">avg</span><span class="p">[</span><span class="n">itera</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ls</span> <span class="o">*</span> <span class="n">avg</span><span class="p">[</span><span class="n">itera</span><span class="p">]</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">step</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">avg_gamma</span>
+
+            <span class="n">x</span> <span class="o">=</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">exp_map</span><span class="p">(</span><span class="n">tangent_points</span><span class="o">=</span><span class="p">[</span><span class="n">step</span><span class="p">],</span>
+                                            <span class="n">reference_point</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mean_element</span><span class="p">))</span>
+
+            <span class="n">test_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">mean_element</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">test_1</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">mean_element</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">mean_element</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+            <span class="n">itera</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># return the Karcher mean.</span>
+        <span class="k">return</span> <span class="n">GrassmannPoint</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mean_element</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_stochastic_gradient_descent</span><span class="p">(</span><span class="n">data_points</span><span class="p">,</span> <span class="n">distance_fun</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">maximum_iterations</span><span class="p">):</span>
+
+        <span class="n">tol</span> <span class="o">=</span> <span class="n">tolerance</span>
+        <span class="n">maxiter</span> <span class="o">=</span> <span class="n">maximum_iterations</span>
+        <span class="n">n_mat</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_points</span><span class="p">)</span>
+
+        <span class="n">rnk</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mat</span><span class="p">)]</span>
+        <span class="n">max_rank</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rnk</span><span class="p">)</span>
+
+        <span class="n">fmean</span> <span class="o">=</span> <span class="p">[</span><span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">frechet_variance</span><span class="p">(</span><span class="n">data_points</span><span class="p">,</span> <span class="n">data_points</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">distance_fun</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mat</span><span class="p">)]</span>
+
+        <span class="n">index_0</span> <span class="o">=</span> <span class="n">fmean</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">fmean</span><span class="p">))</span>
+
+        <span class="n">mean_element</span> <span class="o">=</span> <span class="n">data_points</span><span class="p">[</span><span class="n">index_0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">itera</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">_gamma</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">itera</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">:</span>
+
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_mat</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+
+            <span class="n">melem</span> <span class="o">=</span> <span class="n">mean_element</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)):</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="n">k</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">_gamma</span> <span class="o">=</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">log_map</span><span class="p">(</span><span class="n">grassmann_points</span><span class="o">=</span><span class="p">[</span><span class="n">data_points</span><span class="p">[</span><span class="n">idx</span><span class="p">]],</span>
+                                                     <span class="n">reference_point</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mean_element</span><span class="p">))</span>
+
+                <span class="n">step</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="n">X</span> <span class="o">=</span> <span class="n">GrassmannOperations</span><span class="o">.</span><span class="n">exp_map</span><span class="p">(</span><span class="n">tangent_points</span><span class="o">=</span><span class="p">[</span><span class="n">step</span><span class="p">],</span>
+                                                <span class="n">reference_point</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mean_element</span><span class="p">))</span>
+
+                <span class="n">_gamma</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">mean_element</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+                <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">test_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">mean_element</span> <span class="o">-</span> <span class="n">melem</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">test_1</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">itera</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">GrassmannPoint</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mean_element</span><span class="p">))</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

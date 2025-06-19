@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inverse FORM - Cantilever Beam &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="SORM" href="../../../reliability/sorm.html" />
+    <link rel="prev" title="Auxiliary file" href="local_pfn.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reliability/index.html">Reliability</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../reliability/subset.html"> Subset Simulation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../reliability/taylor_series.html"> Taylor Series</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../reliability/form.html"> FORM</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../reliability/inverse_form.html"> InverseFORM</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../reliability/inverse_form.html#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reliability/inverse_form.html#attributes">Attributes</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../reliability/inverse_form.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reliability/sorm.html"> SORM</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../reliability/index.html">Reliability</a></li>
+          <li class="breadcrumb-item"><a href="../../../reliability/taylor_series.html">Taylor Series</a></li>
+          <li class="breadcrumb-item"><a href="../../../reliability/inverse_form.html">Inverse FORM</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Inverse FORM Examples</a></li>
+      <li class="breadcrumb-item active">Inverse FORM - Cantilever Beam</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/auto_examples/reliability/inverse_form/inverse_form_cantilever.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-reliability-inverse-form-inverse-form-cantilever-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="inverse-form-cantilever-beam">
+<span id="sphx-glr-auto-examples-reliability-inverse-form-inverse-form-cantilever-py"></span><h1>Inverse FORM - Cantilever Beam<a class="headerlink" href="#inverse-form-cantilever-beam" title="Link to this heading"></a></h1>
+<p>The following example is Example 7.2 from Chapter 7 of <span id="id1">[<a class="reference internal" href="../../../bibliography.html#id71" title="Xiaoping Du. Probabilistic engineering design, chapter 7, first order and second reliability methods. https://pdesign.sitehost.iu.edu/me360/ch7.pdf, 2005.">15</a>]</span>.</p>
+<p>A cantilever beam is considered to fail if the displacement at the tip exceeds the threshold <span class="math notranslate nohighlight">\(D_0\)</span>.
+The performance function <span class="math notranslate nohighlight">\(G(\textbf{U})\)</span> of this problem is given by</p>
+<div class="math notranslate nohighlight">
+\[G = D_0 - \frac{4L^3}{Ewt} \sqrt{ \left(\frac{P_x}{w^2}\right)^2 + \left(\frac{P_y}{t^2}\right)^2}\]</div>
+<p>Where the external forces are modeled as random variables <span class="math notranslate nohighlight">\(P_x \sim N(500, 100)\)</span> and <span class="math notranslate nohighlight">\(P_y \sim N(1000,100)\)</span>.
+The constants in the problem are length (<span class="math notranslate nohighlight">\(L=100\)</span>), elastic modulus (<span class="math notranslate nohighlight">\(E=30\times 10^6\)</span>), cross section width
+(<span class="math notranslate nohighlight">\(w=2\)</span>), cross section height (<span class="math notranslate nohighlight">\(t=4\)</span>), and <span class="math notranslate nohighlight">\(D_0=3\)</span>.</p>
+<p>First, we import the necessary modules.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.reliability.taylor_series</span><span class="w"> </span><span class="kn">import</span> <span class="n">InverseFORM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.RunModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.run_model.model_execution.PythonModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonModel</span>
+</pre></div>
+</div>
+<p>Next, we initialize the <code class="code docutils literal notranslate"><span class="pre">RunModel</span></code> object.
+The file defining the performance function file can be found on the UQpy GitHub.
+It contains a function <code class="code docutils literal notranslate"><span class="pre">cantilever_beam</span></code> to compute the performance function <span class="math notranslate nohighlight">\(G(\textbf{U})\)</span>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PythonModel</span><span class="p">(</span><span class="n">model_script</span><span class="o">=</span><span class="s1">&#39;local_pfn.py&#39;</span><span class="p">,</span> <span class="n">model_object_name</span><span class="o">=</span><span class="s2">&quot;cantilever_beam&quot;</span><span class="p">)</span>
+<span class="n">runmodel_object</span> <span class="o">=</span> <span class="n">RunModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we define the external forces in the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> direction as distributions that will be passed into
+<code class="code docutils literal notranslate"><span class="pre">FORM</span></code>. Along with the distributions, <code class="code docutils literal notranslate"><span class="pre">FORM</span></code> takes in the previously defined <code class="code docutils literal notranslate"><span class="pre">runmodel_object</span></code>,
+the specified probability of failure, and the tolerances. These tolerances are smaller than the defaults to ensure
+convergence with the level of accuracy given in the problem.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">p_fail</span> <span class="o">=</span> <span class="mf">0.04054</span>
+<span class="n">distributions</span> <span class="o">=</span> <span class="p">[</span><span class="n">Normal</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">Normal</span><span class="p">(</span><span class="mi">1_000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+<span class="n">inverse_form</span> <span class="o">=</span> <span class="n">InverseFORM</span><span class="p">(</span><span class="n">distributions</span><span class="o">=</span><span class="n">distributions</span><span class="p">,</span>
+                           <span class="n">runmodel_object</span><span class="o">=</span><span class="n">runmodel_object</span><span class="p">,</span>
+                           <span class="n">p_fail</span><span class="o">=</span><span class="n">p_fail</span><span class="p">,</span>
+                           <span class="n">tolerance_u</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+                           <span class="n">tolerance_gradient</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With everything defined we are ready to run the inverse first-order reliability method and print the results.
+The solution to this problem given by Du is <span class="math notranslate nohighlight">\(\textbf{U}^*=(1.7367, 0.16376)\)</span> with a reliability index of
+<span class="math notranslate nohighlight">\(\beta_{HL}=||\textbf{U}^*||=1.7444\)</span> and probability of failure of
+<span class="math notranslate nohighlight">\(p_{fail} = \Phi(-\beta_{HL})=0.04054\)</span>. We expect this problem to converge in 4 iterations.
+We confirm our design point matches this length, and therefore has a probability of failure specified by our input.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">inverse_form</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">beta</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">(</span><span class="n">inverse_form</span><span class="o">.</span><span class="n">design_point_u</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Design point in standard normal space (u^*):&#39;</span><span class="p">,</span> <span class="n">inverse_form</span><span class="o">.</span><span class="n">design_point_u</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Design point in original space:&#39;</span><span class="p">,</span> <span class="n">inverse_form</span><span class="o">.</span><span class="n">design_point_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hasofer-Lind reliability index:&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Probability of failure at design point:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of iterations:&#39;</span><span class="p">,</span> <span class="n">inverse_form</span><span class="o">.</span><span class="n">iteration_record</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-reliability-inverse-form-inverse-form-cantilever-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/SURGroup/UQpy/master?urlpath=lab/tree/notebooks/auto_examples/reliability/inverse_form/inverse_form_cantilever.ipynb"><img alt="Launch binder" src="../../../_images/binder_badge_logo13.svg" style="width: 150px;" />
+</a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/b7a7588e74ac89480ddde6ecba5fc558/inverse_form_cantilever.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">inverse_form_cantilever.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/3896e8712ac05c4d85f4164f179c433c/inverse_form_cantilever.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">inverse_form_cantilever.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../../_downloads/5ada467d6cd2eff5a79990a7250cbab3/inverse_form_cantilever.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">inverse_form_cantilever.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="local_pfn.html" class="btn btn-neutral float-left" title="Auxiliary file" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../reliability/sorm.html" class="btn btn-neutral float-right" title="SORM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

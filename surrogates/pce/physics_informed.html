@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Physics-informed Polynomial Chaos Expansion &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Transformations" href="../../transformations/index.html" />
+    <link rel="prev" title="Physics-Informed PCE: Deterministic Wave Equation" href="../../auto_examples/surrogates/pce/pce_wave.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpr.html"> Gaussian Process Regression</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../polynomial_chaos.html"> Polynomial Chaos Expansion</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="polynomial_bases.html"> Polynomial Bases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polynomials.html"> Polynomials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regressions.html"> Regressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pce.html"> Polynomial Chaos Expansion</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Physics-informed Polynomial Chaos Expansion</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pdedata-class">PdeData class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdepce-class">PdePce class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#constrainedpce-class">ConstrainedPCE class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reducedpce-class">ReducedPCE Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Surrogates</a></li>
+          <li class="breadcrumb-item"><a href="../polynomial_chaos.html">Polynomial Chaos Expansion - PCE</a></li>
+      <li class="breadcrumb-item active">Physics-informed Polynomial Chaos Expansion</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/surrogates/pce/physics_informed.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="physics-informed-polynomial-chaos-expansion">
+<h1>Physics-informed Polynomial Chaos Expansion<a class="headerlink" href="#physics-informed-polynomial-chaos-expansion" title="Link to this heading"></a></h1>
+<p>Polynomial chaos expansion can be used in physics-informed machine learning as an efficient surrogate model allowing for
+analytical uncertainty quantification. The PCE constrained to adhere to the known physics of the model (referenced as
+(PC <span class="math notranslate nohighlight">\(^2\)</span>), combines the conventional experimental design with additional constraints from the physics of the model.
+The constraints are represented by set of differential equations and specified boundary conditions.
+PC <span class="math notranslate nohighlight">\(^2\)</span> framework implemented in UQPy consists of three classes.</p>
+<section id="pdedata-class">
+<h2>PdeData class<a class="headerlink" href="#pdedata-class" title="Link to this heading"></a></h2>
+<p>The first class <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData" title="UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PdeData</span></code></a> contains general physical information (geometry, boundary conditions) describing the
+governing differential equation. It is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.physics_informed.PdeData</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdeData</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PdeData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">upper_bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivative_orders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_normals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/PdeData.html#PdeData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData" title="Link to this definition"></a></dt>
+<dd><p>Class containing information about PDE solved by Physics-informed PCE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>upper_bounds</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – list of upper bounds of deterministic variables (geometry and time)</p></li>
+<li><p><strong>lower_bounds</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – list of lower bounds of deterministic variables (geometry and time)</p></li>
+<li><p><strong>derivative_orders</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – list of derivative orders of boundary conditions</p></li>
+<li><p><strong>boundary_normals</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – normals of boundary conditions</p></li>
+<li><p><strong>boundary_coordinates</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – coordinates of boundary samples</p></li>
+<li><p><strong>boundary_values</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – prescribed values of boundary conditions in bc_x</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData.extract_dirichlet">
+<span class="sig-name descname"><span class="pre">extract_dirichlet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/PdeData.html#PdeData.extract_dirichlet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData.extract_dirichlet" title="Link to this definition"></a></dt>
+<dd><p>Extract Dirichlet boundary conditions in form [coordinates, prescribed values]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>extracted Dirichlet bc samples in form [coordinates, prescribed values]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData.get_boundary_samples">
+<span class="sig-name descname"><span class="pre">get_boundary_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/PdeData.html#PdeData.get_boundary_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData.get_boundary_samples" title="Link to this definition"></a></dt>
+<dd><p>Extract boundary conditions of defined order</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>order</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – derivative order of extracted boundary conditions</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>extracted bc samples in form [coordinates, prescribed values]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="pdepce-class">
+<h2>PdePce class<a class="headerlink" href="#pdepce-class" title="Link to this heading"></a></h2>
+<p>The second class in the PC <span class="math notranslate nohighlight">\(^2\)</span> framework is <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE.PdePCE" title="UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE.PdePCE"><code class="xref py py-class docutils literal notranslate"><span class="pre">PdePCE</span></code></a> containing PDE physical data and definitions of PDE
+in PCE context. The class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdePCE</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE.PdePCE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PdePCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pde_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pde_basis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pde_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_conditions_evaluate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_conditions_sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">virtual_points_sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonlinear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/PdePCE.html#PdePCE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE.PdePCE" title="Link to this definition"></a></dt>
+<dd><p>Class containing information about PDE needed for physics-informed PCE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pde_data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData" title="UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PdeData</span></code></a></span>) – an object of the <code class="code docutils literal notranslate"><span class="pre">UQpy</span></code> <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData" title="UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PdeData</span></code></a> class</p></li>
+<li><p><strong>pde_basis</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – pde defined in basis functions</p></li>
+<li><p><strong>pde_source</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – source term of pde</p></li>
+<li><p><strong>boundary_conditions_evaluate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – evaluation of boundary conditions for estimation of an error</p></li>
+<li><p><strong>boundary_conditions_sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – function for sampling of boundary conditions</p></li>
+<li><p><strong>virtual_points_sampling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – function for sampling of virtual samples</p></li>
+<li><p><strong>nonlinear</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – if True, prescribed pde is non-linear</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="constrainedpce-class">
+<h2>ConstrainedPCE class<a class="headerlink" href="#constrainedpce-class" title="Link to this heading"></a></h2>
+<p>Finally, a numerical solvers based on Karush-Kuhn-Tucker normal equations are defined in  the <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE" title="UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConstrainedPCE</span></code></a>
+imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConstrainedPCE</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ConstrainedPCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pde_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pde_pce</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pce</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/ConstrainedPCE.html#ConstrainedPCE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE" title="Link to this definition"></a></dt>
+<dd><p>Class for construction of physics-informed PCE using Karush-Kuhn-Tucker normal equations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pde_data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData" title="UQpy.surrogates.polynomial_chaos.physics_informed.PdeData.PdeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PdeData</span></code></a></span>) – an object of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">UQpy()</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">PdeData</span></code> class</p></li>
+<li><p><strong>pde_pce</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE.PdePCE" title="UQpy.surrogates.polynomial_chaos.physics_informed.PdePCE.PdePCE"><code class="xref py py-class docutils literal notranslate"><span class="pre">PdePCE</span></code></a></span>) – an object of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">UQpy()</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">PdePce</span></code> class</p></li>
+<li><p><strong>pce</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion" title="UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.PolynomialChaosExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code></a></span>) – initial pce, an object of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">UQpy()</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code> class</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE.estimate_error">
+<span class="sig-name descname"><span class="pre">estimate_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pce</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardized_sample</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/ConstrainedPCE.html#ConstrainedPCE.estimate_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE.estimate_error" title="Link to this definition"></a></dt>
+<dd><p>Estimate an error of the physics-informed PCE consisting of three parts: prediction errors in training data,
+errors in boundary conditions and violations of given PDE. Total error is sum of individual mean squared errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pce</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion" title="UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.PolynomialChaosExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code></a></span>) – initial pce, an object of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">UQpy()</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code> class</p></li>
+<li><p><strong>standardized_sample</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – virtual samples in standardized space for evaluation of errors in PDE</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>estimated total mean squared error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE.lar">
+<span class="sig-name descname"><span class="pre">lar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_error_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">virtual_niters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_basis_functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nvirtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/ConstrainedPCE.html#ConstrainedPCE.lar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE.lar" title="Link to this definition"></a></dt>
+<dd><p>Fit the sparse physics-informed PCE by Least Angle Regression from Karush-Kuhn-Tucker normal equations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_error_points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – number of virtual samples used for estimation of an error</p></li>
+<li><p><strong>virtual_niters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – if True, minimum number of basis functions is equal to number of BCs</p></li>
+<li><p><strong>max_iterations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – maximum number of iterations for construction of LAR Path</p></li>
+<li><p><strong>no_iterations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – use all obtained basis functions in the first step, i.e. no iterations</p></li>
+<li><p><strong>min_basis_functions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – minimum number of basis functions for starting the iterative process</p></li>
+<li><p><strong>nvirtual</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – set number of virtual points, -1 corresponds to the optimal number</p></li>
+<li><p><strong>target_error</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – target error of iterative process</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE.ols">
+<span class="sig-name descname"><span class="pre">ols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nvirtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_coefficients</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_coefficients</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_error_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/ConstrainedPCE.html#ConstrainedPCE.ols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ConstrainedPCE.ConstrainedPCE.ols" title="Link to this definition"></a></dt>
+<dd><p>Fit the sparse physics-informed PCE by ordinary least squares from Karush-Kuhn-Tucker normal equations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pce</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion" title="UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.PolynomialChaosExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code></a></span>) – an object of the <code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code> class</p></li>
+<li><p><strong>nvirtual</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – set number of virtual points, -1 corresponds to the optimal number</p></li>
+<li><p><strong>calculate_coefficients</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – if True, estimate deterministic coefficients. Othewise, construct only KKT normal equations
+for sparse solvers</p></li>
+<li><p><strong>return_coefficients</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – if True, return coefficients of pce</p></li>
+<li><p><strong>n_error_points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – number of virtual samples used for estimation of an error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="reducedpce-class">
+<h2>ReducedPCE Class<a class="headerlink" href="#reducedpce-class" title="Link to this heading"></a></h2>
+<p>Once the PC <span class="math notranslate nohighlight">\(^2\)</span> is created, it can be easily exploited for UQ as standard PCE. However, since differential
+equations are typically defined in physical space and thus the PCE contains also deterministic space-time variables.
+Their influence can be filtered out by the <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE" title="UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReducedPCE</span></code></a> class.</p>
+<p>The <a class="reference internal" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE" title="UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReducedPCE</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReducedPCE</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ReducedPCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pce</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_deterministic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deterministic_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/ReducedPCE.html#ReducedPCE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE" title="Link to this definition"></a></dt>
+<dd><p>Class to create a reduced PCE filtering out deterministic input variables (e.g. geometry)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pce</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion" title="UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.PolynomialChaosExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code></a></span>) – an object of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">UQpy()</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code> class</p></li>
+<li><p><strong>n_deterministic</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – number of deterministic input variables</p></li>
+<li><p><strong>deterministic_positions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – list of positions of deterministic random variables in input vector.
+If None, positions are assumed to be the first n_det variables.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE.evaluate_coordinate">
+<span class="sig-name descname"><span class="pre">evaluate_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_coefficients</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/ReducedPCE.html#ReducedPCE.evaluate_coordinate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE.evaluate_coordinate" title="Link to this definition"></a></dt>
+<dd><p>Evaluate reduced PCE coefficients for given deterministic coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – deterministic coordinates for evaluation of reduced PCE</p></li>
+<li><p><strong>return_coefficients</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – if True, return a vector of deterministic coefficients, else return Mean and Variance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mean and variance, or a vector of deterministic coefficients if return_coeff</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE.derive_coordinate">
+<span class="sig-name descname"><span class="pre">derive_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivative_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leading_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivative_multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_coefficients</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/ReducedPCE.html#ReducedPCE.derive_coordinate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE.derive_coordinate" title="Link to this definition"></a></dt>
+<dd><p>Evaluate derivative of reduced PCE coefficients for given deterministic coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – deterministic coordinates for evaluation of reduced PCE</p></li>
+<li><p><strong>derivative_order</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – derivation order of reduced PCE</p></li>
+<li><p><strong>leading_variable</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – leading variable for derivation</p></li>
+<li><p><strong>derivative_multiplier</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – multiplier reflecting different sizes of the original physical and transformed spaces</p></li>
+<li><p><strong>return_coefficients</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – if True, return a vector of deterministic coefficients, else return Mean and Variance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mean and variance, or a vector of deterministic coefficients if return_coeff</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE.variance_contributions">
+<span class="sig-name descname"><span class="pre">variance_contributions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unique_beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/surrogates/polynomial_chaos/physics_informed/ReducedPCE.html#ReducedPCE.variance_contributions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.polynomial_chaos.physics_informed.ReducedPCE.ReducedPCE.variance_contributions" title="Link to this definition"></a></dt>
+<dd><p>Get first order conditional variances from coefficients of reduced PCE evaluated in the specified deterministic
+physical coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unique_beta</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – vector of reduced PCE coefficients</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>first order conditional variances associated to each input random variable</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/surrogates/pce/index.html">Polynomial Chaos Expansion Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../auto_examples/surrogates/pce/pce_wave.html" class="btn btn-neutral float-left" title="Physics-Informed PCE: Deterministic Wave Equation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../transformations/index.html" class="btn btn-neutral float-right" title="Transformations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

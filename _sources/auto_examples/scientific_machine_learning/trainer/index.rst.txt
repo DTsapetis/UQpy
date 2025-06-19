@@ -1,0 +1,43 @@
+
+
+.. _sphx_glr_auto_examples_scientific_machine_learning_trainer:
+
+Trainer Examples
+^^^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to train a simple neural network using UQpy&#x27;s Trainer class.">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/trainer/images/thumb/sphx_glr_trainer_trig_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_trainer_trainer_trig.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Training a Neural Network</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/scientific_machine_learning/trainer/trainer_trig
+

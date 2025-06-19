@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InfoModelSelection &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model selection using information criteria" href="../auto_examples/inference/info_model_selection/index.html" />
+    <link rel="prev" title="Parameter estimation using MCMC - Regression Model" href="../auto_examples/inference/bayes_parameter_estimation/bayes_parameter_MCMC_regression.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Inference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="inference_models.html"> Inference Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mle.html"> Maximum Likelihood Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_parameter_estimation.html"> Bayes Parameter Estimation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Information Theoretic Model Selection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#UQpy.inference.information_criteria.BIC"><code class="docutils literal notranslate"><span class="pre">BIC</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#UQpy.inference.information_criteria.AIC"><code class="docutils literal notranslate"><span class="pre">AIC</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#UQpy.inference.information_criteria.AICc"><code class="docutils literal notranslate"><span class="pre">AICc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion"><code class="docutils literal notranslate"><span class="pre">InformationCriterion</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion.minimize_criterion"><code class="docutils literal notranslate"><span class="pre">InformationCriterion.minimize_criterion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#infomodelselection-class">InfoModelSelection Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_model_selection.html"> Bayes Model Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Inference</a></li>
+      <li class="breadcrumb-item active">InfoModelSelection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/inference/info_model_selection.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="infomodelselection">
+<h1>InfoModelSelection<a class="headerlink" href="#infomodelselection" title="Link to this heading"></a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">InformationModelSelection</span></code> class employs information-theoretic criteria for model selection. Several simple information
+theoretic criteria can be used to compute a model’s quality and perform model selection <span id="id1">[<a class="reference internal" href="../bibliography.html#id18" title="Kenneth P. Burnham and David R. Anderson, editors. Model Selection and Multimodel Inference. Springer New York, 2004. URL: https://doi.org/10.1007/b97636, doi:10.1007/b97636.">11</a>]</span>. <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> implements three criteria:</p>
+<ul class="simple">
+<li><p>Bayesian information criterion,  <span class="math notranslate nohighlight">\(BIC = \ln(n) k - 2 \ln(\hat{L})\)</span></p></li>
+</ul>
+<p>The <a class="reference internal" href="#UQpy.inference.information_criteria.BIC" title="UQpy.inference.information_criteria.BIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">BIC</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.information_criteria.BIC</span><span class="w"> </span><span class="kn">import</span> <span class="n">BIC</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.information_criteria.BIC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BIC</span></span><a class="reference internal" href="../_modules/UQpy/inference/information_criteria/BIC.html#BIC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.information_criteria.BIC" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><p>Akaike information criterion, <span class="math notranslate nohighlight">\(AIC = 2 k - 2 \ln (\hat{L})\)</span></p></li>
+</ul>
+<p>The <a class="reference internal" href="#UQpy.inference.information_criteria.AIC" title="UQpy.inference.information_criteria.AIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIC</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.information_criteria.AIC</span><span class="w"> </span><span class="kn">import</span> <span class="n">AIC</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.information_criteria.AIC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AIC</span></span><a class="reference internal" href="../_modules/UQpy/inference/information_criteria/AIC.html#AIC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.information_criteria.AIC" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><p>Corrected formula for <span class="math notranslate nohighlight">\(AIC (AICc)\)</span>, for small data sets , <span class="math notranslate nohighlight">\(AICc = AIC + \frac{2k(k+1)}{n-k-1}\)</span></p></li>
+</ul>
+<p>The <a class="reference internal" href="#UQpy.inference.information_criteria.AICc" title="UQpy.inference.information_criteria.AICc"><code class="xref py py-class docutils literal notranslate"><span class="pre">AICc</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.information_criteria.AICc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AICc</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.information_criteria.AICc">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AICc</span></span><a class="reference internal" href="../_modules/UQpy/inference/information_criteria/AICc.html#AICc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.information_criteria.AICc" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p>where <span class="math notranslate nohighlight">\(k\)</span> is the number of parameters characterizing the model, <span class="math notranslate nohighlight">\(\hat{L}\)</span> is the maximum value of the likelihood function, and <span class="math notranslate nohighlight">\(n\)</span> is the number of data points. The best model is the one that minimizes the criterion, which is a combination of a model fit term (find the model that minimizes the negative log likelihood) and a penalty term that increases as the number of model parameters (model complexity) increases.</p>
+<p>A probability can be defined for each model as <span class="math notranslate nohighlight">\(P(m_{i}) \propto \exp\left(  -\frac{\text{criterion}}{2} \right)\)</span>.</p>
+<p>Note that none of the above information theoretic criteria requires any input parameters from initialization and thus their instances can be created as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">criterion</span> <span class="o">=</span> <span class="n">AIC</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>All of these criteria are child classes of the <a class="reference internal" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion" title="UQpy.inference.information_criteria.baseclass.InformationCriterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationCriterion</span></code></a> abstract baseclass. The user can create
+new type of criteria by extending the <a class="reference internal" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion" title="UQpy.inference.information_criteria.baseclass.InformationCriterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationCriterion</span></code></a> and providing an alternative implementation to the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate_criterion()</span></code> method.</p>
+<p>The <a class="reference internal" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion" title="UQpy.inference.information_criteria.baseclass.InformationCriterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationCriterion</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.information_criteria.baseclass.InformationCriterion</span><span class="w"> </span><span class="kn">import</span> <span class="n">InformationCriterion</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.information_criteria.baseclass.InformationCriterion">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InformationCriterion</span></span><a class="reference internal" href="../_modules/UQpy/inference/information_criteria/baseclass/InformationCriterion.html#InformationCriterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.information_criteria.baseclass.InformationCriterion.minimize_criterion">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minimize_criterion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_estimator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_penalty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/information_criteria/baseclass/InformationCriterion.html#InformationCriterion.minimize_criterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion.minimize_criterion" title="Link to this definition"></a></dt>
+<dd><p>Function that must be implemented by the user in order to create new concrete implementation of the
+<a class="reference internal" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion" title="UQpy.inference.information_criteria.baseclass.InformationCriterion.InformationCriterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationCriterion</span></code></a> baseclass.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="infomodelselection-class">
+<h2>InfoModelSelection Class<a class="headerlink" href="#infomodelselection-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.inference.InformationModelSelection" title="UQpy.inference.InformationModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationModelSelection</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.InformationModelSelection</span><span class="w"> </span><span class="kn">import</span> <span class="n">InformationModelSelection</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.InformationModelSelection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InformationModelSelection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_estimators</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criterion=&lt;UQpy.inference.information_criteria.AIC.AIC</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_optimizations=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_parameters=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/InformationModelSelection.html#InformationModelSelection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.InformationModelSelection" title="Link to this definition"></a></dt>
+<dd><p>Perform model selection using information theoretic criteria.</p>
+<p>Supported criteria are <a class="reference internal" href="#UQpy.inference.information_criteria.BIC" title="UQpy.inference.information_criteria.BIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">BIC</span></code></a>, <a class="reference internal" href="#UQpy.inference.information_criteria.AIC" title="UQpy.inference.information_criteria.AIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIC</span></code></a> (default), <a class="reference internal" href="#UQpy.inference.information_criteria.AICc" title="UQpy.inference.information_criteria.AICc"><code class="xref py py-class docutils literal notranslate"><span class="pre">AICc</span></code></a>. This class leverages the
+<a class="reference internal" href="mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> class for maximum likelihood estimation, thus inputs to <a class="reference internal" href="mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> can also be provided to
+<a class="reference internal" href="#UQpy.inference.InformationModelSelection" title="UQpy.inference.InformationModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationModelSelection</span></code></a>, as lists of length equal to the number of models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter_estimators</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a>]</span>) – A list containing a maximum-likelihood estimator (<a class="reference internal" href="mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a>) for each one of the
+models to be compared.</p></li>
+<li><p><strong>criterion</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#UQpy.inference.information_criteria.baseclass.InformationCriterion" title="UQpy.inference.information_criteria.baseclass.InformationCriterion.InformationCriterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationCriterion</span></code></a></span>) – Criterion to be used (<a class="reference internal" href="#UQpy.inference.information_criteria.AIC" title="UQpy.inference.information_criteria.AIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIC</span></code></a>, <a class="reference internal" href="#UQpy.inference.information_criteria.BIC" title="UQpy.inference.information_criteria.BIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">BIC</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">AICc)</span></code>. Default is <a class="reference internal" href="#UQpy.inference.information_criteria.AIC" title="UQpy.inference.information_criteria.AIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIC</span></code></a></p></li>
+<li><p><strong>initial_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Initial guess(es) for optimization, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="code docutils literal notranslate"><span class="pre">(nstarts,</span> <span class="pre">n_parameters)</span></code> or <code class="code docutils literal notranslate"><span class="pre">(n_parameters,</span> <span class="pre">)</span></code>, where <code class="code docutils literal notranslate"><span class="pre">nstarts</span></code> is the number of times the
+optimizer will be called. Alternatively, the user can provide input <cite>n_optimizations</cite> to randomly sample
+initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the
+optimizer.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.InformationModelSelection.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_optimizations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/InformationModelSelection.html#InformationModelSelection.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.InformationModelSelection.run" title="Link to this definition"></a></dt>
+<dd><p>Run the model selection procedure, i.e. compute criterion value for all models.</p>
+<p>This function calls the <a class="reference internal" href="#UQpy.inference.InformationModelSelection.run" title="UQpy.inference.InformationModelSelection.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method of the <a class="reference internal" href="mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> object for each model to compute the maximum
+log-likelihood, then computes the criterion value and probability for each model. If <cite>data</cite> are given when
+creating the <a class="reference internal" href="mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> object, this method is called automatically when the object is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_optimizations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Number of iterations that the optimization is run, starting at random initial
+guesses. It is only used if <cite>initial_parameters</cite> is not provided. Default is <span class="math notranslate nohighlight">\(1\)</span>.
+The random initial guesses are sampled uniformly between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>, or uniformly between
+user-defined bounds if an input bounds is provided as a keyword argument to the <cite>optimizer</cite> input parameter.</p></li>
+<li><p><strong>initial_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Initial guess(es) for optimization, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="code docutils literal notranslate"><span class="pre">(nstarts,</span> <span class="pre">n_parameters)</span></code> or <code class="code docutils literal notranslate"><span class="pre">(n_parameters,</span> <span class="pre">)</span></code>, where <code class="code docutils literal notranslate"><span class="pre">nstarts</span></code> is the number of times the
+optimizer will be called. Alternatively, the user can provide input <cite>n_optimizations</cite> to randomly sample
+initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the
+optimizer.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.InformationModelSelection.sort_models">
+<span class="sig-name descname"><span class="pre">sort_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/InformationModelSelection.html#InformationModelSelection.sort_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.InformationModelSelection.sort_models" title="Link to this definition"></a></dt>
+<dd><p>Sort models in descending order of model probability (increasing order of <cite>criterion</cite> value).</p>
+<p>This function sorts - in place - the attribute lists <a class="reference internal" href="bayes_model_selection.html#UQpy.inference.BayesModelSelection.candidate_models" title="UQpy.inference.BayesModelSelection.candidate_models"><code class="xref py py-attr docutils literal notranslate"><span class="pre">candidate_models</span></code></a>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">ml_estimators</span></code>,
+<a class="reference internal" href="#UQpy.inference.InformationModelSelection.criterion_values" title="UQpy.inference.InformationModelSelection.criterion_values"><code class="xref py py-attr docutils literal notranslate"><span class="pre">criterion_values</span></code></a>, <a class="reference internal" href="#UQpy.inference.InformationModelSelection.penalty_terms" title="UQpy.inference.InformationModelSelection.penalty_terms"><code class="xref py py-attr docutils literal notranslate"><span class="pre">penalty_terms</span></code></a> and <a class="reference internal" href="#UQpy.inference.InformationModelSelection.probabilities" title="UQpy.inference.InformationModelSelection.probabilities"><code class="xref py py-attr docutils literal notranslate"><span class="pre">probabilities</span></code></a> so that they are sorted from
+most probable to least probable model. It is a stand-alone function that is provided to help the user to easily
+visualize which model is the best.</p>
+<p>No inputs/outputs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.InformationModelSelection.parameter_estimators">
+<span class="sig-prename descclassname"><span class="pre">InformationModelSelection.</span></span><span class="sig-name descname"><span class="pre">parameter_estimators</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.inference.InformationModelSelection.parameter_estimators" title="Link to this definition"></a></dt>
+<dd><p><a class="reference internal" href="mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> results for each model (contains e.g. fitted parameters)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.InformationModelSelection.criterion_values">
+<span class="sig-prename descclassname"><span class="pre">InformationModelSelection.</span></span><span class="sig-name descname"><span class="pre">criterion_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.inference.InformationModelSelection.criterion_values" title="Link to this definition"></a></dt>
+<dd><p>Value of the criterion for all models.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.InformationModelSelection.penalty_terms">
+<span class="sig-prename descclassname"><span class="pre">InformationModelSelection.</span></span><span class="sig-name descname"><span class="pre">penalty_terms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.inference.InformationModelSelection.penalty_terms" title="Link to this definition"></a></dt>
+<dd><p>Value of the penalty term for all models. Data fit term is then criterion_value - penalty_term.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.InformationModelSelection.probabilities">
+<span class="sig-prename descclassname"><span class="pre">InformationModelSelection.</span></span><span class="sig-name descname"><span class="pre">probabilities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.inference.InformationModelSelection.probabilities" title="Link to this definition"></a></dt>
+<dd><p>Value of the model probabilities, computed as</p>
+<div class="math notranslate nohighlight">
+\[P(M_i|d) = \dfrac{\exp(-\Delta_i/2)}{\sum_i \exp(-\Delta_i/2)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Delta_i = criterion_i - min_i(criterion)\)</span></p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/inference/info_model_selection/index.html">Informational Model Selection Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/inference/bayes_parameter_estimation/bayes_parameter_MCMC_regression.html" class="btn btn-neutral float-left" title="Parameter estimation using MCMC - Regression Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/inference/info_model_selection/index.html" class="btn btn-neutral float-right" title="Model selection using information criteria" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

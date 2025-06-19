@@ -1,0 +1,571 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Euclidean Distances &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Grassmann Distances" href="grassmann_distances.html" />
+    <link rel="prev" title="Distances" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Utilities</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"> Distances</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#distance-class">Distance Class</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#types-of-distances">Types of Distances</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#"> Euclidean Distances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grassmann_distances.html"> Grassmannian Distances</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kernels/index.html"> Kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grassmann_point.html"> GrassmannPoint</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Utilities</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Distances</a></li>
+      <li class="breadcrumb-item active">Euclidean Distances</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/utilities/distances/euclidean_distances.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="euclidean-distances">
+<h1>Euclidean Distances<a class="headerlink" href="#euclidean-distances" title="Link to this heading"></a></h1>
+<p>Euclidean distances are measures of proximity between points in standard Euclidean spaces.</p>
+<section id="euclideandistance-class">
+<h2>EuclideanDistance Class<a class="headerlink" href="#euclideandistance-class" title="Link to this heading"></a></h2>
+<p>The abstract <a class="reference internal" href="#UQpy.utilities.distances.baseclass.EuclideanDistance" title="UQpy.utilities.distances.baseclass.EuclideanDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">UQpy.utilities.distances.baseclass.EuclideanDistance</span></code></a> class is the base class for all Euclidean
+distances in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>. It provides a blueprint for classes in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">euclidean_distances</span></code> module and allows
+the user to define a set of methods that must be created within any child classes built from this abstract class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.baseclass.EuclideanDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EuclideanDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/baseclass/EuclideanDistance.html#EuclideanDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.baseclass.EuclideanDistance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.baseclass.EuclideanDistance.calculate_distance_matrix">
+<span class="sig-name descname"><span class="pre">calculate_distance_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/baseclass/EuclideanDistance.html#EuclideanDistance.calculate_distance_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.baseclass.EuclideanDistance.calculate_distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Given a list of cartesian points, calculates a matrix that contains the distances between them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>points</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – A list of cartesian points.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.baseclass.EuclideanDistance" title="UQpy.utilities.distances.baseclass.EuclideanDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">EuclideanDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.baseclass.EuclideanDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">EuclideanDistance</span>
+</pre></div>
+</div>
+</section>
+<section id="list-of-available-distances">
+<h2>List of Available Distances<a class="headerlink" href="#list-of-available-distances" title="Link to this heading"></a></h2>
+<p>All the distances classes below are subclasses of the <a class="reference internal" href="#UQpy.utilities.distances.baseclass.EuclideanDistance" title="UQpy.utilities.distances.baseclass.EuclideanDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">EuclideanDistance</span></code></a> class.</p>
+</section>
+<section id="bray-curtis-distance">
+<h2>Bray-Curtis Distance<a class="headerlink" href="#bray-curtis-distance" title="Link to this heading"></a></h2>
+<p>The Bray-Curtis distance between two 1D arrays, <cite>x</cite> and <cite>y</cite>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d(x,y) = \dfrac{\sum_i |x_i - y_i|}{\sum_i |x_i + y_i|}\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance" title="UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrayCurtisDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">BrayCurtisDistance</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance" title="UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrayCurtisDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BrayCurtisDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/BrayCurtisDistance.html#BrayCurtisDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/BrayCurtisDistance.html#BrayCurtisDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.BrayCurtisDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Given two points, this method calculates the Bray-Curtis distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – First point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A float representing the distance between the points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.BrayCurtisDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">BrayCurtisDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#UQpy.utilities.distances.BrayCurtisDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="canberra-distance">
+<h2>Canberra Distance<a class="headerlink" href="#canberra-distance" title="Link to this heading"></a></h2>
+<p>The Canberra distance between two 1D arrays, <cite>x</cite> and <cite>y</cite>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d(x,y) = \sum_i \dfrac{|x_i - y_i|}{|x_i| + |y_i|}\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.CanberraDistance" title="UQpy.utilities.distances.euclidean_distances.CanberraDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CanberraDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.euclidean_distances.CanberraDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">CanberraDistance</span>
+</pre></div>
+</div>
+<section id="id1">
+<h3>Methods<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.CanberraDistance" title="UQpy.utilities.distances.euclidean_distances.CanberraDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CanberraDistance</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CanberraDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CanberraDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/CanberraDistance.html#CanberraDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CanberraDistance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CanberraDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/CanberraDistance.html#CanberraDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CanberraDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Given two points, this method calculates the Canberra distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – First point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A float representing the distance between the points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id2">
+<h3>Attributes<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.CanberraDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">CanberraDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#UQpy.utilities.distances.CanberraDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="chebyshev-distance">
+<h2>Chebyshev Distance<a class="headerlink" href="#chebyshev-distance" title="Link to this heading"></a></h2>
+<p>The Chebyshev distance between two 1D arrays, <cite>x</cite> and <cite>y</cite>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d(x,y) = \max_i |x_i-y_i|\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.ChebyshevDistance" title="UQpy.utilities.distances.euclidean_distances.ChebyshevDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChebyshevDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.euclidean_distances.ChebyshevDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChebyshevDistance</span>
+</pre></div>
+</div>
+<section id="id3">
+<h3>Methods<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.ChebyshevDistance" title="UQpy.utilities.distances.euclidean_distances.ChebyshevDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChebyshevDistance</span></code></a> class:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.ChebyshevDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChebyshevDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/ChebyshevDistance.html#ChebyshevDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.ChebyshevDistance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.ChebyshevDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/ChebyshevDistance.html#ChebyshevDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.ChebyshevDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Given two points, this method calculates the Chebyshev distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – First point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A float representing the distance between the points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id4">
+<h3>Attributes<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.ChebyshevDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">ChebyshevDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#UQpy.utilities.distances.ChebyshevDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="cityblock-distance">
+<h2>CityBlock Distance<a class="headerlink" href="#cityblock-distance" title="Link to this heading"></a></h2>
+<p>The City Block (Manhattan) distance between two 1D arrays, <cite>x</cite> and <cite>y</cite>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d(x,y) = \sum_i |x_i - y_i|\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.CityBlockDistance" title="UQpy.utilities.distances.euclidean_distances.CityBlockDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CityBlockDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.euclidean_distances.CityBlockDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">CityBlockDistance</span>
+</pre></div>
+</div>
+<section id="id5">
+<h3>Methods<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>One can use the following command to instantiate the <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.CityBlockDistance" title="UQpy.utilities.distances.euclidean_distances.CityBlockDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CityBlockDistance</span></code></a> class</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CityBlockDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CityBlockDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/CityBlockDistance.html#CityBlockDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CityBlockDistance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CityBlockDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/CityBlockDistance.html#CityBlockDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CityBlockDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Given two points, this method calculates the City Block (Manhattan) distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – First point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A float representing the distance between the points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id6">
+<h3>Attributes<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.CityBlockDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">CityBlockDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#UQpy.utilities.distances.CityBlockDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="correlation-distance">
+<h2>Correlation Distance<a class="headerlink" href="#correlation-distance" title="Link to this heading"></a></h2>
+<p>The Correlation distance between two 1D arrays, <cite>x</cite> and <cite>y</cite>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d(x,y) = 1 - \dfrac{(x-\bar{x})\cdot(y-\bar{y})}{||x-\bar{x}||_2||y-\bar{y}||_2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bar{x}\)</span> denotes the mean of the elements of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(x\cdot y\)</span> denotes the dot product.</p>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.CorrelationDistance" title="UQpy.utilities.distances.euclidean_distances.CorrelationDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CorrelationDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.euclidean_distances.CorrelationDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">CorrelationDistance</span>
+</pre></div>
+</div>
+<section id="id7">
+<h3>Methods<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>One can use the following command to instantiate the class <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.CorrelationDistance" title="UQpy.utilities.distances.euclidean_distances.CorrelationDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CorrelationDistance</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CorrelationDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CorrelationDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/CorrelationDistance.html#CorrelationDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CorrelationDistance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CorrelationDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/CorrelationDistance.html#CorrelationDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CorrelationDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Given two points, this method calculates the Correlation distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – First point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A float representing the distance between the points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id8">
+<h3>Attributes<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CorrelationDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">CorrelationDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CorrelationDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="cosine-distance">
+<h2>Cosine Distance<a class="headerlink" href="#cosine-distance" title="Link to this heading"></a></h2>
+<p>The Cosine distance between two 1D arrays, <cite>x</cite> and <cite>y</cite>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d(x,y) = 1 - \dfrac{x\cdot y}{||x||_2||y||_2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(x\cdot y\)</span> denotes the dot product.</p>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.CosineDistance" title="UQpy.utilities.distances.euclidean_distances.CosineDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CosineDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.euclidean_distances.CosineDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">CosineDistance</span>
+</pre></div>
+</div>
+<section id="id9">
+<h3>Methods<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<p>One can use the following command to instantiate the class <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.CosineDistance" title="UQpy.utilities.distances.euclidean_distances.CosineDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CosineDistance</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CosineDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CosineDistance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/CosineDistance.html#CosineDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CosineDistance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CosineDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/CosineDistance.html#CosineDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CosineDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Given two points, this method calculates the Cosine distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – First point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A float representing the distance between the points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id10">
+<h3>Attributes<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.CosineDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">CosineDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.CosineDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="l2-distance">
+<h2>L2 Distance<a class="headerlink" href="#l2-distance" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.L2Distance" title="UQpy.utilities.distances.euclidean_distances.L2Distance"><code class="xref py py-class docutils literal notranslate"><span class="pre">UQpy.utilities.distances.euclidean_distances.L2Distance</span></code></a> class is imported using the following command:
+The L2 distance between two 1D arrays, <cite>x</cite> and <cite>y</cite>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d(x,y) = ||x - y||_2\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.L2Distance" title="UQpy.utilities.distances.euclidean_distances.L2Distance"><code class="xref py py-class docutils literal notranslate"><span class="pre">UQpy.utilities.distances.euclidean_distances.L2Distance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.euclidean_distances.L2Distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">L2Distance</span>
+</pre></div>
+</div>
+<section id="id11">
+<h3>Methods<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p>One can use the following command to instantiate the class <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.L2Distance" title="UQpy.utilities.distances.euclidean_distances.L2Distance"><code class="xref py py-class docutils literal notranslate"><span class="pre">UQpy.utilities.distances.euclidean_distances.L2Distance</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.L2Distance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">L2Distance</span></span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/L2Distance.html#L2Distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.L2Distance" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.L2Distance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/L2Distance.html#L2Distance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.L2Distance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Given two points, this method calculates the L2 distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – First point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A float representing the distance between the points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id12">
+<h3>Attributes<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.L2Distance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">L2Distance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.L2Distance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="minkowski-distance">
+<h2>Minkowski Distance<a class="headerlink" href="#minkowski-distance" title="Link to this heading"></a></h2>
+<p>The Minkowski distance between two 1D arrays, <cite>x</cite> and <cite>y</cite>, is given by:</p>
+<div class="math notranslate nohighlight">
+\[d(x,y) = ||x - y||_p = \left(\sum_i |x_i-y_i|^p \right)^{1/p}.\]</div>
+<p>The <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.MinkowskiDistance" title="UQpy.utilities.distances.euclidean_distances.MinkowskiDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">MinkowskiDistance</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.distances.euclidean_distances.MinkowskiDistance</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinkowskiDistance</span>
+</pre></div>
+</div>
+<section id="id13">
+<h3>Methods<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<p>One can use the following command to instantiate the class <a class="reference internal" href="#UQpy.utilities.distances.euclidean_distances.MinkowskiDistance" title="UQpy.utilities.distances.euclidean_distances.MinkowskiDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">MinkowskiDistance</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.MinkowskiDistance">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MinkowskiDistance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/MinkowskiDistance.html#MinkowskiDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.MinkowskiDistance" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>p</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Order of the norm.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.MinkowskiDistance.compute_distance">
+<span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/UQpy/utilities/distances/euclidean_distances/MinkowskiDistance.html#MinkowskiDistance.compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.MinkowskiDistance.compute_distance" title="Link to this definition"></a></dt>
+<dd><p>Given two points, this method calculates the Minkowski distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – First point.</p></li>
+<li><p><strong>xj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Second point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A float representing the distance between the points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id14">
+<h3>Attributes<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.utilities.distances.euclidean_distances.MinkowskiDistance.distance_matrix">
+<span class="sig-prename descclassname"><span class="pre">MinkowskiDistance.</span></span><span class="sig-name descname"><span class="pre">distance_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#UQpy.utilities.distances.euclidean_distances.MinkowskiDistance.distance_matrix" title="Link to this definition"></a></dt>
+<dd><p>Distance matrix defining the pairwise distances between the points</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Distances" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="grassmann_distances.html" class="btn btn-neutral float-right" title="Grassmann Distances" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

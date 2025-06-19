@@ -1,0 +1,237 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SnapshotPOD &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Proper Orthogonal Decomposition Examples" href="../auto_examples/dimension_reduction/pod/index.html" />
+    <link rel="prev" title="DirectPOD" href="direct_pod.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Dimension Reduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="grassmann/index.html"> Grassmann manifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmaps.html"> Diffusion maps</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pod.html"> POD</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pod.html#pod-class">POD Class</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pod.html#implementations">Implementations</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="direct_pod.html"> Direct POD</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"> Snapshot POD</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pod.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hosvd.html"> HOSVD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Dimension Reduction</a></li>
+          <li class="breadcrumb-item"><a href="pod.html">Proper Orthogonal Decomposition</a></li>
+      <li class="breadcrumb-item active">SnapshotPOD</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/dimension_reduction/snapshot_pod.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="snapshotpod">
+<h1>SnapshotPOD<a class="headerlink" href="#snapshotpod" title="Link to this heading"></a></h1>
+<p>The Snapshot Proper Orthogonal Decomposition (POD) method is the second variant of the POD method which considers the
+decomposition of a dataset into deterministic temporal modes and random spatial coefficients. Essentially, this method
+interchanges the time and position. In most problems the number of solution snapshots <span class="math notranslate nohighlight">\(m\)</span> is less than the number
+of dimensions <span class="math notranslate nohighlight">\(n = N_x \times N_y\)</span> where <span class="math notranslate nohighlight">\(N_x, N_y\)</span> are the grid dimensions. Thus, by using the
+<a class="reference internal" href="#UQpy.dimension_reduction.pod.SnapshotPOD" title="UQpy.dimension_reduction.pod.SnapshotPOD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SnapshotPOD</span></code></a> class, one can reconstruct solutions much faster (<span id="id1">Sirovich [<a class="reference internal" href="../bibliography.html#id4" title="Lawrence Sirovich. Turbulence and the dynamics of coherent structures. i. coherent structures. Quarterly of applied Mathematics, 45(3):561–571, 1987. URL: https://doi.org/10.1090/qam/910462, doi:10.1090/qam/910462.">6</a>]</span>).</p>
+<p>For the Snapshot POD, again a two-dimensional dataset <span class="math notranslate nohighlight">\(\mathbf{U}\in \mathbb{R}^{n\times m}\)</span> is constructed where
+<span class="math notranslate nohighlight">\(m\)</span> is the number of snapshots and <span class="math notranslate nohighlight">\(n\)</span> is the number of problem dimensions. The covariance matrix
+<span class="math notranslate nohighlight">\(\mathbf{C_s}\)</span>, is calculated as follows</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{C_s} = \frac{1}{m-1} \mathbf{U} \mathbf{U}^T\]</div>
+<p>The eigenvalue problem is solved and the temporal modes (eigenvectors) are calculated as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{C} A_s = \lambda A_s\]</div>
+<p>Spatial coefficients are therefore calculated as <span class="math notranslate nohighlight">\(\Phi_s = \mathbf{U}^T A_s\)</span>. Finally, a predefined number of
+<span class="math notranslate nohighlight">\(k\)</span>-POD temporal modes and spatial coefficients can be considered for the reconstruction of data as follows</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\tilde{u}}(\mathtt{x},t) = \sum_{i=1}^{k} A_{si}(t) \Phi_{si}(\mathtt{x})\]</div>
+<section id="snapshotpod-class">
+<h2>SnapshotPOD Class<a class="headerlink" href="#snapshotpod-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.dimension_reduction.pod.SnapshotPOD" title="UQpy.dimension_reduction.pod.SnapshotPOD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SnapshotPOD</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.dimension_reduction.pod.SnapshotPOD</span><span class="w"> </span><span class="kn">import</span> <span class="n">SnapshotPOD</span>
+</pre></div>
+</div>
+<p>One can use the following command to instantiate the class <a class="reference internal" href="#UQpy.dimension_reduction.pod.SnapshotPOD" title="UQpy.dimension_reduction.pod.SnapshotPOD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SnapshotPOD</span></code></a></p>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.pod.SnapshotPOD">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SnapshotPOD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solution_snapshots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconstruction_percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/dimension_reduction/pod/SnapshotPOD.html#SnapshotPOD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.pod.SnapshotPOD" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solution_snapshots</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>]</span>) – <p>Array or list containing the solution snapshots. If provided as an
+<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, it should be three-dimensional, where the third dimension of the array corresponds to
+the number of snapshots. If provided as a list, the length of the list corresponds to the number of snapshots.</p>
+<p>If <cite>solution_snapshots</cite> is provided, the <a class="reference internal" href="#UQpy.dimension_reduction.pod.SnapshotPOD.run" title="UQpy.dimension_reduction.pod.SnapshotPOD.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will be executed automatically. If it is not
+provided, then the <a class="reference internal" href="#UQpy.dimension_reduction.pod.SnapshotPOD.run" title="UQpy.dimension_reduction.pod.SnapshotPOD.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method must be executed manually and provided with <cite>solution_snapshots</cite>.</p>
+</p></li>
+<li><p><strong>n_modes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of POD modes used to approximate the input solution. Must be less than or equal to the
+number of dimensions in a snapshot. Either <cite>n_modes</cite> or <cite>reconstruction_percentage</cite> must be provided, but not
+both.</p></li>
+<li><p><strong>reconstruction_percentage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Specified dataset reconstruction percentage. Must be between 0 and 100. Either
+<cite>n_modes</cite> or <cite>reconstruction_percentage</cite> must be provided, but not both.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.pod.SnapshotPOD.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solution_snapshots</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/dimension_reduction/pod/SnapshotPOD.html#SnapshotPOD.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.dimension_reduction.pod.SnapshotPOD.run" title="Link to this definition"></a></dt>
+<dd><p>Executes proper orthogonal decomposition using the <a class="reference internal" href="#UQpy.dimension_reduction.pod.SnapshotPOD" title="UQpy.dimension_reduction.pod.SnapshotPOD.SnapshotPOD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SnapshotPOD</span></code></a> algorithm.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.pod.SnapshotPOD.reconstructed_solution">
+<span class="sig-prename descclassname"><span class="pre">SnapshotPOD.</span></span><span class="sig-name descname"><span class="pre">reconstructed_solution</span></span><a class="headerlink" href="#UQpy.dimension_reduction.pod.SnapshotPOD.reconstructed_solution" title="Link to this definition"></a></dt>
+<dd><p>An array containing the solution snapshots reduced in the spatial dimension.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.pod.SnapshotPOD.reduced_solution">
+<span class="sig-prename descclassname"><span class="pre">SnapshotPOD.</span></span><span class="sig-name descname"><span class="pre">reduced_solution</span></span><a class="headerlink" href="#UQpy.dimension_reduction.pod.SnapshotPOD.reduced_solution" title="Link to this definition"></a></dt>
+<dd><p>Second order tensor containing the reconstructed solution snapshots in their initial spatial and temporal 
+dimensions.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.pod.SnapshotPOD.U">
+<span class="sig-prename descclassname"><span class="pre">SnapshotPOD.</span></span><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#UQpy.dimension_reduction.pod.SnapshotPOD.U" title="Link to this definition"></a></dt>
+<dd><p>Two dimensional dataset constructed by <a class="reference internal" href="pod.html#UQpy.dimension_reduction.pod.baseclass.POD" title="UQpy.dimension_reduction.pod.baseclass.POD"><code class="xref py py-class docutils literal notranslate"><span class="pre">POD</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.pod.SnapshotPOD.eigenvalues">
+<span class="sig-prename descclassname"><span class="pre">SnapshotPOD.</span></span><span class="sig-name descname"><span class="pre">eigenvalues</span></span><a class="headerlink" href="#UQpy.dimension_reduction.pod.SnapshotPOD.eigenvalues" title="Link to this definition"></a></dt>
+<dd><p>Eigenvalues produced by the POD decomposition of the solution snapshots.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.dimension_reduction.pod.SnapshotPOD.phi">
+<span class="sig-prename descclassname"><span class="pre">SnapshotPOD.</span></span><span class="sig-name descname"><span class="pre">phi</span></span><a class="headerlink" href="#UQpy.dimension_reduction.pod.SnapshotPOD.phi" title="Link to this definition"></a></dt>
+<dd><p>Eigenvectors produced by the POD decomposition of the solution snapshots.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="direct_pod.html" class="btn btn-neutral float-left" title="DirectPOD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/dimension_reduction/pod/index.html" class="btn btn-neutral float-right" title="Proper Orthogonal Decomposition Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

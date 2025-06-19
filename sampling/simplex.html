@@ -1,0 +1,225 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simplex &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simplex Sampling Examples" href="../auto_examples/sampling/simplex/index.html" />
+    <link rel="prev" title="Rectangular Refined Stratified Sampling - Gradient Enhanced Refinement" href="../auto_examples/sampling/refined_stratified_sampling/refined_stratified_rectangular_gradient.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sampling</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="monte_carlo.html"> Monte Carlo Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="latin_hypercube.html"> Latin Hypercube Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stratified_sampling.html"> True Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refined_stratified_sampling.html"> Refined Stratified Sampling</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Simplex Sampling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simplex-class">Simplex Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="akmcs.html"> Adaptive Kriging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theta_criterion.html"> Theta Criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcmc/index.html"> Markov Chain Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importance_sampling.html"> Importance Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sampling</a></li>
+      <li class="breadcrumb-item active">Simplex</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sampling/simplex.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="simplex">
+<h1>Simplex<a class="headerlink" href="#simplex" title="Link to this heading"></a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Simplex</span></code> class generates uniformly distributed samples inside a simplex of dimension <span class="math notranslate nohighlight">\(n_d\)</span>, whose coordinates are expressed by <span class="math notranslate nohighlight">\(\zeta_k\)</span>. First, this class generates <span class="math notranslate nohighlight">\(n_d\)</span> independent uniform random variables on [0, 1], denoted <span class="math notranslate nohighlight">\(r_q\)</span>, then maps them to the simplex as follows:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{M_{n_d}} = \zeta_0 + \sum_{i=1}^{n_d} \Big{[}\prod_{j=1}^{i} r_{n_d-j+1}^{\frac{1}{n_d-j+1}}\Big{]}(\zeta_i - \zeta_{i-1})\]</div>
+<p>where <span class="math notranslate nohighlight">\(M_{n_d}\)</span> is an <span class="math notranslate nohighlight">\(n_d\)</span> dimensional array defining the coordinates of new sample. This mapping is illustrated below for a two-dimensional simplex.</p>
+<a class="reference internal image-reference" href="../_images/SampleMethods_Simplex.png"><img alt="Randomly generated point inside a 2-D simplex" class="align-center" src="../_images/SampleMethods_Simplex.png" style="width: 339.0px; height: 261.0px;" />
+</a>
+<p>Additional details can be found in <span id="id1">[<a class="reference internal" href="../bibliography.html#id26" title="Wouter Edeling, Richard Dwight, and Paola Cinnella. Simplex-stochastic collocation method with improved scalability. Journal of Computational Physics, 310:301-328, 04 2016. doi:10.1016/j.jcp.2015.12.034.">21</a>]</span>.</p>
+<section id="simplex-class">
+<h2>Simplex Class<a class="headerlink" href="#simplex-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sampling.SimplexSampling" title="UQpy.sampling.SimplexSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexSampling</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.SimplexSampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimplexSampling</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.SimplexSampling">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SimplexSampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/SimplexSampling.html#SimplexSampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.SimplexSampling" title="Link to this definition"></a></dt>
+<dd><p>Generate uniform random samples inside an n-dimensional simplex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – The vertices of the simplex.</p></li>
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – The number of samples to be generated inside the simplex.
+If <cite>nsamples</cite> is provided when the object is defined, the <a class="reference internal" href="#UQpy.sampling.SimplexSampling.run" title="UQpy.sampling.SimplexSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will be called
+automatically. If <cite>nsamples</cite> is not provided when the object is defined, the user must invoke the
+<a class="reference internal" href="#UQpy.sampling.SimplexSampling.run" title="UQpy.sampling.SimplexSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method and specify <cite>nsamples</cite>.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.
+If an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">int</span></code></a> is provided, this sets the seed for an object of <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code></a>. Otherwise,
+the object itself can be passed directly.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.SimplexSampling.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/SimplexSampling.html#SimplexSampling.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.SimplexSampling.run" title="Link to this definition"></a></dt>
+<dd><p>Execute the random sampling in the <a class="reference internal" href="#UQpy.sampling.SimplexSampling" title="UQpy.sampling.SimplexSampling.SimplexSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexSampling</span></code></a> class.
+The <a class="reference internal" href="#UQpy.sampling.SimplexSampling.run" title="UQpy.sampling.SimplexSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is the function that performs random sampling in the <a class="reference internal" href="#UQpy.sampling.SimplexSampling" title="UQpy.sampling.SimplexSampling.SimplexSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexSampling</span></code></a> class.
+If <cite>nsamples</cite> is provided called when the <a class="reference internal" href="#UQpy.sampling.SimplexSampling" title="UQpy.sampling.SimplexSampling.SimplexSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexSampling</span></code></a> object is defined, the
+<a class="reference internal" href="#UQpy.sampling.SimplexSampling.run" title="UQpy.sampling.SimplexSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is automatically. The user may also call the <a class="reference internal" href="#UQpy.sampling.SimplexSampling.run" title="UQpy.sampling.SimplexSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method directly to generate samples.
+The <a class="reference internal" href="#UQpy.sampling.SimplexSampling.run" title="UQpy.sampling.SimplexSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method of the <a class="reference internal" href="#UQpy.sampling.SimplexSampling" title="UQpy.sampling.SimplexSampling.SimplexSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexSampling</span></code></a> class can be
+invoked many times and each time the generated samples are appended to the existing samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples to be generated inside the simplex.
+If the <a class="reference internal" href="#UQpy.sampling.SimplexSampling.run" title="UQpy.sampling.SimplexSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is invoked multiple times, the newly generated samples will be appended to the
+existing samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <a class="reference internal" href="#UQpy.sampling.SimplexSampling.run" title="UQpy.sampling.SimplexSampling.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method has no returns, although it creates and/or appends the <a class="reference internal" href="#UQpy.sampling.SimplexSampling.samples" title="UQpy.sampling.SimplexSampling.samples"><code class="xref py py-attr docutils literal notranslate"><span class="pre">samples</span></code></a>
+attribute of the <a class="reference internal" href="#UQpy.sampling.SimplexSampling" title="UQpy.sampling.SimplexSampling.SimplexSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexSampling</span></code></a> class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.SimplexSampling.samples">
+<span class="sig-prename descclassname"><span class="pre">SimplexSampling.</span></span><span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.SimplexSampling.samples" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/sampling/simplex/index.html">Simplex Sampling Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/sampling/refined_stratified_sampling/refined_stratified_rectangular_gradient.html" class="btn btn-neutral float-left" title="Rectangular Refined Stratified Sampling - Gradient Enhanced Refinement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/sampling/simplex/index.html" class="btn btn-neutral float-right" title="Simplex Sampling Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

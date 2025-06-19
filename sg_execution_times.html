@@ -1,0 +1,764 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computation times &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Computation times</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sg_execution_times.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="computation-times">
+<span id="sphx-glr-sg-execution-times"></span><h1>Computation times<a class="headerlink" href="#computation-times" title="Link to this heading"></a></h1>
+<p><strong>00:38.813</strong> total execution time for 154 files <strong>from all galleries</strong>:</p>
+<div class="docutils container">
+<style scoped>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+</style>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script type="text/javascript" class="init">
+$(document).ready( function () {
+    $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+} );
+</script><table class="table table-striped sg-datatable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Example</p></th>
+<th class="head"><p>Time</p></th>
+<th class="head"><p>Mem (MB)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/bayes_parameter_estimation/plot_bayes_parameter_IS_probability.html#sphx-glr-auto-examples-inference-bayes-parameter-estimation-plot-bayes-parameter-is-probability-py"><span class="std std-ref">Parameter estimation using Importance Sampling - Probability Model</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/bayes_parameter_estimation/plot_bayes_parameter_IS_probability.py</span></code>)</p></td>
+<td><p>00:10.069</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/reliability/subset_simulation/plot_subset_rosenbrock.html#sphx-glr-auto-examples-reliability-subset-simulation-plot-subset-rosenbrock-py"><span class="std std-ref">Rosenbrock performance function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/subset_simulation/plot_subset_rosenbrock.py</span></code>)</p></td>
+<td><p>00:07.803</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/srom/plot_srom_eigenvalues.html#sphx-glr-auto-examples-surrogates-srom-plot-srom-eigenvalues-py"><span class="std std-ref">SROM on the eigenvalues of a system</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/srom/plot_srom_eigenvalues.py</span></code>)</p></td>
+<td><p>00:04.173</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/inference/bayes_parameter_estimation/plot_bayes_parameter_MCMC_probability.html#sphx-glr-auto-examples-inference-bayes-parameter-estimation-plot-bayes-parameter-mcmc-probability-py"><span class="std std-ref">Parameter estimation using MCMC - Probability Model</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/bayes_parameter_estimation/plot_bayes_parameter_MCMC_probability.py</span></code>)</p></td>
+<td><p>00:02.504</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/grassmann/plot_grassmann_distances.html#sphx-glr-auto-examples-dimension-reduction-grassmann-plot-grassmann-distances-py"><span class="std std-ref">Compute distances between points</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/grassmann/plot_grassmann_distances.py</span></code>)</p></td>
+<td><p>00:02.491</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/srom/plot_srom_gamma_2.html#sphx-glr-auto-examples-surrogates-srom-plot-srom-gamma-2-py"><span class="std std-ref">SROM on a Gamma distribution 2</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/srom/plot_srom_gamma_2.py</span></code>)</p></td>
+<td><p>00:01.367</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/morris/plot_morris_nonlinearities.html#sphx-glr-auto-examples-sensitivity-morris-plot-morris-nonlinearities-py"><span class="std std-ref">Function with nonlinearities / parameter dependencies</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/morris/plot_morris_nonlinearities.py</span></code>)</p></td>
+<td><p>00:01.284</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/morris/plot_12_dimensional_gfunction.html#sphx-glr-auto-examples-sensitivity-morris-plot-12-dimensional-gfunction-py"><span class="std std-ref">12-dimensional g-function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/morris/plot_12_dimensional_gfunction.py</span></code>)</p></td>
+<td><p>00:01.276</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/gpr/plot_gpr_sine.html#sphx-glr-auto-examples-surrogates-gpr-plot-gpr-sine-py"><span class="std std-ref">Gaussian Process of a sinusoidal function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/gpr/plot_gpr_sine.py</span></code>)</p></td>
+<td><p>00:00.944</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/karhunen_loeve_1d/plot_karhunen_loeve_1d.html#sphx-glr-auto-examples-stochastic-processes-karhunen-loeve-1d-plot-karhunen-loeve-1d-py"><span class="std std-ref">Karhunen Loeve Expansion</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/karhunen_loeve_1d/plot_karhunen_loeve_1d.py</span></code>)</p></td>
+<td><p>00:00.886</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/mle/plot_complex_probability_model.html#sphx-glr-auto-examples-inference-mle-plot-complex-probability-model-py"><span class="std std-ref">Complex probability distribution model</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/mle/plot_complex_probability_model.py</span></code>)</p></td>
+<td><p>00:00.764</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/srom/plot_srom_gamma.html#sphx-glr-auto-examples-surrogates-srom-plot-srom-gamma-py"><span class="std std-ref">SROM on a Gamma distribution</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/srom/plot_srom_gamma.py</span></code>)</p></td>
+<td><p>00:00.706</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/gpr/plot_gpr_no_noise.html#sphx-glr-auto-examples-surrogates-gpr-plot-gpr-no-noise-py"><span class="std std-ref">Gaussian Process without noise</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/gpr/plot_gpr_no_noise.py</span></code>)</p></td>
+<td><p>00:00.493</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/grassmann/plot_grassmann_karcher.html#sphx-glr-auto-examples-dimension-reduction-grassmann-plot-grassmann-karcher-py"><span class="std std-ref">Karcher</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/grassmann/plot_grassmann_karcher.py</span></code>)</p></td>
+<td><p>00:00.438</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/gpr/plot_gpr_noisy.html#sphx-glr-auto-examples-surrogates-gpr-plot-gpr-noisy-py"><span class="std std-ref">Gaussian Process with noisy output</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/gpr/plot_gpr_noisy.py</span></code>)</p></td>
+<td><p>00:00.428</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/grassmann/plot_grassmann_log_exp.html#sphx-glr-auto-examples-dimension-reduction-grassmann-plot-grassmann-log-exp-py"><span class="std std-ref">Mappings to &amp; from tangent space</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/grassmann/plot_grassmann_log_exp.py</span></code>)</p></td>
+<td><p>00:00.421</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/info_model_selection/plot_selection_distributions.html#sphx-glr-auto-examples-inference-info-model-selection-plot-selection-distributions-py"><span class="std std-ref">1. Selection between univariate distributions</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/info_model_selection/plot_selection_distributions.py</span></code>)</p></td>
+<td><p>00:00.377</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/grassmann/plot_grassmann_kernel.html#sphx-glr-auto-examples-dimension-reduction-grassmann-plot-grassmann-kernel-py"><span class="std std-ref">Kernel</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/grassmann/plot_grassmann_kernel.py</span></code>)</p></td>
+<td><p>00:00.328</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/distributions/continuous_1d/plot_distribution_continuous_1D.html#sphx-glr-auto-examples-distributions-continuous-1d-plot-distribution-continuous-1d-py"><span class="std std-ref">Distribution Continuous 1D Example</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/distributions/continuous_1d/plot_distribution_continuous_1D.py</span></code>)</p></td>
+<td><p>00:00.278</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/true_stratified_sampling/plot_true_stratified_rectangular.html#sphx-glr-auto-examples-sampling-true-stratified-sampling-plot-true-stratified-rectangular-py"><span class="std std-ref">Rectangular Stratified Sampling</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/true_stratified_sampling/plot_true_stratified_rectangular.py</span></code>)</p></td>
+<td><p>00:00.271</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/morris/plot_morris_2d_gfunction.html#sphx-glr-auto-examples-sensitivity-morris-plot-morris-2d-gfunction-py"><span class="std std-ref">2-dimensional g-function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/morris/plot_morris_2d_gfunction.py</span></code>)</p></td>
+<td><p>00:00.198</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/latin_hypercube/plot_latin_hypercube_simple.html#sphx-glr-auto-examples-sampling-latin-hypercube-plot-latin-hypercube-simple-py"><span class="std std-ref">Latin Hypercube Sampling</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/latin_hypercube/plot_latin_hypercube_simple.py</span></code>)</p></td>
+<td><p>00:00.161</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/true_stratified_sampling/plot_true_stratified_delaunay.html#sphx-glr-auto-examples-sampling-true-stratified-sampling-plot-true-stratified-delaunay-py"><span class="std std-ref">Delaunay Stratified Sampling</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/true_stratified_sampling/plot_true_stratified_delaunay.py</span></code>)</p></td>
+<td><p>00:00.157</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/distributions/multivariate/plot_multivariate_normal.html#sphx-glr-auto-examples-distributions-multivariate-plot-multivariate-normal-py"><span class="std std-ref">Multivariate normal distribution</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/distributions/multivariate/plot_multivariate_normal.py</span></code>)</p></td>
+<td><p>00:00.151</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/distributions/multivariate/plot_multivariate_copulas.html#sphx-glr-auto-examples-distributions-multivariate-plot-multivariate-copulas-py"><span class="std std-ref">Multivariate from independent marginals and copula</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/distributions/multivariate/plot_multivariate_copulas.py</span></code>)</p></td>
+<td><p>00:00.125</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/distributions/multivariate/plot_joint_independent.html#sphx-glr-auto-examples-distributions-multivariate-plot-joint-independent-py"><span class="std std-ref">Multivariate from independent marginals</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/distributions/multivariate/plot_joint_independent.py</span></code>)</p></td>
+<td><p>00:00.124</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/importance_sampling/plot_importance_sampling_rosenbrock.html#sphx-glr-auto-examples-sampling-importance-sampling-plot-importance-sampling-rosenbrock-py"><span class="std std-ref">Rosenbrock distribution</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/importance_sampling/plot_importance_sampling_rosenbrock.py</span></code>)</p></td>
+<td><p>00:00.123</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/distributions/user_defined/plot_user_defined.html#sphx-glr-auto-examples-distributions-user-defined-plot-user-defined-py"><span class="std std-ref">User-defined Rosenbrock distribution</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/distributions/user_defined/plot_user_defined.py</span></code>)</p></td>
+<td><p>00:00.087</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/mle/plot_learn_distribution_model.html#sphx-glr-auto-examples-inference-mle-plot-learn-distribution-model-py"><span class="std std-ref">Simple probability distribution model</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/mle/plot_learn_distribution_model.py</span></code>)</p></td>
+<td><p>00:00.076</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/distributions/discrete_1d/plot_distribution_discrete_1D.html#sphx-glr-auto-examples-distributions-discrete-1d-plot-distribution-discrete-1d-py"><span class="std std-ref">Distribution Discrete 1D example</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/distributions/discrete_1d/plot_distribution_discrete_1D.py</span></code>)</p></td>
+<td><p>00:00.076</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/importance_sampling/plot_importance_sampling_diagnostics.html#sphx-glr-auto-examples-sampling-importance-sampling-plot-importance-sampling-diagnostics-py"><span class="std std-ref">Diagnostics for Importance Sampling</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/importance_sampling/plot_importance_sampling_diagnostics.py</span></code>)</p></td>
+<td><p>00:00.068</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/karhunen_loeve_2d/plot_karhunen_loeve_2d.html#sphx-glr-auto-examples-stochastic-processes-karhunen-loeve-2d-plot-karhunen-loeve-2d-py"><span class="std std-ref">Karhunen Loeve Expansion 2 Dimesional</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/karhunen_loeve_2d/plot_karhunen_loeve_2d.py</span></code>)</p></td>
+<td><p>00:00.060</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/simplex/plot_simplex.html#sphx-glr-auto-examples-sampling-simplex-plot-simplex-py"><span class="std std-ref">Simplex Sampling</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/simplex/plot_simplex.py</span></code>)</p></td>
+<td><p>00:00.052</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/latin_hypercube/plot_latin_hypercube_user_criterion.html#sphx-glr-auto-examples-sampling-latin-hypercube-plot-latin-hypercube-user-criterion-py"><span class="std std-ref">User Design Criterion</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/latin_hypercube/plot_latin_hypercube_user_criterion.py</span></code>)</p></td>
+<td><p>00:00.051</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/distributions/continuous_1d/plot_distribution_normal_fitting.html#sphx-glr-auto-examples-distributions-continuous-1d-plot-distribution-normal-fitting-py"><span class="std std-ref">Distribution fitting</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/distributions/continuous_1d/plot_distribution_normal_fitting.py</span></code>)</p></td>
+<td><p>00:00.001</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/RunModel/abaqus_example.html#sphx-glr-auto-examples-runmodel-abaqus-example-py"><span class="std std-ref">Third-party - Abaqus</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/RunModel/abaqus_example.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/RunModel/cluster_script_example.html#sphx-glr-auto-examples-runmodel-cluster-script-example-py"><span class="std std-ref">Cluster Script Example for Third-party</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/RunModel/cluster_script_example.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/RunModel/ls_dyna_example_multijob.html#sphx-glr-auto-examples-runmodel-ls-dyna-example-multijob-py"><span class="std std-ref">Third-party - Multi-job - LS Dyna</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/RunModel/ls_dyna_example_multijob.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/RunModel/ls_dyna_example_singlejob.html#sphx-glr-auto-examples-runmodel-ls-dyna-example-singlejob-py"><span class="std std-ref">Third-party - Single job - LS Dyna</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/RunModel/ls_dyna_example_singlejob.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/RunModel/matlab_example.html#sphx-glr-auto-examples-runmodel-matlab-example-py"><span class="std std-ref">Third-party - Matlab</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/RunModel/matlab_example.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/RunModel/opensees_example.html#sphx-glr-auto-examples-runmodel-opensees-example-py"><span class="std std-ref">Third-party - OpenSees</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/RunModel/opensees_example.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/RunModel/python_example.html#sphx-glr-auto-examples-runmodel-python-example-py"><span class="std std-ref">Python</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/RunModel/python_example.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/diffusion_maps/diffusion_maps_circle.html#sphx-glr-auto-examples-dimension-reduction-diffusion-maps-diffusion-maps-circle-py"><span class="std std-ref">Circle</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/diffusion_maps/diffusion_maps_circle.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/diffusion_maps/dmaps_swiss_role.html#sphx-glr-auto-examples-dimension-reduction-diffusion-maps-dmaps-swiss-role-py"><span class="std std-ref">S-Curve</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/diffusion_maps/dmaps_swiss_role.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/diffusion_maps/grassmann_dmaps.html#sphx-glr-auto-examples-dimension-reduction-diffusion-maps-grassmann-dmaps-py"><span class="std std-ref">Grassmannian Diffusion Maps</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/diffusion_maps/grassmann_dmaps.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/pod/DiffusionEquation.html#sphx-glr-auto-examples-dimension-reduction-pod-diffusionequation-py"><span class="std std-ref">Diffusion Equation File</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/pod/DiffusionEquation.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/pod/pod_1.html#sphx-glr-auto-examples-dimension-reduction-pod-pod-1-py"><span class="std std-ref">POD on data</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/pod/pod_1.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/dimension_reduction/pod/pod_diffusion.html#sphx-glr-auto-examples-dimension-reduction-pod-pod-diffusion-py"><span class="std std-ref">POD on Diffusion Equation 2D</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/dimension_reduction/pod/pod_diffusion.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/bayes_model_selection/bayes_model_selection.html#sphx-glr-auto-examples-inference-bayes-model-selection-bayes-model-selection-py"><span class="std std-ref">Bayes Model Selection - Regression Models</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/bayes_model_selection/bayes_model_selection.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/inference/bayes_model_selection/local_pfn_models.html#sphx-glr-auto-examples-inference-bayes-model-selection-local-pfn-models-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/bayes_model_selection/local_pfn_models.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/bayes_parameter_estimation/bayes_parameter_IS_regression.html#sphx-glr-auto-examples-inference-bayes-parameter-estimation-bayes-parameter-is-regression-py"><span class="std std-ref">Parameter estimation using Importance Sampling - Regression Model</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/bayes_parameter_estimation/bayes_parameter_IS_regression.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/inference/bayes_parameter_estimation/bayes_parameter_MCMC_regression.html#sphx-glr-auto-examples-inference-bayes-parameter-estimation-bayes-parameter-mcmc-regression-py"><span class="std std-ref">Parameter estimation using MCMC - Regression Model</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/bayes_parameter_estimation/bayes_parameter_MCMC_regression.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/bayes_parameter_estimation/local_pfn_models.html#sphx-glr-auto-examples-inference-bayes-parameter-estimation-local-pfn-models-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/bayes_parameter_estimation/local_pfn_models.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/inference/info_model_selection/pfn_models.html#sphx-glr-auto-examples-inference-info-model-selection-pfn-models-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/info_model_selection/pfn_models.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/info_model_selection/selection_regression_model.html#sphx-glr-auto-examples-inference-info-model-selection-selection-regression-model-py"><span class="std std-ref">2. Selection between regression models</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/info_model_selection/selection_regression_model.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/inference/mle/local_pfn_models.html#sphx-glr-auto-examples-inference-mle-local-pfn-models-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/mle/local_pfn_models.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/inference/mle/regression_model.html#sphx-glr-auto-examples-inference-mle-regression-model-py"><span class="std std-ref">Regression model</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/inference/mle/regression_model.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/reliability/form/FORM_linear_function_2d.html#sphx-glr-auto-examples-reliability-form-form-linear-function-2d-py"><span class="std std-ref">1. FORM - Linear function - Two Random variables</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/form/FORM_linear_function_2d.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/reliability/form/FORM_linear_function_3d.html#sphx-glr-auto-examples-reliability-form-form-linear-function-3d-py"><span class="std std-ref">2. FORM - Linear function - Three Random variables</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/form/FORM_linear_function_3d.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/reliability/form/FORM_structural_reliability.html#sphx-glr-auto-examples-reliability-form-form-structural-reliability-py"><span class="std std-ref">3. FORM - Structural Reliability</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/form/FORM_structural_reliability.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/reliability/form/local_pfn.html#sphx-glr-auto-examples-reliability-form-local-pfn-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/form/local_pfn.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/reliability/inverse_form/inverse_form_cantilever.html#sphx-glr-auto-examples-reliability-inverse-form-inverse-form-cantilever-py"><span class="std std-ref">Inverse FORM - Cantilever Beam</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/inverse_form/inverse_form_cantilever.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/reliability/inverse_form/local_pfn.html#sphx-glr-auto-examples-reliability-inverse-form-local-pfn-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/inverse_form/local_pfn.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/reliability/sorm/SORM_nonlinear_function.html#sphx-glr-auto-examples-reliability-sorm-sorm-nonlinear-function-py"><span class="std std-ref">4. SORM - Nonlinear function - Two Random variables</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/sorm/SORM_nonlinear_function.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/reliability/sorm/local_model4.html#sphx-glr-auto-examples-reliability-sorm-local-model4-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/sorm/local_model4.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/reliability/sorm/local_pfn.html#sphx-glr-auto-examples-reliability-sorm-local-pfn-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/sorm/local_pfn.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/reliability/subset_simulation/local_Resonance_pfn.html#sphx-glr-auto-examples-reliability-subset-simulation-local-resonance-pfn-py"><span class="std std-ref">Resonance Auxiliary File</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/subset_simulation/local_Resonance_pfn.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/reliability/subset_simulation/local_Rosenbrock.html#sphx-glr-auto-examples-reliability-subset-simulation-local-rosenbrock-py"><span class="std std-ref">Rosenbrock Distribution Auxiliary File</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/subset_simulation/local_Rosenbrock.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/reliability/subset_simulation/local_Rosenbrock_pfn.html#sphx-glr-auto-examples-reliability-subset-simulation-local-rosenbrock-pfn-py"><span class="std std-ref">Rosenbrock Distribution Auxiliary File 2</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/subset_simulation/local_Rosenbrock_pfn.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/reliability/subset_simulation/subset_resonance.html#sphx-glr-auto-examples-reliability-subset-simulation-subset-resonance-py"><span class="std std-ref">Subset Simulation for a SDOF resonance problem</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/reliability/subset_simulation/subset_resonance.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/adaptive_kriging/adaptive_kriging_branin_hoo.html#sphx-glr-auto-examples-sampling-adaptive-kriging-adaptive-kriging-branin-hoo-py"><span class="std std-ref">Expected Improvement - Branin Hoo</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/adaptive_kriging/adaptive_kriging_branin_hoo.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/adaptive_kriging/adaptive_kriging_normal.html#sphx-glr-auto-examples-sampling-adaptive-kriging-adaptive-kriging-normal-py"><span class="std std-ref">U-Function &amp; User-defined learning function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/adaptive_kriging/adaptive_kriging_normal.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/adaptive_kriging/local_BraninHoo.html#sphx-glr-auto-examples-sampling-adaptive-kriging-local-braninhoo-py"><span class="std std-ref">Branin-Hoo File</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/adaptive_kriging/local_BraninHoo.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/adaptive_kriging/local_series.html#sphx-glr-auto-examples-sampling-adaptive-kriging-local-series-py"><span class="std std-ref">Auxiliary File 1</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/adaptive_kriging/local_series.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/mcmc/mcmc_algorithm_comparison.html#sphx-glr-auto-examples-sampling-mcmc-mcmc-algorithm-comparison-py"><span class="std std-ref">Comparison of various MCMC algorithms</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/mcmc/mcmc_algorithm_comparison.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/mcmc/mcmc_diagnostics.html#sphx-glr-auto-examples-sampling-mcmc-mcmc-diagnostics-py"><span class="std std-ref">Diagnostics for MCMC methods</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/mcmc/mcmc_diagnostics.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/mcmc/mcmc_metropolis_hastings.html#sphx-glr-auto-examples-sampling-mcmc-mcmc-metropolis-hastings-py"><span class="std std-ref">Sampling Rosenbrock distribution using Metropolis-Hastings</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/mcmc/mcmc_metropolis_hastings.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/monte_carlo/monte_carlo.html#sphx-glr-auto-examples-sampling-monte-carlo-monte-carlo-py"><span class="std std-ref">Monte Carlo sampling with UQpy</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/monte_carlo/monte_carlo.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/refined_stratified_sampling/local_python_model_function.html#sphx-glr-auto-examples-sampling-refined-stratified-sampling-local-python-model-function-py"><span class="std std-ref">Auxiliary File</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/refined_stratified_sampling/local_python_model_function.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/refined_stratified_sampling/refined_stratified_rectangular_gradient.html#sphx-glr-auto-examples-sampling-refined-stratified-sampling-refined-stratified-rectangular-gradient-py"><span class="std std-ref">Rectangular Refined Stratified Sampling - Gradient Enhanced Refinement</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/refined_stratified_sampling/refined_stratified_rectangular_gradient.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/refined_stratified_sampling/refined_stratified_rectangular_random.html#sphx-glr-auto-examples-sampling-refined-stratified-sampling-refined-stratified-rectangular-random-py"><span class="std std-ref">Rectangular Refined Stratified Sampling - Random Refinement</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/refined_stratified_sampling/refined_stratified_rectangular_random.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/refined_stratified_sampling/refined_stratified_voronoi_gradient.html#sphx-glr-auto-examples-sampling-refined-stratified-sampling-refined-stratified-voronoi-gradient-py"><span class="std std-ref">Voronoi Refined Stratified Sampling - Gradient Enhanced Refinement</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/refined_stratified_sampling/refined_stratified_voronoi_gradient.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/refined_stratified_sampling/refined_stratified_voronoi_random.html#sphx-glr-auto-examples-sampling-refined-stratified-sampling-refined-stratified-voronoi-random-py"><span class="std std-ref">Voronoi Refined Stratified Sampling - Random Refinement</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/refined_stratified_sampling/refined_stratified_voronoi_random.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/tempering/local_reliability_funcs.html#sphx-glr-auto-examples-sampling-tempering-local-reliability-funcs-py"><span class="std std-ref">Correlated gaussian model for tempering examples</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/tempering/local_reliability_funcs.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/tempering/parallel_tempering.html#sphx-glr-auto-examples-sampling-tempering-parallel-tempering-py"><span class="std std-ref">Parallel Tempering for Bayesian Inference and Reliability analyses</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/tempering/parallel_tempering.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/tempering/sequential_tempering.html#sphx-glr-auto-examples-sampling-tempering-sequential-tempering-py"><span class="std std-ref">Sequential Tempering for Bayesian Inference and Reliability analyses</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/tempering/sequential_tempering.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sampling/theta_criterion/pce_theta_criterion.html#sphx-glr-auto-examples-sampling-theta-criterion-pce-theta-criterion-py"><span class="std std-ref">Polynomial Chaos Expansion example: Active Learning for Multiple Surrogate Models</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/theta_criterion/pce_theta_criterion.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sampling/true_stratified_sampling/true_stratified_voronoi.html#sphx-glr-auto-examples-sampling-true-stratified-sampling-true-stratified-voronoi-py"><span class="std std-ref">Voronoi Stratified Sampling</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sampling/true_stratified_sampling/true_stratified_voronoi.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_testing.html#sphx-glr-auto-examples-scientific-machine-learning-bayesian-quickstart-bayesian-quickstart-testing-py"><span class="std std-ref">Bayesian Quickstart Testing</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_testing.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_training.html#sphx-glr-auto-examples-scientific-machine-learning-bayesian-quickstart-bayesian-quickstart-training-py"><span class="std std-ref">Bayesian Quickstart Training</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/bayesian_quickstart/bayesian_quickstart_training.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/bbb_trainer/bbbtrainer_quadratic.html#sphx-glr-auto-examples-scientific-machine-learning-bbb-trainer-bbbtrainer-quadratic-py"><span class="std std-ref">Training a Bayesian neural network</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/bbb_trainer/bbbtrainer_quadratic.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/bbb_trainer/bbbtrainer_trig.html#sphx-glr-auto-examples-scientific-machine-learning-bbb-trainer-bbbtrainer-trig-py"><span class="std std-ref">Training with Variational Inference</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/bbb_trainer/bbbtrainer_trig.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/deep_operator_network/bayesian_linear_elastic.html#sphx-glr-auto-examples-scientific-machine-learning-deep-operator-network-bayesian-linear-elastic-py"><span class="std std-ref">Learning a Linear Elastic system</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/deep_operator_network/bayesian_linear_elastic.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/deep_operator_network/integral_1d.html#sphx-glr-auto-examples-scientific-machine-learning-deep-operator-network-integral-1d-py"><span class="std std-ref">Learning the 1D Integral Operator</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/deep_operator_network/integral_1d.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/deep_operator_network/linear_elastic.html#sphx-glr-auto-examples-scientific-machine-learning-deep-operator-network-linear-elastic-py"><span class="std std-ref">Learning a Linear Elastic system</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/deep_operator_network/linear_elastic.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/deep_operator_network/local_integral_data.html#sphx-glr-auto-examples-scientific-machine-learning-deep-operator-network-local-integral-data-py"><span class="std std-ref">Data generation fuction for DeepONet examples</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/deep_operator_network/local_integral_data.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/fourier_neural_operator/burgers.html#sphx-glr-auto-examples-scientific-machine-learning-fourier-neural-operator-burgers-py"><span class="std std-ref">Learning the Burgers’ Operator</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/fourier_neural_operator/burgers.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/hmc_trainer/burgers_fno.html#sphx-glr-auto-examples-scientific-machine-learning-hmc-trainer-burgers-fno-py"><span class="std std-ref">Learning the Burgers’ Operator with HMC</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/hmc_trainer/burgers_fno.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/mcd_trainer/NeuralNetwork_MCD.html#sphx-glr-auto-examples-scientific-machine-learning-mcd-trainer-neuralnetwork-mcd-py"><span class="std std-ref">Probabilisitc Models with Monte Carlo Dropout</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/mcd_trainer/NeuralNetwork_MCD.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/trainer/trainer_trig.html#sphx-glr-auto-examples-scientific-machine-learning-trainer-trainer-trig-py"><span class="std std-ref">Training a Neural Network</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/trainer/trainer_trig.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/unet/unet_example.html#sphx-glr-auto-examples-scientific-machine-learning-unet-unet-example-py"><span class="std std-ref">Learning a Stress Field with U-Nets</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/unet/unet_example.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/scientific_machine_learning/unet/unet_example_plot.html#sphx-glr-auto-examples-scientific-machine-learning-unet-unet-example-plot-py"><span class="std std-ref">Plotting the U-net example</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/scientific_machine_learning/unet/unet_example_plot.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/chatterjee/chatterjee_exponential.html#sphx-glr-auto-examples-sensitivity-chatterjee-chatterjee-exponential-py"><span class="std std-ref">Exponential function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/chatterjee/chatterjee_exponential.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/chatterjee/chatterjee_ishigami.html#sphx-glr-auto-examples-sensitivity-chatterjee-chatterjee-ishigami-py"><span class="std std-ref">Ishigami function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/chatterjee/chatterjee_ishigami.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/chatterjee/chatterjee_sobol_func.html#sphx-glr-auto-examples-sensitivity-chatterjee-chatterjee-sobol-func-py"><span class="std std-ref">Sobol function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/chatterjee/chatterjee_sobol_func.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/chatterjee/local_exponential.html#sphx-glr-auto-examples-sensitivity-chatterjee-local-exponential-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/chatterjee/local_exponential.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/chatterjee/local_ishigami.html#sphx-glr-auto-examples-sensitivity-chatterjee-local-ishigami-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/chatterjee/local_ishigami.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/chatterjee/local_sobol_func.html#sphx-glr-auto-examples-sensitivity-chatterjee-local-sobol-func-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/chatterjee/local_sobol_func.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/comparison/additive.html#sphx-glr-auto-examples-sensitivity-comparison-additive-py"><span class="std std-ref">Additive function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/comparison/additive.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/comparison/ishigami.html#sphx-glr-auto-examples-sensitivity-comparison-ishigami-py"><span class="std std-ref">Ishigami function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/comparison/ishigami.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/comparison/local_additive.html#sphx-glr-auto-examples-sensitivity-comparison-local-additive-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/comparison/local_additive.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/comparison/local_ishigami.html#sphx-glr-auto-examples-sensitivity-comparison-local-ishigami-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/comparison/local_ishigami.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/cramer_von_mises/cvm_exponential.html#sphx-glr-auto-examples-sensitivity-cramer-von-mises-cvm-exponential-py"><span class="std std-ref">Exponential function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/cramer_von_mises/cvm_exponential.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/cramer_von_mises/cvm_sobol_func.html#sphx-glr-auto-examples-sensitivity-cramer-von-mises-cvm-sobol-func-py"><span class="std std-ref">Sobol function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/cramer_von_mises/cvm_sobol_func.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/cramer_von_mises/local_exponential.html#sphx-glr-auto-examples-sensitivity-cramer-von-mises-local-exponential-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/cramer_von_mises/local_exponential.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/cramer_von_mises/local_sobol_func.html#sphx-glr-auto-examples-sensitivity-cramer-von-mises-local-sobol-func-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/cramer_von_mises/local_sobol_func.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/generalised_sobol/generalised_sobol_mechanical_oscillator_ODE.html#sphx-glr-auto-examples-sensitivity-generalised-sobol-generalised-sobol-mechanical-oscillator-ode-py"><span class="std std-ref">Mechanical oscillator model (multioutput)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/generalised_sobol/generalised_sobol_mechanical_oscillator_ODE.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/generalised_sobol/generalised_sobol_multioutput.html#sphx-glr-auto-examples-sensitivity-generalised-sobol-generalised-sobol-multioutput-py"><span class="std std-ref">Toy multioutput function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/generalised_sobol/generalised_sobol_multioutput.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/generalised_sobol/local_mechanical_oscillator_ODE.html#sphx-glr-auto-examples-sensitivity-generalised-sobol-local-mechanical-oscillator-ode-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/generalised_sobol/local_mechanical_oscillator_ODE.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="xref std std-ref">sphx_glr_auto_examples_sensitivity_generalised_sobol_local_multioutput.py</span> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/generalised_sobol/local_multioutput.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/morris/local_pfn.html#sphx-glr-auto-examples-sensitivity-morris-local-pfn-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/morris/local_pfn.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/sobol/local_additive.html#sphx-glr-auto-examples-sensitivity-sobol-local-additive-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/sobol/local_additive.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/sobol/local_ishigami.html#sphx-glr-auto-examples-sensitivity-sobol-local-ishigami-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/sobol/local_ishigami.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/sobol/local_mechanical_oscillator_ODE.html#sphx-glr-auto-examples-sensitivity-sobol-local-mechanical-oscillator-ode-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/sobol/local_mechanical_oscillator_ODE.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/sobol/local_sobol_func.html#sphx-glr-auto-examples-sensitivity-sobol-local-sobol-func-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/sobol/local_sobol_func.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/sobol/mechanical_oscillator_ODE.html#sphx-glr-auto-examples-sensitivity-sobol-mechanical-oscillator-ode-py"><span class="std std-ref">Mechanical oscillator model (multioutput)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/sobol/mechanical_oscillator_ODE.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/sobol/sobol_additive.html#sphx-glr-auto-examples-sensitivity-sobol-sobol-additive-py"><span class="std std-ref">Additive function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/sobol/sobol_additive.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/sensitivity/sobol/sobol_func.html#sphx-glr-auto-examples-sensitivity-sobol-sobol-func-py"><span class="std std-ref">Sobol function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/sobol/sobol_func.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/sensitivity/sobol/sobol_ishigami.html#sphx-glr-auto-examples-sensitivity-sobol-sobol-ishigami-py"><span class="std std-ref">Ishigami function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/sensitivity/sobol/sobol_ishigami.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/bispectral/bispectral_1d.html#sphx-glr-auto-examples-stochastic-processes-bispectral-bispectral-1d-py"><span class="std std-ref">BiSpectral Representation Method - 1D</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/bispectral/bispectral_1d.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/bispectral/bispectral_nd.html#sphx-glr-auto-examples-stochastic-processes-bispectral-bispectral-nd-py"><span class="std std-ref">Bispectral Representation Method - ND</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/bispectral/bispectral_nd.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/spectral/spectral_1d_1v.html#sphx-glr-auto-examples-stochastic-processes-spectral-spectral-1d-1v-py"><span class="std std-ref">One-dimensional &amp; one variable</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/spectral/spectral_1d_1v.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/spectral/spectral_1d_mv.html#sphx-glr-auto-examples-stochastic-processes-spectral-spectral-1d-mv-py"><span class="std std-ref">One-dimensional &amp; multiple variables</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/spectral/spectral_1d_mv.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/spectral/spectral_nd_1d.html#sphx-glr-auto-examples-stochastic-processes-spectral-spectral-nd-1d-py"><span class="std std-ref">N-dimensional &amp; one-variable</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/spectral/spectral_nd_1d.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/spectral/spectral_nd_mv.html#sphx-glr-auto-examples-stochastic-processes-spectral-spectral-nd-mv-py"><span class="std std-ref">N-dimensional &amp; multiple-variables</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/spectral/spectral_nd_mv.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/stochastic_processes/translation/translation.html#sphx-glr-auto-examples-stochastic-processes-translation-translation-py"><span class="std std-ref">Translation</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/stochastic_processes/translation/translation.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/gpr/gpr_constraints.html#sphx-glr-auto-examples-surrogates-gpr-gpr-constraints-py"><span class="std std-ref">Gaussian Process with Noise and Constraints</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/gpr/gpr_constraints.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/gpr/gpr_custom2D.html#sphx-glr-auto-examples-surrogates-gpr-gpr-custom2d-py"><span class="std std-ref">Gaussian Process of a custom 2D function</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/gpr/gpr_custom2D.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/gpr/local_python_model_1Dfunction.html#sphx-glr-auto-examples-surrogates-gpr-local-python-model-1dfunction-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/gpr/local_python_model_1Dfunction.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/gpr/local_python_model_function.html#sphx-glr-auto-examples-surrogates-gpr-local-python-model-function-py"><span class="std std-ref">Auxiliary file</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/gpr/local_python_model_function.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_camel.html#sphx-glr-auto-examples-surrogates-pce-pce-camel-py"><span class="std std-ref">Camel function (3 random inputs, scalar output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_camel.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_euler_UQ.html#sphx-glr-auto-examples-surrogates-pce-pce-euler-uq-py"><span class="std std-ref">Physics-Informed PCE: Uncertainty Quantification of Euler Beam</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_euler_UQ.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_exponential.html#sphx-glr-auto-examples-surrogates-pce-pce-exponential-py"><span class="std std-ref">Exponential function (3 random inputs, scalar output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_exponential.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_friedman.html#sphx-glr-auto-examples-surrogates-pce-pce-friedman-py"><span class="std std-ref">Friedman function (5 random inputs, scalar output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_friedman.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_helmholtz.html#sphx-glr-auto-examples-surrogates-pce-pce-helmholtz-py"><span class="std std-ref">2D Helmholtz eigenvalues (2 random inputs, vector-valued output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_helmholtz.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_ishigami.html#sphx-glr-auto-examples-surrogates-pce-pce-ishigami-py"><span class="std std-ref">Ishigami function (3 random inputs, scalar output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_ishigami.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_oakley.html#sphx-glr-auto-examples-surrogates-pce-pce-oakley-py"><span class="std std-ref">Oakley Function  (1 random input, scalar output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_oakley.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_robot_arm.html#sphx-glr-auto-examples-surrogates-pce-pce-robot-arm-py"><span class="std std-ref">Robot Arm function (8 random inputs, scalar output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_robot_arm.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_sinusoidal.html#sphx-glr-auto-examples-surrogates-pce-pce-sinusoidal-py"><span class="std std-ref">Sinusoidal Function  (1 random input, scalar output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_sinusoidal.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_sparsity_lars.html#sphx-glr-auto-examples-surrogates-pce-pce-sparsity-lars-py"><span class="std std-ref">Hyperbolic truncation and Least Angle Regression</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_sparsity_lars.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_sphere.html#sphx-glr-auto-examples-surrogates-pce-pce-sphere-py"><span class="std std-ref">Sinusoidal Function  Sphere function (2 random inputs, scalar output)</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_sphere.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/surrogates/pce/pce_wave.html#sphx-glr-auto-examples-surrogates-pce-pce-wave-py"><span class="std std-ref">Physics-Informed PCE: Deterministic Wave Equation</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/pce/pce_wave.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_examples/surrogates/srom/local_eigenvalue_model.html#sphx-glr-auto-examples-surrogates-srom-local-eigenvalue-model-py"><span class="std std-ref">Auxiliary File</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/surrogates/srom/local_eigenvalue_model.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_examples/transformations/nataf/nataf.html#sphx-glr-auto-examples-transformations-nataf-nataf-py"><span class="std std-ref">Nataf</span></a> (<code class="docutils literal notranslate"><span class="pre">../code/transformations/nataf/nataf.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

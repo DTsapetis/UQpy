@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InferenceModel &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MLE" href="mle.html" />
+    <link rel="prev" title="Inference" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Inference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Inference Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-a-log-likelihood-function">Defining a Log-likelihood function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inferencemodel-class">InferenceModel Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.inference.inference_models.baseclass.InferenceModel"><code class="docutils literal notranslate"><span class="pre">InferenceModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#computationalmodel-class">ComputationalModel Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.inference.inference_models.ComputationalModel"><code class="docutils literal notranslate"><span class="pre">ComputationalModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#distributionmodel-class">DistributionModel Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.inference.inference_models.DistributionModel"><code class="docutils literal notranslate"><span class="pre">DistributionModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#loglikelihoodmodel-class">LogLikelihoodModel Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.inference.inference_models.LogLikelihoodModel"><code class="docutils literal notranslate"><span class="pre">LogLikelihoodModel</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mle.html"> Maximum Likelihood Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_parameter_estimation.html"> Bayes Parameter Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info_model_selection.html"> Information Theoretic Model Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_model_selection.html"> Bayes Model Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Inference</a></li>
+      <li class="breadcrumb-item active">InferenceModel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/inference/inference_models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="inferencemodel">
+<h1>InferenceModel<a class="headerlink" href="#inferencemodel" title="Link to this heading"></a></h1>
+<p>For any inference task, the user must first create, for each model studied, an instance of the class <a class="reference internal" href="#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a>
+that defines the problem at hand. This class defines an inference model that will serve as input for all remaining
+inference classes. A model can be defined in various ways. The following summarizes the four types of inference models
+that are supported by <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>. These four types are further summarized in the figure below.</p>
+<ul class="simple">
+<li><p><strong>Case 1a</strong> - <strong>Gaussian error model</strong> powered by <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>: In this case, the data is assumed to come form a
+model of the following form,  <span class="math notranslate nohighlight">\(data \sim h(\theta) + \epsilon\)</span>, where <span class="math notranslate nohighlight">\(\epsilon\)</span> is iid Gaussian and <span class="math notranslate nohighlight">\(h\)</span> consists of a computational
+model executed using <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>. Data is a 1D ndarray in this setting. In order to define such a inference model,
+the <a class="reference internal" href="#UQpy.inference.inference_models.ComputationalModel" title="UQpy.inference.inference_models.ComputationalModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComputationalModel</span></code></a> class must be utilized.</p></li>
+<li><p><strong>Case 1b</strong> - <strong>Non-Gaussian error model</strong> powered by <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>: In this case, the user must provide a callable likelihood
+function in addition to a <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a> object. The data type is user-defined and must be consistent with the
+likelihood function definition. In order to define such a inference model, the <a class="reference internal" href="#UQpy.inference.inference_models.ComputationalModel" title="UQpy.inference.inference_models.ComputationalModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComputationalModel</span></code></a> class must be utilized.</p></li>
+<li><p><strong>Case 2:</strong> - <strong>User-defined likelihood</strong> without <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>: Here, the likelihood function is user-defined and
+does not leverage <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a>. The data type must be consistent with the likelihood function definition.
+In order to define such a inference model, the <a class="reference internal" href="#UQpy.inference.inference_models.LogLikelihoodModel" title="UQpy.inference.inference_models.LogLikelihoodModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogLikelihoodModel</span></code></a> class must be utilized.</p></li>
+<li><p><strong>Case 3:</strong> - <strong>Learn parameters of a probability distribution</strong>: Here, the user must define an object of the
+<a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> class. Data is an <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(ndata,</span> <span class="pre">dim)</span></code> and consists in <code class="code docutils literal notranslate"><span class="pre">ndata</span></code> iid samples from the
+probability distribution. In order to define such a inference model, the <a class="reference internal" href="#UQpy.inference.inference_models.DistributionModel" title="UQpy.inference.inference_models.DistributionModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionModel</span></code></a> class must be utilized.</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/Inference_models.png"><img alt="../_images/Inference_models.png" class="align-left" src="../_images/Inference_models.png" style="width: 617.4px; height: 371.4px;" />
+</a>
+<section id="defining-a-log-likelihood-function">
+<h2>Defining a Log-likelihood function<a class="headerlink" href="#defining-a-log-likelihood-function" title="Link to this heading"></a></h2>
+<p>The critical component of the <a class="reference internal" href="#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a> class, child classes is the evaluation of the log-likelihood function.
+<a class="reference internal" href="#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a> has been constructed to be flexible in how the user specifies the log-likelihood function.
+The log-likelihood function can be specified as a user-defined callable method that is passed directly into the
+<a class="reference internal" href="#UQpy.inference.inference_models.LogLikelihoodModel" title="UQpy.inference.inference_models.LogLikelihoodModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogLikelihoodModel</span></code></a> or the <a class="reference internal" href="#UQpy.inference.inference_models.ComputationalModel" title="UQpy.inference.inference_models.ComputationalModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComputationalModel</span></code></a> class. As the cases suggest, a user-defined log-likelihood function must take as input, at
+minimum, both the parameters of the model and the data points at which to evaluate the log-likelihood. It may also
+take additional keyword arguments. The method may compute the log-likelihood at the data points on its own, or it may
+rely on a computational model defined through the <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a> class. If the log-likelihood function relies on a
+<a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a> object, this object is also passed into <a class="reference internal" href="#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a> and the log-likelihood method should also take
+as input, the output (<cite>qoi_list</cite>) of the <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a> object evaluated at the specified parameter values.</p>
+</section>
+<section id="inferencemodel-class">
+<h2>InferenceModel Class<a class="headerlink" href="#inferencemodel-class" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.inference_models.baseclass.InferenceModel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InferenceModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/inference_models/baseclass/InferenceModel.html#InferenceModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.inference_models.baseclass.InferenceModel" title="Link to this definition"></a></dt>
+<dd><p>Define a probabilistic model for inference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of parameters to be estimated.</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Name of model - optional but useful in a model selection setting.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.inference_models.baseclass.InferenceModel.evaluate_log_likelihood">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate_log_likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/inference_models/baseclass/InferenceModel.html#InferenceModel.evaluate_log_likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.inference_models.baseclass.InferenceModel.evaluate_log_likelihood" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the log likelihood, <code class="code docutils literal notranslate"><span class="pre">log</span> <span class="pre">p(data|parameters)</span></code>.</p>
+<p>This method is the central piece of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">inference</span></code> module, it is being called repeatedly by all other
+inference classes to evaluate the likelihood of the data. The log-likelihood can be evaluated at several
+parameter vectors at once, i.e., <cite>parameters</cite> is an <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">n_parameters)</span></code>. If the <a class="reference internal" href="#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a> is powered by <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a> the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">RunModel.run()</span></code> method is called here, possibly  leveraging its parallel execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Parameter vector(s) at which to evaluate the likelihood function, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of
+shape <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">n_parameters)</span></code>.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Data from which to learn. For case <strong>1b</strong>, this should be an <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="code docutils literal notranslate"><span class="pre">(ndata,</span> <span class="pre">)</span></code>. For <strong>case 3</strong>, it must be an <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="code docutils literal notranslate"><span class="pre">(ndata,</span> <span class="pre">dimension)</span></code>.
+For other cases it must be consistent with the definition of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">log_likelihood()</span></code> callable input.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Log-likelihood evaluated at all <cite>nsamples</cite> parameter vector values, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">)</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.inference_models.baseclass.InferenceModel.evaluate_log_posterior">
+<span class="sig-name descname"><span class="pre">evaluate_log_posterior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/inference_models/baseclass/InferenceModel.html#InferenceModel.evaluate_log_posterior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.inference_models.baseclass.InferenceModel.evaluate_log_posterior" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the scaled log posterior <code class="code docutils literal notranslate"><span class="pre">log(p(data|parameters)p(parameters))</span></code>.</p>
+<p>This method is called by classes that perform Bayesian inference. If the <a class="reference internal" href="#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a> object does
+not possess a prior, an uninformative prior <code class="code docutils literal notranslate"><span class="pre">p(parameters)=1</span></code> is assumed. Warning: This is an improper
+prior.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Parameter vector(s) at which to evaluate the log-posterior, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of
+shape <code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">n_parameters)</span></code>.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Data from which to learn. See <a class="reference internal" href="#UQpy.inference.inference_models.baseclass.InferenceModel.evaluate_log_likelihood" title="UQpy.inference.inference_models.baseclass.InferenceModel.evaluate_log_likelihood"><code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate_log_likelihood()</span></code></a> method for details.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Log-posterior evaluated at all <cite>nsamples</cite> parameter vector values, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="code docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">)</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="computationalmodel-class">
+<h2>ComputationalModel Class<a class="headerlink" href="#computationalmodel-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.inference.inference_models.ComputationalModel" title="UQpy.inference.inference_models.ComputationalModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComputationalModel</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.inference_models.ComputationalModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComputationalModel</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.inference_models.ComputationalModel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ComputationalModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runmodel_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_covariance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_likelihood</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/inference_models/ComputationalModel.html#ComputationalModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.inference_models.ComputationalModel" title="Link to this definition"></a></dt>
+<dd><p>Define a (non-)Gaussian error model for inference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of parameters to be estimated.</p></li>
+<li><p><strong>runmodel_object</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a></span>) – <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a> class object that defines the forward model. This input is required
+for <strong>cases 1a and 1b</strong>.</p></li>
+<li><p><strong>error_covariance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Covariance for Gaussian error model <strong>(case 1a)</strong>. It can be a scalar (in which case
+the covariance matrix is the identity times that value), a 1D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> in which case the
+covariance is assumed to be diagonal, or a full covariance matrix (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>).
+Default value is <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Name of model - optional but useful in a model selection setting.</p></li>
+<li><p><strong>prior</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a></span>) – Prior distribution, must have a <a class="reference internal" href="../distributions/distribution_parent.html#log_pdf" title="log_pdf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_pdf()</span></code></a> or <a class="reference internal" href="../distributions/distribution_parent.html#pdf" title="pdf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pdf()</span></code></a> method.</p></li>
+<li><p><strong>log_likelihood</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Function that defines the log-likelihood model, possibly in conjunction with the
+<cite>runmodel_object</cite> <strong>(cases 1b and 2)</strong>. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>, and a Gaussian-error model is considered
+<strong>(case 1a)</strong>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="distributionmodel-class">
+<h2>DistributionModel Class<a class="headerlink" href="#distributionmodel-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.inference.inference_models.DistributionModel" title="UQpy.inference.inference_models.DistributionModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionModel</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.inference_models.DistributionModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributionModel</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.inference_models.DistributionModel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DistributionModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/inference_models/DistributionModel.html#DistributionModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.inference_models.DistributionModel" title="Link to this definition"></a></dt>
+<dd><p>Define a probability distribution model for inference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>]]</span>) – Distribution <span class="math notranslate nohighlight">\(\pi\)</span> for which to learn parameters from iid data <strong>(case 3)</strong>.
+When creating this <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> object, the parameters to be learned should be set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.
+Any parameter that is assigned a value will not be learned.</p></li>
+<li><p><strong>n_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of parameters to be estimated.</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Name of model - optional but useful in a model selection setting.</p></li>
+<li><p><strong>prior</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a></span>) – Prior distribution, must have a <a class="reference internal" href="../distributions/distribution_parent.html#log_pdf" title="log_pdf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_pdf()</span></code></a> or <a class="reference internal" href="../distributions/distribution_parent.html#pdf" title="pdf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pdf()</span></code></a> method.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="loglikelihoodmodel-class">
+<h2>LogLikelihoodModel Class<a class="headerlink" href="#loglikelihoodmodel-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.inference.inference_models.LogLikelihoodModel" title="UQpy.inference.inference_models.LogLikelihoodModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogLikelihoodModel</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.inference_models.LogLikelihoodModel</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogLikelihoodModel</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.inference_models.LogLikelihoodModel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LogLikelihoodModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_likelihood</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/inference_models/LogLikelihoodModel.html#LogLikelihoodModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.inference_models.LogLikelihoodModel" title="Link to this definition"></a></dt>
+<dd><p>Define a log-likelihood model for inference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of parameters to be estimated.</p></li>
+<li><p><strong>log_likelihood</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Function that defines the log-likelihood model.</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Name of model - optional but useful in a model selection setting.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Inference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mle.html" class="btn btn-neutral float-right" title="MLE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

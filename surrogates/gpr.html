@@ -1,0 +1,515 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaussian Process Regression &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Gaussian Process Regression Examples" href="../auto_examples/surrogates/gpr/index.html" />
+    <link rel="prev" title="SROM on the eigenvalues of a system" href="../auto_examples/surrogates/srom/plot_srom_eigenvalues.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Surrogates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="srom.html"> Stochastic Reduced Order Models</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Gaussian Process Regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#regression-models">Regression Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#constant-model">Constant Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linear-model">Linear Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quadratic-model">Quadratic Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-defined-regression-model">User-Defined Regression Model</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kernels">Kernels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#radial-basis-function-kernel">Radial Basis Function Kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matern-kernel">Matern Kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-defined-kernel">User-Defined Kernel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#constraints">Constraints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nonnegative">NonNegative</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-defined-constraints">User-Defined Constraints</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gaussianprocessregression-class">GaussianProcessRegression Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="polynomial_chaos.html"> Polynomial Chaos Expansion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Surrogates</a></li>
+      <li class="breadcrumb-item active">Gaussian Process Regression</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/surrogates/gpr.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gaussian-process-regression">
+<h1>Gaussian Process Regression<a class="headerlink" href="#gaussian-process-regression" title="Link to this heading"></a></h1>
+<p>The <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class defines an approximate surrogate model or response surface which can be used to predict the model response and its uncertainty at points where the model has not been previously evaluated. Gaussian Process regression utilizes the concepts of Bayesian modelling and identifies a suitable function, which fits the training data (<span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times d}, Y \in \mathbb{R}^{n, 1}\)</span>). First, it formulates a prior function over the output variable (<span class="math notranslate nohighlight">\(y=g(x))\)</span>) as a Gaussian Process, which can be defined using a mean function and a kernel.</p>
+<div class="math notranslate nohighlight">
+\[p(y|x, \theta) = \mathcal{N}(m(x), K(x, x))\]</div>
+<p>The mean function <span class="math notranslate nohighlight">\(m(x)\)</span> is given as a linear combination of ‘<span class="math notranslate nohighlight">\(p\)</span>’ chosen scalar basis functions as:</p>
+<div class="math notranslate nohighlight">
+\[m(\beta, x) = \mathbb{E}[g(x)] = \beta_1 f_1(x) + \dots + \beta_p f_p(x) = f(x)^T \beta=f(x)^T \beta.\]</div>
+<p>The kernel <span class="math notranslate nohighlight">\(k(x, s)\)</span> defines the covariance function as:</p>
+<div class="math notranslate nohighlight">
+\[k(x, s) = \mathbb{E}[(g(x)-m(x))(g(s)-m(s))]\]</div>
+<p>and the Gaussian process can be written as,</p>
+<div class="math notranslate nohighlight">
+\[y = g(x) \sim \mathcal{GP}(m(x, \beta), k(x,s, \theta)),\]</div>
+<p>where, <span class="math notranslate nohighlight">\(\beta\)</span> is the regression coefficient estimated by least square solution and <span class="math notranslate nohighlight">\(\theta=\{l_1, ..., l_d, \sigma \}\)</span> are a set of hyperparameters generally governing the correlation length (lengthscale, <span class="math notranslate nohighlight">\(l_i\)</span>) and the process variance (<span class="math notranslate nohighlight">\(\sigma\)</span>) of the model, determined by maximixing the log-likelihood function</p>
+<div class="math notranslate nohighlight">
+\[\text{log}(p(y|x, \theta)) = -\frac{1}{2}(Y-F\beta)^T K^{-1} (Y-F\beta) - \frac{1}{2}\text{log}(|K|) - \frac{n}{2}\text{log}(2\pi)\]</div>
+<p>The covariance is evaluated between a set of existing sample points <span class="math notranslate nohighlight">\(X\)</span> in the domain of interest to form the covariance matrix <span class="math notranslate nohighlight">\(K=K(X, X)\)</span>, and the basis functions are evaluated at the sample points <span class="math notranslate nohighlight">\(X\)</span> to form the matrix <span class="math notranslate nohighlight">\(F\)</span>. Using these matrices, the regression coefficients, <span class="math notranslate nohighlight">\(\beta\)</span>, is computed as</p>
+<div class="math notranslate nohighlight">
+\[(F^T K^{-1} F)\beta^* = F^T K^{-1} Y\]</div>
+<p>The joint distribution between the training outputs (<span class="math notranslate nohighlight">\(g(X)\)</span>) and test outputs (<span class="math notranslate nohighlight">\(g(X^*)\)</span>) can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix} Y \\ g(X^*)\end{bmatrix} = \mathcal{N} \Bigg(\begin{bmatrix} m(X) \\ m(X^*)\end{bmatrix}, \begin{bmatrix} K(X, X) &amp; K(X, X^*)\\ K(X^*, X) &amp; K(X^*, X^*) \end{bmatrix}  \Bigg)\end{split}\]</div>
+<p>The final predictor function is then given by the mean of the posterior distribution <span class="math notranslate nohighlight">\(g(X^*)|Y, X, X^*\)</span>, defined as:</p>
+<div class="math notranslate nohighlight">
+\[\hat{g}(X^*) = f(X^*)^T \beta^* + K(X, X^*)^T K^{-1}(Y - F\beta^*)\]</div>
+<p>and the covariance matrix of the posterior distribution is expressed as:</p>
+<div class="math notranslate nohighlight">
+\[cov(g(X^*)) = K(X^*, X^*) - K(X^*, X)K^{-1}K(X, X^*)\]</div>
+<p>In case of noisy output (i.e. <span class="math notranslate nohighlight">\(y = g(x)+\epsilon\)</span>), where noise <span class="math notranslate nohighlight">\(\epsilon\)</span> is a independent gaussian distribution with variance <span class="math notranslate nohighlight">\(\sigma_n^2\)</span>. The <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class includes noise standard deviation in the hyperparameters (<span class="math notranslate nohighlight">\(\theta=\{l_1, ..., l_d, \sigma, \sigma_n \}\)</span>) along with the lengthscales and process standard deviation, and identify them by maximixing log-likelihood function. The mean and covariance of the posterior distribution is modified by substituting <span class="math notranslate nohighlight">\(K\)</span> as <span class="math notranslate nohighlight">\(K+\sigma_n^2 I\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\hat{g}(X^*) = f(X^*)^T \beta^* + K(X, X^*)^T (K+\sigma_n^2 I)^{-1}(Y - F\beta^*) \\ cov(g(X^*)) = K(X^*, X^*) - K(X^*, X)(K+\sigma_n^2 I)^{-1}K(X, X^*)\end{split}\]</div>
+<section id="regression-models">
+<h2>Regression Models<a class="headerlink" href="#regression-models" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class offers a variety of built-in regression models, specified by the <cite>regression</cite> input described below.</p>
+<section id="constant-model">
+<h3>Constant Model<a class="headerlink" href="#constant-model" title="Link to this heading"></a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">ConstantRegression</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.regression_models.ConstantRegression</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConstantRegression</span>
+</pre></div>
+</div>
+<p>In Constant model, the regression model is assumed to take a constant value such that</p>
+<div class="math notranslate nohighlight">
+\[f(\beta, x) = \beta_0\]</div>
+</section>
+<section id="linear-model">
+<h3>Linear Model<a class="headerlink" href="#linear-model" title="Link to this heading"></a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearRegression</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.regression_models.LinearRegression</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+</pre></div>
+</div>
+<p>The regression model is defined by the linear basis function on each input dimension.</p>
+<div class="math notranslate nohighlight">
+\[f(\beta, x) = \beta_0 + \sum_{i=1}^d \beta_i x_i\]</div>
+</section>
+<section id="quadratic-model">
+<h3>Quadratic Model<a class="headerlink" href="#quadratic-model" title="Link to this heading"></a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">QuadraticRegression</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.regression_models.QuadraticRegression</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuadraticRegression</span>
+</pre></div>
+</div>
+<p>The quadratic regression model is given by:</p>
+<div class="math notranslate nohighlight">
+\[f(\beta, x) = \beta_0 + \sum_{i=1}^d \beta_i x_i + \sum_{i=1}^d \sum_{j=1}^d \beta_{ij} x_i x_j\]</div>
+</section>
+<section id="user-defined-regression-model">
+<h3>User-Defined Regression Model<a class="headerlink" href="#user-defined-regression-model" title="Link to this heading"></a></h3>
+<p>Adding a new regression model to the <code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegressor</span></code> class is straightforward. This is done by creating a new class
+that evaluates the basis functions, by extending the <a class="reference internal" href="#UQpy.surrogates.gaussian_process.Regression" title="UQpy.surrogates.gaussian_process.Regression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Regression</span></code></a>.</p>
+<p>The <a class="reference internal" href="#UQpy.surrogates.gaussian_process.Regression" title="UQpy.surrogates.gaussian_process.Regression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Regression</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.regression_models.baseclass.Regression</span><span class="w"> </span><span class="kn">import</span> <span class="n">Regression</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.Regression">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Regression</span></span><a class="reference internal" href="../_modules/UQpy/surrogates/gaussian_process/regression_models/baseclass/Regression.html#Regression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.gaussian_process.Regression" title="Link to this definition"></a></dt>
+<dd><p>Abstract base class of all Regressions. Serves as a template for creating new Gaussian Process regression
+functions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.Regression.r">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/surrogates/gaussian_process/regression_models/baseclass/Regression.html#Regression.r"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.gaussian_process.Regression.r" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that needs to be implemented by the user when creating a new Regression function.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>This class may be passed directly as an object to the regression input of the <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class.
+This new class must have a method <code class="docutils literal notranslate"><span class="pre">r(self,s)</span></code> that takes as input the samples points at which to evaluate the model
+and return the value of the basis functions at these sample points.</p>
+<p>The output of this function should be a two dimensional numpy array with the first dimension being the number of
+samples and the second dimension being the number of basis functions.</p>
+<p>An example user-defined model is given below:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">UserRegression</span><span class="p">(</span><span class="n">Regression</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">def</span><span class="w"> </span><span class="nf">r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="n">fx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="k">return</span> <span class="n">fx</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="kernels">
+<h2>Kernels<a class="headerlink" href="#kernels" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class offers a variety of built-in kernels, specified by the <cite>kernel</cite> input described below.</p>
+<section id="radial-basis-function-kernel">
+<h3>Radial Basis Function Kernel<a class="headerlink" href="#radial-basis-function-kernel" title="Link to this heading"></a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">RBF</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.kernels.RBF</span><span class="w"> </span><span class="kn">import</span> <span class="n">RBF</span>
+</pre></div>
+</div>
+<p>The RBF kernel takes the following form:</p>
+<div class="math notranslate nohighlight">
+\[K(h_i, \theta_i) = \sigma^2 \prod_{1}^{d} \mathcal{R}_i(h_i, l_i) = \sigma^2 \prod_{1}^{d} \exp\bigg[ -\frac{h_i^2}{2l_i^2}\bigg]\]</div>
+<p>where <span class="math notranslate nohighlight">\(h_i = s_i-x_i\)</span>.</p>
+</section>
+<section id="matern-kernel">
+<h3>Matern Kernel<a class="headerlink" href="#matern-kernel" title="Link to this heading"></a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Matern</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.kernels.Matern</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matern</span>
+</pre></div>
+</div>
+<p>The Matern kernel takes the following form:</p>
+<div class="math notranslate nohighlight">
+\[K(x, s, \theta) = \sigma^2 \frac{2^{1-\nu}}{\Gamma(\nu)} \bigg( \sqrt{2 \nu} \frac{d}{l} \bigg)^{\nu} K_v \bigg(\sqrt{2 \nu} \frac{d}{l} \bigg)\]</div>
+<p>where <span class="math notranslate nohighlight">\(d = ||x-s||_2^{1/2}\)</span> is the euclidean distance and <span class="math notranslate nohighlight">\(\theta\)</span> is consist of lengthscale (<span class="math notranslate nohighlight">\(l\)</span>), process variance (<span class="math notranslate nohighlight">\(\sigma^2\)</span>) and smoothing parameter (<span class="math notranslate nohighlight">\(\nu\)</span>). Also, <span class="math notranslate nohighlight">\(\Gamma\)</span> is tha gamma function and <span class="math notranslate nohighlight">\(K_v\)</span> is the modified Bessel function. This kernel concides with absolute exponential and RBF kernel for <span class="math notranslate nohighlight">\(\nu=0.5\)</span> and <span class="math notranslate nohighlight">\(\infty\)</span>, respectively.</p>
+</section>
+<section id="user-defined-kernel">
+<h3>User-Defined Kernel<a class="headerlink" href="#user-defined-kernel" title="Link to this heading"></a></h3>
+<p>Adding a new kernel to the <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class is straightforward. This is done by creating a new class
+that extends the <a class="reference internal" href="../utilities/kernels/index.html#UQpy.utilities.kernels.baseclass.Kernel" title="UQpy.utilities.kernels.baseclass.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kernel</span></code></a> abstract base class.
+This new class must have a method <code class="docutils literal notranslate"><span class="pre">c(self,</span> <span class="pre">x,</span> <span class="pre">s,</span> <span class="pre">params)</span></code> that takes as input the new points, training points and hyperparameters.
+Notice that the input <code class="docutils literal notranslate"><span class="pre">params</span></code> include lengthscales and process standard deviation, not noise standard deviation (even for noisy data).</p>
+<p>The <a class="reference internal" href="../utilities/kernels/index.html#UQpy.utilities.kernels.baseclass.Kernel" title="UQpy.utilities.kernels.baseclass.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kernel</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.kernels.baseclass.Kernel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kernel</span>
+</pre></div>
+</div>
+<p>The method should return covariance matrix, i.e. a 2-D array with first dimension
+being the number of new points and second dimension being the number of training points.</p>
+<p>An example user-defined kernel is given below:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">RBF</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">def</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">l</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">params</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">stack</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="o">/</span><span class="n">l</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">cx</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">stack</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="n">cx</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="constraints">
+<h2>Constraints<a class="headerlink" href="#constraints" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class offers a built-in constraints on the hyperparameters estimation while maximixing loglikelihood function.</p>
+<section id="nonnegative">
+<h3>NonNegative<a class="headerlink" href="#nonnegative" title="Link to this heading"></a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">NonNegative</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.constraints.NonNegative</span><span class="w"> </span><span class="kn">import</span> <span class="n">NonNegative</span>
+</pre></div>
+</div>
+<p>The NonNegative constraints enforces non-negativity in the GP model, this is useful for treating many physical properties as output variable. This constraint improves prediction and error estimates, where model output is always greater than or equal to zero. This is ensured by solving the maximum likelihood problem with the following constraints.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathrm{argmax}_{\theta} \log{p(y|x, \theta)} \quad \quad \quad  \text{s.t.   } \begin{matrix} \hat{g}(X_c) - z\sigma_{\hat{g}}(X_c) \geq 0 \\ |Y-\hat{g}(X)| \geq \epsilon \end{matrix}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(X_c\)</span> is the set of constraint points defined by user, <span class="math notranslate nohighlight">\(z\)</span> is the number of standard deviation below mean, that is non-negative for constraint points. <span class="math notranslate nohighlight">\(\epsilon\)</span> is the error tolerance between output value and prediction at the sample points.</p>
+</section>
+<section id="user-defined-constraints">
+<h3>User-Defined Constraints<a class="headerlink" href="#user-defined-constraints" title="Link to this heading"></a></h3>
+<p>Adding a new kernel to the <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class is straightforward. This is done by creating a new class
+that extends the <code class="xref py py-class docutils literal notranslate"><span class="pre">UQpy.surrogates.gaussian_process.kernels.baseclass.Constraints</span></code> abstract base class.
+This new class must have two methods <code class="docutils literal notranslate"><span class="pre">define_arguments(self,</span> <span class="pre">x_train,</span> <span class="pre">y_train,</span> <span class="pre">predict_function)</span></code> and <code class="docutils literal notranslate"><span class="pre">constraints(theta,</span> <span class="pre">kwargs)</span></code>.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">UQpy.surrogates.gaussian_process.constraints.baseclass.Constraints</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.constraints.baseclass.Constraints</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConstraintsGPR</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.ConstraintsGPR">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ConstraintsGPR</span></span><a class="reference internal" href="../_modules/UQpy/surrogates/gaussian_process/constraints/baseclass/Constraints.html#ConstraintsGPR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.gaussian_process.ConstraintsGPR" title="Link to this definition"></a></dt>
+<dd><p>Abstract base class of all Constraints. Serves as a template for creating new Kriging constraints for log-likelihood
+function.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.ConstraintsGPR.define_arguments">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predict_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/surrogates/gaussian_process/constraints/baseclass/Constraints.html#ConstraintsGPR.define_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.gaussian_process.ConstraintsGPR.define_arguments" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that needs to be implemented by the user which stores all the arguments in a dictionary and
+return that dictionary inside a list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.ConstraintsGPR.constraints">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/surrogates/gaussian_process/constraints/baseclass/Constraints.html#ConstraintsGPR.constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.gaussian_process.ConstraintsGPR.constraints" title="Link to this definition"></a></dt>
+<dd><p>A static method, which take hyperaparameters and constraints argument and evaluate constraints value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The first method takes the sample points, output values and prediction method as inputs. This method combines the input attributes
+(defined while initiating the new class) and inputs of the <code class="docutils literal notranslate"><span class="pre">define_arguments</span></code> method. This method returns a list containing a dictionary of all the arguments to the constraints function.</p>
+<p>The second method <code class="docutils literal notranslate"><span class="pre">constraints</span></code> is static method, which takes first input as the log-transformed hyperparameters (<span class="math notranslate nohighlight">\(\theta\)</span>) and second input is a dictionary containing all arguments as defined in the first method (<code class="docutils literal notranslate"><span class="pre">define_arguments</span></code>).
+User can unpacked the stored variables in the dictionary and return the constraints function. Notice that this is a static method as optimizers require constraints to be a callable.</p>
+<p>The constraints on the hyperparameters are only compatible with <code class="docutils literal notranslate"><span class="pre">FminCobyla</span></code> class as optimizer.</p>
+<p>An example user-defined kernel is given below:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">NonNegative</span><span class="p">(</span><span class="n">ConstraintsGPR</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint_points</span><span class="p">,</span> <span class="n">observed_error</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">z_value</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">constraint_points</span> <span class="o">=</span> <span class="n">constraint_points</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">observed_error</span> <span class="o">=</span> <span class="n">observed_error</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">z_value</span> <span class="o">=</span> <span class="n">z_value</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">constraint_args</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span><span class="w"> </span><span class="nf">define_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">predict_function</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;x_t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_train</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;y_t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predict_function</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;const_points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraint_points</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;obs_err&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observed_error</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;z_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_value</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">constraint_args</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@staticmethod</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span><span class="w"> </span><span class="nf">constraints</span><span class="p">(</span><span class="n">theta_</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">x_t</span><span class="p">,</span> <span class="n">y_t</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;x_t&#39;</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;y_t&#39;</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">const_points</span><span class="p">,</span> <span class="n">obs_err</span><span class="p">,</span> <span class="n">z_</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;const_points&#39;</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;obs_err&#39;</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;z_&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">tmp_predict</span><span class="p">,</span> <span class="n">tmp_error</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">const_points</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">hyperparameters</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="n">theta_</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">constraint1</span> <span class="o">=</span> <span class="n">tmp_predict</span> <span class="o">-</span> <span class="n">z_</span> <span class="o">*</span> <span class="n">tmp_error</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">tmp_predict2</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">x_t</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">hyperparameters</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="n">theta_</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">constraint2</span> <span class="o">=</span> <span class="n">obs_err</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_t</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp_predict2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">constraints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">constraint1</span><span class="p">,</span> <span class="n">constraint2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="n">constraints</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="gaussianprocessregression-class">
+<h2>GaussianProcessRegression Class<a class="headerlink" href="#gaussianprocessregression-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.surrogates.gaussian_process.GaussianProcessRegression</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegression</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.GaussianProcessRegression">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianProcessRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regression_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize_constraints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizations_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/surrogates/gaussian_process/GaussianProcessRegression.html#GaussianProcessRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="Link to this definition"></a></dt>
+<dd><p>GaussianProcessRegressor an Gaussian process regression-based surrogate model to predict the model output at
+new sample points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../utilities/kernels/index.html#UQpy.utilities.kernels.baseclass.Kernel" title="UQpy.utilities.kernels.baseclass.Kernel.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kernel</span></code></a></span>) – <cite>kernel</cite> specifies and evaluates the kernel.
+Built-in options: RBF</p></li>
+<li><p><strong>hyperparameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – List or array of initial values for the kernel hyperparameters/scale parameters. This
+input attribute defines the dimension of input training point, thus its length/shape should be equal to the
+input dimension plus one (d+1), this list/array includes ‘d’ length scale and process standard deviation. In
+case of noisy observations/output, its length/shape should be equal to the input dimension plus two (d+2), this
+list/array includes ‘d’ lengthscales, process standard deviation and noise variance.</p></li>
+<li><p><strong>regression_model</strong> – A class object, which computes the basis function at a sample point. If
+regression_model is None, this class will train GP with regression.
+Default: None</p></li>
+<li><p><strong>bounds</strong> – This input attribute defines the bounds of the loguniform distributions, which randomly generates
+new starting point for optimization problem to estimate maximum likelihood estimator. This should be a closed
+bound.
+Default: [10**-3, 10**3] for each hyperparameter and [10**-10, 10**-1] for variance in noise (if applicable).</p></li>
+<li><p><strong>optimizations_number</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of times MLE optimization problem is to be solved with a random starting
+point. Default: 1.</p></li>
+<li><p><strong>normalize</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Boolean flag used in case data normalization is required.</p></li>
+<li><p><strong>optimizer</strong> – A class object of ‘MinimizeOptimizer’ or ‘FminCobyla’ from UQpy.utilities module. If optimizer
+is not defined, this class will not solve MLE problem and predictions will be based on hyperparameters provided
+as input.
+Default: None.</p></li>
+<li><p><strong>noise</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Boolean flag used in case of noisy training data.
+Default: False</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. If an integer is
+provided, this sets the seed for an object of <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code></a>. Otherwise, the
+object itself can be passed directly.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.GaussianProcessRegression.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizations_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/surrogates/gaussian_process/GaussianProcessRegression.html#GaussianProcessRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression.fit" title="Link to this definition"></a></dt>
+<dd><p>Fit the surrogate model using the training samples and the corresponding model values.</p>
+<p>The user can run this method multiple time after initiating the <code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegressor</span></code> class object.</p>
+<p>This method updates the samples and parameters of the <code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegressor</span></code> object. This method
+uses <cite>hyperparameters</cite> from previous run as the starting point for MLE problem unless user provides a new
+starting point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> – <cite>ndarray</cite> containing the training points.</p></li>
+<li><p><strong>values</strong> – <cite>ndarray</cite> containing the model evaluations at the training points.</p></li>
+<li><p><strong>optimizations_number</strong> – number of optimization iterations</p></li>
+<li><p><strong>hyperparameters</strong> – List or array of initial values for the kernel hyperparameters/scale parameters.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The <a class="reference internal" href="../distributions/distribution_parent.html#fit" title="fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a> method has no returns, although it creates the <cite>beta</cite>, <cite>err_var</cite> and <cite>C_inv</cite> attributes of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegressor</span></code> class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.GaussianProcessRegression.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/surrogates/gaussian_process/GaussianProcessRegression.html#GaussianProcessRegression.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression.predict" title="Link to this definition"></a></dt>
+<dd><p>Predict the model response at new points.</p>
+<p>This method evaluates the regression and correlation model at new sample points. Then, it predicts the function
+value and standard deviation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> – Points at which to predict the model response.</p></li>
+<li><p><strong>return_std</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Indicator to estimate standard deviation.</p></li>
+<li><p><strong>hyperparameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – Hyperparameters for correlation model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted values at the new points, Standard deviation of predicted values at the new points</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.GaussianProcessRegression.beta">
+<span class="sig-prename descclassname"><span class="pre">GaussianProcessRegression.</span></span><span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression.beta" title="Link to this definition"></a></dt>
+<dd><p>Regression coefficients.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.GaussianProcessRegression.err_var">
+<span class="sig-prename descclassname"><span class="pre">GaussianProcessRegression.</span></span><span class="sig-name descname"><span class="pre">err_var</span></span><a class="headerlink" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression.err_var" title="Link to this definition"></a></dt>
+<dd><p>Variance of the Gaussian random process.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.surrogates.gaussian_process.GaussianProcessRegression.C_inv">
+<span class="sig-prename descclassname"><span class="pre">GaussianProcessRegression.</span></span><span class="sig-name descname"><span class="pre">C_inv</span></span><a class="headerlink" href="#UQpy.surrogates.gaussian_process.GaussianProcessRegression.C_inv" title="Link to this definition"></a></dt>
+<dd><p>Inverse Cholesky decomposition of the correlation matrix.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/surrogates/gpr/index.html">Gaussian Process Regression Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/surrogates/srom/plot_srom_eigenvalues.html" class="btn btn-neutral float-left" title="SROM on the eigenvalues of a system" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/surrogates/gpr/index.html" class="btn btn-neutral float-right" title="Gaussian Process Regression Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

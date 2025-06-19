@@ -1,0 +1,979 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sensitivity.SobolSensitivity &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sensitivity.SobolSensitivity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sensitivity.SobolSensitivity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">The Sobol class computes the Sobol indices for single output and multi-output</span>
+<span class="sd">models. The Sobol indices can be computed using various pick-and-freeze </span>
+<span class="sd">schemes.</span>
+
+<span class="sd">The schemes implemented are listed below:</span>
+
+<span class="sd"># First order indices: </span>
+<span class="sd">- Sobol1993 [1]: Requires n_samples*(num_vars + 1) model evaluations</span>
+<span class="sd">- Saltelli2002 [3]: Requires n_samples*(2*num_vars + 1) model evaluations</span>
+<span class="sd">- Janon2014 [4]: Requires n_samples*(num_vars + 1) model evaluations</span>
+
+<span class="sd"># Second order indices:</span>
+<span class="sd">- Saltelli2002 [3]: Requires n_samples*(2*num_vars + 1) model evaluations</span>
+
+<span class="sd"># Total order indices:</span>
+<span class="sd">- Homma1996: Requires n_samples*(num_vars + 1) model evaluations</span>
+<span class="sd">- Saltelli2002 [3]: Requires n_samples*(2*num_vars + 1) model evaluations</span>
+
+<span class="sd">For more details on &quot;Saltelli2002&quot; refer to [3].</span>
+<span class="sd">    </span>
+<span class="sd">Note: Apart from second order indices, the Saltelli2002 scheme provides </span>
+<span class="sd">      more accurate estimates of all indices, as opposed to Homma1996 or Sobol1993. </span>
+<span class="sd">      Because this method efficiently utilizes the higher number of model evaluations.</span>
+
+<span class="sd">Additionally, we can compute the confidence intervals for the Sobol indices </span>
+<span class="sd">using bootstrapping [2].</span>
+
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+
+<span class="sd">.. [1] Sobol, I.M. (1993) Sensitivity Estimates for Nonlinear Mathematical Models.  </span>
+<span class="sd">       Mathematical Modelling and Computational Experiments, 4, 407-414.</span>
+
+<span class="sd">.. [2] Jeremy Orloff and Jonathan Bloom (2014), Bootstrap confidence intervals, </span>
+<span class="sd">       Introduction to Probability and Statistics, MIT OCW. </span>
+
+<span class="sd">.. [3] Saltelli, A. (2002). Making best use of model evaluations to</span>
+<span class="sd">       compute sensitivity indices.</span>
+
+<span class="sd">.. [4] Janon, Alexander; Klein, Thierry; Lagnoux, Agnes; Nodet, Maëlle; </span>
+<span class="sd">       Prior, Clementine. Asymptotic normality and efficiency of two Sobol index </span>
+<span class="sd">       estimators. ESAIM: Probability and Statistics, Volume 18 (2014), pp. 342-364. </span>
+<span class="sd">       doi:10.1051/ps/2013040. http://www.numdam.org/articles/10.1051/ps/2013040/</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.baseclass.Sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sensitivity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.baseclass.PickFreeze</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_pick_freeze_samples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.UQpyLoggingFormatter</span><span class="w"> </span><span class="kn">import</span> <span class="n">UQpyLoggingFormatter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PositiveInteger</span><span class="p">,</span>
+    <span class="n">PositiveFloat</span><span class="p">,</span>
+    <span class="n">NumpyFloatArray</span><span class="p">,</span>
+    <span class="n">NumpyIntArray</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># TODO: Sampling strategies</span>
+
+
+<div class="viewcode-block" id="SobolSensitivity">
+<a class="viewcode-back" href="../../../sensitivity/sobol.html#UQpy.sensitivity.SobolSensitivity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SobolSensitivity</span><span class="p">(</span><span class="n">Sensitivity</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Sobol sensitivity indices using the pick</span>
+<span class="sd">    and freeze algorithm. For models with multiple outputs</span>
+<span class="sd">    (vector-valued response), the sensitivity indices are computed for each</span>
+<span class="sd">    output separately.</span>
+<span class="sd">    For time-series models, the sensitivity indices are computed for each</span>
+<span class="sd">    time instant separately. (Pointwise-in-time Sobol indices)</span>
+
+<span class="sd">    :param runmodel_object: The computational model. It should be of type :class:`.RunModel`. \</span>
+<span class="sd">        The output QoI can be a scalar or vector of length :code:`ny`, then the sensitivity \</span>
+<span class="sd">        indices of all :code:`ny` outputs are computed independently.</span>
+
+<span class="sd">    :param distributions: List of :class:`.Distribution` objects corresponding to each \</span>
+<span class="sd">        random variable, or :class:`.JointIndependent` object \</span>
+<span class="sd">        (multivariate RV with independent marginals).</span>
+
+<span class="sd">    :param random_state: Random seed used to initialize the pseudo-random number \</span>
+<span class="sd">        generator. Default is :any:`None`.</span>
+
+<span class="sd">    **Methods:**</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runmodel_object</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">runmodel_object</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+
+        <span class="c1"># Create logger with the same name as the class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_order_indices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;First order Sobol indices, :class:`numpy.ndarray` of shape `(n_variables, n_outputs)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_order_indices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Total order Sobol indices, :class:`numpy.ndarray` of shape `(n_variables, n_outputs)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">second_order_indices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Second order Sobol indices, :class:`numpy.ndarray` of shape `(num_second_order_terms, n_outputs)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_order_confidence_interval</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Confidence intervals for the first order Sobol indices, :class:`numpy.ndarray` of shape `(n_variables, 2)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_order_confidence_interval</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Confidence intervals for the total order Sobol indices, :class:`numpy.ndarray` of shape `(n_variables, 2)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">second_order_confidence_interval</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Confidence intervals for the second order Sobol indices, :class:`numpy.ndarray` of shape&quot;</span> \
+        <span class="s2">&quot; `(num_second_order_terms, 2)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Number of samples used to compute the sensitivity indices, :class:`int`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Number of model input variables, :class:`int`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_multi_output</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;True if the model has multiple outputs, :class:`bool`&quot;</span>
+
+<div class="viewcode-block" id="SobolSensitivity.run">
+<a class="viewcode-back" href="../../../sensitivity/sobol.html#UQpy.sensitivity.SobolSensitivity.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_samples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="mi">1_000</span><span class="p">,</span>
+        <span class="n">n_bootstrap_samples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">confidence_level</span><span class="p">:</span> <span class="n">PositiveFloat</span> <span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span>
+        <span class="n">estimate_second_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">first_order_scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Janon2014&quot;</span><span class="p">,</span>
+        <span class="n">total_order_scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Homma1996&quot;</span><span class="p">,</span>
+        <span class="n">second_order_scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Saltelli2002&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the sensitivity indices and confidence intervals.</span>
+
+<span class="sd">        :param n_samples: Number of samples used to compute the sensitivity indices. \</span>
+<span class="sd">            Default is 1,000.</span>
+
+<span class="sd">        :param n_bootstrap_samples: Number of bootstrap samples used to compute the \</span>
+<span class="sd">            confidence intervals. Default is :any:`None`.</span>
+
+<span class="sd">        :param confidence_interval: Confidence level used to compute the confidence \</span>
+<span class="sd">            intervals. Default is 0.95.</span>
+
+<span class="sd">        :param estimate_second_order: If True, the second order Sobol indices are \</span>
+<span class="sd">            estimated. Default is False.</span>
+
+<span class="sd">        :param first_order_scheme: Scheme used to compute the first order Sobol \</span>
+<span class="sd">            indices. Default is &quot;Janon2014&quot;.</span>
+
+<span class="sd">        :param total_order_scheme: Scheme used to compute the total order Sobol \</span>
+<span class="sd">            indices. Default is &quot;Homma1996&quot;.</span>
+
+<span class="sd">        :param second_order_scheme: Scheme used to compute the second order \</span>
+<span class="sd">            Sobol indices. Default is &quot;Saltelli2002&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check n_samples data type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="n">n_samples</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;UQpy: n_samples should be an integer.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check num_bootstrap_samples data type</span>
+        <span class="k">if</span> <span class="n">n_bootstrap_samples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_bootstrap_samples</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;UQpy: num_bootstrap_samples should be an integer.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">n_bootstrap_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;UQpy: num_bootstrap_samples is set to None, confidence intervals will not be computed.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1">################## GENERATE SAMPLES ##################</span>
+
+        <span class="p">(</span>
+            <span class="n">A_samples</span><span class="p">,</span>
+            <span class="n">B_samples</span><span class="p">,</span>
+            <span class="n">C_i_generator</span><span class="p">,</span>
+            <span class="n">D_i_generator</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">generate_pick_freeze_samples</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dist_object</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Generated samples using the pick-freeze scheme.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">=</span> <span class="n">A_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Number of variables</span>
+
+        <span class="c1">################# MODEL EVALUATIONS ####################</span>
+
+        <span class="n">A_model_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">A_samples</span><span class="p">)</span>  <span class="c1"># shape: (n_samples, n_outputs)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations A completed.&quot;</span><span class="p">)</span>
+
+        <span class="n">B_model_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">B_samples</span><span class="p">)</span>  <span class="c1"># shape: (n_samples, n_outputs)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations B completed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check the number of outputs of the model</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># multioutput flag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_multi_output</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_multi_output</span><span class="p">:</span>
+            <span class="n">A_model_evals</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">B_model_evals</span> <span class="o">=</span> <span class="n">B_model_evals</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">C_i_model_evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">C_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">C_i_generator</span><span class="p">):</span>
+            <span class="n">C_i_model_evals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">C_i</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations C completed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Compute D_i_model_evals only if needed</span>
+        <span class="k">if</span> <span class="n">estimate_second_order</span> <span class="ow">or</span> <span class="n">total_order_scheme</span> <span class="o">==</span> <span class="s2">&quot;Saltelli2002&quot;</span><span class="p">:</span>
+
+            <span class="n">D_i_model_evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">D_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">D_i_generator</span><span class="p">):</span>
+                <span class="n">D_i_model_evals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">D_i</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations D completed.&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">D_i_model_evals</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: All model evaluations computed successfully.&quot;</span><span class="p">)</span>
+
+
+        <span class="c1">################## COMPUTE SOBOL INDICES ##################</span>
+
+        <span class="c1"># First order Sobol indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_order_indices</span> <span class="o">=</span> <span class="n">compute_first_order</span><span class="p">(</span>
+            <span class="n">A_model_evals</span><span class="p">,</span>
+            <span class="n">B_model_evals</span><span class="p">,</span>
+            <span class="n">C_i_model_evals</span><span class="p">,</span>
+            <span class="n">D_i_model_evals</span><span class="p">,</span>
+            <span class="n">scheme</span><span class="o">=</span><span class="n">first_order_scheme</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: First order Sobol indices computed successfully.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Total order Sobol indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_order_indices</span> <span class="o">=</span> <span class="n">compute_total_order</span><span class="p">(</span>
+            <span class="n">A_model_evals</span><span class="p">,</span>
+            <span class="n">B_model_evals</span><span class="p">,</span>
+            <span class="n">C_i_model_evals</span><span class="p">,</span>
+            <span class="n">D_i_model_evals</span><span class="p">,</span>
+            <span class="n">scheme</span><span class="o">=</span><span class="n">total_order_scheme</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Total order Sobol indices computed successfully.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">estimate_second_order</span><span class="p">:</span>
+
+            <span class="c1"># Second order Sobol indices</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">second_order_indices</span> <span class="o">=</span> <span class="n">compute_second_order</span><span class="p">(</span>
+                <span class="n">A_model_evals</span><span class="p">,</span>
+                <span class="n">B_model_evals</span><span class="p">,</span>
+                <span class="n">C_i_model_evals</span><span class="p">,</span>
+                <span class="n">D_i_model_evals</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">first_order_indices</span><span class="p">,</span>
+                <span class="n">scheme</span><span class="o">=</span><span class="n">second_order_scheme</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Second order Sobol indices computed successfully.&quot;</span><span class="p">)</span>
+
+
+        <span class="c1">################## CONFIDENCE INTERVALS ####################</span>
+
+        <span class="k">if</span> <span class="n">n_bootstrap_samples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Computing confidence intervals ...&quot;</span><span class="p">)</span>
+
+            <span class="n">estimator_inputs</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">A_model_evals</span><span class="p">,</span>
+                <span class="n">B_model_evals</span><span class="p">,</span>
+                <span class="n">C_i_model_evals</span><span class="p">,</span>
+                <span class="n">D_i_model_evals</span><span class="p">,</span>
+            <span class="p">]</span>
+
+            <span class="c1"># First order Sobol indices</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first_order_confidence_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bootstrapping</span><span class="p">(</span>
+                <span class="n">compute_first_order</span><span class="p">,</span>
+                <span class="n">estimator_inputs</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">first_order_indices</span><span class="p">,</span>
+                <span class="n">n_bootstrap_samples</span><span class="p">,</span>
+                <span class="n">confidence_level</span><span class="p">,</span>
+                <span class="n">scheme</span><span class="o">=</span><span class="n">first_order_scheme</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;UQpy: Confidence intervals for First order Sobol indices computed successfully.&quot;</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Total order Sobol indices</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">total_order_confidence_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bootstrapping</span><span class="p">(</span>
+                <span class="n">compute_total_order</span><span class="p">,</span>
+                <span class="n">estimator_inputs</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">total_order_indices</span><span class="p">,</span>
+                <span class="n">n_bootstrap_samples</span><span class="p">,</span>
+                <span class="n">confidence_level</span><span class="p">,</span>
+                <span class="n">scheme</span><span class="o">=</span><span class="n">total_order_scheme</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;UQpy: Confidence intervals for Total order Sobol indices computed successfully.&quot;</span>
+            <span class="p">)</span>
+
+
+            <span class="c1"># Second order Sobol indices</span>
+            <span class="k">if</span> <span class="n">estimate_second_order</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">second_order_confidence_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bootstrapping</span><span class="p">(</span>
+                    <span class="n">compute_second_order</span><span class="p">,</span>
+                    <span class="n">estimator_inputs</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">second_order_indices</span><span class="p">,</span>
+                    <span class="n">n_bootstrap_samples</span><span class="p">,</span>
+                    <span class="n">confidence_level</span><span class="p">,</span>
+                    <span class="n">first_order_sobol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">first_order_indices</span><span class="p">,</span>
+                    <span class="n">scheme</span><span class="o">=</span><span class="n">second_order_scheme</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;UQpy: Confidence intervals for Second order Sobol indices computed successfully.&quot;</span>
+                <span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1">###################### Pick and Freeze Methods #####################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">These methods are also called by other sensitivity methods (such as Chatterjee, </span>
+<span class="sd">Cramer-von Mises) to estimate the Sobol indices and therefore are implemented as </span>
+<span class="sd">functions and not static methods in the Sobol class.</span>
+
+
+<span class="sd">#! Saltelli2002</span>
+<span class="sd">--------------------------------------------------------------------------------</span>
+
+<span class="sd">Sobol indices estimated as per Theorem 2 in [3]_. Refer page 7 in</span>
+<span class="sd">[3]_ for details.</span>
+
+<span class="sd">Since there are several sets of function evaluations available,</span>
+<span class="sd">there are several ways to estimate E[Y]^2 and V[Y].</span>
+<span class="sd">Below we summarise the evaluations to be used as given in Theorem 2.</span>
+
+<span class="sd"># First-order indices:</span>
+<span class="sd">    - E[Y]^2 : f_A, f_B</span>
+<span class="sd">    - V[Y] : f_A</span>
+<span class="sd">    - S_i = ( &lt;f_A, f_C_i&gt;/N - E[Y]^2 ) / V[Y]</span>
+
+
+<span class="sd"># Second-order indices:</span>
+<span class="sd">    - Estimate 1:</span>
+<span class="sd">        - E[Y]^2 : f_C_l, f_D_l -&gt; l = max(i,j)</span>
+<span class="sd">        - V[Y] : f_C_j or f_D_i</span>
+<span class="sd">        - V^c_ij = f_D_i, f_C_j</span>
+
+<span class="sd">    - Estimate 2:</span>
+<span class="sd">        - E[Y]^2: f_C_l, f_D_l -&gt; l = min(i,j)</span>
+<span class="sd">        - V[Y] : f_C_i or f_D_j</span>
+<span class="sd">        - V^c_ij = f_D_j, f_C_i</span>
+
+<span class="sd">    where:</span>
+<span class="sd">    S_ij = S^c_ij - S_i - S_j</span>
+<span class="sd">    S^c_ij = ( &lt;f_A, f_C_ij&gt;/N - E[Y]^2 ) / V[Y] # Esimate 1</span>
+<span class="sd">            = ( &lt;f_B, f_D_ij&gt;/N - E[Y]^2 ) / V[Y] # Esimate 2</span>
+
+<span class="sd"># Total-order indices:</span>
+<span class="sd">        - E[Y]^2 : f_B</span>
+<span class="sd">        - V[Y] : f_B</span>
+<span class="sd">        - S_T_i = 1 - ( &lt;f_B, f_C_i&gt;/N - E[Y]^2 ) / V[Y]</span>
+
+<span class="sd">For m=5, the Sobol indices are estimated as follows:</span>
+<span class="sd">First order indices: 2 estimates</span>
+<span class="sd">Second order indices: 2 estimates</span>
+<span class="sd">Total order indices: 2 estimates</span>
+<span class="sd">S_{-ij}: 2 estimates</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">|       |   f_B  |  f_C_1  |  f_C_2  |  f_C_3  |  f_C_4  |  f_C_5 |  f_D_1  |  f_D_2  |  f_D_3  |  f_D_4  | f_D_5 |  f_A |</span>
+<span class="sd">+=======+========+=========+=========+=========+=========+========+=========+=========+=========+=========+=======+======+</span>
+<span class="sd">|  f_B  |  V[Y]  |         |         |         |         |        |         |         |         |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_C_1 |  S_T_1 |   V[Y]  |         |         |         |        |         |         |         |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_C_2 |  S_T_2 | V^c_-12 |   V[Y]  |         |         |        |         |         |         |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_C_3 |  S_T_3 | V^c_-13 | V^c_-23 |   V[Y]  |         |        |         |         |         |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_C_4 |  S_T_4 | V^c_-14 | V^c_-24 | V^c_-34 |   V[Y]  |        |         |         |         |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_C_5 |  S_T_5 | V^c_-15 | V^c_-25 | V^c_-35 | V^c_-45 |  V[Y]  |         |         |         |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_D_1 |   S_1  |  E^2[Y] |  V^c_12 |  V^c_13 |  V^c_14 | V^c_15 |   V[Y]  |         |         |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_D_2 |   S_2  |  V^c_12 |  E^2[Y] |  V^c_23 |  V^c_24 | V^c_25 | V^c_-12 |   V[Y]  |         |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_D_3 |   S_3  |  V^c_13 |  V^c_23 |  E^2[Y] |  V^c_34 | V^c_35 | V^c_-13 | V^c_-23 |   V[Y]  |         |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_D_4 |   S_4  |  V^c_14 |  V^c_24 |  V^c_34 |  E^2[Y] | V^c_45 | V^c_-14 | V^c_-24 | V^c_-34 |   V[Y]  |       |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">| f_D_5 |   S_5  |  V^c_15 |  V^c_25 |  V^c_35 |  V^c_45 | E^2[Y] | V^c_-15 | V^c_-25 | V^c_-35 | V^c_-45 |  V[Y] |      |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+<span class="sd">|  f_A  | E^2[Y] |   S_1   |   S_2   |   S_3   |   S_4   |   S_5  |  S_T_1  |  S_T_2  |  S_T_3  |  S_T_4  | S_T_5 | V[Y] |</span>
+<span class="sd">+-------+--------+---------+---------+---------+---------+--------+---------+---------+---------+---------+-------+------+</span>
+
+<span class="sd">For m&gt;5, we can follow the same procedure as above.</span>
+
+<span class="sd">For m = 4, the Sobol indices are estimated as follows:</span>
+<span class="sd">First order indices: 2 estimates</span>
+<span class="sd">Second order indices: 4 estimates</span>
+<span class="sd">Total order indices: 2 estimates</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">|       |   f_B  |  f_C_1 |  f_C_2 |  f_C_3 |  f_C_4 |  f_D_1 |  f_D_2 |  f_D_3 | f_D_4 |  f_A |</span>
+<span class="sd">+=======+========+========+========+========+========+========+========+========+=======+======+</span>
+<span class="sd">|  f_B  |  V[Y]  |        |        |        |        |        |        |        |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">| f_C_1 |  S_T_1 |  V[Y]  |        |        |        |        |        |        |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">| f_C_2 |  S_T_2 | V^c_34 |  V[Y]  |        |        |        |        |        |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">| f_C_3 |  S_T_3 | V^c_24 | V^c_14 |  V[Y]  |        |        |        |        |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">| f_C_4 |  S_T_4 | V^c_23 | V^c_13 | V^c_12 |  V[Y]  |        |        |        |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">| f_D_1 |   S_1  | E^2[Y] | V^c_12 | V^c_13 | V^c_14 |  V[Y]  |        |        |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">| f_D_2 |   S_2  | V^c_12 | E^2[Y] | V^c_23 | V^c_24 | V^c_34 |  V[Y]  |        |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">| f_D_3 |   S_3  | V^c_13 | V^c_23 | E^2[Y] | V^c_34 | V^c_25 | V^c_14 |  V[Y]  |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">| f_D_4 |   S_4  | V^c_14 | V^c_24 | V^c_34 | E^2[Y] | V^c_23 | V^c_13 | V^c_12 |  V[Y] |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+<span class="sd">|  f_A  | E^2[Y] |   S_1  |   S_2  |   S_3  |   S_4  |  S_T_1 |  S_T_2 |  S_T_3 | S_T_4 | V[Y] |</span>
+<span class="sd">+-------+--------+--------+--------+--------+--------+--------+--------+--------+-------+------+</span>
+
+<span class="sd">For m = 3, the Sobol indices are estimated as follows:</span>
+<span class="sd">First order indices: 4 estimates</span>
+<span class="sd">Second order indices: 2 estimates</span>
+<span class="sd">Total order indices: 2 estimates</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+<span class="sd">|       |   f_B  |  f_C_1 |  f_C_2 |  f_C_3 | f_D_1 | f_D_2 | f_D_3 |  f_A |</span>
+<span class="sd">+=======+========+========+========+========+=======+=======+=======+======+</span>
+<span class="sd">|  f_B  |  V[Y]  |        |        |        |       |       |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+<span class="sd">| f_C_1 |  S_T_1 |  V[Y]  |        |        |       |       |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+<span class="sd">| f_C_2 |  S_T_2 |   S_3  |  V[Y]  |        |       |       |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+<span class="sd">| f_C_3 |  S_T_3 |   S_2  |   S_1  |  V[Y]  |       |       |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+<span class="sd">| f_D_1 |   S_1  | E^2[Y] | V^c_12 | V^c_13 |  V[Y] |       |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+<span class="sd">| f_D_2 |   S_2  | V^c_12 | E^2[Y] | V^c_23 |  S_3  |  V[Y] |       |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+<span class="sd">| f_D_3 |   S_3  | V^c_13 | V^c_23 | E^2[Y] |  S_2  |  S_1  |  V[Y] |      |</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+<span class="sd">|  f_A  | E^2[Y] |   S_1  |   S_2  |   S_3  | S_T_1 | S_T_2 | S_T_3 | V[Y] |</span>
+<span class="sd">+-------+--------+--------+--------+--------+-------+-------+-------+------+</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="nd">@beartype</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_first_order</span><span class="p">(</span>
+    <span class="n">A_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="n">B_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">C_i_model_evals</span><span class="p">:</span> <span class="n">NumpyFloatArray</span><span class="p">,</span>
+    <span class="n">D_i_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Janon2014&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute first order Sobol&#39; indices using the Pick-and-Freeze scheme.</span>
+
+<span class="sd">    For the Sobol1996 scheme:</span>
+<span class="sd">    For computing the first order Sobol&#39; indices, only f_A_model_evals and</span>
+<span class="sd">    f_C_i_model_evals are required. The other inputs are optional.</span>
+<span class="sd">        f_B_model_evals is set to None if f_B_model_evals is not provided.</span>
+
+<span class="sd">    **Inputs:**</span>
+
+<span class="sd">    * **A_model_evals** (`ndarray`):</span>
+<span class="sd">        Shape: `(n_samples, n_outputs)`.</span>
+
+<span class="sd">    * **B_model_evals** (`ndarray`):</span>
+<span class="sd">        If not available, pass `None`.</span>
+<span class="sd">        Shape: `(n_samples, n_outputs)`.</span>
+
+<span class="sd">    * **C_i_model_evals** (`ndarray`):</span>
+<span class="sd">        Shape: `(n_outputs, n_samples, num_vars)`.</span>
+
+<span class="sd">    * **D_i_model_evals** (`ndarray`, optional):</span>
+<span class="sd">        Shape: `(n_outputs, n_samples, num_vars)`.</span>
+
+<span class="sd">    * **scheme** (`str`, optional):</span>
+<span class="sd">        Scheme to use for computing the first order Sobol&#39; indices.</span>
+<span class="sd">        Default: &#39;Sobol1993&#39;.</span>
+
+<span class="sd">    **Outputs:**</span>
+
+<span class="sd">    * **first_order_sobol** (`ndarray`):</span>
+<span class="sd">        First order Sobol&#39; indices.</span>
+<span class="sd">        Shape: `(num_vars, n_outputs)`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n_outputs</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_vars</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># Store first order Sobol&#39; indices</span>
+    <span class="n">first_order_sobol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;Sobol1993&quot;</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">output_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_outputs</span><span class="p">):</span>
+
+            <span class="n">f_A</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span>
+            <span class="n">f_B</span> <span class="o">=</span> <span class="n">B_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span> <span class="k">if</span> <span class="n">B_model_evals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+
+            <span class="c1"># combine all model evaluations</span>
+            <span class="c1"># to improve accuracy of the estimator</span>
+            <span class="n">_all_model_evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_B</span><span class="p">)</span> <span class="k">if</span> <span class="n">f_B</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">f_A</span>
+            <span class="n">f_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">_all_model_evals</span><span class="p">)</span>  <span class="c1"># scalar</span>
+
+            <span class="n">f_0_square</span> <span class="o">=</span> <span class="n">f_0</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">total_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">_all_model_evals</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">var_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">):</span>
+
+                <span class="n">f_C_i</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_i</span><span class="p">]</span>
+
+                <span class="n">S_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_C_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+
+                <span class="n">first_order_sobol</span><span class="p">[</span><span class="n">var_i</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_i</span>
+
+    <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;Janon2014&quot;</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">output_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_outputs</span><span class="p">):</span>
+
+            <span class="n">f_A</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">var_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">):</span>
+
+                <span class="n">f_C_i</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_i</span><span class="p">]</span>
+
+                <span class="c1"># combine all model evaluations</span>
+                <span class="c1"># to improve accuracy of the estimator</span>
+                <span class="n">_all_model_evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_C_i</span><span class="p">)</span>
+                <span class="n">f_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">_all_model_evals</span><span class="p">)</span>
+
+                <span class="n">f_0_square</span> <span class="o">=</span> <span class="n">f_0</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">total_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">_all_model_evals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">f_0_square</span>
+
+                <span class="n">S_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_C_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+
+                <span class="n">first_order_sobol</span><span class="p">[</span><span class="n">var_i</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_i</span>
+
+    <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;Saltelli2002&quot;</span><span class="p">:</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of estimates for first order indices is 4 if</span>
+<span class="sd">        num_vars is 3, else 2.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">output_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_outputs</span><span class="p">):</span>
+
+            <span class="n">f_A</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span>
+            <span class="n">f_B</span> <span class="o">=</span> <span class="n">B_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span>
+            <span class="n">f_0_square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_B</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span>
+            <span class="n">total_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">var_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">):</span>
+
+                <span class="n">f_C_i</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_i</span><span class="p">]</span>
+                <span class="n">f_D_i</span> <span class="o">=</span> <span class="n">D_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_i</span><span class="p">]</span>
+
+                <span class="c1"># (Estimate 1)</span>
+                <span class="n">est_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_C_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+
+                <span class="c1"># (Estimate 2)</span>
+                <span class="n">est_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_B</span><span class="p">,</span> <span class="n">f_D_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+
+                <span class="k">if</span> <span class="n">num_vars</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+
+                    <span class="c1"># list of variable indices</span>
+                    <span class="n">list_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">))</span>
+                    <span class="n">list_vars</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">var_i</span><span class="p">)</span>
+                    <span class="c1"># combination of all remaining variables indices</span>
+                    <span class="n">rem_vars_perm</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">permutations</span><span class="p">(</span><span class="n">list_vars</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+                    <span class="c1"># (Estimate 3)</span>
+                    <span class="n">var_a</span><span class="p">,</span> <span class="n">var_b</span> <span class="o">=</span> <span class="n">rem_vars_perm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">f_C_a</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_a</span><span class="p">]</span>
+                    <span class="n">f_C_b</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_b</span><span class="p">]</span>
+                    <span class="n">est_3</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_C_a</span><span class="p">,</span> <span class="n">f_C_b</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span>
+                    <span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+
+                    <span class="c1"># (Estimate 4)</span>
+                    <span class="n">var_a</span><span class="p">,</span> <span class="n">var_b</span> <span class="o">=</span> <span class="n">rem_vars_perm</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">f_D_a</span> <span class="o">=</span> <span class="n">D_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_a</span><span class="p">]</span>
+                    <span class="n">f_D_b</span> <span class="o">=</span> <span class="n">D_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_b</span><span class="p">]</span>
+                    <span class="n">est_4</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_D_a</span><span class="p">,</span> <span class="n">f_D_b</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span>
+                    <span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+
+                    <span class="n">first_order_sobol</span><span class="p">[</span><span class="n">var_i</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">est_1</span> <span class="o">+</span> <span class="n">est_2</span> <span class="o">+</span> <span class="n">est_3</span> <span class="o">+</span> <span class="n">est_4</span>
+                    <span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">first_order_sobol</span><span class="p">[</span><span class="n">var_i</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">est_1</span> <span class="o">+</span> <span class="n">est_2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">first_order_sobol</span>
+
+
+<span class="nd">@beartype</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_total_order</span><span class="p">(</span>
+    <span class="n">A_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="n">B_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">C_i_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="n">D_i_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Homma1996&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute total order Sobol&#39; indices using the Pick-and-Freeze scheme.</span>
+
+<span class="sd">    For the Homma1996 scheme:</span>
+<span class="sd">    For computing the first order Sobol&#39; indices, only f_B_model_evals and</span>
+<span class="sd">    f_C_i_model_evals are required.</span>
+<span class="sd">        f_A_model_evals is set to None if f_A_model_evals is not provided.</span>
+
+<span class="sd">    **Inputs:**</span>
+
+<span class="sd">    * **A_model_evals** (`ndarray`):</span>
+<span class="sd">        If not available, pass `None`.</span>
+<span class="sd">        Shape: `(n_samples, n_outputs)`.</span>
+
+<span class="sd">    * **B_model_evals** (`ndarray`):</span>
+<span class="sd">        Shape: `(n_samples, n_outputs)`.</span>
+
+<span class="sd">    * **C_i_model_evals** (`ndarray`):</span>
+<span class="sd">        Shape: `(n_outputs, n_samples, num_vars)`.</span>
+
+<span class="sd">    * **D_i_model_evals** (`ndarray`, optional):</span>
+<span class="sd">        Shape: `(n_outputs, n_samples, num_vars)`.</span>
+
+<span class="sd">    * **scheme** (`str`, optional):</span>
+<span class="sd">        Scheme to use for computing the total order Sobol&#39; indices.</span>
+<span class="sd">        Default: &#39;Homma1996&#39;.</span>
+
+<span class="sd">    **Outputs:**</span>
+
+<span class="sd">    * **total_order_sobol** (`ndarray`):</span>
+<span class="sd">        Total order Sobol&#39; indices.</span>
+<span class="sd">        Shape: `(num_vars, n_outputs)`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n_outputs</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_vars</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># Store total order Sobol&#39; indices</span>
+    <span class="n">total_order_sobol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;Homma1996&quot;</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">output_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_outputs</span><span class="p">):</span>
+
+            <span class="n">f_A</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span> <span class="k">if</span> <span class="n">A_model_evals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">f_B</span> <span class="o">=</span> <span class="n">B_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span>
+
+            <span class="c1"># combine all model evaluations</span>
+            <span class="c1"># to improve accuracy of the estimator</span>
+            <span class="n">_all_model_evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_B</span><span class="p">)</span> <span class="k">if</span> <span class="n">f_A</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">f_B</span>
+            <span class="n">f_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">_all_model_evals</span><span class="p">)</span>  <span class="c1"># scalar</span>
+
+            <span class="n">f_0_square</span> <span class="o">=</span> <span class="n">f_0</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">total_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">_all_model_evals</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">var_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">):</span>
+
+                <span class="n">f_C_i</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_i</span><span class="p">]</span>
+
+                <span class="n">S_T_i</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_B</span><span class="p">,</span> <span class="n">f_C_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+                <span class="p">)</span>
+
+                <span class="n">total_order_sobol</span><span class="p">[</span><span class="n">var_i</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_T_i</span>
+
+    <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;Saltelli2002&quot;</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">output_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_outputs</span><span class="p">):</span>
+
+            <span class="n">f_A</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span>
+            <span class="n">f_B</span> <span class="o">=</span> <span class="n">B_model_evals</span><span class="p">[:,</span> <span class="n">output_j</span><span class="p">]</span>
+            <span class="n">f_0_square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_B</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">total_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">f_B</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">var_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">):</span>
+
+                <span class="n">f_C_i</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_i</span><span class="p">]</span>
+                <span class="n">f_D_i</span> <span class="o">=</span> <span class="n">D_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_i</span><span class="p">]</span>
+
+                <span class="c1"># (Estimate 1)</span>
+                <span class="n">est_1</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_B</span><span class="p">,</span> <span class="n">f_C_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+                <span class="p">)</span>
+
+                <span class="c1"># (Estimate 2)</span>
+                <span class="n">est_2</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_D_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+                <span class="p">)</span>
+
+                <span class="n">total_order_sobol</span><span class="p">[</span><span class="n">var_i</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">est_1</span> <span class="o">+</span> <span class="n">est_2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">total_order_sobol</span>
+
+
+<span class="nd">@beartype</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_second_order</span><span class="p">(</span>
+    <span class="n">A_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="n">B_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="n">C_i_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="n">D_i_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="n">first_order_sobol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># None to make it a make keyword argument</span>
+    <span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Saltelli2002&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the second order Sobol indices using the Pick-and-Freeze scheme.</span>
+
+<span class="sd">    NOTE:</span>
+<span class="sd">    - Number of estimates for second order indices is 4 if</span>
+<span class="sd">        num_vars is 4, else 2.</span>
+
+<span class="sd">    - Although the B_model_evals are not being used currently, they are</span>
+<span class="sd">        included for use in estimate 3 and 4 for case num_vars = 4.</span>
+
+<span class="sd">    **Inputs:**</span>
+
+<span class="sd">    * **A_model_evals** (`ndarray`):</span>
+<span class="sd">        Shape: `(n_samples, n_outputs)`.</span>
+
+<span class="sd">    * **B_model_evals** (`ndarray`):</span>
+<span class="sd">        Shape: `(n_samples, n_outputs)`.</span>
+
+<span class="sd">    * **C_i_model_evals** (`ndarray`):</span>
+<span class="sd">        Shape: `(n_outputs, n_samples, num_vars)`.</span>
+
+<span class="sd">    * **D_i_model_evals** (`ndarray`, optional):</span>
+<span class="sd">        Shape: `(n_outputs, n_samples, num_vars)`.</span>
+
+<span class="sd">    * **first_order_sobol** (`ndarray`):</span>
+<span class="sd">        First order Sobol&#39; indices.</span>
+<span class="sd">        Shape: `(num_vars, n_outputs)`.</span>
+
+<span class="sd">    * **scheme** (`str`, optional):</span>
+<span class="sd">        Scheme to use for computing the first order Sobol&#39; indices.</span>
+<span class="sd">        Default: &#39;Sobol1993&#39;.</span>
+
+<span class="sd">    **Outputs:**</span>
+
+<span class="sd">    * **second_order_sobol** (`ndarray`):</span>
+<span class="sd">        Second order Sobol indices.</span>
+<span class="sd">        Shape: `(num_second_order_terms, n_outputs)`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n_outputs</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_vars</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">second_order_terms</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_vars</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">second_order_terms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">second_order_terms</span><span class="p">)</span>
+    <span class="n">num_second_order_terms</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">comb</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Store second order Sobol&#39; indices</span>
+    <span class="n">second_order_sobol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_second_order_terms</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;Saltelli2002&quot;</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">output_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_outputs</span><span class="p">):</span>
+
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_second_order_terms</span><span class="p">):</span>
+
+                <span class="n">var_a</span><span class="p">,</span> <span class="n">var_b</span> <span class="o">=</span> <span class="n">second_order_terms</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">S_a</span> <span class="o">=</span> <span class="n">first_order_sobol</span><span class="p">[</span><span class="n">var_a</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span>
+                <span class="n">S_b</span> <span class="o">=</span> <span class="n">first_order_sobol</span><span class="p">[</span><span class="n">var_b</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span>
+
+                <span class="c1"># (Estimate 1)</span>
+                <span class="n">var_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">var_a</span><span class="p">,</span> <span class="n">var_b</span><span class="p">])</span>
+                <span class="n">f_C_c</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_c</span><span class="p">]</span>
+                <span class="n">f_D_c</span> <span class="o">=</span> <span class="n">D_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_c</span><span class="p">]</span>
+                <span class="n">f_0_square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_D_c</span><span class="p">,</span> <span class="n">f_C_c</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span>
+                <span class="n">total_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">f_D_c</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+                <span class="n">f_C_a</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_a</span><span class="p">]</span>
+                <span class="n">f_D_b</span> <span class="o">=</span> <span class="n">D_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_b</span><span class="p">]</span>
+                <span class="n">S_c_ab_1</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_C_a</span><span class="p">,</span> <span class="n">f_D_b</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+
+                <span class="n">est_1</span> <span class="o">=</span> <span class="n">S_c_ab_1</span> <span class="o">-</span> <span class="n">S_a</span> <span class="o">-</span> <span class="n">S_b</span>
+
+                <span class="c1"># (Estimate 2)</span>
+                <span class="n">var_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">var_a</span><span class="p">,</span> <span class="n">var_b</span><span class="p">])</span>
+                <span class="n">f_C_c</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_c</span><span class="p">]</span>
+                <span class="n">f_D_c</span> <span class="o">=</span> <span class="n">D_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_c</span><span class="p">]</span>
+                <span class="n">f_0_square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_D_c</span><span class="p">,</span> <span class="n">f_C_c</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span>
+                <span class="n">total_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">f_D_c</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+                <span class="n">f_D_a</span> <span class="o">=</span> <span class="n">D_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_a</span><span class="p">]</span>
+                <span class="n">f_C_b</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="p">[</span><span class="n">output_j</span><span class="p">,</span> <span class="p">:,</span> <span class="n">var_b</span><span class="p">]</span>
+                <span class="n">S_c_ab_2</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f_D_a</span><span class="p">,</span> <span class="n">f_C_b</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">f_0_square</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="n">total_variance</span>
+
+                <span class="n">est_2</span> <span class="o">=</span> <span class="n">S_c_ab_2</span> <span class="o">-</span> <span class="n">S_a</span> <span class="o">-</span> <span class="n">S_b</span>
+
+                <span class="k">if</span> <span class="n">num_vars</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+
+                    <span class="c1"># (Estimate 3)</span>
+                    <span class="c1"># TODO: How to compute this?</span>
+
+                    <span class="c1"># (Estimate 4)</span>
+                    <span class="c1"># TODO: How to compute this?</span>
+
+                    <span class="c1"># second_order_sobol[k, output_j] = (</span>
+                    <span class="c1">#     est_1 + est_2 + est_3 + est_4</span>
+                    <span class="c1"># ) / 4</span>
+
+                    <span class="k">pass</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">second_order_sobol</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">output_j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">est_1</span> <span class="o">+</span> <span class="n">est_2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">second_order_sobol</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+:orphan:
+
+Polynomial Chaos Expansion Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 5D data.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_friedman_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_friedman.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Friedman function (5 random inputs, scalar output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 3D data.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_exponential_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_exponential.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Exponential function (3 random inputs, scalar output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 2D data for a numerical model with multi-dimensional outputs.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_helmholtz_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_helmholtz.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">2D Helmholtz eigenvalues (2 random inputs, vector-valued output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we approximate the well-known Ishigami function with a total-degree Polynomial Chaos Expansion.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_ishigami_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_ishigami.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Ishigami function (3 random inputs, scalar output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 8D data.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_robot_arm_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_robot_arm.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Robot Arm function (8 random inputs, scalar output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model of a sinusoidal function with a single random input and a scalar output.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_oakley_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_oakley.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Oakley Function  (1 random input, scalar output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model of a sinusoidal function with a single random input and a scalar output.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_sinusoidal_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_sinusoidal.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Sinusoidal Function  (1 random input, scalar output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 2D data.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_sphere_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_sphere.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Sinusoidal Function  Sphere function (2 random inputs, scalar output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, PCE is used to generate a surrogate model for a given set of 2D data.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_camel_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_camel.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Camel function (3 random inputs, scalar output)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we approximate the well-known Ishigami function with a total-degree Polynomial Chaos Expansion further reduced by hyperbolic truncation. In order to reduce the number of basis functions, we use the best-model selection algorithm based on Least Angle Regression.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_sparsity_lars_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_sparsity_lars.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Hyperbolic truncation and Least Angle Regression</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we use Physics-informed Polynomial Chaos Expansion for approximation and UQ of Euler beam equation.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_euler_UQ_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_euler_UQ.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Physics-Informed PCE: Uncertainty Quantification of Euler Beam</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we approximate a deterministic Wave Equation by Physics-informed Polynomial Chaos Expansion.">
+
+.. only:: html
+
+  .. image:: /auto_examples/surrogates/pce/images/thumb/sphx_glr_pce_wave_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_surrogates_pce_pce_wave.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Physics-Informed PCE: Deterministic Wave Equation</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/surrogates/pce/pce_friedman
+   /auto_examples/surrogates/pce/pce_exponential
+   /auto_examples/surrogates/pce/pce_helmholtz
+   /auto_examples/surrogates/pce/pce_ishigami
+   /auto_examples/surrogates/pce/pce_robot_arm
+   /auto_examples/surrogates/pce/pce_oakley
+   /auto_examples/surrogates/pce/pce_sinusoidal
+   /auto_examples/surrogates/pce/pce_sphere
+   /auto_examples/surrogates/pce/pce_camel
+   /auto_examples/surrogates/pce/pce_sparsity_lars
+   /auto_examples/surrogates/pce/pce_euler_UQ
+   /auto_examples/surrogates/pce/pce_wave
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: pce_python.zip </auto_examples/surrogates/pce/pce_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: pce_jupyter.zip </auto_examples/surrogates/pce/pce_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

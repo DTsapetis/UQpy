@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../../../index.html">
+            
+              <img src="../../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc.MetropolisHastings</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetropolisHastings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.distributions.collection.MultivariateNormal</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultivariateNormal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc.baseclass.MCMC</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.mcmc.tempering_mcmc.baseclass.TemperingMCMC</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemperingMCMC</span>
+
+
+<div class="viewcode-block" id="SequentialTemperingMCMC">
+<a class="viewcode-back" href="../../../../../sampling/mcmc/tempering.html#UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SequentialTemperingMCMC</span><span class="p">(</span><span class="n">TemperingMCMC</span><span class="p">):</span>
+
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdf_intermediate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_pdf_intermediate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args_pdf_intermediate</span><span class="o">=</span><span class="p">(),</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">distribution_reference</span><span class="p">:</span> <span class="n">Distribution</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">sampler</span><span class="p">:</span> <span class="n">MCMC</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">nsamples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">recalculate_weights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">save_intermediate_samples</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">percentage_resampling</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="p">:</span> <span class="n">RandomStateType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">resampling_burn_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">resampling_proposal</span><span class="p">:</span> <span class="n">Distribution</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">resampling_proposal_is_symmetric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class for Sequential-Tempering MCMC</span>
+
+<span class="sd">        :param sampler: :class:`MCMC` object: MCMC samplers used to draw the remaining samples for the intermediate</span>
+<span class="sd">         distribution after the resampling step. Default to running a simple MH algorithm, where the proposal covariance</span>
+<span class="sd">         is calculated as per the procedure given in Ching and Chen (2007) and Betz et. al. (2016).</span>
+<span class="sd">        :param recalculate_weights: boolean: To be set to true if the resampling weights are to be recalculated after</span>
+<span class="sd">         each point is generated during the resampling step. This is done so that the resampling weights are in</span>
+<span class="sd">         accordance with the new sample generated after Metropolis Hastings is used for dispersion to ensure uniqueness</span>
+<span class="sd">         of the samples.</span>
+<span class="sd">        :param save_intermediate_samples: boolean: To be set to true to save the samples that are generated according to</span>
+<span class="sd">         the intermediate distributions.</span>
+<span class="sd">        :param percentage_resampling: float: Indicates what percentage of samples for a given intermediate distribution</span>
+<span class="sd">         are to be generated through resampling from the set of samples generated for the previous intermediate</span>
+<span class="sd">         distribution.</span>
+<span class="sd">        :param resampling_burn_length: int: Burn-in length for the Metropolis Hastings dispersion step to ensure</span>
+<span class="sd">         uniqueness.</span>
+<span class="sd">        :param resampling_proposal: :class:`.Distribution` object. The proposal distribution for the Metropolis Hastings</span>
+<span class="sd">         dispersion step.</span>
+<span class="sd">        :param resampling_proposal_is_symmetric: boolean: Indicates whether the provided resampling proposal is</span>
+<span class="sd">         symmetric.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">proposal</span> <span class="o">=</span> <span class="n">resampling_proposal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proposal_is_symmetric</span> <span class="o">=</span> <span class="n">resampling_proposal_is_symmetric</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resampling_burn_length</span> <span class="o">=</span> <span class="n">resampling_burn_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pdf_intermediate</span><span class="o">=</span><span class="n">pdf_intermediate</span><span class="p">,</span> <span class="n">log_pdf_intermediate</span><span class="o">=</span><span class="n">log_pdf_intermediate</span><span class="p">,</span>
+                         <span class="n">args_pdf_intermediate</span><span class="o">=</span><span class="n">args_pdf_intermediate</span><span class="p">,</span> <span class="n">distribution_reference</span><span class="o">=</span><span class="n">distribution_reference</span><span class="p">,</span>
+                         <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span> <span class="o">=</span> <span class="n">sampler</span>
+        <span class="c1"># Initialize inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_intermediate_samples</span> <span class="o">=</span> <span class="n">save_intermediate_samples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recalculate_weights</span> <span class="o">=</span> <span class="n">recalculate_weights</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample_fraction</span> <span class="o">=</span> <span class="n">percentage_resampling</span> <span class="o">/</span> <span class="mi">100</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">dimension</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__n_chains</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">n_chains</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_chain</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(((</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_fraction</span><span class="p">)</span> <span class="o">*</span> <span class="n">nsamples</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n_chains</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_resamples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nsamples</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_chain</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n_chains</span><span class="p">))</span>
+
+        <span class="c1"># Initialize input distributions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_reference</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preprocess_reference</span><span class="p">(</span><span class="n">dist_</span><span class="o">=</span><span class="n">distribution_reference</span><span class="p">,</span>
+                                                                            <span class="n">seed_</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">,</span>
+                                                                            <span class="n">dimension</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span><span class="p">,</span>
+                                                                            <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="c1"># Initialize flag that indicates whether default proposal is to be used (default proposal defined adaptively</span>
+        <span class="c1"># during run)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proposal_given_flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proposal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="c1"># Initialize attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evidence</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evidence_CoV</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Call the run function</span>
+        <span class="k">if</span> <span class="n">nsamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;UQpy: a value for &quot;nsamples&quot; must be specified &#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SequentialTemperingMCMC.run">
+<a class="viewcode-back" href="../../../../../sampling/mcmc/tempering.html#UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the MCMC algorithm.</span>
+
+<span class="sd">        This function samples from each intermediate distribution until samples from the target are generated. Samples</span>
+<span class="sd">        cannot be appended to existing samples in this method. It leverages the `run_iterations` method specific to the</span>
+<span class="sd">        sampler.</span>
+
+<span class="sd">        :param nsamples: Number of samples to generate from the target (the same number of samples will be generated</span>
+<span class="sd">         for all intermediate distributions).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;TMCMC Start&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;UQpy: run method cannot be called multiple times for the same object&#39;</span><span class="p">)</span>
+
+        <span class="n">points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seed</span>  <span class="c1"># Generated Samples from prior for zero-th tempering level</span>
+
+        <span class="c1"># Initializing other variables</span>
+        <span class="n">current_tempering_parameter</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># Intermediate exponent</span>
+        <span class="n">previous_tempering_parameter</span> <span class="o">=</span> <span class="n">current_tempering_parameter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">current_tempering_parameter</span><span class="p">)</span>
+        <span class="n">pts_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span>  <span class="c1"># Array storing sample indices</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span>  <span class="c1"># Array storing plausibility weights</span>
+        <span class="n">weight_probabilities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span>  <span class="c1"># Array storing plausibility weight probabilities</span>
+        <span class="n">expected_q0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="mf">0.0</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">))</span> <span class="o">/</span> <span class="n">nsamples</span>
+
+        <span class="n">evidence_estimator</span> <span class="o">=</span> <span class="n">expected_q0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_intermediate_samples</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_samples</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_samples</span> <span class="o">+=</span> <span class="p">[</span><span class="n">points</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+
+        <span class="c1"># Calculate covariance matrix for the default proposal</span>
+        <span class="n">cov_scale</span> <span class="o">=</span> <span class="mf">0.2</span>
+        <span class="c1"># Looping over all adaptively decided tempering levels</span>
+        <span class="k">while</span> <span class="n">current_tempering_parameter</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+
+            <span class="c1"># Copy the state of the points array</span>
+            <span class="n">points_copy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+            <span class="c1"># Adaptively set the tempering exponent for the current level</span>
+            <span class="n">previous_tempering_parameter</span> <span class="o">=</span> <span class="n">current_tempering_parameter</span>
+            <span class="n">current_tempering_parameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_temper_param</span><span class="p">(</span><span class="n">previous_tempering_parameter</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span>
+                                                                  <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">)</span>
+            <span class="c1"># d_exp = temper_param - temper_param_prev</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempering_parameters</span><span class="p">,</span> <span class="n">current_tempering_parameter</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;beta selected&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Calculate the plausibility weights</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+                <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
+                                                                   <span class="n">current_tempering_parameter</span><span class="p">)</span>
+                                    <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
+                                                                     <span class="n">previous_tempering_parameter</span><span class="p">))</span>
+
+            <span class="c1"># Calculate normalizing constant for the plausibility weights (sum of the weights)</span>
+            <span class="n">w_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+            <span class="c1"># Calculate evidence from each tempering level</span>
+            <span class="n">evidence_estimator</span> <span class="o">=</span> <span class="n">evidence_estimator</span> <span class="o">*</span> <span class="p">(</span><span class="n">w_sum</span> <span class="o">/</span> <span class="n">nsamples</span><span class="p">)</span>
+            <span class="c1"># Normalize plausibility weight probabilities</span>
+            <span class="n">weight_probabilities</span> <span class="o">=</span> <span class="p">(</span><span class="n">weights</span> <span class="o">/</span> <span class="n">w_sum</span><span class="p">)</span>
+
+            <span class="n">w_theta_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span><span class="p">):</span>
+                    <span class="n">w_theta_sum</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">sigma_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+                <span class="n">points_deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span><span class="p">):</span>
+                    <span class="n">points_deviation</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">w_theta_sum</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">w_sum</span><span class="p">)</span>
+                <span class="n">sigma_matrix</span> <span class="o">+=</span> <span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">w_sum</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">points_deviation</span><span class="p">,</span>
+                                                              <span class="n">points_deviation</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>  <span class="c1"># Normalized by w_sum as per Betz et al</span>
+            <span class="n">sigma_matrix</span> <span class="o">=</span> <span class="n">cov_scale</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sigma_matrix</span>
+
+            <span class="n">mcmc_log_pdf_target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_generator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">,</span>
+                                                         <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_reference</span><span class="p">,</span> <span class="n">current_tempering_parameter</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Begin Resampling&#39;</span><span class="p">)</span>
+            <span class="c1"># Resampling and MH-MCMC step</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_resamples</span><span class="p">):</span>
+
+                <span class="c1"># Resampling from previous tempering level</span>
+                <span class="n">lead_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">pts_index</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">weight_probabilities</span><span class="p">))</span>
+                <span class="n">lead</span> <span class="o">=</span> <span class="n">points_copy</span><span class="p">[</span><span class="n">lead_index</span><span class="p">]</span>
+
+                <span class="c1"># Defining the default proposal</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">proposal_given_flag</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">proposal</span> <span class="o">=</span> <span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">lead</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">sigma_matrix</span><span class="p">)</span>
+
+                <span class="c1"># Single MH-MCMC step</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">MetropolisHastings</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__dimension</span><span class="p">,</span> <span class="n">log_pdf_target</span><span class="o">=</span><span class="n">mcmc_log_pdf_target</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">lead</span><span class="p">),</span>
+                                       <span class="n">nsamples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_chains</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">burn_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">resampling_burn_length</span><span class="p">,</span>
+                                       <span class="n">proposal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proposal</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span>
+                                       <span class="n">proposal_is_symmetric</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proposal_is_symmetric</span><span class="p">)</span>
+
+                <span class="c1"># Setting the generated sample in the array</span>
+                <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">samples</span>
+                <span class="n">points_copy</span><span class="p">[</span><span class="n">lead_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">samples</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">recalculate_weights</span><span class="p">:</span>
+                    <span class="n">weights</span><span class="p">[</span><span class="n">lead_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">lead_index</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">current_tempering_parameter</span><span class="p">)</span>
+                        <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_log_intermediate</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">lead_index</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">previous_tempering_parameter</span><span class="p">))</span>
+                    <span class="n">w_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+                        <span class="n">weight_probabilities</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">w_sum</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Begin MCMC&#39;</span><span class="p">)</span>
+            <span class="n">mcmc_seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mcmc_seed_generator</span><span class="p">(</span><span class="n">resampled_pts</span><span class="o">=</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">n_resamples</span><span class="p">,</span> <span class="p">:],</span>
+                                                  <span class="n">arr_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_resamples</span><span class="p">,</span>
+                                                  <span class="n">seed_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__n_chains</span><span class="p">,</span>
+                                                  <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+            <span class="n">y</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_target_and_seed</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mcmc_seed</span><span class="p">,</span> <span class="n">mcmc_log_pdf_target</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">__copy__</span><span class="p">(</span><span class="n">log_pdf_target</span><span class="o">=</span><span class="n">mcmc_log_pdf_target</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">mcmc_seed</span><span class="p">,</span>
+                                      <span class="n">nsamples_per_chain</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_chain</span><span class="p">,</span>
+                                      <span class="n">concatenate_chains</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+            <span class="n">points</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_resamples</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">samples</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_intermediate_samples</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_samples</span> <span class="o">+=</span> <span class="p">[</span><span class="n">points</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Tempering level ended&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Setting the calculated values to the attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evidence</span> <span class="o">=</span> <span class="n">evidence_estimator</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_target_and_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mcmc_class</span><span class="p">,</span> <span class="n">mcmc_seed</span><span class="p">,</span> <span class="n">mcmc_log_pdf_target</span><span class="p">):</span>
+        <span class="n">mcmc_class</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">mcmc_seed</span>
+        <span class="n">mcmc_class</span><span class="o">.</span><span class="n">log_pdf_target</span> <span class="o">=</span> <span class="n">mcmc_log_pdf_target</span>
+        <span class="n">mcmc_class</span><span class="o">.</span><span class="n">pdf_target</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">(</span><span class="n">mcmc_class</span><span class="o">.</span><span class="n">evaluate_log_target</span><span class="p">,</span> <span class="n">mcmc_class</span><span class="o">.</span><span class="n">evaluate_log_target_marginals</span><span class="p">,)</span> <span class="o">=</span> \
+            <span class="n">mcmc_class</span><span class="o">.</span><span class="n">_preprocess_target</span><span class="p">(</span><span class="n">pdf_</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_pdf_</span><span class="o">=</span><span class="n">mcmc_class</span><span class="o">.</span><span class="n">log_pdf_target</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SequentialTemperingMCMC.evaluate_normalization_constant">
+<a class="viewcode-back" href="../../../../../sampling/mcmc/tempering.html#UQpy.sampling.mcmc.tempering_mcmc.SequentialTemperingMCMC.evaluate_normalization_constant">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_normalization_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evidence</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_find_temper_param</span><span class="p">(</span><span class="n">temper_param_prev</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">q_func</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">iter_lim</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">iter_thresh</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the tempering parameter for the next intermediate target using bisection search between 1.0 and the</span>
+<span class="sd">        previous tempering parameter (taken to be 0.0 for the first level).</span>
+
+<span class="sd">        **Inputs:**</span>
+
+<span class="sd">        * **temper_param_prev** (&#39;float&#39;):</span>
+<span class="sd">            The value of the previous tempering parameter</span>
+
+<span class="sd">        * **samples** (`ndarray`):</span>
+<span class="sd">            Generated samples from the previous intermediate target distribution</span>
+
+<span class="sd">        * **q_func** (callable):</span>
+<span class="sd">            The intermediate distribution (called &#39;self.evaluate_log_intermediate&#39; in this code)</span>
+
+<span class="sd">        * **n** (&#39;int&#39;):</span>
+<span class="sd">            Number of samples</span>
+
+<span class="sd">        * **iter_lim** (&#39;int&#39;):</span>
+<span class="sd">            Number of iterations to run the bisection search algorithm for, to avoid infinite loops</span>
+
+<span class="sd">        * **iter_thresh** (&#39;float&#39;):</span>
+<span class="sd">            Threshold on the bisection interval, to avoid infinite loops</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bot</span> <span class="o">=</span> <span class="n">temper_param_prev</span>
+        <span class="n">top</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Indicates when the tempering exponent has been found (flag = 1 =&gt; solution found)</span>
+        <span class="n">loop_counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">flag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">loop_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">q_scaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">temper_param_trial</span> <span class="o">=</span> <span class="p">((</span><span class="n">bot</span> <span class="o">+</span> <span class="n">top</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">q_scaled</span><span class="p">[</span><span class="n">i2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">q_func</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i2</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="mi">1</span><span class="p">)</span>
+                                      <span class="o">-</span> <span class="n">q_func</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i2</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">temper_param_prev</span><span class="p">))</span>
+            <span class="n">sigma_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">q_scaled</span><span class="p">)</span>
+            <span class="n">mu_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">q_scaled</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sigma_1</span> <span class="o">&lt;</span> <span class="n">mu_1</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">temper_param_trial</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">i3</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">q_scaled</span><span class="p">[</span><span class="n">i3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">q_func</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i3</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">temper_param_trial</span><span class="p">)</span>
+                                      <span class="o">-</span> <span class="n">q_func</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i3</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">temper_param_prev</span><span class="p">))</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">q_scaled</span><span class="p">)</span>
+            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">q_scaled</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sigma</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mf">0.9</span> <span class="o">*</span> <span class="n">mu</span><span class="p">):</span>
+                <span class="n">bot</span> <span class="o">=</span> <span class="n">temper_param_trial</span>
+            <span class="k">elif</span> <span class="n">sigma</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mf">1.1</span> <span class="o">*</span> <span class="n">mu</span><span class="p">):</span>
+                <span class="n">top</span> <span class="o">=</span> <span class="n">temper_param_trial</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">loop_counter</span> <span class="o">&gt;</span> <span class="n">iter_lim</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;UQpy: unable to find tempering exponent due to nonconvergence&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">top</span> <span class="o">-</span> <span class="n">bot</span> <span class="o">&lt;=</span> <span class="n">iter_thresh</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="mi">3</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;UQpy: unable to find tempering exponent due to nonconvergence&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">temper_param_trial</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preprocess_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist_</span><span class="p">,</span> <span class="n">seed_</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nsamples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Preprocess the target pdf inputs.</span>
+
+<span class="sd">        Utility function (static method), that if given a distribution object, returns the log pdf of the target</span>
+<span class="sd">        distribution of the first tempering level (the prior in a Bayesian setting), and generates the samples from this</span>
+<span class="sd">        level. If instead the samples of the first level are passed, then the function passes these samples to the rest</span>
+<span class="sd">        of the algorithm, and does a Kernel Density Approximation to estimate the log pdf of the target distribution for</span>
+<span class="sd">        this level (as specified by the given sample points).</span>
+
+<span class="sd">        **Inputs:**</span>
+
+<span class="sd">        * seed_ (&#39;ndarray&#39;): The samples of the first tempering level</span>
+<span class="sd">        * prior_ (&#39;Distribution&#39; object): Target distribution for the first tempering level</span>
+<span class="sd">        * nsamples (int): Number of samples to be generated</span>
+<span class="sd">        * dimension (int): The dimension  of the sample space</span>
+
+<span class="sd">        **Output/Returns:**</span>
+
+<span class="sd">        * evaluate_log_pdf (callable): Callable that computes the log of the target density function (the prior)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">dist_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">dist_</span><span class="p">,</span> <span class="n">Distribution</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;UQpy: A UQpy.Distribution object must be provided.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">evaluate_log_pdf</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">dist_</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">seed_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">seed_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">nsamples</span> <span class="ow">and</span> <span class="n">seed_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">dimension</span><span class="p">:</span>
+                        <span class="n">seed_values</span> <span class="o">=</span> <span class="n">seed_</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;UQpy: the seed values should be a numpy array of size (nsamples, dimension)&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">seed_values</span> <span class="o">=</span> <span class="n">dist_</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="n">nsamples</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;UQpy: prior distribution must be provided&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">evaluate_log_pdf</span><span class="p">,</span> <span class="n">seed_values</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_mcmc_seed_generator</span><span class="p">(</span><span class="n">resampled_pts</span><span class="p">,</span> <span class="n">arr_length</span><span class="p">,</span> <span class="n">seed_length</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the seed from the resampled samples for the mcmc step</span>
+
+<span class="sd">        Utility function (static method), that returns a selection of the resampled points (at any tempering level) to</span>
+<span class="sd">        be used as the seed for the following mcmc exploration step.</span>
+
+<span class="sd">        **Inputs:**</span>
+
+<span class="sd">        * resampled_pts (&#39;ndarray&#39;): The resampled samples of the tempering level</span>
+<span class="sd">        * arr_length (int): Length of resampled_pts</span>
+<span class="sd">        * seed_length (int): Number of samples needed in the seed (same as nchains)</span>
+
+<span class="sd">        **Output/Returns:**</span>
+
+<span class="sd">        * evaluate_log_pdf (callable): Callable that computes the log of the target density function (the prior)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">index_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">arr_length</span><span class="p">)</span>
+        <span class="n">seed_indices</span> <span class="o">=</span> <span class="n">random_state</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">index_arr</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">seed_length</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">mcmc_seed</span> <span class="o">=</span> <span class="n">resampled_pts</span><span class="p">[</span><span class="n">seed_indices</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">return</span> <span class="n">mcmc_seed</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

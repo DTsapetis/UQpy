@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy architecture &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="UQpy paper" href="paper.html" />
+    <link rel="prev" title="Grassmann Point" href="utilities/grassmann_point.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">UQpy architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#distributions">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sampling">Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transformations">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stochastic-processes">Stochastic Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-model">Run Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reliability">Reliability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#surrogates">Surrogates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sensitivity">Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dimension-reduction">Dimension Reduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">UQpy architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="uqpy-architecture">
+<h1>UQpy architecture<a class="headerlink" href="#uqpy-architecture" title="Link to this heading"></a></h1>
+<section id="distributions">
+<h2>Distributions<a class="headerlink" href="#distributions" title="Link to this heading"></a></h2>
+<p>The UML diagram below explains the class hierarchy of the distributions module. In case of distributions a series of
+abstract base classes are defined. <a class="reference internal" href="distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> is the basis, with classes such as <code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution1D</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionND</span></code> abstract base classes refining this hierarchy according to the distribution dimensionality.
+The 1D case if further refined with <code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionContinuous1D</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionDiscrete1D</span></code> to take into
+account different types of random variables. Finally, the <a class="reference internal" href="distributions/copulas.html#UQpy.distributions.baseclass.Copula" title="UQpy.distributions.baseclass.Copula"><code class="xref py py-class docutils literal notranslate"><span class="pre">Copula</span></code></a> abstract base class serves as the common
+interface for all copula implementations. Note that all the above are abstract classes and cannot be directly
+instantiated.</p>
+<a class="reference internal image-reference" href="_images/distributions.png"><img alt="UML diagram of distributions module." class="align-center" src="_images/distributions.png" style="width: 1069.8px; height: 295.8px;" />
+</a>
+</section>
+<section id="sampling">
+<h2>Sampling<a class="headerlink" href="#sampling" title="Link to this heading"></a></h2>
+<p>The sampling module contains multiple methods and the UML diagrams below are focused to one method at a time to reduce
+the complexity of the graphs. Before starting with hierarchy of each different method, we should mention that the
+classes <a class="reference internal" href="sampling/monte_carlo.html#UQpy.sampling.MonteCarloSampling" title="UQpy.sampling.MonteCarloSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">MonteCarloSampling</span></code></a>, <a class="reference internal" href="sampling/simplex.html#UQpy.sampling.SimplexSampling" title="UQpy.sampling.SimplexSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexSampling</span></code></a> and <a class="reference internal" href="sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a> are independent object
+and do not extend any baseclass.</p>
+<p>Starting with the Markov Chain Monte Carlo algorithms, the diagram below makes obvious the dependency between the
+different implementations. the <a class="reference internal" href="sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> abstract base class includes the common functionality between the methods,
+while the specific algorithms only override the abstract methods of that base class.</p>
+<a class="reference internal image-reference" href="_images/mcmc.png"><img alt="UML diagram of MCMC hierarchy." class="align-center" src="_images/mcmc.png" style="width: 445.5px; height: 386.4px;" />
+</a>
+<p>The case of stratified sampling is more elaborate, as it includes a family of algorithms. The abstract base class
+<code class="xref py py-class docutils literal notranslate"><span class="pre">StratifiedSampling</span></code> serves as the interface between the concrete implementations <a class="reference internal" href="sampling/latin_hypercube/lhs_class.html#UQpy.sampling.LatinHypercubeSampling" title="UQpy.sampling.LatinHypercubeSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">LatinHypercubeSampling</span></code></a>,
+<a class="reference internal" href="sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> and <a class="reference internal" href="sampling/refined_stratified_sampling.html#UQpy.sampling.RefinedStratifiedSampling" title="UQpy.sampling.RefinedStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">RefinedStratifiedSampling</span></code></a>. In the case of <a class="reference internal" href="sampling/latin_hypercube/lhs_class.html#UQpy.sampling.LatinHypercubeSampling" title="UQpy.sampling.LatinHypercubeSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">LatinHypercubeSampling</span></code></a>
+the Strategy Design Pattern was used to extract the Latin Hypercube criteria from the sampling. Here the
+<a class="reference internal" href="sampling/latin_hypercube/lhs_user_criterion.html#UQpy.sampling.Criterion" title="UQpy.sampling.Criterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Criterion</span></code></a> base class provides the interface that the specific criteria need to override. In a similar manner,
+the geometric stratification in the case of <a class="reference internal" href="sampling/stratified_sampling.html#UQpy.sampling.stratified_sampling.TrueStratifiedSampling" title="UQpy.sampling.stratified_sampling.TrueStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrueStratifiedSampling</span></code></a> is extracted under the
+<a class="reference internal" href="sampling/strata/strata_class.html#UQpy.sampling.stratified_sampling.strata.baseclass.Strata" title="UQpy.sampling.stratified_sampling.strata.baseclass.Strata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strata</span></code></a> abstract base class. Last but not least, in the case of <a class="reference internal" href="sampling/refined_stratified_sampling.html#UQpy.sampling.RefinedStratifiedSampling" title="UQpy.sampling.RefinedStratifiedSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">RefinedStratifiedSampling</span></code></a>
+the different strata refinement strategies are extracted using the <a class="reference internal" href="sampling/refined_stratified_sampling.html#UQpy.sampling.stratified_sampling.refinement.baseclass.Refinement" title="UQpy.sampling.stratified_sampling.refinement.baseclass.Refinement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Refinement</span></code></a> baseclass as their common interface.</p>
+<a class="reference internal image-reference" href="_images/stratified_sampling.png"><img alt="UML diagram of Stratified sampling class hierarchy." class="align-center" src="_images/stratified_sampling.png" style="width: 1611.6px; height: 879.6px;" />
+</a>
+<p>In the case of <a class="reference internal" href="sampling/akmcs.html#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> sampling methods, again the different learning functions are extracted into
+separate classes under the common <a class="reference internal" href="sampling/akmcs.html#UQpy.sampling.LearningFunction" title="UQpy.sampling.LearningFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">LearningFunction</span></code></a> class.</p>
+<a class="reference internal image-reference" href="_images/adaptive_kriging_functions.png"><img alt="UML diagram of Adaptive Kriging Hierarchy." class="align-center" src="_images/adaptive_kriging_functions.png" style="width: 610.5px; height: 358.8px;" />
+</a>
+</section>
+<section id="transformations">
+<h2>Transformations<a class="headerlink" href="#transformations" title="Link to this heading"></a></h2>
+<p>The transformations module is one of the most simple in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> with three independent classes available, namely
+<a class="reference internal" href="transformations/nataf.html#UQpy.transformations.Nataf" title="UQpy.transformations.Nataf"><code class="xref py py-class docutils literal notranslate"><span class="pre">Nataf</span></code></a>, <a class="reference internal" href="transformations/correlate.html#UQpy.transformations.Correlate" title="UQpy.transformations.Correlate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Correlate</span></code></a> and <a class="reference internal" href="transformations/decorrelate.html#UQpy.transformations.Decorrelate" title="UQpy.transformations.Decorrelate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decorrelate</span></code></a>.</p>
+<a class="reference internal image-reference" href="_images/transformations.png"><img alt="UML diagram of Transformations module." class="align-center" src="_images/transformations.png" style="width: 357.0px; height: 201.6px;" />
+</a>
+</section>
+<section id="stochastic-processes">
+<h2>Stochastic Processes<a class="headerlink" href="#stochastic-processes" title="Link to this heading"></a></h2>
+<p>The stochastic process module is has again simple structure with five independent classes available.</p>
+<a class="reference internal image-reference" href="_images/stochastic_process.png"><img alt="UML diagram of Stochastic Process module." class="align-center" src="_images/stochastic_process.png" style="width: 455.4px; height: 267.0px;" />
+</a>
+</section>
+<section id="run-model">
+<h2>Run Model<a class="headerlink" href="#run-model" title="Link to this heading"></a></h2>
+<p>In case of the RunModel module, the final algorithm to run is constructed by object composition of two different inputs.
+Initially, the type of the model to run, with <a class="reference internal" href="runmodel_doc.html#UQpy.run_model.model_execution.PythonModel" title="UQpy.run_model.model_execution.PythonModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PythonModel</span></code></a> and <a class="reference internal" href="runmodel_doc.html#UQpy.run_model.model_execution.ThirdPartyModel" title="UQpy.run_model.model_execution.ThirdPartyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThirdPartyModel</span></code></a> being the two
+available options, while the execution part is delegated to either the <code class="xref py py-class docutils literal notranslate"><span class="pre">SerialExecution</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">ParallelExecution</span></code>
+alternatives.</p>
+<a class="reference internal image-reference" href="_images/run_model.png"><img alt="UML diagram of Run Model module." class="align-center" src="_images/run_model.png" style="width: 767.4px; height: 256.2px;" />
+</a>
+</section>
+<section id="inference">
+<h2>Inference<a class="headerlink" href="#inference" title="Link to this heading"></a></h2>
+<p>Compared to v3, the inference module has undergone a major refactoring towards v4. The initial <a class="reference internal" href="inference/inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a>
+class that contained all cases of computing the posterior log-likelihood is now split into three independent cases. Given
+the inference models, backward uncertainty propagation can be performed be choosing between <a class="reference internal" href="inference/mle.html#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a>,
+<a class="reference internal" href="inference/bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> to infer the parameter distributions of a model, or <a class="reference internal" href="inference/info_model_selection.html#UQpy.inference.InformationModelSelection" title="UQpy.inference.InformationModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationModelSelection</span></code></a>
+and <a class="reference internal" href="inference/bayes_model_selection.html#UQpy.inference.BayesModelSelection" title="UQpy.inference.BayesModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesModelSelection</span></code></a> to select the model that best describes the available data. In the case of
+<a class="reference internal" href="inference/info_model_selection.html#UQpy.inference.InformationModelSelection" title="UQpy.inference.InformationModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationModelSelection</span></code></a> the selection criteria have been extracted into separate classes under the
+<a class="reference internal" href="inference/info_model_selection.html#UQpy.inference.information_criteria.baseclass.InformationCriterion" title="UQpy.inference.information_criteria.baseclass.InformationCriterion"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationCriterion</span></code></a> baseclass. Similarly, the evidence methods of <a class="reference internal" href="inference/bayes_model_selection.html#UQpy.inference.BayesModelSelection" title="UQpy.inference.BayesModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesModelSelection</span></code></a> are also
+parameters  that implement the abstract base class <a class="reference internal" href="inference/bayes_model_selection.html#UQpy.inference.EvidenceMethod" title="UQpy.inference.EvidenceMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvidenceMethod</span></code></a>.</p>
+<a class="reference internal image-reference" href="_images/inference.png"><img alt="UML diagram of Inference module." class="align-center" src="_images/inference.png" style="width: 713.6999999999999px; height: 783.0px;" />
+</a>
+</section>
+<section id="reliability">
+<h2>Reliability<a class="headerlink" href="#reliability" title="Link to this heading"></a></h2>
+<p>The reliability module maintained the same class hierarachy as in v3, with <a class="reference internal" href="reliability/subset.html#UQpy.reliability.SubsetSimulation" title="UQpy.reliability.SubsetSimulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SubsetSimulation</span></code></a> being an
+independent class and <a class="reference internal" href="reliability/form.html#UQpy.reliability.taylor_series.FORM" title="UQpy.reliability.taylor_series.FORM"><code class="xref py py-class docutils literal notranslate"><span class="pre">FORM</span></code></a> and <a class="reference internal" href="reliability/sorm.html#UQpy.reliability.taylor_series.SORM" title="UQpy.reliability.taylor_series.SORM"><code class="xref py py-class docutils literal notranslate"><span class="pre">SORM</span></code></a> methods providing concrete implementations to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TaylorSeries</span></code> abstract base class.</p>
+<a class="reference internal image-reference" href="_images/reliability.png"><img alt="UML diagram of Reliability module." class="align-center" src="_images/reliability.png" style="width: 480.0px; height: 352.8px;" />
+</a>
+</section>
+<section id="surrogates">
+<h2>Surrogates<a class="headerlink" href="#surrogates" title="Link to this heading"></a></h2>
+<p>Another module that has extensively restructured in v4 is the surrogates. Apart from the <a class="reference internal" href="surrogates/srom.html#UQpy.surrogates.stochastic_reduced_order_models.SROM" title="UQpy.surrogates.stochastic_reduced_order_models.SROM"><code class="xref py py-class docutils literal notranslate"><span class="pre">SROM</span></code></a> method which
+was retained as an independent algorithm, the previous Kriging functionality was removed. It is now replaced with
+<a class="reference internal" href="surrogates/gpr.html#UQpy.surrogates.gaussian_process.GaussianProcessRegression" title="UQpy.surrogates.gaussian_process.GaussianProcessRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegression</span></code></a>. The functionality of the Gaussian is constructed using object composition,
+and the specific implementation of <a class="reference internal" href="surrogates/gpr.html#UQpy.surrogates.gaussian_process.Regression" title="UQpy.surrogates.gaussian_process.Regression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Regression</span></code></a> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Kernel</span></code> abstract base classes. An additional
+functionality of constrained surrogates is added by implementing the <a class="reference internal" href="surrogates/gpr.html#UQpy.surrogates.gaussian_process.ConstraintsGPR" title="UQpy.surrogates.gaussian_process.ConstraintsGPR"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConstraintsGPR</span></code></a> abstract class. The
+functionality of <a class="reference internal" href="surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion" title="UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code></a> was rewritten from scratch to address some performance issues of v3.
+The Strategy Design pattern was used here as well, with three abstract base classes <a class="reference internal" href="surrogates/pce/polynomials.html#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials" title="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.Polynomials"><code class="xref py py-class docutils literal notranslate"><span class="pre">Polynomials</span></code></a>,
+<a class="reference internal" href="surrogates/pce/polynomial_bases.html#UQpy.surrogates.polynomial_chaos.polynomials.baseclass.PolynomialBasis" title="UQpy.surrogates.polynomial_chaos.polynomials.baseclass.PolynomialBasis"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialBasis</span></code></a> ans <a class="reference internal" href="surrogates/gpr.html#UQpy.surrogates.gaussian_process.Regression" title="UQpy.surrogates.gaussian_process.Regression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Regression</span></code></a> serving as the interface for the concrete classes.</p>
+<a class="reference internal image-reference" href="_images/surrogates.png"><img alt="UML diagram of Surrogates module." class="align-center" src="_images/surrogates.png" style="width: 922.5px; height: 1623.6px;" />
+</a>
+</section>
+<section id="sensitivity">
+<h2>Sensitivity<a class="headerlink" href="#sensitivity" title="Link to this heading"></a></h2>
+<p>The sensitivity module has significantly benefited from the enhanced of modularity of the code introduced in v4.
+Apart from the existing independent <a class="reference internal" href="sensitivity/morris.html#UQpy.sensitivity.MorrisSensitivity" title="UQpy.sensitivity.MorrisSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">MorrisSensitivity</span></code></a> method, the <a class="reference internal" href="sensitivity/pce.html#UQpy.sensitivity.PceSensitivity" title="UQpy.sensitivity.PceSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">PceSensitivity</span></code></a> was added as an
+independent class. Finally, based on the common <code class="xref py py-class docutils literal notranslate"><span class="pre">Sensitivity</span></code> abstract base class, a series of new algorithms
+were introduced such as <a class="reference internal" href="sensitivity/sobol.html#UQpy.sensitivity.SobolSensitivity" title="UQpy.sensitivity.SobolSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">SobolSensitivity</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GeneralizedSobolSensitivity</span></code>, <a class="reference internal" href="sensitivity/chatterjee.html#UQpy.sensitivity.ChatterjeeSensitivity" title="UQpy.sensitivity.ChatterjeeSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChatterjeeSensitivity</span></code></a>
+and <a class="reference internal" href="sensitivity/cramer_von_mises.html#UQpy.sensitivity.CramerVonMisesSensitivity" title="UQpy.sensitivity.CramerVonMisesSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">CramerVonMisesSensitivity</span></code></a>.</p>
+<a class="reference internal image-reference" href="_images/sensitivity.png"><img alt="UML diagram of Sensitivity module." class="align-center" src="_images/sensitivity.png" style="width: 497.09999999999997px; height: 425.4px;" />
+</a>
+</section>
+<section id="dimension-reduction">
+<h2>Dimension Reduction<a class="headerlink" href="#dimension-reduction" title="Link to this heading"></a></h2>
+<p>The final but one of the most import modules in <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> is dimension reduction. The <a class="reference internal" href="dimension_reduction/snapshot_pod.html#UQpy.dimension_reduction.pod.SnapshotPOD" title="UQpy.dimension_reduction.pod.SnapshotPOD"><code class="xref py py-class docutils literal notranslate"><span class="pre">SnapshotPOD</span></code></a> and
+<a class="reference internal" href="dimension_reduction/direct_pod.html#UQpy.dimension_reduction.pod.DirectPOD" title="UQpy.dimension_reduction.pod.DirectPOD"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectPOD</span></code></a> methods were retained under the <a class="reference internal" href="dimension_reduction/pod.html#UQpy.dimension_reduction.pod.baseclass.POD" title="UQpy.dimension_reduction.pod.baseclass.POD"><code class="xref py py-class docutils literal notranslate"><span class="pre">POD</span></code></a> abstract base class. <a class="reference internal" href="dimension_reduction/hosvd.html#UQpy.dimension_reduction.hosvd.HigherOrderSVD" title="UQpy.dimension_reduction.hosvd.HigherOrderSVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">HigherOrderSVD</span></code></a> method
+was introduced as independent class, while special attention was given to Grassmann Manifolds.
+The abstract base class <a class="reference internal" href="dimension_reduction/grassmann/manifold_projections.html#UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection" title="UQpy.dimension_reduction.grassmann_manifold.projections.baseclass.GrassmannProjection"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannProjection</span></code></a> serves as an interface for different methods to project data on
+the Grassmann Manifold, with <a class="reference internal" href="dimension_reduction/grassmann/grassmann_operations.html#UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations" title="UQpy.dimension_reduction.grassmann_manifold.GrassmannOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannOperations</span></code></a> and <a class="reference internal" href="dimension_reduction/grassmann/grassmann_interpolation.html#UQpy.dimension_reduction.GrassmannInterpolation" title="UQpy.dimension_reduction.GrassmannInterpolation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrassmannInterpolation</span></code></a> support all related operations.</p>
+<a class="reference internal image-reference" href="_images/dimension_reduction.png"><img alt="UML diagram of Dimension Reduction module." class="align-center" src="_images/dimension_reduction.png" style="width: 773.1px; height: 661.8px;" />
+</a>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="utilities/grassmann_point.html" class="btn btn-neutral float-left" title="Grassmann Point" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="paper.html" class="btn btn-neutral float-right" title="UQpy paper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

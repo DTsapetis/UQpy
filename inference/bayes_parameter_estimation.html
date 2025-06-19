@@ -1,0 +1,262 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BayesParameterEstimation &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bayesian Parameter Estimation Examples" href="../auto_examples/inference/bayes_parameter_estimation/index.html" />
+    <link rel="prev" title="Complex probability distribution model" href="../auto_examples/inference/mle/plot_complex_probability_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Inference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="inference_models.html"> Inference Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mle.html"> Maximum Likelihood Estimation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Bayes Parameter Estimation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bayesparameterestimation-class">BayesParameterEstimation Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="info_model_selection.html"> Information Theoretic Model Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_model_selection.html"> Bayes Model Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Inference</a></li>
+      <li class="breadcrumb-item active">BayesParameterEstimation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/inference/bayes_parameter_estimation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bayesparameterestimation">
+<h1>BayesParameterEstimation<a class="headerlink" href="#bayesparameterestimation" title="Link to this heading"></a></h1>
+<p>Given some data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>, a parameterized model for the data, and a prior probability density for the model
+parameters <span class="math notranslate nohighlight">\(p(\theta)\)</span>, the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> class is leveraged to draw samples from the posterior
+pdf of the model parameters using Markov Chain Monte Carlo or Importance Sampling. Via Bayes theorem, the posterior pdf
+is defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[p(\theta \vert \mathcal{D}) = \frac{p(\mathcal{D} \vert \theta)p(\theta)}{p(\mathcal{D})}\]</div>
+<p>Note that if no prior is defined in the model, the prior pdf is chosen as uninformative, i.e., <span class="math notranslate nohighlight">\(p(\theta) = 1\)</span> (cautionary note, this is an improper prior).</p>
+<p>The <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> leverages the <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code> classes of the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">sampling</span></code> module of <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>. When creating a <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> object, an object of
+class <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> or <a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a> is created and saved as an attribute <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation.sampler" title="UQpy.inference.BayesParameterEstimation.sampler"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sampler</span></code></a>. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code>
+method of the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> class then calls the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> method of that <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation.sampler" title="UQpy.inference.BayesParameterEstimation.sampler"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sampler</span></code></a>, thus the user
+can add samples as they wish by calling the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> method several times.</p>
+<section id="bayesparameterestimation-class">
+<h2>BayesParameterEstimation Class<a class="headerlink" href="#bayesparameterestimation-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.BayesParameterEstimation</span><span class="w"> </span><span class="kn">import</span> <span class="n">BayesParameterEstimation</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.BayesParameterEstimation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesParameterEstimation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inference_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/BayesParameterEstimation.html#BayesParameterEstimation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.BayesParameterEstimation" title="Link to this definition"></a></dt>
+<dd><p>Estimate the parameter posterior density given some data.</p>
+<p>This class generates samples from the parameter posterior distribution using Markov Chain Monte Carlo or
+Importance Sampling. It leverages the <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> and <a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a> classes from the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">sampling</span></code> module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inference_model</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a></span>) – The inference model that defines the likelihood function.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Available data, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape consistent with log-likelihood function in
+<a class="reference internal" href="inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a></p></li>
+<li><p><strong>sampling_class</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.baseclass.MCMC.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a>, <a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a>]</span>) – Class instance, must be a subclass of <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> or <a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a>.</p></li>
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Number of samples used in <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a>/<code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code>, see
+<a class="reference internal" href="#UQpy.inference.BayesParameterEstimation.run" title="UQpy.inference.BayesParameterEstimation.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method. If the <cite>nsamples</cite> parameter is provided then <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> is
+automatically performed. In case an <a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a> method is used to perform the parameter
+estimation, then <cite>nsamples</cite> equal to the total number of samples. In case an <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> sampler is used,
+and the given <cite>nsamples</cite> is not a multiple of <cite>n_chains</cite>, then <cite>nsamples</cite> is set to the next largest integer
+that is a multiple of  <cite>nchains</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.BayesParameterEstimation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/BayesParameterEstimation.html#BayesParameterEstimation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.BayesParameterEstimation.run" title="Link to this definition"></a></dt>
+<dd><p>Run the Bayesian inference procedure, i.e., sample from the parameter posterior distribution.</p>
+<p>This function calls the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation.run" title="UQpy.inference.BayesParameterEstimation.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method of the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation.sampler" title="UQpy.inference.BayesParameterEstimation.sampler"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sampler</span></code></a> attribute to generate samples from the
+parameter posterior distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples used in <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a>/<a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a>.  In case an
+<a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a> method is used to perform the parameter estimation, then <cite>nsamples</cite> equal to the
+total number of samples. In case an <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> sampler is used, and the given <cite>nsamples</cite> is not a multiple
+of <cite>n_chains</cite>, then <cite>nsamples</cite> is set to the next largest integer that is a multiple of  <cite>nchains</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.BayesParameterEstimation.sampler">
+<span class="sig-prename descclassname"><span class="pre">BayesParameterEstimation.</span></span><span class="sig-name descname"><span class="pre">sampler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a><span class="pre">[</span><a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.baseclass.MCMC.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a><span class="pre">,</span> <a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.inference.BayesParameterEstimation.sampler" title="Link to this definition"></a></dt>
+<dd><p>Sampling method object, contains e.g. the posterior samples.</p>
+<p>This must be created along side the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> object, and its run method is called 
+whenever the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation.run" title="UQpy.inference.BayesParameterEstimation.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method of the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> is called.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/inference/bayes_parameter_estimation/index.html">Bayes Parameter Estimation Examples</a></li>
+</ul>
+</div>
+<hr class="docutils" />
+<p>Below, an example of the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> usage is provided. The goal is to learn the parameters of
+a <a class="reference internal" href="../distributions/continuous_1d_collection.html#UQpy.distributions.collection.Normal" title="UQpy.distributions.collection.Normal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Normal</span></code></a> distribution.</p>
+<ul>
+<li><p>Initially, a two distributions are created based on the prior belief on each one of the unknown parameters and are subsequently merged into  joint distribution.</p></li>
+<li><p>The second step is to define the model whose parameters we want to infer. In this case as already mentioned the goal is to learn two parameters of the <a class="reference internal" href="../distributions/continuous_1d_collection.html#UQpy.distributions.collection.Normal" title="UQpy.distributions.collection.Normal"><code class="xref py py-class docutils literal notranslate"><span class="pre">Normal</span></code></a> distribution, so a <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> model is defined, where the number of parameters <cite>n_parameters</cite>, as well as the prior distributions is provided.</p></li>
+<li><p>Before initializing the final <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> object, the user must provide a method to sample the posterior distribution of the candidate model. Here a child class of <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a> is chosen and specifically, <a class="reference internal" href="../sampling/mcmc/mh.html#UQpy.sampling.mcmc.MetropolisHastings" title="UQpy.sampling.mcmc.MetropolisHastings"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetropolisHastings</span></code></a>. Apart from the various parameters required by the algorithm such as <cite>jump</cite> or <cite>burn_length</cite>, the user must specify the <cite>args_target</cite> and <cite>log_pdf_target</cite> parameters as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">args_target</span> <span class="pre">=</span> <span class="pre">(data,</span> <span class="pre">)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log_pdf_target</span> <span class="pre">=</span> <span class="pre">candidate_model.evaluate_log_posterior</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Finally, the <code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code> object is created, with input, the sampling, the candidate model whose parameters we want to learn, the data, as well as the number of samples to be drawn from the posterior distribution. Since <cite>nsamples</cite> is provided at the object initialization, the <a class="reference internal" href="#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> will be automatically performed. Alternatively, the user must call the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> method.</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Lognormal</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span> <span class="o">=</span> <span class="n">JointIndependent</span><span class="p">(</span><span class="n">marginals</span><span class="o">=</span><span class="p">[</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create an instance of class Model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">candidate_model</span> <span class="o">=</span> <span class="n">DistributionModel</span><span class="p">(</span><span class="n">distributions</span><span class="o">=</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">n_parameters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">prior</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sampling</span> <span class="o">=</span> <span class="n">MetropolisHastings</span><span class="p">(</span><span class="n">jump</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">burn_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                              <span class="n">args_target</span><span class="o">=</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                              <span class="n">log_pdf_target</span><span class="o">=</span><span class="n">candidate_model</span><span class="o">.</span><span class="n">evaluate_log_posterior</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bayes_estimator</span> <span class="o">=</span> <span class="n">BayesParameterEstimation</span><span class="p">(</span><span class="n">sampling_class</span><span class="o">=</span><span class="n">sampling</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                           <span class="n">inference_model</span><span class="o">=</span><span class="n">candidate_model</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                           <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                           <span class="n">nsamples</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/inference/mle/plot_complex_probability_model.html" class="btn btn-neutral float-left" title="Complex probability distribution model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/inference/bayes_parameter_estimation/index.html" class="btn btn-neutral float-right" title="Bayesian Parameter Estimation Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

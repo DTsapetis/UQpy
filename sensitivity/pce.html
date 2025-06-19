@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCE sensitivity method &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Sobol indices" href="sobol.html" />
+    <link rel="prev" title="2-dimensional g-function" href="../auto_examples/sensitivity/morris/plot_morris_2d_gfunction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sensitivity</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="chatterjee.html"> Chatterjee Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cramer_von_mises.html"> Cramér-von Mises Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generalised_sobol.html"> Generalised Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="morris.html"> Morris Sensitivity</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Polynomial Chaos Sensitivity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pce-sensitivity-class">PCE Sensitivity class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sobol.html"> Sobol Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sensitivity</a></li>
+      <li class="breadcrumb-item active">PCE sensitivity method</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sensitivity/pce.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pce-sensitivity-method">
+<h1>PCE sensitivity method<a class="headerlink" href="#pce-sensitivity-method" title="Link to this heading"></a></h1>
+<p><strong>Variance-based sensitivity analysis</strong> is a form of a global sensitivity analysis. The <strong>Sobol indices</strong> (Sobol, 1993) allow
+the decomposition of the variance of the model output into a sum of contributions associated to individual inputs or
+sets of inputs. These contributions can be considered as measures of sensitivity of input parameters and can also
+measure the effect of interactions between them.</p>
+<p>Traditionally, Sobol indices are computed with Monte Carlo simulations which can be CPU-intensive for high-fidelity and
+computationally expensive models. Alternatively, Sudret (2008) proposed a simple post-processing of the coefficients of a
+polynomial chaos expansion (PCE) surrogate to compute sensitivity indices.</p>
+<p>Let us consider a model <span class="math notranslate nohighlight">\(Y = \mathcal{M}(x)\)</span> which generates a <strong>scalar quantity of interest (QoI)</strong>, with <span class="math notranslate nohighlight">\(Y \in \mathbb{R}\)</span> and a random vector
+with independent components <span class="math notranslate nohighlight">\(X \in \mathbb{R}^L\)</span> described by the joint probability density function <span class="math notranslate nohighlight">\(f_X\)</span>.
+A PCE surrogate can be constructed as</p>
+<div class="math notranslate nohighlight">
+\[Y = \mathcal{M}(x) = \sum_{\mathbf{k} \in \Lambda} y_{\mathbf{k}} \Psi_{\mathbf{k}} (X)\]</div>
+<p>where the <span class="math notranslate nohighlight">\(\Psi_{\mathbf{k}}(X)\)</span> are multivariate polynomials orthonormal with respect to <span class="math notranslate nohighlight">\(f_X\)</span> and
+<span class="math notranslate nohighlight">\(y_{\mathbf{k}} \in \mathbb{R}\)</span> are the corresponding coefficients. the multi-indices
+<span class="math notranslate nohighlight">\(\mathbf{k} = \left(k_1, \dots, k_N\right)\)</span> are uniquely associated
+to the single indices <span class="math notranslate nohighlight">\(k\)</span>, and <span class="math notranslate nohighlight">\(\Lambda\)</span> is a multi-index set with cardinality <span class="math notranslate nohighlight">\(\#\Lambda = K\)</span>.
+In <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code>, a PCE surrogate can be constructed using the class <a class="reference internal" href="../surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion" title="UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code></a>.</p>
+<p>The PCE coefficients in <span class="math notranslate nohighlight">\(\Lambda\)</span> can be interpreted as partial variances due to specific RV interactions
+defined by the multi-indices <span class="math notranslate nohighlight">\(\mathbf{k}\)</span>. The multi-indices corresponding to partial variances caused by <span class="math notranslate nohighlight">\(X_n\)</span>,
+either individually (<strong>first-order</strong>) or in combination with the remaining RV (<strong>total-effect</strong>), can then be collected into
+the multi-index sets <span class="math notranslate nohighlight">\(\Lambda_n^\text{F} \subset \Lambda\)</span> and <span class="math notranslate nohighlight">\(\Lambda_n^\text{T} \subset \Lambda\)</span>, respectively, defined as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Lambda_n^{\text{F}} &amp;= \{\mathbf{k} \in \Lambda \; : \; k_n \neq 0 \:\: \text{and} \:\: k_l = 0, l \neq n\}, \\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Lambda_n^{\text{T}} &amp;= \{\mathbf{k} \in \Lambda \; : \; k_n \neq 0\}. \\\end{split}\]</div>
+<p>The corresponding first-order and total-effect Sobol indices are then estimated as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}S_n^{\text{F}} &amp;\approx \frac{\sum_{\mathbf{k} \in \Lambda_n^{\text{F}}} y_{\mathbf{k}}^2}{\sum_{\mathbf{k} \in \Lambda \setminus \mathbf{0}} y_{\mathbf{k}}^2}, \\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}S_n^{\text{T}} &amp;\approx \frac{\sum_{\mathbf{k} \in \Lambda_n^{\text{T}}} y_{\mathbf{k}}^2}{\sum_{\mathbf{k} \in \Lambda \setminus \mathbf{0}} y_{\mathbf{k}}^2}. \\\end{split}\]</div>
+<p>In case of a <strong>multivariate QoI</strong> <span class="math notranslate nohighlight">\(Y = \mathcal{M}(x)\)</span>, the procedure presented above can be applied element-wise
+to compute Sobol indices for each QoI component <span class="math notranslate nohighlight">\(Y_m\)</span>, <span class="math notranslate nohighlight">\(m=1,\dots,M\)</span>.
+Global sensitivity analysis based on the covariance decomposition approach requires the computation of the traces of
+the covariance matrices with respect to the components <span class="math notranslate nohighlight">\(Y_m\)</span>, which depend on specific combinations of the input RV.
+These traces are equal to the sum of the variances of all QoI components dependent on the specific input RV combinations.
+These partial variances are easily obtained from the PCE coefficients and the <strong>generalized sensitivity indices</strong> <span class="math notranslate nohighlight">\(G_n^{\text{F}}\)</span>
+and <span class="math notranslate nohighlight">\(G_n^{\text{T}}\)</span>, can be estimated as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}G_n^{\text{F}} &amp;\approx \frac{\sum_{m=1}^M \left(\sum_{\mathbf{k} \in \Lambda_{m,n}^{\text{F}}} y_{m,\mathbf{k}}^2\right)}{\sum_{m=1}^M \left(\sum_{\mathbf{k} \in \Lambda_m \setminus \mathbf{0}} y_{m,\mathbf{k}}^2\right)},\\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}G_n^{\text{T}} &amp;\approx \frac{\sum_{m=1}^M \left(\sum_{\mathbf{k} \in \Lambda_{m,n}^{\text{T}}} y_{m,\mathbf{k}}^2\right)}{\sum_{m=1}^M \left(\sum_{\mathbf{k} \in \Lambda_m \setminus \mathbf{0}} y_{m,\mathbf{k}}^2\right)}. \\\end{split}\]</div>
+<p>Therefore, once a PCE approximation of a multivariate QoI is available, the generalized sensitivity indices and can be estimated with negligible computational cost by simply post-processing the PCE terms, similar to the case of a scalar QoI.</p>
+<section id="pce-sensitivity-class">
+<h2>PCE Sensitivity class<a class="headerlink" href="#pce-sensitivity-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sensitivity.PceSensitivity" title="UQpy.sensitivity.PceSensitivity"><code class="xref py py-class docutils literal notranslate"><span class="pre">PceSensitivity</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.PceSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">PceSensitivity</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PceSensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pce_object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/PceSensitivity.html#PceSensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity" title="Link to this definition"></a></dt>
+<dd><p>Compute Sobol sensitivity indices based on a PCE surrogate approximation of the QoI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pce_object</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../surrogates/pce/pce.html#UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion" title="UQpy.surrogates.polynomial_chaos.PolynomialChaosExpansion.PolynomialChaosExpansion"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialChaosExpansion</span></code></a></span>) – Polynomial Chaos Expansion surrogate.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/PceSensitivity.html#PceSensitivity.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.run" title="Link to this definition"></a></dt>
+<dd><p>This method calculates and saves as attributes first and total order as well as generalized sensitivity indices.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.calculate_first_order_indices">
+<span class="sig-name descname"><span class="pre">calculate_first_order_indices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/PceSensitivity.html#PceSensitivity.calculate_first_order_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.calculate_first_order_indices" title="Link to this definition"></a></dt>
+<dd><p>PCE estimates for the first order Sobol indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>First order Sobol indices.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.calculate_total_order_indices">
+<span class="sig-name descname"><span class="pre">calculate_total_order_indices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/PceSensitivity.html#PceSensitivity.calculate_total_order_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.calculate_total_order_indices" title="Link to this definition"></a></dt>
+<dd><p>PCE estimates for the total order Sobol indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Total order Sobol indices.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.calculate_generalized_first_order_indices">
+<span class="sig-name descname"><span class="pre">calculate_generalized_first_order_indices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/PceSensitivity.html#PceSensitivity.calculate_generalized_first_order_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.calculate_generalized_first_order_indices" title="Link to this definition"></a></dt>
+<dd><p>PCE estimates of generalized first order Sobol indices, which characterize
+the sensitivity of a vector-valued quantity of interest on the random
+inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Generalized first order Sobol indices.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.calculate_generalized_total_order_indices">
+<span class="sig-name descname"><span class="pre">calculate_generalized_total_order_indices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sensitivity/PceSensitivity.html#PceSensitivity.calculate_generalized_total_order_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.calculate_generalized_total_order_indices" title="Link to this definition"></a></dt>
+<dd><p>PCE estimates of generalized total order Sobol indices, which characterize
+the sensitivity of a vector-valued quantity of interest on the random
+inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Generalized total order Sobol indices.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.first_order_indices">
+<span class="sig-prename descclassname"><span class="pre">PceSensitivity.</span></span><span class="sig-name descname"><span class="pre">first_order_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.first_order_indices" title="Link to this definition"></a></dt>
+<dd><p>PCE estimates for the first order Sobol indices</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.total_order_indices">
+<span class="sig-prename descclassname"><span class="pre">PceSensitivity.</span></span><span class="sig-name descname"><span class="pre">total_order_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.total_order_indices" title="Link to this definition"></a></dt>
+<dd><p>PCE estimates for the total order Sobol indices</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.generalized_first_order_indices">
+<span class="sig-prename descclassname"><span class="pre">PceSensitivity.</span></span><span class="sig-name descname"><span class="pre">generalized_first_order_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.generalized_first_order_indices" title="Link to this definition"></a></dt>
+<dd><p>PCE estimates of generalized first order Sobol indices, which characterize
+the sensitivity of a vector-valued quantity of interest on the random
+inputs.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sensitivity.PceSensitivity.generalized_total_order_indices">
+<span class="sig-prename descclassname"><span class="pre">PceSensitivity.</span></span><span class="sig-name descname"><span class="pre">generalized_total_order_indices</span></span><a class="headerlink" href="#UQpy.sensitivity.PceSensitivity.generalized_total_order_indices" title="Link to this definition"></a></dt>
+<dd><p>PCE estimates of generalized total order Sobol indices, which characterize
+the sensitivity of a vector-valued quantity of interest on the random
+inputs.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/sensitivity/morris/plot_morris_2d_gfunction.html" class="btn btn-neutral float-left" title="2-dimensional g-function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sobol.html" class="btn btn-neutral float-right" title="Sobol indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

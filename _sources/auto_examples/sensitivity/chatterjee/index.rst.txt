@@ -1,0 +1,164 @@
+:orphan:
+
+Chatterjee indices
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+These examples serve as a guide for using the Chatterjee sensitivity module. They have been taken from various papers to enable validation of the implementation and have been referenced accordingly.
+
+1. **Ishigami function**
+
+    In addition to the Pick and Freeze scheme, the Sobol indices can be estimated using the rank statistics approach :cite:`gamboa2020global`. We demonstrate this estimation of the Sobol indices using the Ishigami function.
+
+2. **Exponential function**
+
+    For the Exponential model, analytical Cramér-von Mises indices are available :cite:`CVM` and since they are equivalent to the Chatterjee indices in the sample limit, they are shown here.
+
+3. **Sobol function**
+
+    This example was considered in :cite:`gamboa2020global` (page 18) to compare the Pick and Freeze scheme with the rank statistics approach for estimating the Sobol indices.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/chatterjee/images/thumb/sphx_glr_local_exponential_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_chatterjee_local_exponential.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/chatterjee/images/thumb/sphx_glr_local_ishigami_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_chatterjee_local_ishigami.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Auxiliary file">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/chatterjee/images/thumb/sphx_glr_local_sobol_func_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_chatterjee_local_sobol_func.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Auxiliary file</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The exponential function was used in [1]_ to demonstrate the  Cramér-von Mises indices. Chattererjee indices approach the Cramér-von Mises  indices in the sample limit and will be demonstrated via this example.">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/chatterjee/images/thumb/sphx_glr_chatterjee_exponential_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_chatterjee_chatterjee_exponential.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Exponential function</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ishigami function is a non-linear, non-monotonic function that is commonly used to  benchmark uncertainty and sensitivity analysis methods.">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/chatterjee/images/thumb/sphx_glr_chatterjee_ishigami_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_chatterjee_chatterjee_ishigami.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Ishigami function</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The Sobol function is non-linear function that is commonly used to benchmark uncertainty  and senstivity analysis methods. Unlike the ishigami function which has 3 input  variables, the Sobol function can have any number of input variables. ">
+
+.. only:: html
+
+  .. image:: /auto_examples/sensitivity/chatterjee/images/thumb/sphx_glr_chatterjee_sobol_func_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sensitivity_chatterjee_chatterjee_sobol_func.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Sobol function</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/sensitivity/chatterjee/local_exponential
+   /auto_examples/sensitivity/chatterjee/local_ishigami
+   /auto_examples/sensitivity/chatterjee/local_sobol_func
+   /auto_examples/sensitivity/chatterjee/chatterjee_exponential
+   /auto_examples/sensitivity/chatterjee/chatterjee_ishigami
+   /auto_examples/sensitivity/chatterjee/chatterjee_sobol_func
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: chatterjee_python.zip </auto_examples/sensitivity/chatterjee/chatterjee_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: chatterjee_jupyter.zip </auto_examples/sensitivity/chatterjee/chatterjee_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

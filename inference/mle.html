@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MLE &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Maximum Likelihood Estimation Examples" href="../auto_examples/inference/mle/index.html" />
+    <link rel="prev" title="InferenceModel" href="inference_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Inference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="inference_models.html"> Inference Models</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Maximum Likelihood Estimation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mle-class">MLE Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_parameter_estimation.html"> Bayes Parameter Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info_model_selection.html"> Information Theoretic Model Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_model_selection.html"> Bayes Model Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Inference</a></li>
+      <li class="breadcrumb-item active">MLE</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/inference/mle.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mle">
+<h1>MLE<a class="headerlink" href="#mle" title="Link to this heading"></a></h1>
+<p>The <a class="reference internal" href="#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> class evaluates the maximum likelihood estimate <span class="math notranslate nohighlight">\(\hat{\theta}\)</span> of the model parameters, i.e.</p>
+<div class="math notranslate nohighlight">
+\[\hat{\theta} = \text{argmax}_{\Theta} \quad p(\mathcal{D} \vert \theta)\]</div>
+<p>Note: for a Gaussian-error model of the form <span class="math notranslate nohighlight">\(\mathcal{D}=h(\theta)+\epsilon\)</span>, <span class="math notranslate nohighlight">\(\epsilon \sim N(0, \sigma)\)</span>
+with fixed <span class="math notranslate nohighlight">\(\sigma\)</span> and independent measurements <span class="math notranslate nohighlight">\(\mathcal{D}_{i}\)</span>, maximizing the likelihood is
+mathematically equivalent to minimizing the sum of squared residuals <span class="math notranslate nohighlight">\(\sum_{i} \left( \mathcal{D}_{i}-h(\theta) \right)^{2}\)</span>.</p>
+<p>A numerical optimization procedure is performed to compute the MLE. By default, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">minimize()</span></code> function of the
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.html#module-scipy.optimize" title="(in SciPy v1.15.3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scipy.optimize</span></code></a> module is used, however other optimizers can be leveraged via the <cite>optimizer</cite> input of the
+<a class="reference internal" href="#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> class.</p>
+<section id="mle-class">
+<h2>MLE Class<a class="headerlink" href="#mle-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.inference.MLE" title="UQpy.inference.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.MLE</span><span class="w"> </span><span class="kn">import</span> <span class="n">MLE</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.MLE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MLE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inference_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_optimizations=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_parameters=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer=&lt;UQpy.utilities.MinimizeOptimizer.MinimizeOptimizer</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/MLE.html#MLE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.MLE" title="Link to this definition"></a></dt>
+<dd><p>Estimate the maximum likelihood parameters of a model given some data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inference_model</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a></span>) – The inference model that defines the likelihood function.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Available data, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape consistent with log likelihood function in
+<a class="reference internal" href="inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a>. If this parameter is provided at <a class="reference internal" href="info_model_selection.html#UQpy.inference.InformationModelSelection" title="UQpy.inference.InformationModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">InformationModelSelection</span></code></a> object
+initialization, the maximum likelihood estimation algorithm will be automatically performed. Alternatively,
+the user must execute the <a class="reference internal" href="#UQpy.inference.MLE.run" title="UQpy.inference.MLE.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method.</p></li>
+<li><p><strong>n_optimizations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Number of iterations that the optimization is run, starting at random initial
+guesses. It is only used if <cite>initial_parameters</cite> is not provided. Default is <span class="math notranslate nohighlight">\(1\)</span>.
+The random initial guesses are sampled uniformly between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>, or uniformly between
+user-defined bounds if an input bounds is provided as a keyword argument to the <cite>optimizer</cite> input parameter.</p></li>
+<li><p><strong>initial_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Initial guess(es) for optimization, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="code docutils literal notranslate"><span class="pre">(nstarts,</span> <span class="pre">n_parameters)</span></code> or <code class="code docutils literal notranslate"><span class="pre">(n_parameters,</span> <span class="pre">)</span></code>, where <code class="code docutils literal notranslate"><span class="pre">nstarts</span></code> is the number of times the
+optimizer will be called. Alternatively, the user can provide input <cite>n_optimizations</cite> to randomly sample
+initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the
+optimizer.</p></li>
+<li><p><strong>optimizer</strong> – This parameter takes as input an object that implements the <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code> class.
+Default is the <code class="xref py py-class docutils literal notranslate"><span class="pre">Minimize</span></code> which utilizes the <code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.optimize.minimize</span></code> method.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.MLE.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_optimizations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/MLE.html#MLE.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.MLE.run" title="Link to this definition"></a></dt>
+<dd><p>Run the maximum likelihood estimation procedure.</p>
+<p>This function runs the optimization and updates the <a class="reference internal" href="#UQpy.inference.MLE.mle" title="UQpy.inference.MLE.mle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mle</span></code></a> and <a class="reference internal" href="#UQpy.inference.MLE.max_log_like" title="UQpy.inference.MLE.max_log_like"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_log_like</span></code></a> attributes of
+the class. When learning the parameters of a distribution, if <cite>distributions</cite> possesses an <a class="reference internal" href="#UQpy.inference.MLE.mle" title="UQpy.inference.MLE.mle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mle()</span></code></a> method
+this method is used. If <cite>data</cite> are given when creating the <a class="reference internal" href="#UQpy.inference.MLE" title="UQpy.inference.MLE.MLE"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLE</span></code></a> object, this method is called
+automatically when the object is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_optimizations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Number of iterations that the optimization is run, starting at random initial
+guesses. It is only used if <cite>initial_parameters</cite> is not provided. Default is <span class="math notranslate nohighlight">\(1\)</span>.
+The random initial guesses are sampled uniformly between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>, or uniformly between
+user-defined bounds if an input bounds is provided as a keyword argument to the <cite>optimizer</cite> input parameter.</p></li>
+<li><p><strong>initial_parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Initial guess(es) for optimization, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape
+<code class="code docutils literal notranslate"><span class="pre">(nstarts,</span> <span class="pre">n_parameters)</span></code> or <code class="code docutils literal notranslate"><span class="pre">(n_parameters,</span> <span class="pre">)</span></code>, where <code class="code docutils literal notranslate"><span class="pre">nstarts</span></code> is the number of times the
+optimizer will be called. Alternatively, the user can provide input <cite>n_optimizations</cite> to randomly sample
+initial guess(es). The identified MLE is the one that yields the maximum log likelihood over all calls of the
+optimizer.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.MLE.mle">
+<span class="sig-prename descclassname"><span class="pre">MLE.</span></span><span class="sig-name descname"><span class="pre">mle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.inference.MLE.mle" title="Link to this definition"></a></dt>
+<dd><p>Value of parameter vector that maximizes the likelihood function.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.MLE.max_log_like">
+<span class="sig-prename descclassname"><span class="pre">MLE.</span></span><span class="sig-name descname"><span class="pre">max_log_like</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.inference.MLE.max_log_like" title="Link to this definition"></a></dt>
+<dd><p>Value of the likelihood function at the MLE.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/inference/mle/index.html">MLE Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="inference_models.html" class="btn btn-neutral float-left" title="InferenceModel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/inference/mle/index.html" class="btn btn-neutral float-right" title="Maximum Likelihood Estimation Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

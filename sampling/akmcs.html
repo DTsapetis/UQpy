@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdaptiveKriging &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Adaptive Kriging Examples" href="../auto_examples/sampling/adaptive_kriging/index.html" />
+    <link rel="prev" title="Simplex Sampling" href="../auto_examples/sampling/simplex/plot_simplex.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sampling</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="monte_carlo.html"> Monte Carlo Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="latin_hypercube.html"> Latin Hypercube Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stratified_sampling.html"> True Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refined_stratified_sampling.html"> Refined Stratified Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simplex.html"> Simplex Sampling</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Adaptive Kriging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adaptivekriging-class">AdaptiveKriging Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#learning-functions">Learning Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#u-function">U-Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#weighted-u-function">Weighted U-Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expected-feasibility-function">Expected Feasibility Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expected-improvement-function">Expected Improvement Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expected-improvement-for-global-fit">Expected Improvement for Global Fit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-defined-learning-functions">User-Defined Learning Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theta_criterion.html"> Theta Criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcmc/index.html"> Markov Chain Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importance_sampling.html"> Importance Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Sampling</a></li>
+      <li class="breadcrumb-item active">AdaptiveKriging</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sampling/akmcs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="adaptivekriging">
+<h1>AdaptiveKriging<a class="headerlink" href="#adaptivekriging" title="Link to this heading"></a></h1>
+<p>The <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> class generates samples adaptively using a specified Kriging-based learning function in a
+general Adaptive Kriging-Monte Carlo Sampling (AKMCS) framework. Based on the specified learning function, different
+objectives can be achieved. In particular, the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> class has learning functions for reliability analysis
+(probability of failure estimation), global optimization, best global fit surrogate models, and can also accept
+user-defined learning functions for these and other objectives.  Note that the term Adaptive Kriging is adopted from <span id="id1">[<a class="reference internal" href="../bibliography.html#id27" title="B. Echard, N. Gayton, and M. Lemaire. Ak-mcs: an active learning reliability method combining kriging and monte carlo simulation. Structural Safety, 33(2):145-154, 2011. URL: https://www.sciencedirect.com/science/article/pii/S0167473011000038, doi:https://doi.org/10.1016/j.strusafe.2011.01.002.">22</a>]</span> although
+the procedure is referred to by different names depending on the specific learning function employed. For example,
+when applied for optimization the algorithm leverages the expected improvement function and is known under the name
+Efficient Global Optimization (EGO) <span id="id2">[<a class="reference internal" href="../bibliography.html#id28" title="Donald R. Jones, Matthias Schonlau, and William J. Welch. Efficient global optimization of expensive black-box functions.” journal of global optimization. Journal of Global Optimization, 13(4):455–492, 1998. URL: https://doi.org/10.1023/a:1008306431147, doi:10.1023/a:1008306431147.">23</a>]</span>.</p>
+<section id="adaptivekriging-class">
+<h2>AdaptiveKriging Class<a class="headerlink" href="#adaptivekriging-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.AdaptiveKriging</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveKriging</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.AdaptiveKriging">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AdaptiveKriging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runmodel_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qoi_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_add</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/AdaptiveKriging.html#AdaptiveKriging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.AdaptiveKriging" title="Link to this definition"></a></dt>
+<dd><p>Adaptively sample for construction of a kriging surrogate for different objectives including reliability,
+optimization, and global fit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>]]</span>) – List of <a class="reference internal" href="../distributions/distribution_parent.html#UQpy.distributions.baseclass.Distribution" title="UQpy.distributions.baseclass.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> objects corresponding to each random variable.</p></li>
+<li><p><strong>runmodel_object</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a></span>) – A <a class="reference internal" href="../runmodel_doc.html#UQpy.run_model.RunModel" title="UQpy.run_model.RunModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunModel</span></code></a> object, which is used to evaluate the model.</p></li>
+<li><p><strong>surrogate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Surrogate</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegressor</span></code>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a>]</span>) – A kriging surrogate model, this object must have <a class="reference internal" href="../distributions/distribution_parent.html#fit" title="fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">predict()</span></code> methods.
+May be an object of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">UQpy()</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">Kriging</span></code> class or an object of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">scikit-learn</span></code>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianProcessRegressor</span></code></p></li>
+<li><p><strong>learning_function</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#UQpy.sampling.LearningFunction" title="UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction.LearningFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">LearningFunction</span></code></a></span>) – Learning function used as the selection criteria to identify new samples.</p></li>
+<li><p><strong>samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – The initial samples at which to evaluate the model.
+Either <cite>samples</cite> or <cite>nstart</cite> must be provided.</p></li>
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Total number of samples to be drawn (including the initial samples).
+If <cite>nsamples</cite> and <cite>samples</cite> are provided when instantiating the class, the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging.run" title="UQpy.sampling.AdaptiveKriging.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method will
+automatically be called. If either <cite>nsamples</cite> or <cite>samples</cite> is not provided, <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a>
+can be executed by invoking the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging.run" title="UQpy.sampling.AdaptiveKriging.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method and passing <cite>nsamples</cite>.</p></li>
+<li><p><strong>learning_nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples generated for evaluation of the learning function. Samples for
+the learning set are drawn using <a class="reference internal" href="latin_hypercube/lhs_class.html#UQpy.sampling.LatinHypercubeSampling" title="UQpy.sampling.LatinHypercubeSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">LatinHypercubeSampling</span></code></a>.</p></li>
+<li><p><strong>qoi_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Name of the quantity of interest. If the quantity of interest is a dictionary, this is used to
+convert it to a list</p></li>
+<li><p><strong>n_add</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of samples to be added per iteration.</p></li>
+<li><p><strong>random_state</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>]</span>) – Random seed used to initialize the pseudo-random number generator. Default is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">None</span></code></a>.
+If an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref any docutils literal notranslate"><span class="pre">int</span></code></a> is provided, this sets the seed for an object of <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code></a>. Otherwise,
+the object itself can be passed directly.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.AdaptiveKriging.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_nsamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/AdaptiveKriging.html#AdaptiveKriging.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.AdaptiveKriging.run" title="Link to this definition"></a></dt>
+<dd><p>Execute the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> learning iterations.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging.run" title="UQpy.sampling.AdaptiveKriging.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is the function that performs iterations in the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> class. If
+<cite>nsamples</cite> is provided when defining the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> object, the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging.run" title="UQpy.sampling.AdaptiveKriging.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method is
+automatically called. The user may also call the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging.run" title="UQpy.sampling.AdaptiveKriging.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method directly to generate samples.
+The <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging.run" title="UQpy.sampling.AdaptiveKriging.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method of the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> class can be invoked many times.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging.run" title="UQpy.sampling.AdaptiveKriging.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method has no returns, although it creates and/or appends the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging.samples" title="UQpy.sampling.AdaptiveKriging.samples"><code class="xref py py-attr docutils literal notranslate"><span class="pre">samples</span></code></a> attribute of
+the <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Total number of samples to be drawn (including the initial samples).</p></li>
+<li><p><strong>samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Samples at which to evaluate the model.</p></li>
+<li><p><strong>append_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Append new samples and model evaluations to the existing samples and model evaluations.
+If <code class="docutils literal notranslate"><span class="pre">append_samples</span> <span class="pre">=</span> <span class="pre">False</span></code>, all previous samples and the corresponding quantities of interest from their
+model evaluations are deleted.
+If <code class="docutils literal notranslate"><span class="pre">append_samples</span> <span class="pre">=</span> <span class="pre">True</span></code>, samples and their resulting quantities of interest are appended to the
+existing ones.</p></li>
+<li><p><strong>initial_nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of initial samples, randomly generated using
+<a class="reference internal" href="latin_hypercube/lhs_class.html#UQpy.sampling.LatinHypercubeSampling" title="UQpy.sampling.LatinHypercubeSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">LatinHypercubeSampling</span></code></a> class.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.sampling.AdaptiveKriging.samples">
+<span class="sig-prename descclassname"><span class="pre">AdaptiveKriging.</span></span><span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.sampling.AdaptiveKriging.samples" title="Link to this definition"></a></dt>
+<dd><p>contains the samples at which the model is evaluated.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/sampling/adaptive_kriging/index.html">Adaptive Kriging Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="learning-functions">
+<h2>Learning Functions<a class="headerlink" href="#learning-functions" title="Link to this heading"></a></h2>
+<p><a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> provides a number of built-in learning functions as well as allowing the user to provide a
+custom learning function. These learning functions are described below.</p>
+<section id="u-function">
+<h3>U-Function<a class="headerlink" href="#u-function" title="Link to this heading"></a></h3>
+<p>The U-function is a learning function adopted for Kriging-based reliability analysis adopted from <span id="id3">[<a class="reference internal" href="../bibliography.html#id27" title="B. Echard, N. Gayton, and M. Lemaire. Ak-mcs: an active learning reliability method combining kriging and monte carlo simulation. Structural Safety, 33(2):145-154, 2011. URL: https://www.sciencedirect.com/science/article/pii/S0167473011000038, doi:https://doi.org/10.1016/j.strusafe.2011.01.002.">22</a>]</span>. Given a Kriging model <span class="math notranslate nohighlight">\(\hat{y}(\mathbf{x})\)</span>, point estimator of its standard devaition <span class="math notranslate nohighlight">\(\sigma_{\hat{y}}(\mathbf{x})\)</span>, and a set of learning points <span class="math notranslate nohighlight">\(S\)</span>, the U-function seeks out the point <span class="math notranslate nohighlight">\(\mathbf{x}\in S\)</span> that minimizes the function:</p>
+<div class="math notranslate nohighlight">
+\[U(\mathbf{x}) = \dfrac{|\hat{y}(\mathbf{x})|}{\sigma_{\hat{y}}(\mathbf{x})}\]</div>
+<p>This point can be interpreted as the point in <span class="math notranslate nohighlight">\(S\)</span> where the Kriging model has the highest probabability of incorrectly identifying the sign of the performance function (i.e. incorrectly predicting the safe/fail state of the system).</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> then adds the corresponding point to the training set, re-fits the Kriging model and repeats the procedure until the following stopping criterion in met:</p>
+<div class="math notranslate nohighlight">
+\[\min(U(\mathbf{x})) &gt; \epsilon_u\]</div>
+<p>where <span class="math notranslate nohighlight">\(\epsilon_u\)</span> is a user-defined error threshold (typically set to 2).</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.UFunction" title="UQpy.sampling.UFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">UFunction</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.adaptive_kriging_functions.UFunction</span><span class="w"> </span><span class="kn">import</span> <span class="n">UFunction</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.UFunction">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u_stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/adaptive_kriging_functions/UFunction.html#UFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.UFunction" title="Link to this definition"></a></dt>
+<dd><p>U-function for reliability analysis. See <span id="id4">[<a class="reference internal" href="../bibliography.html#id27" title="B. Echard, N. Gayton, and M. Lemaire. Ak-mcs: an active learning reliability method combining kriging and monte carlo simulation. Structural Safety, 33(2):145-154, 2011. URL: https://www.sciencedirect.com/science/article/pii/S0167473011000038, doi:https://doi.org/10.1016/j.strusafe.2011.01.002.">22</a>]</span> for a detailed explanation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>u_stop</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – U-Function stopping parameter</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="weighted-u-function">
+<h3>Weighted U-Function<a class="headerlink" href="#weighted-u-function" title="Link to this heading"></a></h3>
+<p>The probability weighted U-function is a learning function for reliability analysis adapted from the U-function in <span id="id5">[<a class="reference internal" href="../bibliography.html#id29" title="V. S. Sundar and Michael D. Shields. Reliability analysis using adaptive kriging surrogates with multimodel inference. ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems, Part A: Civil Engineering, 2019. doi:10.1061/AJRUA6.0001005.">24</a>]</span>. It modifies the U-function as follows:</p>
+<div class="math notranslate nohighlight">
+\[W(\mathbf{x}) = \dfrac{\max_x[p(\mathbf{x})] - p(\mathbf{x})}{\max_x[p(\mathbf{x})]} U(\mathbf{x})\]</div>
+<p>where <span class="math notranslate nohighlight">\(p(\mathbf{x})\)</span> is the probability density function of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. This has the effect of decreasing the learning function for points that have higher probability of occurrence. Thus, given two points with identical values of <span class="math notranslate nohighlight">\(U(x)\)</span>, the weighted learning function will select the point with higher probability of occurrence.</p>
+<p>As with the standard U-function, <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> with the weighted U-function iterates until <span class="math notranslate nohighlight">\(\min(U(\mathbf{x})) &gt; \epsilon_u\)</span> (the same stopping criterion as the U-function).</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.WeightedUFunction" title="UQpy.sampling.WeightedUFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">WeightedUFunction</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.adaptive_kriging_functions.WeightedUFunction</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeightedUFunction</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.WeightedUFunction">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WeightedUFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weighted_u_stop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/adaptive_kriging_functions/WeightedUFunction.html#WeightedUFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.WeightedUFunction" title="Link to this definition"></a></dt>
+<dd><p>Probability Weighted U-function for reliability analysis. See <span id="id6">[<a class="reference internal" href="../bibliography.html#id29" title="V. S. Sundar and Michael D. Shields. Reliability analysis using adaptive kriging surrogates with multimodel inference. ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems, Part A: Civil Engineering, 2019. doi:10.1061/AJRUA6.0001005.">24</a>]</span> for a detailed explanation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>weighted_u_stop</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Stopping parameter required for the WeightedU learning function</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="expected-feasibility-function">
+<h3>Expected Feasibility Function<a class="headerlink" href="#expected-feasibility-function" title="Link to this heading"></a></h3>
+<p>The Expected Feasibility Function (EFF) is a learning function for reliability analysis introduced as part of the Efficient Global Reliability Analysis (EGRA) method <span id="id7">[<a class="reference internal" href="../bibliography.html#id30" title="B. J. Bichon, M. S. Eldred, L. P. Swiler, S. Mahadevan, and J. M. McFarland. Efficient global reliability analysis for nonlinear implicit performance functions. AIAA Journal, 46(10):2459-2468, 2008. doi:10.2514/1.34321.">25</a>]</span>. The EFF provides assesses how well the true value of the peformance function, <span class="math notranslate nohighlight">\(y(\mathbf{x})\)</span>, is expected to satisfy the constraint <span class="math notranslate nohighlight">\(y(\mathbf{x}) = a\)</span> over a region <span class="math notranslate nohighlight">\(a-\epsilon \le y(\mathbf{x}) \le a+\epsilon\)</span>. It is given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align} EFF(\mathbf{x}) &amp;= (\hat{y}(\mathbf{x})-a)\bigg[2\Phi\bigg(\dfrac{a-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) - \Phi\bigg(\dfrac{(a-\epsilon)-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) - \Phi\bigg(\dfrac{(a+\epsilon)-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) \bigg] \\ &amp;-\sigma_{\hat{y}}(\mathbf{x})\bigg[2\phi\bigg(\dfrac{a-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) - \phi\bigg(\dfrac{(a-\epsilon)-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) - \phi\bigg(\dfrac{(a+\epsilon)-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) \bigg] \\ &amp;+ \bigg[ \Phi\bigg(\dfrac{(a+\epsilon)-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) - \Phi\bigg(\dfrac{(a-\epsilon)-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) \bigg] \end{align}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Phi(\cdot)\)</span> and <span class="math notranslate nohighlight">\(\phi(\cdot)\)</span> are the standard normal cdf and pdf, respectively. For reliabilty, <span class="math notranslate nohighlight">\(a=0\)</span>, and it is suggest to use <span class="math notranslate nohighlight">\(\epsilon=2\sigma_{\hat{y}}^2\)</span>.</p>
+<p>At each iteration, the new point that is selected is the point that maximizes the EFF and iterations continue until</p>
+<div class="math notranslate nohighlight">
+\[\max_x(EFF(\mathbf{x})) &lt; \epsilon_{eff}\]</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Expectedfeasibility</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.adaptive_kriging_functions.Expectedfeasibility</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExpectedFeasibility</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.ExpectedFeasibility">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ExpectedFeasibility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eff_a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eff_epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eff_stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/adaptive_kriging_functions/ExpectedFeasibility.html#ExpectedFeasibility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.ExpectedFeasibility" title="Link to this definition"></a></dt>
+<dd><p>Expected Feasibility Function (EFF) for reliability analysis, see <span id="id8">[<a class="reference internal" href="../bibliography.html#id30" title="B. J. Bichon, M. S. Eldred, L. P. Swiler, S. Mahadevan, and J. M. McFarland. Efficient global reliability analysis for nonlinear implicit performance functions. AIAA Journal, 46(10):2459-2468, 2008. doi:10.2514/1.34321.">25</a>]</span> for a detailed explanation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eff_a</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Reliability threshold.</p></li>
+<li><p><strong>eff_epsilon</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – EGRA method epsilon</p></li>
+<li><p><strong>eff_stop</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Stopping threshold</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="expected-improvement-function">
+<h3>Expected Improvement Function<a class="headerlink" href="#expected-improvement-function" title="Link to this heading"></a></h3>
+<p>The Expected Improvement Function (EIF) is a Kriging-based learning function for global optimization introduced as part of the Efficient Global Optimization (EGO) method in <span id="id9">[<a class="reference internal" href="../bibliography.html#id28" title="Donald R. Jones, Matthias Schonlau, and William J. Welch. Efficient global optimization of expensive black-box functions.” journal of global optimization. Journal of Global Optimization, 13(4):455–492, 1998. URL: https://doi.org/10.1023/a:1008306431147, doi:10.1023/a:1008306431147.">23</a>]</span>. The EIF seeks to find the global minimum of a function. It searches the space by placing samples at locations that maximize the expected improvement, where the improvement is defined as <span class="math notranslate nohighlight">\(I(\mathbf{x})=\max(y_{min}-y(\mathbf{x}), 0)\)</span>, where the model response <span class="math notranslate nohighlight">\(y(\mathbf{x})\)</span> is assumed to be a Gaussian random variable and <span class="math notranslate nohighlight">\(y_{min}\)</span> is the current minimum model response. The EIF is then expressed as:</p>
+<div class="math notranslate nohighlight">
+\[EIF(\mathbf{x}) = E[I(\mathbf{x})] = (y_{min}-\hat{y}(\mathbf{x})) \Phi \bigg(\dfrac{y_{min}-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg) + \sigma_{\hat{y}}(\mathbf{x})\phi \bigg(\dfrac{y_{min}-\hat{y}(\mathbf{x})}{\sigma_{\hat{y}}(\mathbf{x})} \bigg)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Phi(\cdot)\)</span> and <span class="math notranslate nohighlight">\(\phi(\cdot)\)</span> are the standard normal cdf and pdf, respectively.</p>
+<p>At each iteration, the EGO algorithm selects the point in the learning set that maximizes the EIF. The algorithm continues until the maximum number of iterations or until:</p>
+<div class="math notranslate nohighlight">
+\[\dfrac{EIF(\mathbf{x})}{|y_{min}|} &lt; \epsilon_{eif}.\]</div>
+<p>Typically a value of <span class="math notranslate nohighlight">\(0.01\)</span> is used for <span class="math notranslate nohighlight">\(\epsilon_{eif}\)</span>.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.ExpectedImprovement" title="UQpy.sampling.ExpectedImprovement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpectedImprovement</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.adaptive_kriging_functions.ExpectedImprovement</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExpectedImprovement</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.ExpectedImprovement">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ExpectedImprovement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eif_stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/adaptive_kriging_functions/ExpectedImprovement.html#ExpectedImprovement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.ExpectedImprovement" title="Link to this definition"></a></dt>
+<dd><p>Expected Improvement Function (EIF) for Efficient Global Optimization (EFO). See <span id="id10">[<a class="reference internal" href="../bibliography.html#id28" title="Donald R. Jones, Matthias Schonlau, and William J. Welch. Efficient global optimization of expensive black-box functions.” journal of global optimization. Journal of Global Optimization, 13(4):455–492, 1998. URL: https://doi.org/10.1023/a:1008306431147, doi:10.1023/a:1008306431147.">23</a>]</span> for a detailed
+explanation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>eif_stop</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Stopping threshold</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="expected-improvement-for-global-fit">
+<h3>Expected Improvement for Global Fit<a class="headerlink" href="#expected-improvement-for-global-fit" title="Link to this heading"></a></h3>
+<p>The Expected Improvement for Global Fit (EIGF) learning function aims to build the surrogate model that is the best global representation of model. It was introduced in <span id="id11">[<a class="reference internal" href="../bibliography.html#id31" title="Chen Quin Lam. Sequential Adaptive Designs in Computer Experiments for Response Surface Model Fit. Ohio State University, USA, 2008. ISBN 9780549716860. AAI3321369.">26</a>]</span>. It aims to balance between even space-filling design and sampling in regions of high variation and is given by:</p>
+<div class="math notranslate nohighlight">
+\[EIGF(\mathbf{x}) = (\hat{y}(\mathbf{x}) - y(\mathbf{x}_*))^2 + \sigma_{\hat{y}}(\mathbf{x})^2\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{x}_*\)</span> is the point in the training set closest in distance to the point <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and <span class="math notranslate nohighlight">\(y(\mathbf{x}_*)\)</span> is the model response at that point.</p>
+<p>No stopping criterion is suggested by the authors of <span id="id12">[<a class="reference internal" href="../bibliography.html#id31" title="Chen Quin Lam. Sequential Adaptive Designs in Computer Experiments for Response Surface Model Fit. Ohio State University, USA, 2008. ISBN 9780549716860. AAI3321369.">26</a>]</span>, thus its implementation in <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> uses a fixed number of iterations.</p>
+<p>The <a class="reference internal" href="#UQpy.sampling.ExpectedImprovementGlobalFit" title="UQpy.sampling.ExpectedImprovementGlobalFit"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpectedImprovementGlobalFit</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.adaptive_kriging_functions.ExpectedImprovementGlobalFit</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExpectedImprovementGlobalFit</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.ExpectedImprovementGlobalFit">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ExpectedImprovementGlobalFit</span></span><a class="reference internal" href="../_modules/UQpy/sampling/adaptive_kriging_functions/ExpectedImprovementGlobalFit.html#ExpectedImprovementGlobalFit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.ExpectedImprovementGlobalFit" title="Link to this definition"></a></dt>
+<dd><p>Expected Improvement for Global Fit (EIGF) learning function. See <span id="id13">[<a class="reference internal" href="../bibliography.html#id31" title="Chen Quin Lam. Sequential Adaptive Designs in Computer Experiments for Response Surface Model Fit. Ohio State University, USA, 2008. ISBN 9780549716860. AAI3321369.">26</a>]</span> for a detailed explanation.</p>
+</dd></dl>
+
+</section>
+<section id="user-defined-learning-functions">
+<h3>User-Defined Learning Functions<a class="headerlink" href="#user-defined-learning-functions" title="Link to this heading"></a></h3>
+<p>The <a class="reference internal" href="#UQpy.sampling.AdaptiveKriging" title="UQpy.sampling.AdaptiveKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveKriging</span></code></a> class also allows new, user-defined learning functions to be specified in a straightforward way, by generating child classes of the <a class="reference internal" href="#UQpy.sampling.LearningFunction" title="UQpy.sampling.LearningFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">LearningFunction</span></code></a> abstract class.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Learning</span></code> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sampling.adaptive_kriging_functions.baseclass.LearningFunction</span><span class="w"> </span><span class="kn">import</span> <span class="n">LearningFunction</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.sampling.LearningFunction">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LearningFunction</span></span><a class="reference internal" href="../_modules/UQpy/sampling/adaptive_kriging_functions/baseclass/LearningFunction.html#LearningFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.LearningFunction" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.sampling.LearningFunction.evaluate_function">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_add</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qoi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/sampling/adaptive_kriging_functions/baseclass/LearningFunction.html#LearningFunction.evaluate_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.sampling.LearningFunction.evaluate_function" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that needs to be overriden by the user to create new Adaptive Kriging Learning functions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The user only needs to implement the <code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate_function()</span></code> method.
+This method takes as input the surrogate model, the randomly generated learning points, the number of points to be added in each iteration,
+any requisite parameters including a stopping criterion, existing samples, model evaluate at samples and distribution object.
+It returns a set of samples that are selected according to the user’s desired learning function and the corresponding learning function values.
+The outputs of this function should be (1) a numpy array of samples to be added; (2) the learning function values at the new sample
+points, and (3) a boolean stopping criterion indicating whether the iterations should continue (<code class="code docutils literal notranslate"><span class="pre">False</span></code>) or stop (<code class="code docutils literal notranslate"><span class="pre">True</span></code>). The
+numpy array of samples should be a two-dimensional array with the first dimension being the number of samples and the second
+dimension being the number of variables. An example user-defined learning function is given below:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">UserLearningFunction</span><span class="p">(</span><span class="n">LearningFunction</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_stop</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="bp">self</span><span class="o">.</span><span class="n">u_stop</span> <span class="o">=</span> <span class="n">u_stop</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distributions</span><span class="p">,</span> <span class="n">n_add</span><span class="p">,</span> <span class="n">surrogate</span><span class="p">,</span> <span class="n">population</span><span class="p">,</span> <span class="n">qoi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="c1"># AKMS class use these inputs to compute the learning function</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="n">g</span><span class="p">,</span> <span class="n">sig</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">population</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="c1"># Remove the inconsistency in the shape of &#39;g&#39; and &#39;sig&#39; array</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="n">g</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="n">population</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="n">sig</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="n">population</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="n">u</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">/</span> <span class="n">sig</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="n">rows</span> <span class="o">=</span> <span class="n">u</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="n">n_add</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="n">indicator</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">u</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_stop</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>           <span class="n">indicator</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="k">return</span> <span class="n">population</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="p">:],</span> <span class="n">u</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">indicator</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/sampling/simplex/plot_simplex.html" class="btn btn-neutral float-left" title="Simplex Sampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/sampling/adaptive_kriging/index.html" class="btn btn-neutral float-right" title="Adaptive Kriging Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

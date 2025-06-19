@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BayesModelSelection &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bayesian Model Selection" href="../auto_examples/inference/bayes_model_selection/index.html" />
+    <link rel="prev" title="2. Selection between regression models" href="../auto_examples/inference/info_model_selection/selection_regression_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Inference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="inference_models.html"> Inference Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mle.html"> Maximum Likelihood Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayes_parameter_estimation.html"> Bayes Parameter Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info_model_selection.html"> Information Theoretic Model Selection</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Bayes Model Selection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#UQpy.inference.HarmonicMean"><code class="docutils literal notranslate"><span class="pre">HarmonicMean</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evidencemethod-class">EvidenceMethod Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UQpy.inference.EvidenceMethod"><code class="docutils literal notranslate"><span class="pre">EvidenceMethod</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#bayesmodelselection-class">BayesModelSelection Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Inference</a></li>
+      <li class="breadcrumb-item active">BayesModelSelection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/inference/bayes_model_selection.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bayesmodelselection">
+<h1>BayesModelSelection<a class="headerlink" href="#bayesmodelselection" title="Link to this heading"></a></h1>
+<p>In the Bayesian approach to model selection, the posterior probability of each model is computed as</p>
+<div class="math notranslate nohighlight">
+\[P(m_{i} \vert \mathcal{D}) = \frac{p(\mathcal{D} \vert m_{i})P(m_{i})}{\sum_{j} p(\mathcal{D} \vert m_{j})P(m_{j})}\]</div>
+<p>where the evidence (also called marginal likelihood) <span class="math notranslate nohighlight">\(p(\mathcal{D} \vert m_{i})\)</span> involves an integration over the parameter space:</p>
+<div class="math notranslate nohighlight">
+\[p(\mathcal{D} \vert m_{i}) = \int_{\Theta} p(\mathcal{D} \vert m_{i}, \theta) p(\theta \vert m_{i}) d\theta\]</div>
+<p>Currently, calculation of the evidence is performed using the method of the harmonic mean <span id="id1">[<a class="reference internal" href="../bibliography.html#id19" title="Adrian Raftery, Michael Newton, Jaya Satagopan, and Pavel Krivitsky. Estimating the integrated likelihood via posterior simulation using the harmonic mean identity. Bayesian statistics, 8:, 01 2007.">12</a>]</span>:</p>
+<div class="math notranslate nohighlight">
+\[p(\mathcal{D} \vert m_{i}) = \left[ \frac{1}{B} \sum_{b=1}^{B} \frac{1}{p(\mathcal{D} \vert m_{i}, \theta_{b})} \right]^{-1}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta_{1,\cdots,B}\)</span> are samples from the posterior pdf of <span class="math notranslate nohighlight">\(\theta\)</span>. In UQpy, these samples are
+obtained via the <a class="reference internal" href="bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> class. However, note that this method is known to yield evidence
+estimates with large variance. The Harmonic mean method for calculating the evidence is provided to the initializer
+of the <a class="reference internal" href="#UQpy.inference.BayesModelSelection" title="UQpy.inference.BayesModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesModelSelection</span></code></a> class. No input parameters are required for its initialization.</p>
+<p>The <a class="reference internal" href="#UQpy.inference.HarmonicMean" title="UQpy.inference.HarmonicMean"><code class="xref py py-class docutils literal notranslate"><span class="pre">HarmonicMean</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.evidence_methods.HarmonicMean</span><span class="w"> </span><span class="kn">import</span> <span class="n">HarmonicMean</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.HarmonicMean">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HarmonicMean</span></span><a class="reference internal" href="../_modules/UQpy/inference/evidence_methods/HarmonicMean.html#HarmonicMean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.HarmonicMean" title="Link to this definition"></a></dt>
+<dd><p>Class used for the computation of model evidence using the harmonic mean method.</p>
+</dd></dl>
+
+<p>Future releases of <code class="xref py py-mod docutils literal notranslate"><span class="pre">UQpy</span></code> will include more robust methods for computation of model
+evidences. Also, it is known that results of such Bayesian model selection procedure usually highly depends on the
+choice of prior for the parameters of the competing models, thus the user should carefully define such priors when
+creating instances of the <a class="reference internal" href="inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a> class. The user can create custom methods for calculating
+evidences, by extending the <a class="reference internal" href="#UQpy.inference.EvidenceMethod" title="UQpy.inference.EvidenceMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvidenceMethod</span></code></a> abstract baseclass. To achieve that, a custom implementation
+of the <a class="reference internal" href="#UQpy.inference.EvidenceMethod.estimate_evidence" title="UQpy.inference.EvidenceMethod.estimate_evidence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate_evidence()</span></code></a> must be provided.</p>
+<section id="evidencemethod-class">
+<h2>EvidenceMethod Class<a class="headerlink" href="#evidencemethod-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.inference.EvidenceMethod" title="UQpy.inference.EvidenceMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvidenceMethod</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.evidence_methods.baseclass.EvidenceMethod</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvidenceMethod</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.EvidenceMethod">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EvidenceMethod</span></span><a class="reference internal" href="../_modules/UQpy/inference/evidence_methods/baseclass/EvidenceMethod.html#EvidenceMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.EvidenceMethod" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.EvidenceMethod.estimate_evidence">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">estimate_evidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inference_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_posterior_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/evidence_methods/baseclass/EvidenceMethod.html#EvidenceMethod.estimate_evidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.EvidenceMethod.estimate_evidence" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inference_model</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a></span>) – Probabilistic model used for inference.</p></li>
+<li><p><strong>posterior_samples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Samples drawn from the posterior distribution of the parameters using a
+<a class="reference internal" href="bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> object.</p></li>
+<li><p><strong>log_posterior_values</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Values of the <code class="docutils literal notranslate"><span class="pre">log_pdf</span></code> function generated during the sampling of the
+<a class="reference internal" href="bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The evidence of the inference specific model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="bayesmodelselection-class">
+<h2>BayesModelSelection Class<a class="headerlink" href="#bayesmodelselection-class" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="#UQpy.inference.BayesModelSelection" title="UQpy.inference.BayesModelSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesModelSelection</span></code></a> class is imported using the following command:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.inference.BayesModelSelection</span><span class="w"> </span><span class="kn">import</span> <span class="n">BayesModelSelection</span>
+</pre></div>
+</div>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UQpy.inference.BayesModelSelection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BayesModelSelection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_estimators</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_probabilities=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evidence_method=&lt;UQpy.inference.evidence_methods.HarmonicMean.HarmonicMean</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsamples=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/BayesModelSelection.html#BayesModelSelection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.BayesModelSelection" title="Link to this definition"></a></dt>
+<dd><p>Perform model selection via Bayesian inference, i.e., compute model posterior probabilities given data.</p>
+<p>This class leverages the <a class="reference internal" href="bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> class to get samples from the parameter posterior
+densities. These samples are then used to compute the model evidence <code class="code docutils literal notranslate"><span class="pre">p(data|model)</span></code> for all models and
+the model posterior probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Available data</p></li>
+<li><p><strong>parameter_estimators</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a>]</span>) – Parameter estimators used during the model selection algorithm.</p></li>
+<li><p><strong>prior_probabilities</strong> – Prior probabilities of each model, default is <code class="code docutils literal notranslate"><span class="pre">[1/nmodels,</span> <span class="pre">]</span> <span class="pre">*</span> <span class="pre">nmodels</span></code></p></li>
+<li><p><strong>evidence_method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#UQpy.inference.EvidenceMethod" title="UQpy.inference.evidence_methods.baseclass.EvidenceMethod.EvidenceMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvidenceMethod</span></code></a></span>) – as of v3, only the harmonic mean method is supported</p></li>
+<li><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Number of samples used in <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a>/<a class="reference internal" href="../sampling/importance_sampling.html#UQpy.sampling.ImportanceSampling" title="UQpy.sampling.ImportanceSampling"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling</span></code></a>, for each model</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.BayesModelSelection.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsamples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/BayesModelSelection.html#BayesModelSelection.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.BayesModelSelection.run" title="Link to this definition"></a></dt>
+<dd><p>Run the Bayesian model selection procedure, i.e., compute model posterior probabilities.</p>
+<p>This function calls the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run_estimation()</span></code> method of the <a class="reference internal" href="bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a> object for
+each model to sample from the parameter posterior probability, then computes the model evidence and model
+posterior probability. This function updates attributes <a class="reference internal" href="#UQpy.inference.BayesModelSelection.bayes_estimators" title="UQpy.inference.BayesModelSelection.bayes_estimators"><code class="xref py py-attr docutils literal notranslate"><span class="pre">bayes_estimators</span></code></a>, <a class="reference internal" href="#UQpy.inference.BayesModelSelection.evidences" title="UQpy.inference.BayesModelSelection.evidences"><code class="xref py py-attr docutils literal notranslate"><span class="pre">evidences</span></code></a> and
+<a class="reference internal" href="#UQpy.inference.BayesModelSelection.probabilities" title="UQpy.inference.BayesModelSelection.probabilities"><code class="xref py py-attr docutils literal notranslate"><span class="pre">probabilities</span></code></a>. If <cite>nsamples</cite> are given when creating the object, this method is called
+directly when the object is created. It can also be called separately.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nsamples</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</span>) – Number of samples used in <a class="reference internal" href="../sampling/mcmc/index.html#UQpy.sampling.mcmc.MCMC" title="UQpy.sampling.mcmc.MCMC"><code class="xref py py-class docutils literal notranslate"><span class="pre">MCMC</span></code></a>/<code class="xref py py-class docutils literal notranslate"><span class="pre">ImportanceSampling`</span></code>, for each model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UQpy.inference.BayesModelSelection.sort_models">
+<span class="sig-name descname"><span class="pre">sort_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UQpy/inference/BayesModelSelection.html#BayesModelSelection.sort_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UQpy.inference.BayesModelSelection.sort_models" title="Link to this definition"></a></dt>
+<dd><p>Sort models in descending order of model probability (increasing order of criterion value).</p>
+<p>This function sorts - in place - the attribute lists <a class="reference internal" href="#UQpy.inference.BayesModelSelection.candidate_models" title="UQpy.inference.BayesModelSelection.candidate_models"><code class="xref py py-attr docutils literal notranslate"><span class="pre">candidate_models</span></code></a>, <a class="reference internal" href="#UQpy.inference.BayesModelSelection.probabilities" title="UQpy.inference.BayesModelSelection.probabilities"><code class="xref py py-attr docutils literal notranslate"><span class="pre">probabilities</span></code></a>
+and <a class="reference internal" href="#UQpy.inference.BayesModelSelection.evidences" title="UQpy.inference.BayesModelSelection.evidences"><code class="xref py py-attr docutils literal notranslate"><span class="pre">evidences</span></code></a> so that they are sorted from most probable to the least probable model. It is a
+stand-alone function that is provided to help the user to easily visualize which model is the best.</p>
+<p>No inputs/outputs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.BayesModelSelection.candidate_models">
+<span class="sig-prename descclassname"><span class="pre">BayesModelSelection.</span></span><span class="sig-name descname"><span class="pre">candidate_models</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference internal" href="inference_models.html#UQpy.inference.inference_models.baseclass.InferenceModel" title="UQpy.inference.inference_models.baseclass.InferenceModel.InferenceModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceModel</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.inference.BayesModelSelection.candidate_models" title="Link to this definition"></a></dt>
+<dd><p>Probabilistic models used during the model selection process.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.BayesModelSelection.bayes_estimators">
+<span class="sig-prename descclassname"><span class="pre">BayesModelSelection.</span></span><span class="sig-name descname"><span class="pre">bayes_estimators</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference internal" href="bayes_parameter_estimation.html#UQpy.inference.BayesParameterEstimation" title="UQpy.inference.BayesParameterEstimation.BayesParameterEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BayesParameterEstimation</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#UQpy.inference.BayesModelSelection.bayes_estimators" title="Link to this definition"></a></dt>
+<dd><p>Results of the Bayesian parameter estimation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.BayesModelSelection.evidences">
+<span class="sig-prename descclassname"><span class="pre">BayesModelSelection.</span></span><span class="sig-name descname"><span class="pre">evidences</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.inference.BayesModelSelection.evidences" title="Link to this definition"></a></dt>
+<dd><p>Value of the evidence for all models.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UQpy.inference.BayesModelSelection.probabilities">
+<span class="sig-prename descclassname"><span class="pre">BayesModelSelection.</span></span><span class="sig-name descname"><span class="pre">probabilities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></em><a class="headerlink" href="#UQpy.inference.BayesModelSelection.probabilities" title="Link to this definition"></a></dt>
+<dd><p>Posterior probability for all models</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/inference/bayes_model_selection/index.html">Bayes Model Selection Examples</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../auto_examples/inference/info_model_selection/selection_regression_model.html" class="btn btn-neutral float-left" title="2. Selection between regression models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../auto_examples/inference/bayes_model_selection/index.html" class="btn btn-neutral float-right" title="Bayesian Model Selection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

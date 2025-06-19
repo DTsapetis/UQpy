@@ -1,0 +1,61 @@
+
+
+.. _sphx_glr_auto_examples_scientific_machine_learning_unet:
+
+U-net Examples
+^^^^^^^^^^^^^^
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Learning a Stress Field with U-Nets">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/unet/images/thumb/sphx_glr_unet_example_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_unet_unet_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Learning a Stress Field with U-Nets</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plotting the U-net example">
+
+.. only:: html
+
+  .. image:: /auto_examples/scientific_machine_learning/unet/images/thumb/sphx_glr_unet_example_plot_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_scientific_machine_learning_unet_unet_example_plot.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plotting the U-net example</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/scientific_machine_learning/unet/unet_example
+   /auto_examples/scientific_machine_learning/unet/unet_example_plot
+

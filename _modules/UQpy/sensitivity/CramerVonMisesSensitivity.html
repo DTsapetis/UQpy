@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UQpy.sensitivity.CramerVonMisesSensitivity &mdash; UQpy v4.1.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=72eccc5f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F0F0F0" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dimension_reduction/index.html">Dimension Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distributions/index.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inference/index.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reliability/index.html">Reliability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../runmodel_doc.html">RunModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sampling/index.html">Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scientific_machine_learning/index.html">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sensitivity/index.html">Sensitivity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic_process/index.html">Stochastic Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surrogates/index.html">Surrogates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations/index.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">UQpy architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paper.html">UQpy paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news_doc.html">News</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #F0F0F0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">UQpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UQpy.sensitivity.CramerVonMisesSensitivity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UQpy.sensitivity.CramerVonMisesSensitivity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Computing the Cramér-von Mises sensitivity indices.</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+
+<span class="sd">.. [1] Gamboa, F., Klein, T., &amp; Lagnoux, A. (2018). Sensitivity Analysis</span>
+<span class="sd">       Based on Cramér-von Mises Distance. SIAM/ASA Journal on Uncertainty</span>
+<span class="sd">       Quantification, 6(2), 522-548. doi:10.1137/15M1025621</span>
+
+<span class="sd">.. [2] Gamboa, F., Gremaud, P., Klein, T., &amp; Lagnoux, A. (2020). Global</span>
+<span class="sd">       Sensitivity Analysis: a new generation of mighty estimators based on</span>
+<span class="sd">       rank statistics. arXiv [math.ST]. http://arxiv.org/abs/2003.01772</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.baseclass.Sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sensitivity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.baseclass.PickFreeze</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_pick_freeze_samples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.SobolSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_first_order</span> <span class="k">as</span> <span class="n">compute_first_order_sobol</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.sensitivity.SobolSensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_total_order</span> <span class="k">as</span> <span class="n">compute_total_order_sobol</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.UQpyLoggingFormatter</span><span class="w"> </span><span class="kn">import</span> <span class="n">UQpyLoggingFormatter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UQpy.utilities.ValidationTypes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PositiveInteger</span><span class="p">,</span>
+    <span class="n">PositiveFloat</span><span class="p">,</span>
+    <span class="n">NumpyFloatArray</span><span class="p">,</span>
+    <span class="n">NumpyIntArray</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># TODO: Sampling strategies</span>
+
+
+<div class="viewcode-block" id="CramerVonMisesSensitivity">
+<a class="viewcode-back" href="../../../sensitivity/cramer_von_mises.html#UQpy.sensitivity.CramerVonMisesSensitivity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CramerVonMisesSensitivity</span><span class="p">(</span><span class="n">Sensitivity</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Cramér-von Mises indices.</span>
+
+<span class="sd">    Currently only available for models with scalar output.</span>
+
+<span class="sd">    :param runmodel_object: The computational model. It should be of type :class:`.RunModel`. \</span>
+<span class="sd">        The output QoI can be a scalar or vector of length :code:`ny`, then the sensitivity \</span>
+<span class="sd">        indices of all :code:`ny` outputs are computed independently.</span>
+
+<span class="sd">    :param distributions: List of :class:`.Distribution` objects corresponding to each \</span>
+<span class="sd">        random variable, or :class:`.JointIndependent` object \</span>
+<span class="sd">        (multivariate RV with independent marginals).</span>
+
+<span class="sd">    :param random_state: Random seed used to initialize the pseudo-random number \</span>
+<span class="sd">        generator. Default is :any:`None`.</span>
+
+<span class="sd">    **Methods:**</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">runmodel_object</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">runmodel_object</span><span class="p">,</span> <span class="n">dist_object</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="c1"># Create logger with the same name as the class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_order_CramerVonMises_indices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;First order Cramér-von Mises indices, :class:`numpy.ndarray` of shape :code:`(n_variables, 1)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">confidence_interval_CramerVonMises</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Confidence intervals of the first order Cramér-von Mises indices, :class:`numpy.ndarray` &quot;</span> \
+        <span class="s2">&quot;of shape :code:`(n_variables, 2)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_order_sobol_indices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;First order Sobol indices computed using the pick-and-freeze samples, :class:`numpy.ndarray` &quot;</span> \
+        <span class="s2">&quot;of shape :code:`(n_variables, 1)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_order_sobol_indices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Total order Sobol indices computed using the pick-and-freeze samples, :class:`numpy.ndarray` &quot;</span> \
+        <span class="s2">&quot;of shape :code:`(n_variables, 1)`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Number of samples used to compute the Cramér-von Mises indices, :class:`int`&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="s2">&quot;Number of input random variables, :class:`int`&quot;</span>
+
+<div class="viewcode-block" id="CramerVonMisesSensitivity.run">
+<a class="viewcode-back" href="../../../sensitivity/cramer_von_mises.html#UQpy.sensitivity.CramerVonMisesSensitivity.run">[docs]</a>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_samples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="mi">1_000</span><span class="p">,</span>
+        <span class="n">estimate_sobol_indices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">num_bootstrap_samples</span><span class="p">:</span> <span class="n">PositiveInteger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">confidence_level</span><span class="p">:</span> <span class="n">PositiveFloat</span> <span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span>
+        <span class="n">disable_CVM_indices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Cramér-von Mises indices.</span>
+
+<span class="sd">        :param n_samples: Number of samples used to compute the Cramér-von Mises indices. \</span>
+<span class="sd">            Default is 1,000.</span>
+
+<span class="sd">        :param estimate_sobol_indices: If :code:`True`, the Sobol indices are estimated \</span>
+<span class="sd">            using the pick-and-freeze samples.</span>
+
+<span class="sd">        :param num_bootstrap_samples: Number of bootstrap samples used to estimate the \</span>
+<span class="sd">            Sobol indices. Default is :any:`None`.</span>
+
+<span class="sd">        :param confidence_level: Confidence level used to compute the confidence \</span>
+<span class="sd">            intervals of the Cramér-von Mises indices.</span>
+
+<span class="sd">        :param disable_CVM_indices: If :code:`True`, the Cramér-von Mises indices \</span>
+<span class="sd">            are not computed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check nsamples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="n">n_samples</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;UQpy: nsamples should be an integer&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check num_bootstrap_samples data type</span>
+        <span class="k">if</span> <span class="n">num_bootstrap_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: num_bootstrap_samples is set to None, confidence intervals will not be computed.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">num_bootstrap_samples</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;UQpy: num_bootstrap_samples should be an integer.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1">################## GENERATE SAMPLES ##################</span>
+
+        <span class="n">A_samples</span><span class="p">,</span> <span class="n">W_samples</span><span class="p">,</span> <span class="n">C_i_generator</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">generate_pick_freeze_samples</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dist_object</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Generated samples using the pick-freeze scheme.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">################# MODEL EVALUATIONS ####################</span>
+
+        <span class="n">A_model_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">A_samples</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations A completed.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">W_model_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">W_samples</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations W completed.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">=</span> <span class="n">A_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">C_i_model_evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">C_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">C_i_generator</span><span class="p">):</span>
+            <span class="n">C_i_model_evals</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_model</span><span class="p">(</span><span class="n">C_i</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Model evaluations C completed.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: All model evaluations computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">################## COMPUTE CVM INDICES ##################</span>
+
+        <span class="c1"># flag is used to disable computation of</span>
+        <span class="c1"># CVM indices during testing</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">disable_CVM_indices</span><span class="p">:</span>
+            <span class="c1"># Compute the Cramér-von Mises indices</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first_order_CramerVonMises_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pick_and_freeze_estimator</span><span class="p">(</span>
+                <span class="n">A_model_evals</span><span class="p">,</span> <span class="n">W_model_evals</span><span class="p">,</span> <span class="n">C_i_model_evals</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Cramér-von Mises indices computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+        <span class="c1">################# COMPUTE CONFIDENCE INTERVALS ##################</span>
+
+        <span class="k">if</span> <span class="n">num_bootstrap_samples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Computing confidence intervals ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">estimator_inputs</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">A_model_evals</span><span class="p">,</span>
+                <span class="n">W_model_evals</span><span class="p">,</span>
+                <span class="n">C_i_model_evals</span><span class="p">,</span>
+            <span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">confidence_interval_CramerVonMises</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bootstrapping</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pick_and_freeze_estimator</span><span class="p">,</span>
+                <span class="n">estimator_inputs</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">first_order_CramerVonMises_indices</span><span class="p">,</span>
+                <span class="n">num_bootstrap_samples</span><span class="p">,</span>
+                <span class="n">confidence_level</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Confidence intervals for Cramér-von Mises indices computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+        <span class="c1">################## COMPUTE SOBOL INDICES ##################</span>
+
+        <span class="k">if</span> <span class="n">estimate_sobol_indices</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Computing First order Sobol indices ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># extract shape</span>
+            <span class="n">_shape</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="o">.</span><span class="n">shape</span>
+
+            <span class="c1"># convert C_i_model_evals to 3D array</span>
+            <span class="c1"># with n_outputs=1 in first dimension</span>
+            <span class="n">n_outputs</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">C_i_model_evals</span> <span class="o">=</span> <span class="n">C_i_model_evals</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n_outputs</span><span class="p">,</span> <span class="o">*</span><span class="n">_shape</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">first_order_sobol_indices</span> <span class="o">=</span> <span class="n">compute_first_order_sobol</span><span class="p">(</span>
+                <span class="n">A_model_evals</span><span class="p">,</span> <span class="n">W_model_evals</span><span class="p">,</span> <span class="n">C_i_model_evals</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: First order Sobol indices computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">total_order_sobol_indices</span> <span class="o">=</span> <span class="n">compute_total_order_sobol</span><span class="p">(</span>
+                <span class="n">A_model_evals</span><span class="p">,</span> <span class="n">W_model_evals</span><span class="p">,</span> <span class="n">C_i_model_evals</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;UQpy: Total order Sobol indices computed successfully.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">indicator_function</span><span class="p">(</span><span class="n">Y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Vectorized version of the indicator function.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">           \mathbb{I}(Y,W) = \mathbf{1}_{Y \leq W}</span>
+
+<span class="sd">        **Inputs:**</span>
+
+<span class="sd">        * **Y** (`ndarray`):</span>
+<span class="sd">            Array of values of the random variable.</span>
+<span class="sd">            Shape: `(N, 1)`</span>
+
+<span class="sd">        * **w** (`float`):</span>
+<span class="sd">            Value to compare with the array.</span>
+
+<span class="sd">        **Outputs:**</span>
+
+<span class="sd">        * **indicator** (`ndarray`):</span>
+<span class="sd">            Array of integers with truth values.</span>
+<span class="sd">            Shape: `(N, 1)`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Y</span> <span class="o">&lt;=</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="nd">@beartype</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pick_and_freeze_estimator</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">A_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+        <span class="n">W_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+        <span class="n">C_i_model_evals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumpyFloatArray</span><span class="p">,</span> <span class="n">NumpyIntArray</span><span class="p">],</span>
+    <span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the first order Cramér-von Mises indices</span>
+<span class="sd">        using the Pick-and-Freeze estimator.</span>
+
+<span class="sd">        **Inputs**</span>
+
+<span class="sd">        * **A_model_evals** (`np.array`):</span>
+<span class="sd">            Shape: `(n_samples, 1)`</span>
+
+<span class="sd">        * **W_model_evals** (`np.array`):</span>
+<span class="sd">            Shape: `(n_samples, 1)`</span>
+
+<span class="sd">        * **C_i_model_evals** (`np.array`):</span>
+<span class="sd">            Shape: `(n_samples, n_variables)`</span>
+
+<span class="sd">        **Outputs**</span>
+
+<span class="sd">        * **First_order_CVM** (`np.array`):</span>
+<span class="sd">            Shape: `(n_variables)`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">## **Notes**</span>
+
+        <span class="c1"># Implementation using 2 `for` loops. This is however</span>
+        <span class="c1"># faster than the vectorized version which has only 1 `for` loop.</span>
+
+        <span class="c1"># For N = 50_000 runs</span>
+        <span class="c1"># With 2 `for` loops: 26.75 seconds (this implementation)</span>
+        <span class="c1"># With 1 `for` loops: 62.42 seconds (vectorized implementation)</span>
+
+        <span class="c1"># Possible improvements:</span>
+        <span class="c1"># Check indicator function run time using a profiler</span>
+        <span class="c1"># as it results in an `N` x `N` array.</span>
+        <span class="c1"># Q. Does it use a for loop under the hood?</span>
+        <span class="c1"># Computations such as `np.sum` and `np.mean`</span>
+        <span class="c1"># are handled by numpy so they are fast.</span>
+        <span class="c1"># (This should however be faster for small `N`, e.g. N=10_000)</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span>
+
+        <span class="c1"># Model evaluations</span>
+        <span class="n">f_A</span> <span class="o">=</span> <span class="n">A_model_evals</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">f_W</span> <span class="o">=</span> <span class="n">W_model_evals</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">f_C_i</span> <span class="o">=</span> <span class="n">C_i_model_evals</span>
+
+        <span class="c1"># Store CramérvonMises indices</span>
+        <span class="n">first_order_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Compute Cramér-von Mises indices</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="n">sum_numerator</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">sum_denominator</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+
+                <span class="n">term_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indicator_function</span><span class="p">(</span><span class="n">f_A</span><span class="p">,</span> <span class="n">f_W</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                <span class="n">term_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indicator_function</span><span class="p">(</span><span class="n">f_C_i</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">f_W</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+
+                <span class="n">mean_sum</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">term_1</span> <span class="o">+</span> <span class="n">term_2</span><span class="p">)</span>
+                <span class="n">mean_product</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">term_1</span> <span class="o">*</span> <span class="n">term_2</span><span class="p">)</span>
+
+                <span class="n">sum_numerator</span> <span class="o">+=</span> <span class="n">mean_product</span> <span class="o">-</span> <span class="n">mean_sum</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">sum_denominator</span> <span class="o">+=</span> <span class="n">mean_sum</span> <span class="o">-</span> <span class="n">mean_sum</span><span class="o">**</span><span class="mi">2</span>
+
+            <span class="n">first_order_indices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum_numerator</span> <span class="o">/</span> <span class="n">sum_denominator</span>
+
+        <span class="k">return</span> <span class="n">first_order_indices</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Michael D. Shields.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
