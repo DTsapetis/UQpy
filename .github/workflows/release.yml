@@ -27,8 +27,8 @@ jobs:
 
         - name: Run GitVersion
           run: |
-            dotnet-gitversion /output buildserver
-            # dotnet-gitversion /output json
+            # dotnet-gitversion /output buildserver
+            dotnet-gitversion /output json
         
         # - name: Install GitVersion
         #   uses: gittools/actions/gitversion/setup@v3.2.1
