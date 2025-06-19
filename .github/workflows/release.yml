@@ -24,7 +24,7 @@ jobs:
 
         - name: Run GitVersion
           run: |
-            export PATH="$PATH:~/.dotnet/tools"
+            export PATH="$PATH:$HOME/.dotnet/tools"
             gitversion /output json
         
         # - name: Install GitVersion
