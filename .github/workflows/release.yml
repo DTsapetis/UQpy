@@ -27,7 +27,6 @@ jobs:
 
         - name: Run GitVersion
           run: |
-            # dotnet-gitversion /output buildserver
             dotnet-gitversion /output json
         
         # - name: Install GitVersion
@@ -42,23 +41,23 @@ jobs:
         #     useConfigFile: true
         #     configFilePath: 'GitVersion.yml'
 
-        - name: Display GitVersion variables (without prefix)
-          run: |
-            echo "FullSemVer (env.fullSemVer)            : ${{ env.fullSemVer }}"
-            echo "MajorMinorPatch (env.majorMinorPatch)  : ${{ env.majorMinorPatch }}"
-            echo "SemVer (env.semVer)                    : ${{ env.semVer }}"
+        # - name: Display GitVersion variables (without prefix)
+        #   run: |
+        #     echo "FullSemVer (env.fullSemVer)            : ${{ env.fullSemVer }}"
+        #     echo "MajorMinorPatch (env.majorMinorPatch)  : ${{ env.majorMinorPatch }}"
+        #     echo "SemVer (env.semVer)                    : ${{ env.semVer }}"
 
-        - name: Display calculated version
-          run: |
-            echo "Version: ${{ steps.versioning_step.outputs.fullSemVer }}"  
+        # - name: Display calculated version
+        #   run: |
+        #     echo "Version: ${{ steps.versioning_step.outputs.fullSemVer }}"  
 
-            - name: Update pyproject.toml with version
+        #     - name: Update pyproject.toml with version
         
-        - name: Update pyproject.toml with version  
-          run: |
-            VERSION="${{ steps.versioning_step.outputs.fullSemVer }}"
-            echo "Replacing version with $VERSION in pyproject.toml"
-            sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
-            cat pyproject.toml
+        # - name: Update pyproject.toml with version  
+        #   run: |
+        #     VERSION="${{ steps.versioning_step.outputs.fullSemVer }}"
+        #     echo "Replacing version with $VERSION in pyproject.toml"
+        #     sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+        #     cat pyproject.toml
         
           
