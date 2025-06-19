@@ -1,9 +1,36 @@
-mode: Mainline
-major-version-bump-message: '\+semver:\s?(breaking|major)'
-minor-version-bump-message: '\+semver:\s?(feature|minor)'
-patch-version-bump-message: '\+semver:\s?(fix|patch)'
-commit-message-incrementing: Enabled
-branches: {}
+mode: ContinuousDeployment
+branches:
+  main:
+    regex: ^main$
+    tag: ''
+    increment: Minor
+    prevent-increment-of-merged-branch-version: true
+  feature:
+    regex: ^features?[/-]
+    tag: useBranchName
+    increment: Minor
+    source-branches: ['main']
+  fix:
+    regex: ^fix(es)?[/-]
+    tag: useBranchName
+    increment: Patch
+    source-branches: ['main']
+  release:
+    regex: ^releases?[/-]
+    tag: rc
+    increment: None
+    source-branches: ['main']
+  hotfix:
+    regex: ^hotfix(es)?[/-]
+    tag: hotfix
+    increment: Patch
+    source-branches: ['main']
+  develop:
+    regex: ^develop$
+    tag: alpha
+    increment: Minor
+    source-branches: ['main']
 ignore:
   sha: []
-merge-message-formats: {}
+commit-message-incrementing: Enabled
+tag-prefix: 'v'
