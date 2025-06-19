@@ -20,7 +20,12 @@ jobs:
             dotnet-version: '8.x'
 
         - name: Install GitVersion as .NET tool
-          run: dotnet tool install --global GitVersion.Tool
+          run: |
+            dotnet tool install --global GitVersion.Tool
+            dotnet tool list -g
+            gitversion /version
+
+          
 
         - name: Run GitVersion
           run: |
