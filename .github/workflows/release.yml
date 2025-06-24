@@ -34,11 +34,11 @@ jobs:
         - name: Use env variable
           run: echo "GitVersion VERSION = $VERSION"
 
-        - name: Update pyproject.toml with version  
-          run: |
-            echo "Replacing version with $VERSION in pyproject.toml"
-            sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
-            cat pyproject.toml
+        # - name: Update pyproject.toml with version  
+        #   run: |
+        #     echo "Replacing version with $VERSION in pyproject.toml"
+        #     sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+        #     cat pyproject.toml
 
         - name: Install build tools
           run: python -m pip install --upgrade build twine
