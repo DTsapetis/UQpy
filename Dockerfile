@@ -6,4 +6,4 @@
 FROM python:3.9-slim
 
 # Use RUN to install Python packages (numpy and scipy) via pip, Python's package manager
-RUN RUN pip install --no-cache-dir UQpy
+RUN pip install --no-cache-dir UQpy
