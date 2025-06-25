@@ -67,8 +67,6 @@ jobs:
     build-docker-image:
         name: Build Docker Image
         runs-on: ubuntu-latest
-        outputs:
-          image-name: ${{ steps.set-image-name.outputs.name }}
         steps:
           - uses: actions/checkout@v4
   
@@ -77,14 +75,14 @@ jobs:
   
           - name: Build and save Docker image
             run: |
-              docker build -t testUQpy:latest .
-              docker save testUQpy:latest -o testUQpy.tar
+              docker build -t test-uqpy:latest .
+              docker save test-uqpy:latest -o test-uqpy.tar
   
           - name: Upload Docker image as artifact
             uses: actions/upload-artifact@v4
             with:
               name: docker-image
-              path: testUQpy.tar
+              path: test-uqpy.tar
 
     wait-for-approval:
           name: Await Manual Approval
