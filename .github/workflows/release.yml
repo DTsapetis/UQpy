@@ -130,7 +130,7 @@ jobs:
     wait-for-approval:
           name: Await Manual Approval
           runs-on: ubuntu-latest
-          needs: [build-docker-image, build]
+          needs: [build]
           environment:
             name: production
           steps:
