@@ -51,17 +51,33 @@ jobs:
 
         - name: Build package
           run: |
-            rm -rf dist/ build/ *.egg-info
+            # rm -rf dist/ build/ *.egg-info
             python -m build -s -v
 
         - name: Check package validity
           run: twine check dist/*
 
-        - name: Upload package artifact
+        - name: Install sigstore
+          run: pip install sigstore
+
+        - name: Sign .whl file
+          run: |
+            sigstore sign dist/*.whl
+            sigstore sign dist/*.tar.gz
+
+        - name: Upload signatures
           uses: actions/upload-artifact@v4
           with:
-            name: built-dist
-            path: dist/
+            name: signed-artifacts
+            path: |
+              dist/*.sig
+              dist/*.crt
+        
+                - name: Upload package artifact
+                  uses: actions/upload-artifact@v4
+                  with:
+                    name: built-dist
+                    path: dist/
     
 
     build-docker-image:
