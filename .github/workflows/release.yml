@@ -71,52 +71,60 @@ jobs:
             sigstore sign dist/*.whl
             sigstore sign dist/*.tar.gz
 
-        - name: Upload signatures
+        - name: Generate SHA256 checksums
+          run: |
+            sha256sum dist/* > dist/sha256sums.txt
+            cat dist/sha256sums/txt
+            cd dist
+            ls -la
+            cd ..
+
+        # - name: Upload signatures
+        #   uses: actions/upload-artifact@v4
+        #   with:
+        #     name: signed-artifacts
+        #     path: |
+        #       dist/*.sig
+        #       dist/*.crt
+        
+        - name: Upload package artifact
           uses: actions/upload-artifact@v4
           with:
-            name: signed-artifacts
-            path: |
-              dist/*.sig
-              dist/*.crt
-        
-                - name: Upload package artifact
-                  uses: actions/upload-artifact@v4
-                  with:
-                    name: built-dist
-                    path: dist/
+            name: built-dist
+            path: dist/
     
 
-    build-docker-image:
-        name: Build Docker Image
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v4
+    # build-docker-image:
+    #     name: Build Docker Image
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #       - uses: actions/checkout@v4
   
-          - name: Set up Docker Buildx
-            uses: docker/setup-buildx-action@v3
+    #       - name: Set up Docker Buildx
+    #         uses: docker/setup-buildx-action@v3
   
-          - name: Build and save Docker image
-            run: |
-              docker build -t test-uqpy:latest .
-              docker save test-uqpy:latest -o test-uqpy.tar
+    #       - name: Build and save Docker image
+    #         run: |
+    #           docker build -t test-uqpy:latest .
+    #           docker save test-uqpy:latest -o test-uqpy.tar
   
-          - name: Upload Docker image as artifact
-            uses: actions/upload-artifact@v4
-            with:
-              name: docker-image
-              path: test-uqpy.tar
+    #       - name: Upload Docker image as artifact
+    #         uses: actions/upload-artifact@v4
+    #         with:
+    #           name: docker-image
+    #           path: test-uqpy.tar
           
-          - name: Install Cosign
-            uses: sigstore/cosign-installer@v3
+    #       - name: Install Cosign
+    #         uses: sigstore/cosign-installer@v3
             
-          - name: Login to GHCR
-            run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          # - name: Login to GHCR
+          #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-          - name: Sign Docker image with GitHub OIDC
-            env:
-              COSIGN_EXPERIMENTAL: "1"
-            run: |
-              cosign sign ghcr.io/${{ github.repository_owner }}/test-uqpy:${{ steps.get-version.outputs.version }}
+          # - name: Sign Docker image with GitHub OIDC
+          #   env:
+          #     COSIGN_EXPERIMENTAL: "1"
+          #   run: |
+          #     cosign sign ghcr.io/${{ github.repository_owner }}/test-uqpy:${{ steps.get-version.outputs.version }}
               
 
     wait-for-approval:
