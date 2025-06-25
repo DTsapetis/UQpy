@@ -51,8 +51,7 @@ jobs:
 
         - name: Build package
           run: |
-            # rm -rf dist/ build/ *.egg-info
-            python -m build -s -v
+            python -m build -s -w -v
 
         - name: Check package validity
           run: twine check dist/*
