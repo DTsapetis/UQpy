@@ -74,7 +74,7 @@ jobs:
         - name: Generate SHA256 checksums
           run: |
             sha256sum dist/* > dist/sha256sums.txt
-            cat dist/sha256sums/txt
+            cat dist/sha256sums.txt
             cd dist
             ls -la
             cd ..
