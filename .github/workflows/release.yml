@@ -6,7 +6,8 @@ on:
       - master
 
 permissions:                            
-  id-token: write 
+  id-token: write
+  contents: write
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
@@ -154,7 +155,7 @@ jobs:
             - name: Github Release
               uses: softprops/action-gh-release@v2
               with:
-                tag_name: "v$VERSION"
+                tag_name: v$VERSION
                 files: |
                   dist/*
           
