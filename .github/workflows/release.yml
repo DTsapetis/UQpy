@@ -151,11 +151,13 @@ jobs:
               with:
                 name: built-dist
                 path: dist
+            - name: Check if version exists
+              run: echo "GitVersion VERSION = $VERSION"
                 
             - name: Github Release
               uses: softprops/action-gh-release@v2
               with:
-                tag_name: v${{ VERSION }}
+                tag_name: ${{ env.VERSION }}
                 files: |
                   dist/*
           
