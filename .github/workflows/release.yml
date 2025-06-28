@@ -167,7 +167,7 @@ jobs:
                 TWINE_PASSWORD: ${{secrets.TEST_PYPI_TOKEN}}
               run: |
                 ls -la
-                python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*.whl
+                python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*.whl --verbose
                 
                 
                 
