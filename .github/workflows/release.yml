@@ -145,6 +145,15 @@ jobs:
           steps:
             - name: Download all artifacts
               uses: actions/download-artifact@v4
+            - name: Set up Python 3.12
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.12'
+                cache: 'pip'
+    
+            - name: Install build tools
+              run: python -m pip install --upgrade build twine
+              
             - name: Upload to TestPyPI
               env: 
                 TWINE_USERNAME: ${{secrets.TEST_PYPI_USERNAME}}
