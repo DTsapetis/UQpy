@@ -150,41 +150,14 @@ jobs:
               with:
                 name: built-dist
                 path: dist
-            - name: Prepare version tag
-              id: version_tag
-              run: |
-                VERSION="${{ env.VERSION }}"
-                [[ "$VERSION" == v* ]] || VERSION="v$VERSION"
-                echo "tag=$VERSION" >> "$GITHUB_OUTPUT"
-      
-            - name: Create GitHub release
-              id: create_release
-              run: |
-                API_JSON=$(jq -n \
-                  --arg tag "${{ steps.version_tag.outputs.tag }}" \
-                  --arg name "Release ${{ steps.version_tag.outputs.tag }}" \
-                  --arg body "Automated release for version ${{ steps.version_tag.outputs.tag }}" \
-                  '{ tag_name: $tag, name: $name, body: $body, draft: false, prerelease: false }')
                 
-                RESPONSE=$(curl -sSL -X POST \
-                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                  -H "Content-Type: application/json" \
-                  -d "$API_JSON" \
-                  "https://api.github.com/repos/${{ github.repository }}/releases")
-      
-                echo "$RESPONSE" > release.json
-                echo "upload_url=$(jq -r .upload_url release.json | sed -e "s/{?name,label}//")" >> "$GITHUB_OUTPUT"
-      
-            - name: Upload assets
-              run: |
-                for file in dist/*; do
-                  FILENAME=$(basename "$file")
-                  curl -sSL -X POST \
-                    -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                    -H "Content-Type: application/octet-stream" \
-                    --data-binary @"$file" \
-                    "${{ steps.create_release.outputs.upload_url }}?name=$FILENAME"
-                done
+            - name: Github Release
+              uses: softprops/action-gh-release@v2
+              with:
+                tag_name: "v$VERSION"
+                files: |
+                  dist/*
+          
           
 
     upload-python-package:
