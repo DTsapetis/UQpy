@@ -167,8 +167,7 @@ jobs:
                 TWINE_PASSWORD: ${{secrets.TEST_PYPI_TOKEN}}
               run: |
                 ls -la
-                rm dist/sha256sums.txt
-                python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+                python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*.whl
                 
                 
                 
