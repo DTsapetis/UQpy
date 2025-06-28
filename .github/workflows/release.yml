@@ -100,43 +100,25 @@ jobs:
             path: dist/
     
 
-    # build-docker-image:
-    #     name: Build Docker Image
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #       - uses: actions/checkout@v4
-  
-    #       - name: Set up Docker Buildx
-    #         uses: docker/setup-buildx-action@v3
-  
-    #       - name: Build and save Docker image
-    #         run: |
-    #           docker build -t test-uqpy:latest .
-    #           docker save test-uqpy:latest -o test-uqpy.tar
-  
-    #       - name: Upload Docker image as artifact
-    #         uses: actions/upload-artifact@v4
-    #         with:
-    #           name: docker-image
-    #           path: test-uqpy.tar
+    build-docker-image:
+        name: Build Docker Image
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v4
           
-    #       - name: Install Cosign
-    #         uses: sigstore/cosign-installer@v3
-            
-          # - name: Login to GHCR
-          #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-          # - name: Sign Docker image with GitHub OIDC
-          #   env:
-          #     COSIGN_EXPERIMENTAL: "1"
-          #   run: |
-          #     cosign sign ghcr.io/${{ github.repository_owner }}/test-uqpy:${{ steps.get-version.outputs.version }}
+          - name: Set up Docker Buildx
+            uses: docker/setup-buildx-action@v3
+  
+          - name: Build and save Docker image
+            run: |
+              docker build -t test-uqpy:latest .
+              docker save test-uqpy:latest -o test-uqpy.tar
               
 
     wait-for-approval:
           name: Await Manual Approval
           runs-on: ubuntu-latest
-          needs: [build]
+          needs: [build, build-docker-image]
           environment:
             name: production
           steps:
@@ -159,14 +141,12 @@ jobs:
             - name: Check if version exists
               run: echo "GitVersion VERSION = $VERSION"
                 
-            - name: Github Release
-              uses: softprops/action-gh-release@v2
-              with:
-                tag_name: ${{ env.VERSION }}
-                files: |
-                  dist/*
-          
-          
+            # - name: Github Release
+            #   uses: softprops/action-gh-release@v2
+            #   with:
+            #     tag_name: ${{ env.VERSION }}
+            #     files: |
+            #       dist/*
 
     upload-python-package:
           name: Upload Python package
@@ -198,6 +178,50 @@ jobs:
             #     ls -la
             #     python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*.whl dist/*.tar.gz --verbose
                 
+    upload-docker-image:
+          name: Upload to Github Container Registry 
+          runs-on: ubuntu-latest
+          needs: [wait-for-approval]
+          permissions:
+            contents: read
+            packages: write
+            attestations: write
+            id-token: write
+          env:
+            REGISTRY: ghcr.io
+            IMAGE_NAME: ${{ github.repository }}
+          steps: 
+            - uses: actions/checkout@v4
+            
+            - name: Log in to the Container registry
+              uses: docker/login-action@v3
+              with:
+                registry: ${{ env.REGISTRY }}
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
                 
+            - name: Extract metadata (tags, labels) for Docker
+              id: meta
+              uses: docker/metadata-action@V5
+              with:
+                images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+            - name: Build and push Docker image
+              id: push
+              uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+              with:
+                context: .
+                push: true
+                tags: ${{ steps.meta.outputs.tags }}
+                labels: ${{ steps.meta.outputs.labels }}
+
+            - name: Generate artifact attestation
+              uses: actions/attest-build-provenance@v2
+              with:
+                subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+                subject-digest: ${{ steps.push.outputs.digest }}
+                push-to-registry: true
+
+
                 
           
