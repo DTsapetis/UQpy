@@ -92,6 +92,29 @@ jobs:
         #     path: |
         #       dist/*.sig
         #       dist/*.crt
+
+        - name: Generate SBOM with Syft
+          uses: anchore/sbom-action@v0.15.3
+          with:
+            output-file: sbom.spdx.json
+            format: spdx-json
+            upload-artifact: true
+
+        # - name: Run OpenSSF Scorecard analysis
+        #   uses: ossf/scorecard-action@v2
+        #   with:
+        #     results_file: results.sarif
+        #     results_format: sarif
+
+        # - name: Upload SARIF results to GitHub
+        #   uses: github/codeql-action/upload-sarif@v2
+        #   with:
+        #     sarif_file: results.sarif
+        
+        # - name: SLSA provenance generation
+        #   uses: slsa-framework/slsa-github-generator@v1.7.0
+        #   with:
+        #     artifact-path: ./dist/
         
         - name: Upload package artifact
           uses: actions/upload-artifact@v4
@@ -113,6 +136,12 @@ jobs:
             run: |
               docker build -t test-uqpy:latest .
               docker save test-uqpy:latest -o test-uqpy.tar
+          
+          # - name: Generate SBOM for Docker image
+          #   uses: anchore/sbom-action@v0.15.3
+          #   with:
+          #     image: test-uqpy:latest
+          #     format: cyclonedx-json
               
 
     wait-for-approval:
@@ -232,7 +261,7 @@ jobs:
             attestations: write
             id-token: write
           env:
-            REGISTRY: ghcr.io
+            REGISTRY: dtsapetis
             IMAGE_NAME: testuqpy
           steps: 
             - uses: actions/checkout@v4
@@ -242,6 +271,13 @@ jobs:
               with:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            
+            - name: Extract metadata (tags, labels) for Docker
+              id: meta
+              uses: docker/metadata-action@V5
+              with:
+                images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
             - name: Build and push Docker image
               id: push
