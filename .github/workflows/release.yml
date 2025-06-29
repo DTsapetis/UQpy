@@ -103,13 +103,13 @@ jobs:
             upload-artifact: true
 
         - name: Run OpenSSF Scorecard analysis
-          uses: ossf/scorecard-action@v2
+          uses: ossf/scorecard-action@v2.4.2
           with:
             results_file: results.sarif
             results_format: sarif
 
         - name: Upload SARIF results to GitHub
-          uses: github/codeql-action/upload-sarif@v2
+          uses: github/codeql-action/upload-sarif@v3
           with:
             sarif_file: results.sarif
         
