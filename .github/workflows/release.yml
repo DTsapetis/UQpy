@@ -103,7 +103,7 @@ jobs:
             upload-artifact: true
         
         - name: SLSA provenance generation
-          uses: slsa-framework/slsa-github-generator@v1.7.0
+          uses: slsa-framework/slsa-github-generator@v2.1.0
           with:
             artifact-path: ./dist/
         
