@@ -124,7 +124,7 @@ jobs:
               docker save test-uqpy:latest -o test-uqpy.tar
           
           - name: Generate SBOM for Docker image
-            uses: anchore/sbom-action@v0.15.3
+            uses: anchore/sbom-action@v0.20.1
             with:
               image: test-uqpy:latest
               format: cyclonedx-json
