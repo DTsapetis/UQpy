@@ -102,16 +102,16 @@ jobs:
             path: ./dist/
             upload-artifact: true
 
-        # - name: Run OpenSSF Scorecard analysis
-        #   uses: ossf/scorecard-action@v2
-        #   with:
-        #     results_file: results.sarif
-        #     results_format: sarif
+        - name: Run OpenSSF Scorecard analysis
+          uses: ossf/scorecard-action@v2
+          with:
+            results_file: results.sarif
+            results_format: sarif
 
-        # - name: Upload SARIF results to GitHub
-        #   uses: github/codeql-action/upload-sarif@v2
-        #   with:
-        #     sarif_file: results.sarif
+        - name: Upload SARIF results to GitHub
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: results.sarif
         
         # - name: SLSA provenance generation
         #   uses: slsa-framework/slsa-github-generator@v1.7.0
