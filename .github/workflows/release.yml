@@ -95,7 +95,7 @@ jobs:
         #       dist/*.crt
 
         - name: Generate SBOM with Syft
-          uses: anchore/sbom-action@9246b90769f852b3a8921f330c59e0b3f439d6e9 # v0.20.1
+          uses: anchore/sbom-action@cee1b8e05ae5b2593a75e197229729eabaa9f8ec # v0.20.2
           with:
             output-file: sbom.spdx.json
             format: spdx-json
@@ -124,7 +124,7 @@ jobs:
               docker save test-uqpy:latest -o test-uqpy.tar
           
           - name: Generate SBOM for Docker image
-            uses: anchore/sbom-action@9246b90769f852b3a8921f330c59e0b3f439d6e9 # v0.20.1
+            uses: anchore/sbom-action@cee1b8e05ae5b2593a75e197229729eabaa9f8ec # v0.20.2
             with:
               image: test-uqpy:latest
               format: cyclonedx-json
