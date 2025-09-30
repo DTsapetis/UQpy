@@ -3,7 +3,7 @@
 #RUN sh get-docker.sh
 
 # Build the image based on the official Python version 3.9 image
-FROM python:3.9-slim@sha256:c2a0feb07dedbf91498883c2f8e1e5201e95c91d413e21c3bea780c8aad8e6a7
+FROM python:3.13.7-slim@sha256:6cbc4355e9cff50d6ae679b08435b355d388b62d32aa701d08ac9f77bd7c287c
 
 # Use RUN to install Python packages (numpy and scipy) via pip, Python's package manager
 RUN pip install --no-cache-dir UQpy
